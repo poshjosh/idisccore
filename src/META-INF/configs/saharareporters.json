@@ -1,0 +1,39 @@
+{
+    "captureUrlFilter_requiredRegex_comment":"For Example: \/2015\/01\/30\/we-will-make-nigeria-work-again-buhari-promises\/",
+    "captureUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}\/",
+    "datePatterns_comment":"Example: Jan 31, 2015",
+    "datePatterns":["MMM dd',' yyyy","MMM dd yyyy"],
+    "targetNode0":{
+        "append":false,
+        "attributes":{
+            "class":"story-content"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<div id=\"stage\">","<div id=\"page\">","<div id=\"page-content\">","<div class=\"region region-content\">","<div id=\"block-system-main\" class=\"block block-system\">","<div class=\"panel-story-page-layout panel-display clearfix\" >","<div class=\"stage-pod\">","<div class=\"container container-pod\">","<div class=\"row\">","<div class=\"col-medium-8 col-large-9\">","<div class=\"panel-pane pane-node-content\" >","<div  about=\"${@regex(.+?)}\" typeof=\"sioc:Item foaf:Document\" class=\"ds-1col node node-story ${@regex(.+?)} view-mode-full  clearfix\">","<div class=\"story-content\">"],
+        "value":"DIV"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributes":{
+            "class":"page-header-attribution-title"
+        },
+        "columns":["author"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<div id=\"stage\">","<div id=\"page\">","<div id=\"page-header\" class=\"stage-pod\">","<div class=\"container container-pod container-pod-short\">","<div id=\"page-header-toolbar\">","<div class=\"page-header-attribution\">","<div class='page-header-attribution-image'> <span class='page-header-attribution-title'>"],
+        "value":"SPAN"
+    },
+    "targetNode2":{
+        "append":false,
+        "attributes":{
+            "class":"page-header-attribution-date"
+        },
+        "columns":["feeddate"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<div id=\"stage\">","<div id=\"page\">","<div id=\"page-header\" class=\"stage-pod\">","<div class=\"container container-pod container-pod-short\">","<div id=\"page-header-toolbar\">","<div class=\"page-header-attribution\">","<div class='page-header-attribution-image'> <span class='page-header-attribution-title'> <span class='page-header-attribution-date'>"],
+        "value":"SPAN"
+    },
+    "url":{
+        "start":"http:\/\/saharareporters.com\/news",
+        "value":"http:\/\/saharareporters.com"
+    }
+}

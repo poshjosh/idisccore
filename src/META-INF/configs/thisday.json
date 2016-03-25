@@ -1,0 +1,59 @@
+{
+    "captureUrlFilter_required":["\/index.php\/"],
+    "captureUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}",
+    "datePatterns":["MMM dd, yyyy", "dd MMM yyyy","dd-MM-yyyy"],
+    "datePatterns_comment":"Example: Jan 07, 2015",
+    "targetNode0":{
+        "append":false,
+        "attributes":{
+            "class":"main-content-panel"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_container\">","<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">"],
+        "value":"DIV"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributes":{
+            "class":"date"
+        },
+        "columns":["feeddate"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_container\">","<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">","<div id=\"page_content_Content9_oModuleContent_2_div_InfoAlt\" class=\"info-top\">","<div id=\"page_content_Content9_oModuleContent_2_div_InfoAltLeft\" class=\"info-top-left\">","<p class=\"date\">"],
+        "value":"P"
+    },
+    "targetNode2":{
+        "append":false,
+        "attributes":{
+            "id":"page_content_Content9_oModuleContent_2_h2_TitleAlt"
+        },
+        "columns":["title"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_container\">","<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">","<h2 id=\"page_content_Content9_oModuleContent_2_h2_TitleAlt\">"],
+        "value":"H2"
+    },
+    "targetNode3":{
+        "append":false,
+        "attributes":{
+            "class":"date"
+        },
+        "columns":["feeddate"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_content_Content9_oModuleContent_2_latestnews_div_Container\" class=\"module-content moduletitle-latest-news\">","<div id=\"page_content_Content9_oModuleContent_2_latestnews_pnlList\" class=\"list article\">","<ul id=\"page_content_Content9_oModuleContent_2_latestnews_ul_Contents\">","<li class=\"index-0\">","<div class=\"info\">","<p class=\"date\">"],
+        "value":"P"
+    },
+    "targetNode4":{
+        "append":false,
+        "attributes":{
+            "style":"text-align: justify;"
+        },
+        "columns":["author"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">","<div id=\"page_content_Content9_oModuleContent_2_div_Body\" class=\"body\">","<p style=\"text-align: justify;\"> <p style=\"text-align: justify;\"> <p style=\"text-align: justify;\">"],
+        "value":"P"
+    },
+    "url":{
+        "start":"http:\/\/www.thisdaylive.com\/news\/",
+        "value":"http:\/\/www.thisdaylive.com"
+    }
+}

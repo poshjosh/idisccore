@@ -1,0 +1,89 @@
+{
+    "captureUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/",
+    "captureUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/the-president-is-available.html",
+    "datePatterns":["EEEE',' MMMM dd',' yyyy","EEEE, MMMM dd, yyyy"],
+    "datePatterns_comment":"Example: Thursday, February 5, 2015",
+    "defaultValues":{
+        "author":"Linda Ikeji",
+        "categories":"blog,entertainment"
+    },
+    "isTitleGeneric":true,
+    "isTitleInUrl":true,
+    "targetNode0":{
+        "append":false,
+        "attributesRegex":{
+            "class":"published",
+            "itemprop":"datePublished",
+            "title":".+?"
+        },
+        "attributesToExtract":["title"],
+        "columns":["feeddate"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["ABBR"],
+        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-footer'>","<div class='post-footer-line post-footer-line-1'>","<span class='post-timestamp'>","<A>","<abbr class='published' itemprop='datePublished' title='${@regex(.+?)}'>"],
+        "value":"ABBR"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributesRegex":{
+            "border":"0",
+            "height":".+?",
+            "src":".+?",
+            "width":".+?"
+        },
+        "attributesToExtract":["src"],
+        "columns":["imageurl"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["IMG"],
+        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-body entry-content' id='${@regex(.+?)}' itemprop='description articleBody'>","<div class=\"separator\" style=\"${@regex(.+?)}\">","<A>","<IMG>"],
+        "value":"IMG"
+    },
+    "targetNode2":{
+        "append":false,
+        "columns":["feeddate"],
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<h2 class='date-header'>","<span>"],
+        "value":"SPAN"
+    },
+    "targetNode3":{
+        "append":false,
+        "attributes":{
+            "class":"post-title entry-title",
+            "itemprop":"name"
+        },
+        "columns":["title"],
+        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'>"],
+        "value":"H3"
+    },
+    "targetNode4":{
+        "append":true,
+        "attributes":{
+            "class":"post-header"
+        },
+        "columns":["description"],
+        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'> <div class='post-header'>"],
+        "value":"DIV"
+    },
+    "targetNode5":{
+        "append":false,
+        "attributesRegex":{
+            "class":".+?",
+            "id":".+?",
+            "itemprop":".+?"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'> <div class='post-header'> <div class='post-body entry-content' id='${@regex(.+?)}' itemprop='${@regex(.+?)}'>"],
+        "value":"DIV"
+    },
+    "targetNode6":{
+        "append":false,
+        "columns":["author"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-footer'>","<div class='post-footer-line post-footer-line-1'>","<span class='post-author vcard'>","<span class='${@regex(.+?)}' itemprop='author' itemscope='${@regex(.+?)}' itemtype='http:\/\/schema.org\/Person'>","<meta content='${@regex(.+?)}' itemprop='url'\/> <A>"],
+        "value":"A"
+    },
+    "url":{
+        "_note":"http:\/\/lindaikeji.blogspot.com\/ redirects to http:\/\/lindaikejisblog.com\/",
+        "start":"http:\/\/lindaikejisblog.com\/",
+        "value":"http:\/\/lindaikejisblog.com\/"
+    }
+}

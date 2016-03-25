@@ -1,0 +1,83 @@
+{
+    "captureUrlFilter_requiredRegex_comment":"For Example: \/post-the_president_is_available\/",
+    "captureUrlFilter_requiredRegex":"\/post-",
+    "datePatterns_comment":"Example: 22nd October 2015",
+    "datePatterns":["dd'st' MMMM yyyy", "dd'nd' MMMM yyyy", "dd'rd' MMMM yyyy", "dd'th' MMMM yyyy"],
+    "defaultValues":{ 
+        "categories":"news"
+    },
+    "targetNode0":{
+        "append":false,
+        "attributes":{
+            "class":"single_title"
+        },
+        "columns":["title"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<h3 class=\"single_title\">"],
+        "value":"H3"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributesToExtract":["href"],
+        "columns":["author"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["A"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class=\"meta mb\">","<A>"],
+        "value":"A"
+    },
+    "targetNode2":{
+        "append":true,
+        "attributesToExtract":["href"],
+        "columns":["categories"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["A"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class=\"meta mb\">","<A>"],
+        "value":"A"
+    },
+    "targetNode3":{
+        "append":true,
+        "attributesRegex":{
+            "class":"a",
+            "href":".+?"
+        },
+        "attributesToExtract":["href"],
+        "columns":["categories"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["A"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class=\"meta mb\">","<A> <A> <A>"],
+        "value":"A"
+    },
+    "targetNode4":{
+        "append":false,
+        "attributes":{
+            "class":"legible"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<h3 class=\"single_title\"> <div class=\"right\"> <div class=\"meta mb\"> <div class=\"clear\"> <div class='main_image'> <div class=\"legible\">"],
+        "value":"DIV"
+    },
+    "targetNode5":{
+        "append":false,
+        "attributesRegex":{
+            "src":".+?"
+        },
+        "attributesToExtract":["src"],
+        "columns":["imageurl"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["IMG"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class='main_image'>","<IMG>"],
+        "value":"IMG"
+    },
+    "targetNode6":{
+        "append":false,
+        "attributes":{
+            "class":"align_right mini greytext"
+        },
+        "columns":["feeddate"],
+        "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<h3 class=\"single_title\"> <div class=\"right\"> <div class=\"meta mb\"> <div class=\"clear\"> <div class='main_image'> <div class=\"legible\"> <div class=\"align_right mini greytext\">"],
+        "value":"DIV"
+    },
+    "url":{
+        "start":"http:\/\/www.aitonline.tv\/news",
+        "value":"http:\/\/www.aitonline.tv\/"
+    }
+}

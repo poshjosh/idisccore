@@ -1,0 +1,43 @@
+{
+    "captureUrlFilter_requiredRegex":"\/news\/news-headlines\/item\/\\d{2,}-",
+    "captureUrlFilter_requiredRegex_comment":"The news and news-headlines part may be ommitted to accept a broader category of pages",
+    "categories":"news,headlines",
+    "datePatterns":["dd.MMM.yyyy","dd-MMM-yyyy","dd MMM yyyy"],
+    "defaultValues":{ 
+        "author":"Nigerian Tribune",
+        "categories":"news,headlines"
+    },
+    "targetNode0":{
+        "append":false,
+        "attributes":{
+            "class":"itemFullText"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<div class=\"yt-main\">","<div class=\"yt-main-in1 container\">","<div class=\"yt-main-in2 row-fluid\">","<div id=\"content_main\" class=\"span7\" data-normal=\"span7\">","<div class=\"content-main-inner \">","<div id=\"yt_component\" class=\"span12\">","<div class=\"component-inner\">","<div id=\"k2Container\" class=\"no-modal itemView\">","<div class=\"itemBody\">","<div class=\"itemFullText\">"],
+        "value":"DIV"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributes":{
+            "class":"itemDateCreated"
+        },
+        "columns":["feeddate"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<div class=\"yt-main\">","<div class=\"yt-main-in1 container\">","<div class=\"yt-main-in2 row-fluid\">","<div id=\"content_main\" class=\"span7\" data-normal=\"span7\">","<div class=\"content-main-inner \">","<div id=\"yt_component\" class=\"span12\">","<div class=\"component-inner\">","<div id=\"k2Container\" class=\"no-modal itemView\">","<div class=\"item-info\">","<span class=\"itemDateCreated\">"],
+        "value":"SPAN"
+    },
+    "targetNode2":{
+        "append":false,
+        "attributes":{
+            "class":"itemAuthor"
+        },
+        "columns":["author"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<HTML>","<BODY>","<div class=\"yt-main\">","<div class=\"yt-main-in1 container\">","<div class=\"yt-main-in2 row-fluid\">","<div id=\"content_main\" class=\"span7\" data-normal=\"span7\">","<div class=\"content-main-inner \">","<div id=\"yt_component\" class=\"span12\">","<div class=\"component-inner\">","<div id=\"k2Container\" class=\"no-modal itemView\">","<div class=\"item-info\">","<span class=\"itemDateCreated\"> <span class=\"item-comments\"> <span class=\"itemAuthor\">"],
+        "value":"SPAN"
+    },
+    "url":{
+        "start":"http:\/\/www.tribuneonlineng.com\/News\/Headlines",
+        "value":"http:\/\/www.tribuneonlineng.com"
+    }
+}

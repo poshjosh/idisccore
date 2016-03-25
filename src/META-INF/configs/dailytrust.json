@@ -1,0 +1,73 @@
+{
+    "captureUrlFilter_requiredRegex":"\/news\/.+?\/\\d{4,}",
+    "captureUrlFilter_requiredRegex_comment":"For Example: http:\/\/www.dailytrust.com.ng\/news\/general\/arms-deal-judge-orders-agf-to-produce-dasuki\/129904.html",
+    "datePatterns":["MMM dd yyyy h:mma"],
+    "datePatterns_comment":"Example: Jan 20 2016 1:38PM",
+    "defaultValues":{
+        "author":"Daily Trust",
+        "categories":"news"
+    },
+    "isTitleGeneric":false,
+    "isTitleInUrl":false,
+    "targetNode0":{
+        "append":false,
+        "columns":["title"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <h1>"],
+        "value":"H1"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributes":{
+            "class":"fleft storydate"
+        },
+        "columns":["author"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <h1> <span class=\"fleft storydate\">"],
+        "value":"SPAN"
+    },
+    "targetNode2":{
+        "append":false,
+        "attributes":{
+            "class":"fleft storydate"
+        },
+        "columns":["feeddate"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <h1> <span class=\"fleft storydate\">"],
+        "value":"SPAN"
+    },
+    "targetNode3":{
+        "append":false,
+        "attributesRegex":{
+            "alt":".+?",
+            "src":".+?",
+            "title":".+?"
+        },
+        "attributesToExtract":["src"],
+        "columns":["imageurl"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["IMG"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<span class=\"fleft storypic\">","<div style=\"${@regex(.+?)}\">","<IMG>"],
+        "value":"IMG"
+    },
+    "targetNode4":{
+        "append":true,
+        "attributesRegex":{
+            "style":".+?"
+        },
+        "columns":["description"],
+        "nodeTypesToAccept":["tag","text"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvbtmStory\" class=\"fleft\">","<span class=\"fullstory\">","<p>","<b style=\"${@regex(.+?)}\"> <span style=\"${@regex(.+?)}\">"],
+        "value":"SPAN"
+    },
+    "targetNode5":{
+        "append":false,
+        "attributes":{
+            "class":"fullstory"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvbtmStory\" class=\"fleft\">","<span class=\"fullstory\">"],
+        "value":"SPAN"
+    },
+    "url":{
+        "start":"http:\/\/www.dailytrust.com.ng",
+        "value":"http:\/\/www.dailytrust.com.ng"
+    }
+}
