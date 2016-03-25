@@ -8,86 +8,86 @@ import java.util.List;
 import java.util.logging.Level;
 
 
-/**
- * @(#)Feedo.java   21-Feb-2015 14:24:13
- *
- * Copyright 2011 NUROX Ltd, Inc. All rights reserved.
- * NUROX Ltd PROPRIETARY/CONFIDENTIAL. Use is subject to license 
- * terms found at http://www.looseboxes.com/legal/licenses/software.html
- */
 
-/**
- * @author   chinomso bassey ikwuagwu
- * @version  2.0
- * @since    2.0
- */
-public class FeedFrequency {
 
-    private final IntegerArray siteIds;
-    private final IntegerArray siteFrequencies;
 
-    public FeedFrequency() {
-        siteIds = new IntegerArray();
-        siteFrequencies = new IntegerArray();
+
+
+
+
+
+
+
+
+
+public class FeedFrequency
+{
+  private final IntegerArray siteIds;
+  private final IntegerArray siteFrequencies;
+  
+  public FeedFrequency()
+  {
+    this.siteIds = new IntegerArray();
+    this.siteFrequencies = new IntegerArray();
+  }
+  
+  public FeedFrequency(List<Feed> feeds) {
+    this();
+    setFeeds(feeds);
+  }
+  
+  public void setFeeds(List<Feed> feeds) {
+    if (feeds == null) {
+      throw new NullPointerException();
+    }
+    if (!feeds.isEmpty()) {
+      this.siteIds.clear();
+      this.siteFrequencies.clear();
+      for (Feed feed : feeds) {
+        updateSiteFrequency(feed);
+      }
+    }
+  }
+  
+  public int getSiteCount() {
+    return this.siteFrequencies == null ? 0 : this.siteFrequencies.size();
+  }
+  
+  public int getSiteFrequency(Feed feed) {
+    Site site = feed.getSiteid();
+    if ((site == null) || (this.siteIds == null) || (this.siteFrequencies == null)) {
+      return -1;
+    }
+    int pos = this.siteIds.indexOf(site.getSiteid().intValue());
+    return this.siteFrequencies.get(pos);
+  }
+  
+  private int updateSiteFrequency(Feed feed)
+  {
+    Site site = feed.getSiteid();
+    
+    if (site == null) {
+      XLogger.getInstance().log(Level.WARNING, "No site found for Feed:: ID: {0}, title: {1}", getClass(), feed.getFeedid(), feed.getTitle());
+      
+
+      return -1;
     }
     
-    public FeedFrequency(List<Feed> feeds) {
-        this();
-        FeedFrequency.this.setFeeds(feeds);
+    int siteid = site.getSiteid().intValue();
+    
+    int index = this.siteIds.indexOf(siteid);
+    
+    int siteFreq;
+    
+    if (index == -1) {
+      siteFreq = 0;
+      this.siteIds.add(siteid);
+      this.siteFrequencies.add(++siteFreq);
+    } else {
+      siteFreq = this.siteFrequencies.get(index);
+      this.siteFrequencies.set(index, ++siteFreq);
     }
     
-    public void setFeeds(List<Feed> feeds) {
-        if(feeds == null) {
-            throw new NullPointerException();
-        }else
-        if(!feeds.isEmpty()) {
-            siteIds.clear();
-            siteFrequencies.clear();
-            for(Feed feed:feeds) {
-                this.updateSiteFrequency(feed);
-            }
-        }
-    }
-    
-    public int getSiteCount() {
-        return siteFrequencies == null ? 0 : siteFrequencies.size();
-    }
-    
-    public int getSiteFrequency(Feed feed) {
-        Site site = feed.getSiteid();
-        if(site == null || siteIds == null || siteFrequencies == null) {
-            return -1;
-        }
-        int pos = siteIds.indexOf(site.getSiteid());
-        return siteFrequencies.get(pos);
-    }
-    
-    private int updateSiteFrequency(Feed feed) {
-        
-        Site site = feed.getSiteid();
-
-        if(site == null) {
-XLogger.getInstance().log(Level.WARNING, 
-"No site found for Feed:: ID: {0}, title: {1}", 
-this.getClass(), feed.getFeedid(), feed.getTitle());
-            return -1;
-        }
-
-        int siteid = site.getSiteid();
-
-        int index = siteIds.indexOf(siteid);
-
-        int siteFreq;
-
-        if(index == -1) {
-            siteFreq = 0;
-            siteIds.add(siteid);
-            siteFrequencies.add(++siteFreq);
-        }else{
-            siteFreq = siteFrequencies.get(index);
-            siteFrequencies.set(index, ++siteFreq);
-        }
-        
-        return siteFreq;
-    }
+    return siteFreq;
+  }
 }

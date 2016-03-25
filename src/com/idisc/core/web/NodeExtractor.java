@@ -1,12 +1,12 @@
 package com.idisc.core.web;
 
-import com.bc.webdatex.filter.NodeVisitingFilterIx;
-import com.bc.webdatex.locator.TagLocatorIx;
 import com.bc.util.XLogger;
+import com.bc.webdatex.filter.NodeVisitingFilterIx;
 import com.bc.webdatex.locator.TagLocator;
+import com.bc.webdatex.locator.TagLocatorIx;
 import com.idisc.core.IdiscApp;
-import com.scrapper.config.ScrapperConfigFactory;
 import com.scrapper.config.Config;
+import com.scrapper.config.ScrapperConfigFactory;
 import com.scrapper.context.CapturerContext;
 import com.scrapper.extractor.MultipleNodesExtractorIx;
 import com.scrapper.util.PageNodes;
@@ -18,215 +18,214 @@ import org.htmlparser.Tag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
-//import com.bc.wde.transverse.TransverseFilterIx;
-//import com.bc.wde.transverse.Transverser;
-//import com.scrapper.extractor.NodeExtractor;
-/**
- * @(#)NodeExtractorMgr.java   09-Jan-2015 23:58:17
- *
- * Copyright 2011 NUROX Ltd, Inc. All rights reserved.
- * NUROX Ltd PROPRIETARY/CONFIDENTIAL. Use is subject to license 
- * terms found at http://www.looseboxes.com/legal/licenses/software.html
- */
 
-/**
- * @author   chinomso bassey ikwuagwu
- * @version  2.0
- * @since    2.0
- */
-public class NodeExtractor {
 
-    private float tolerance;
-    private String sitename;
 
-    public NodeExtractor() { }
+
+
+
+
+
+
+public class NodeExtractor
+{
+  private float tolerance;
+  private String sitename;
+  private String[] dp_accessViaGetter;
+  private CapturerContext cfg_accessViaGetter;
+  
+  public NodeExtractor() {}
+  
+  public NodeExtractor(float tolerance, String sitename)
+  {
+    this.tolerance = tolerance;
+    this.sitename = sitename;
+  }
+  
+  public Map<String, String> extract(PageNodes pageNodes)
+  {
+    Map<String, String> output = null;
     
-    public NodeExtractor(float tolerance, String sitename) {
-        this.tolerance = tolerance;
-        this.sitename = sitename;
-    }
+    CapturerContext context = getContext();
     
-    public Map<String, String> extract(PageNodes pageNodes) {
-        
-        Map<String, String> output = null;
-        
-        CapturerContext context = this.getContext();
-        
-        if(context == null) {
-            throw new NullPointerException();
-        }
-        
-        final int MAX = 10;
-        
-        for(int i=0; i<MAX; i++) {
-            
-            Object targetProps = context.getConfig().getObject("targetNode"+i);
-
-            if(targetProps == null) {
-
-                if(i == 0) {
-                    
-                    NodeList targetNodes = pageNodes.getBody().getChildren();
-
-                    output = Collections.singletonMap("content", targetNodes.toHtml());
-                    
-                }
-                    
-                break;
-                
-            }else{
-                
-                Map.Entry<String, String> entry;
-                
-                try{
-                    
-                    entry = this.extract(pageNodes, i);
-                
-                }catch(ParserException e) {
-
-                    XLogger.getInstance().log(Level.WARNING, "Parse failed", this.getClass(), e);
-
-                    NodeList targetNodes = pageNodes.getBody().getChildren();
-                    
-                    entry = this.newEntry("content", targetNodes.toHtml());
-                    
-                    // This will cause the for loop to end after this iteration
-                    i = MAX;
-                }
-                
-                if(output == null) {
-                    output = new HashMap<>();
-                }
-                
-                output.put(entry.getKey(), entry.getValue());
-            }
-        } 
-        
-        return output;
+    if (context == null) {
+      throw new NullPointerException();
     }
     
-    public Map.Entry<String, String> extract(
-            PageNodes pageNodes, int index) 
-            throws ParserException {
+    int MAX = 10;
+    
+    for (int i = 0; i < 10; i++)
+    {
+      Object targetProps = context.getConfig().getObject(new Object[] { "targetNode" + i });
+      
+      if (targetProps == null)
+      {
+        if (i != 0)
+          break;
+        NodeList targetNodes = pageNodes.getBody().getChildren();
         
-        final String key;
-        final String val;
+        output = Collections.singletonMap("content", targetNodes.toHtml());
         
-        CapturerContext context = this.getContext();
+        break;
+      }
+      
+
+
+      Map.Entry<String, String> entry;
+      
+
+      try
+      {
+        entry = extract(pageNodes, i);
+      }
+      catch (ParserException e)
+      {
+        XLogger.getInstance().log(Level.WARNING, "Parse failed", getClass(), e);
         
-        String name = "targetNode" + index;
+        NodeList targetNodes = pageNodes.getBody().getChildren();
         
-        Object targetProps = context.getConfig().getObject(name);
+        entry = newEntry("content", targetNodes.toHtml());
+        
 
-        if(targetProps == null) {
-            
-            throw new NullPointerException();
-            
-        }else{
-            
-            MultipleNodesExtractorIx pageExtractor = context.getExtractor();
-            
-            com.bc.webdatex.extractor.NodeExtractor nodeExtractor = pageExtractor.getExtractor(name);
-
-            TagLocator tagLocator = nodeExtractor.getFilter().getTagLocator();
-            
-            NodeList nodeList = pageNodes.getNodeList();
-            
-            nodeList.visitAllNodesWith(tagLocator);
-            
-            Tag targetNode = tagLocator.getTarget();
-            
-            if(targetNode != null) {
-                
-XLogger.getInstance().log(Level.FINER, "Found directly: {0} = {1}", 
-this.getClass(), name, targetNode.toTagHtml());
-                
-                NodeList targetNodes = new NodeList();
-                targetNodes.add(targetNode);
-                
-                nodeList = targetNodes;
-            }
-            
-            nodeExtractor.setEnabled(true);
-            
-            this.updateTolerance(nodeExtractor.getFilter());
-            
-            nodeList.visitAllNodesWith(nodeExtractor);
-
-            key = context.getSettings().getColumns(name)[0];
-            val = nodeExtractor.getExtract().toString();
-        }
-
-XLogger.getInstance().log(Level.FINER, "Extracted: {0}={1}", this.getClass(), key, val);
-        return newEntry(key, val);
+        i = 10;
+      }
+      
+      if (output == null) {
+        output = new HashMap();
+      }
+      
+      output.put(entry.getKey(), entry.getValue());
     }
     
-    private void updateTolerance(NodeVisitingFilterIx nodeVisitingFilter) {
-        TagLocatorIx tagLocator = nodeVisitingFilter.getTagLocator();
-        if(tagLocator != null) {
-            tagLocator.setTolerance(tolerance);
-        }
-    }
 
-    private Map.Entry<String, String> newEntry(final String key, final String val) {
-        return new Map.Entry<String, String>(){
-            @Override
-            public String getKey() {
-                return key;
-            }
-            @Override
-            public String getValue() {
-                return val;
-            }
-            @Override
-            public String setValue(String value) {
-                throw new UnsupportedOperationException("Not supported.");
-            }
-        };
+    return output;
+  }
+  
+
+
+
+
+  public Map.Entry<String, String> extract(PageNodes pageNodes, int index)
+    throws ParserException
+  {
+    CapturerContext context = getContext();
+    
+    String name = "targetNode" + index;
+    
+    Object targetProps = context.getConfig().getObject(new Object[] { name });
+    
+    if (targetProps == null)
+    {
+      throw new NullPointerException();
     }
     
-    private String [] dp_accessViaGetter;
-    public String [] getDatePatterns() {
-        if(dp_accessViaGetter == null) {
-            Object [] arr = this.getContext().getConfig().getArray(Config.Formatter.datePatterns);
-            if(arr == null || arr.length == 0) {
-                // We use a null value to signify that this has not been initialized
-                // So we set this to an empty array
-                dp_accessViaGetter = new String[0];
-            }else{    
-                dp_accessViaGetter = new String[arr.length];
-                System.arraycopy(arr, 0, dp_accessViaGetter, 0, arr.length);
-            }
-        }
-        return dp_accessViaGetter;
+
+    MultipleNodesExtractorIx pageExtractor = context.getExtractor();
+    
+    com.bc.webdatex.extractor.NodeExtractor nodeExtractor = pageExtractor.getExtractor(name);
+    
+    TagLocator tagLocator = nodeExtractor.getFilter().getTagLocator();
+    
+    NodeList nodeList = pageNodes.getNodeList();
+    
+    nodeList.visitAllNodesWith(tagLocator);
+    
+    Tag targetNode = tagLocator.getTarget();
+    
+    if (targetNode != null)
+    {
+      XLogger.getInstance().log(Level.FINER, "Found directly: {0} = {1}", getClass(), name, targetNode.toTagHtml());
+      
+
+      NodeList targetNodes = new NodeList();
+      targetNodes.add(targetNode);
+      
+      nodeList = targetNodes;
     }
     
-    private CapturerContext cfg_accessViaGetter;
-    public CapturerContext getContext() {
-        if(sitename == null) {
-            return null;
-        }
-        if(this.cfg_accessViaGetter == null) {
-            ScrapperConfigFactory factory = IdiscApp.getInstance().getCapturerApp().getConfigFactory();
-            this.cfg_accessViaGetter = factory.getContext(sitename);
-        }
-        return this.cfg_accessViaGetter;
-    }
+    nodeExtractor.setEnabled(true);
+    
+    updateTolerance(nodeExtractor.getFilter());
+    
+    nodeList.visitAllNodesWith(nodeExtractor);
+    
+    String key = context.getSettings().getColumns(name)[0];
+    String val = nodeExtractor.getExtract().toString();
+    
 
-    public String getSitename() {
-        return sitename;
+    XLogger.getInstance().log(Level.FINER, "Extracted: {0}={1}", getClass(), key, val);
+    return newEntry(key, val);
+  }
+  
+  private void updateTolerance(NodeVisitingFilterIx nodeVisitingFilter) {
+    TagLocatorIx tagLocator = nodeVisitingFilter.getTagLocator();
+    if (tagLocator != null) {
+      tagLocator.setTolerance(this.tolerance);
     }
+  }
+  
+  private Map.Entry<String, String> newEntry(final String key, final String val) {
+    return new Map.Entry<String, String>()
+    {
+      @Override
+      public String getKey() {
+        return key;
+      }
+      
+      @Override
+      public String getValue() {
+        return val;
+      }
+      
+      @Override
+      public String setValue(String value) {
+        throw new UnsupportedOperationException("Not supported.");
+      }
+    };
+  }
+  
+  public String[] getDatePatterns()
+  {
+    if (this.dp_accessViaGetter == null) {
+      Object[] arr = getContext().getConfig().getArray(new Object[] { Config.Formatter.datePatterns });
+      if ((arr == null) || (arr.length == 0))
+      {
 
-    public void setSitename(String sitename) {
-        this.sitename = sitename;
-        this.cfg_accessViaGetter = null;
+        this.dp_accessViaGetter = new String[0];
+      } else {
+        this.dp_accessViaGetter = new String[arr.length];
+        System.arraycopy(arr, 0, this.dp_accessViaGetter, 0, arr.length);
+      }
     }
-
-    public float getTolerance() {
-        return tolerance;
+    return this.dp_accessViaGetter;
+  }
+  
+  public CapturerContext getContext()
+  {
+    if (this.sitename == null) {
+      return null;
     }
-
-    public void setTolerance(float tolerance) {
-        this.tolerance = tolerance;
+    if (this.cfg_accessViaGetter == null) {
+      ScrapperConfigFactory factory = IdiscApp.getInstance().getCapturerApp().getConfigFactory();
+      this.cfg_accessViaGetter = factory.getContext(this.sitename);
     }
+    return this.cfg_accessViaGetter;
+  }
+  
+  public String getSitename() {
+    return this.sitename;
+  }
+  
+  public void setSitename(String sitename) {
+    this.sitename = sitename;
+    this.cfg_accessViaGetter = null;
+  }
+  
+  public float getTolerance() {
+    return this.tolerance;
+  }
+  
+  public void setTolerance(float tolerance) {
+    this.tolerance = tolerance;
+  }
 }
