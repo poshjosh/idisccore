@@ -110,9 +110,10 @@ System.out.println("Returning");
             String c = "By the     .   guys at something";
 if(true) {
     ParseJob parseJob = new ParseJob();
-System.out.println("A = " + NewsCrawler.format(a, "null", 15, parseJob));    
-System.out.println("B = " + NewsCrawler.format(b, "null", 15, parseJob));    
-System.out.println("C = " + NewsCrawler.format(c, "null", 15, parseJob));    
+    FeedCreator fc = new FeedCreator();
+System.out.println("A = " + fc.format(a, "null", 15, parseJob));    
+System.out.println("B = " + fc.format(b, "null", 15, parseJob));    
+System.out.println("C = " + fc.format(c, "null", 15, parseJob));    
     return;
 }            
             
