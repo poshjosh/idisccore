@@ -1,0 +1,47 @@
+More Work
+---------
+* Remove all %*? funny printed chars
+
+* Before any complicated transverse, check if you can find the node directly
+
+* naij extracts nothing, the page loads 'moved permanently'
+
+* punch extract 'author' is not well extracted
+
+* sunnewsonline - forbidden 403
+* sunnewsonline_breaking and sunnewsonline_national not extracting feeddate
+
+* http://www.tribune.com.ng/ website did not load
+
+Extraction of attributes e.g feeddate from datetime attribute in <time class="value-datetime" datetime="2015-04-23T22:10:45+00:00" itemprops="datePublished">
+
+Check if the date format in config file is used to parse the extracted date string
+
+all,business,entertainment,headlines,international,national,politics,religion,sports,technology
+
+http://www.allyoucanread.com/nigerian-newspapers/
+http://www.onlinenewspapers.com/Top50/Top50-CurrentNigeria.htm
+premiumtimes
+pulse
+channelstv
+ait
+
+bellanaija
+leadership.ng
+lindaikeji.blogspot
+naij
+ngrguardiannews
+punchng
+saharareporters
+sunnewsonline_breaking
+sunnewsonline_national
+thenationonlineng
+thisday
+tribune
+vanguardngr
+
+
+
+
+
+
