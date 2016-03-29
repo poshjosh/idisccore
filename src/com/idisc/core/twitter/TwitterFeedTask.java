@@ -5,7 +5,7 @@ import com.bc.jpa.EntityController;
 import com.bc.jpa.fk.EnumReferences;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
-import com.idisc.core.FeedCreator;
+import com.idisc.core.web.WebFeedCreator;
 import com.idisc.core.IdiscApp;
 import com.idisc.core.TaskHasResult;
 import com.idisc.core.Util;
@@ -65,7 +65,7 @@ public class TwitterFeedTask
   private final Sitetype trending;
   private final EnumReferences refs;
   private final float tolerance;
-  private FeedCreator _fc;
+  private WebFeedCreator _fc;
   private ResumableUrlParser _parser_no_direct_access;
   
   public TwitterFeedTask()
@@ -319,7 +319,7 @@ public class TwitterFeedTask
       
       PageNodes pageNodes = new PageNodesImpl(link, nodeList);
       
-      FeedCreator fc = getFeedCreator();
+      WebFeedCreator fc = getFeedCreator();
       fc.setSite(site);
       fc.setImagesFilter(imagesFilter);
       fc.setTolerance(this.tolerance);
@@ -443,10 +443,10 @@ public class TwitterFeedTask
     return output;
   }
   
-  private FeedCreator getFeedCreator()
+  private WebFeedCreator getFeedCreator()
   {
     if (this._fc == null) {
-      this._fc = new FeedCreator();
+      this._fc = new WebFeedCreator();
     }
     return this._fc;
   }

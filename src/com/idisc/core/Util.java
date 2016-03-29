@@ -97,28 +97,37 @@ public class Util
   }
   
     public static String getFirstImageUrl(NodeList nodeList, NodeFilter imagesFilter) {
-        
-        if(imagesFilter != null) {
+    
+        try{
             
-String html = nodeList.toHtml();
-int start = html.indexOf("<img ");
-if(start == -1) {
-    start = html.indexOf("<IMG ");
-}
-if(start != -1) {
-    int end = start + 200 > html.length() ? html.length() : start + 200;
-    XLogger.getInstance().log(Level.FINE, "IMAGE part: {0}", NewsCrawler.class, html.substring(start, end));
-}
+            if(imagesFilter != null) {
 
-            ImageTag imageTag = (ImageTag)getFirst(nodeList, imagesFilter);
+                String html = nodeList.toHtml();
+                int start = html.indexOf("<img ");
+                if(start == -1) {
+                    start = html.indexOf("<IMG ");
+                }
+                if(start != -1) {
+                    int end = start + 200 > html.length() ? html.length() : start + 200;
+                    XLogger.getInstance().log(Level.FINE, "IMAGE part: {0}", NewsCrawler.class, html.substring(start, end));
+                }
 
-            String imageUrl = imageTag.getImageURL();
-            if(acceptImageUrl(imageUrl)) {
+                ImageTag imageTag = (ImageTag)getFirst(nodeList, imagesFilter);
+
+                if (imageTag != null) {
+                    
+                    String imageUrl = imageTag.getImageURL();
+                    if(acceptImageUrl(imageUrl)) {
 if(start != -1) {
 XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, imageUrl);
 }                
-                return imageUrl;
+                        return imageUrl;
+                    }
+                }
             }
+        }catch(Exception e) {
+            
+            XLogger.getInstance().log(Level.WARNING, "Error extracting image url", Util.class, e);
         }
         
         return null;
@@ -226,7 +235,7 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
       
       boolean exists = ec.selectFirst(map) != null;
       
-      XLogger.getInstance().log(Level.FINE, "Feed exists: {0}, parameters: {1}", Util.class, Boolean.valueOf(exists), map);
+      XLogger.getInstance().log(Level.FINER, "Feed exists: {0}, parameters: {1}", Util.class, Boolean.valueOf(exists), map);
       
       return exists;
     }

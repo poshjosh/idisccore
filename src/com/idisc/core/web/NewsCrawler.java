@@ -6,7 +6,6 @@ import com.bc.jpa.fk.EnumReferences;
 import com.bc.json.config.JsonConfig;
 import com.bc.task.StoppableTask;
 import com.bc.util.XLogger;
-import com.idisc.core.FeedCreator;
 import com.idisc.core.FeedUpdateTask;
 import com.idisc.core.IdiscApp;
 import com.idisc.core.TaskHasResult;
@@ -100,7 +99,7 @@ public class NewsCrawler
     String baseUrl = getContext().getConfig().getString(new Object[] { "url", "value" });
     NodeFilter imagesFilter = Util.createImagesFilter(baseUrl);
     
-    FeedCreator feedCreator = new FeedCreator(getSitename(), this.sitetype);
+    WebFeedCreator feedCreator = new WebFeedCreator(getSitename(), this.sitetype);
     feedCreator.setImagesFilter(imagesFilter);
     feedCreator.setTolerance(this.tolerance);
     

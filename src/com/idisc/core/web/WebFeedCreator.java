@@ -1,10 +1,9 @@
-package com.idisc.core;
+package com.idisc.core.web;
 
 import com.bc.htmlparser.ParseJob;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
-import com.idisc.core.web.NewsCrawler;
-import com.idisc.core.web.NodeExtractor;
+import com.idisc.core.Util;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
@@ -22,7 +21,7 @@ import org.htmlparser.NodeFilter;
 import org.htmlparser.tags.MetaTag;
 import org.htmlparser.tags.TitleTag;
 
-public class FeedCreator
+public class WebFeedCreator
 {
   private boolean allowOpenEnded;
   private int defaultSpaces = 1;
@@ -35,14 +34,14 @@ public class FeedCreator
   private StringBuilder _sb;
   private ParseJob _pj;
   
-  public FeedCreator() {}
+  public WebFeedCreator() {}
   
-  public FeedCreator(String sitename, Sitetype sitetype)
+  public WebFeedCreator(String sitename, Sitetype sitetype)
   {
     this(Util.findSite(sitename, sitetype, true));
   }
   
-  public FeedCreator(Site site)
+  public WebFeedCreator(Site site)
   {
     if (site == null) {
       throw new NullPointerException();

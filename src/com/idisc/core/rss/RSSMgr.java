@@ -1,5 +1,8 @@
 package com.idisc.core.rss;
 
+import com.bc.net.CloudFlareConnectionHandler;
+import com.bc.net.ConnectionManager;
+import com.bc.net.HttpStreamHandlerForBadStatusLine;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -11,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.io.Writer;
 import java.net.MalformedURLException;
@@ -23,11 +27,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.apache.commons.configuration.Configuration;
-
-
-
-
-
 
 public class RSSMgr
   implements Serializable
@@ -71,7 +70,7 @@ public class RSSMgr
           syndFeed = feedFmt.format(syndFeed);
         }
       }
-      catch (Exception e)
+      catch (IOException | FeedException e)
       {
         XLogger.getInstance().logSimple(Level.WARNING, getClass(), e);
       }
@@ -92,18 +91,17 @@ public class RSSMgr
     try
     {
       xmlReader = getXmlReader(path);
-      
+    
       if (xmlReader == null)
       {
-
         return null;
       }
       
       SyndFeedInput input = new SyndFeedInput();
-      
+
       input.setXmlHealerOn(true);
       
-      SyndFeed feed = input.build(xmlReader);
+      SyndFeed feed = input.build(xmlReader); 
       
       XLogger.getInstance().log(Level.FINE, "Path: {0}, Feed: {1}", getClass(), path, feed);
       
@@ -117,15 +115,29 @@ public class RSSMgr
   }
   
   private XmlReader getXmlReader(String path) throws IOException {
+    
     XmlReader output = null;
     try {
-      URL url = new URL(path);
-      output = new XmlReader(url);
+      URL url;
+//      url = new URL(path);
+      url = new URL(null, path, new HttpStreamHandlerForBadStatusLine());
+      
+// This will often lead to response code 403, i.e forbidden 
+// probably due to user-agent not being set      
+//      output = new XmlReader(url); 
+      ConnectionManager connMgr = this.getConnectionManager();
+      connMgr.setGenerateRandomUserAgent(true);
+      connMgr.setConnectTimeout(20000);
+      connMgr.setReadTimeout(60000);
+      connMgr.setAddCookies(true);
+      connMgr.setGetCookies(true);
+      connMgr.setConnectionHandler(new CloudFlareConnectionHandler()); // Handle cloud flare javascript challenge
+      
+      InputStream in = connMgr.getInputStream(url);
+      
+      output = new XmlReader(in);
     }
-    catch (UnknownHostException e) {
-      XLogger.getInstance().log(Level.WARNING, null, getClass(), e);
-    }
-    catch (FileNotFoundException e) {
+    catch (UnknownHostException | FileNotFoundException e) {
       XLogger.getInstance().log(Level.WARNING, "{0}", getClass(), e.toString());
     }
     catch (MalformedURLException e)
@@ -143,9 +155,6 @@ public class RSSMgr
     }
     return output;
   }
-  
-
-
 
   public void publish(SyndFeed feed, String path)
   {
@@ -158,24 +167,27 @@ public class RSSMgr
       }
       
       XLogger.getInstance().log(Level.FINER, "Feed:{0}. saved to path: {1}", getClass(), feed.getTitle(), path);
-      
-
-
 
       writer = new FileWriter(path);
       
       SyndFeedOutput feedOutput = new SyndFeedOutput();
       
-      feedOutput.output(feed, writer); return;
+      feedOutput.output(feed, writer); 
     }
-    catch (IOException ex) {
-      XLogger.getInstance().log(Level.WARNING, null, getClass(), ex);
-    } catch (FeedException ex) {
+    catch (IOException | FeedException ex) {
       XLogger.getInstance().log(Level.WARNING, null, getClass(), ex);
     } finally {
       if (writer != null) try { writer.close();
         }
         catch (IOException e) {}
     }
+  }
+
+  private transient ConnectionManager _cm;
+  public ConnectionManager getConnectionManager() {
+      if(_cm == null) {
+          _cm = new ConnectionManager();
+      }
+      return _cm;
   }
 }

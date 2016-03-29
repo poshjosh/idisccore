@@ -93,7 +93,6 @@ public class IdiscApp
   private void init(URL defaultConfigFile, URL configFile)
     throws ConfigurationException, IOException, IllegalAccessException, InterruptedException, InvocationTargetException
   {
-    XLogger.getInstance().setRootLoggerName(IdiscApp.class.getName());
     
     XLogger.getInstance().log(Level.INFO, "Initializing: {0}", getClass(), getClass().getName());
     
