@@ -1,15 +1,14 @@
 package com.idisc.core;
 
+import com.idisc.core.web.WebFeedCreator;
 import com.bc.htmlparser.ParseJob;
 import com.bc.io.CharFileIO;
 import com.bc.net.ConnectionManager;
-import com.bc.process.ProcessManager;
 import com.bc.util.SecurityTool;
 import com.bc.util.XLogger;
 import com.idisc.pu.References;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Gender;
-import com.idisc.core.web.NewsCrawler;
 import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.jpa.fk.EnumReferences;
@@ -93,7 +92,7 @@ System.out.println("Index: "+i);
                         Thread.currentThread().interrupt();
                     }finally{
                         this.notifyAll();
-                        ProcessManager.shutdownAndAwaitTermination(svc, 1, TimeUnit.SECONDS);
+                        com.bc.util.Util.shutdownAndAwaitTermination(svc, 1, TimeUnit.SECONDS);
                     }
                 }
             };
@@ -110,7 +109,7 @@ System.out.println("Returning");
             String c = "By the     .   guys at something";
 if(true) {
     ParseJob parseJob = new ParseJob();
-    FeedCreator fc = new FeedCreator();
+    WebFeedCreator fc = new WebFeedCreator();
 System.out.println("A = " + fc.format(a, "null", 15, parseJob));    
 System.out.println("B = " + fc.format(b, "null", 15, parseJob));    
 System.out.println("C = " + fc.format(c, "null", 15, parseJob));    

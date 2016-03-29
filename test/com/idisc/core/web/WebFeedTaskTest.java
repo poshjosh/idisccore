@@ -1,7 +1,6 @@
 package com.idisc.core.web;
 
-import com.bc.process.ProcessManager;
-import com.bc.process.StoppableTask;
+import com.bc.task.StoppableTask;
 import com.idisc.core.Setup;
 import com.scrapper.CapturerApp;
 import java.util.concurrent.Executors;
@@ -36,17 +35,17 @@ public class WebFeedTaskTest {
     /**
      * Test of run method, of class WebFeedTask_old.
      */
-//    @org.junit.Test
+    @org.junit.Test
     public void testRun() {
 System.out.println("run");
-        final WebFeedTask instance = new WebFeedTask(60, TimeUnit.SECONDS);
+        final WebFeedTask instance = new WebFeedTask(120, TimeUnit.SECONDS);
         instance.run();
     }
 
     /**
      * Test of newTask method, of class WebFeedTask_old.
      */
-    @org.junit.Test
+//    @org.junit.Test
     public void testNewTask() {
 System.out.println("newTask");
         
@@ -67,7 +66,7 @@ System.out.println("newTask");
             public void run() {
 System.out.println("...................... Stopping");                
                 result.stop();
-                ProcessManager.shutdownAndAwaitTermination(stopSvc, 500, TimeUnit.MILLISECONDS);
+                com.bc.util.Util.shutdownAndAwaitTermination(stopSvc, 500, TimeUnit.MILLISECONDS);
             }
         }, 60, TimeUnit.SECONDS);
         

@@ -56,7 +56,8 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
 //        app.init(false);
         
-        XLogger.getInstance().setLogLevel(Level.FINE);
+        XLogger.getInstance().setLogLevel(com.idisc.core.IdiscApp.class.getPackage().getName(), Level.FINE);
+        XLogger.getInstance().setLogLevelForConsoleHandlers(Level.FINE);
         
         ScrapperConfigFactory factory = app.getConfigFactory();
         

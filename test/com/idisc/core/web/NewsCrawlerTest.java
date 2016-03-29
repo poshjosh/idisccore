@@ -44,6 +44,7 @@ public class NewsCrawlerTest {
         System.out.println("run");
         String site = "lindaikeji.blogspot";
         site = "dailytrust";
+        site = "bellanaija";
         
         NewsCrawler instance = this.createCrawler(site);
 //        String link = this.getLink(site);

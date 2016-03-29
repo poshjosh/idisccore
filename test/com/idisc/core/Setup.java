@@ -6,8 +6,11 @@ package com.idisc.core;
 public class Setup {
     
     public static final void setupApp() throws Exception {
+        
         IdiscApp app = new IdiscApp();
+        
         IdiscApp.setInstance(app);
+        
         boolean devMode = true;
         String propertiesFilename = devMode ? 
 // These are not working yet                    

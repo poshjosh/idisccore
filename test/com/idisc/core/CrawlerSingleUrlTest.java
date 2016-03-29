@@ -40,7 +40,7 @@ public class CrawlerSingleUrlTest {
 //        site = "dailytrust";
 //        site = "punchng";
 //        site = "channelstv_headlines";
-        site = "bellanaija";
+//        site = "bellanaija";
         site = "lindaikeji.blogspot";
         String sampleUrl = this.getUrl(site);
 //        sampleUrl = "http://www.premiumtimesng.com/news/top-news/194472-falekes-status-in-saturdays-kogi-election-unclear.html";
@@ -60,7 +60,8 @@ log("URL to extract: "+ sampleUrl);
         
 //        idiscApp.init(false);
         
-        XLogger.getInstance().setLogLevel(Level.FINE);
+        XLogger.getInstance().setLogLevel(com.idisc.core.IdiscApp.class.getPackage().getName(), Level.FINE);
+        XLogger.getInstance().setLogLevelForConsoleHandlers(Level.FINE);
         
         ScrapperConfigFactory factory = capturerApp.getConfigFactory();
         
