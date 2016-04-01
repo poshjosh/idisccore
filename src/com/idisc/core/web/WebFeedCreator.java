@@ -264,8 +264,7 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
         String output;
         pj.reset();
         try{
-            pj.comments(false).formatter(null).html(false).innerHtml(false
-            ).maxSeparators(spaces).plainText(true).tagFilter(null);
+            pj.comments(false).formatter(null).maxSeparators(spaces).plainText(true).tagFilter(null);
             StringBuilder sb = pj.parse(s);
             output = sb == null || sb.length() == 0 ? null : sb.toString();
         }catch(IOException e) {
@@ -309,7 +308,7 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
   {
     if (this._pj == null) {
       this._pj = new ParseJob();
-      this._pj = this._pj.comments(false).html(false).maxSeparators(this.defaultSpaces).plainText(true).separator(" ");
+      this._pj = this._pj.comments(false).maxSeparators(this.defaultSpaces).plainText(true).separator(" ");
     } else {
       this._pj.reset();
     }

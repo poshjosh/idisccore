@@ -143,9 +143,17 @@ public class RSSFeedTask
 
             if ((description != null) && (!description.isEmpty()))
             {
-
               contentStrBuilder.append(description);
             }
+            else if(entry.getTitle() != null && !entry.getTitle().isEmpty())
+            {
+              contentStrBuilder.append(entry.getTitle());
+            }
+          }
+          
+          // Content cannot be null
+          if(contentStrBuilder.length() == 0) {
+              continue;
           }
 
             List categories = entry.getCategories();
