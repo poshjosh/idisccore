@@ -78,10 +78,8 @@ public class WebFeedCreator
         JsonConfig config = extractor.getContext().getConfig();
         Map defaultValues = config.getMap(Config.Formatter.defaultValues);
         
-        ParseJob parseJob = this.getParseJob();
-
 ////////////// Author        
-        String author = getValue(extract, "author", defaultValues, parseJob);
+        String author = getValue(extract, "author", defaultValues);
         if ((author != null) && (author.startsWith("a target=")) && (author.contains("punch"))) {
             author = "Punch Newspaper";
         }
@@ -96,7 +94,7 @@ XLogger.getInstance().log(Level.FINER, "Author. {0} = {1}",
         feed.setAuthor(author);
         
 ////////////// Categories        
-        String categories = getValue(extract, "categories", defaultValues, parseJob);
+        String categories = getValue(extract, "categories", defaultValues);
         if(categories == null) {
             categories = defaultCategories;
         }
@@ -109,11 +107,11 @@ XLogger.getInstance().log(Level.FINER, "Author. {0} = {1}",
 //        feed.setDatecreated(new Date()); // set before creation
 
 ////////////// Description        
-        String description = getValue(extract, "description", defaultValues, parseJob);
+        String description = getValue(extract, "description", defaultValues);
         if(description == null) {
             Boolean descriptionIsGeneric = getBoolean(config, Config.Extractor.isDescriptionGeneric);
             if(descriptionIsGeneric) {
-                description = format(content, (String)defaultValues.get("description"), 300, parseJob);
+                description = format(content, (String)defaultValues.get("description"), 300);
             }else{
                 if(pageNodes.getDescription() != null) {
                     MetaTag meta = pageNodes.getDescription();
@@ -128,7 +126,7 @@ XLogger.getInstance().log(Level.FINER, "Description. {0} = {1}",
 ////////////// Feeddate
         String dateStr = extract.get("feeddate");
         if(dateStr != null) {
-            dateStr = getPlainText(dateStr.trim(), parseJob);
+            dateStr = getPlainText(dateStr.trim());
         }
 
         Date feeddate = null;
@@ -186,7 +184,7 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
         NewsCrawler.class, extract.get("imageurl"), feed.getImageurl());
 
 ////////////// Title        
-        String keywords = getValue(extract, "keywords", defaultValues, parseJob);
+        String keywords = getValue(extract, "keywords", defaultValues);
         if(keywords == null) {
             if(pageNodes.getKeywords() != null) {
                 MetaTag meta = pageNodes.getKeywords();
@@ -196,7 +194,7 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
         feed.setKeywords(keywords);
         
 ////////////// Title
-        String title = getValue(extract, "title", defaultValues, parseJob);
+        String title = getValue(extract, "title", defaultValues);
         if(title == null) {
             Boolean titleIsInUrl = getBoolean(config, Config.Extractor.isTitleInUrl);
             if(titleIsInUrl) {
@@ -206,7 +204,7 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
             if(title == null) {
                 Boolean titleIsGeneric = getBoolean(config, Config.Extractor.isTitleGeneric);
                 if(titleIsGeneric) {
-                    title = format(content, null, Util.getColumnDisplaySize(Feed.class, "title"), parseJob);
+                    title = format(content, null, Util.getColumnDisplaySize(Feed.class, "title"));
                 }else{
                     if(pageNodes.getTitle() != null) {
                         TitleTag titleTag = pageNodes.getTitle();
@@ -223,48 +221,46 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
         feed.setUrl(pageNodes.getURL());
     }
     
-    private String getValue(Map<String, String> extract, String col, Map defaultValues, ParseJob parseJob) {
+    private String getValue(Map<String, String> extract, String col, Map defaultValues) {
         
         String val = extract.get(col);
         
         if(val != null) {
             
-            val = format(col, val, defaultValues, parseJob);
+            val = format(col, val, defaultValues);
         }
         
         return val;
     }
     
-    private String format(String col, String val, Map defaultValues, ParseJob parseJob) {
+    private String format(String col, String val, Map defaultValues) {
         
         int maxLen = Util.getColumnDisplaySize(Feed.class, col) - 3;
         
-        return format(val, (String)defaultValues.get(col), maxLen, parseJob);
+        return format(val, (String)defaultValues.get(col), maxLen);
     }
     
     public String format(
-            String s, String defaultValue, int maxLen, ParseJob pj) {
+            String s, String defaultValue, int maxLen) {
         if(s == null) {
             s = defaultValue;
         }
-        if(pj != null) {
-            s = getPlainText(s, pj);
-            if(s == null) {
-                s = defaultValue;
-            }
+        s = getPlainText(s);
+        if(s == null) {
+            s = defaultValue;
         }
         return Util.truncate(s, maxLen);
     }
 
-    private String getPlainText(String s, ParseJob pj) {
-        return getPlainText(s, 1, pj);
+    private String getPlainText(String s) {
+        return getPlainText(s, this.defaultSpaces);
     }
     
-    private String getPlainText(String s, int spaces, ParseJob pj) {
+    private String getPlainText(String s, int spaces) {
         String output;
-        pj.reset();
+        ParseJob pj = this.getParseJob().resetToDefaults();
         try{
-            pj.comments(false).formatter(null).maxSeparators(spaces).plainText(true).tagFilter(null);
+            pj.comments(false).separator(" ").maxSeparators(spaces).plainText(true);
             StringBuilder sb = pj.parse(s);
             output = sb == null || sb.length() == 0 ? null : sb.toString();
         }catch(IOException e) {
@@ -308,9 +304,8 @@ XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}",
   {
     if (this._pj == null) {
       this._pj = new ParseJob();
-      this._pj = this._pj.comments(false).maxSeparators(this.defaultSpaces).plainText(true).separator(" ");
     } else {
-      this._pj.reset();
+      this._pj.resetToDefaults();
     }
     return this._pj;
   }
