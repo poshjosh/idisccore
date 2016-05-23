@@ -13,7 +13,7 @@
     "minDataToAccept":2,
     "nodeTypesToAccept":["tag","text"],
     "nodesToAccept":["A","APPLET","ARTICLE","BASE","BODY","COL","COLGROUP","UL","OL","LI","DL","DD","DT","DIV","FIELDSET","FORM","FONT","FRAMESET","FRAME","HEAD","H1","H2","H3","H4","H5","H6","HTML","INS","IMG","ISINDEX","KBD","LABEL","MAP","OBJECT","P","SPAN","STRONG","TBODY","TFOOT","TD","TH","THEAD","TR","TABLE","TEXTAREA","TITLE"],
-    "nodesToRetainAttributes":["!DOCTYPE","HTML","A"],
+    "nodesToRetainAttributes":["!DOCTYPE","HTML","A","IMG"],
     "parentNode":{
         "nodeTypesToAccept":["tag","text"]
     },

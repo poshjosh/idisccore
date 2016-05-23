@@ -33,9 +33,12 @@ public class WebFeedCreator
   private NodeFilter imagesFilter;
   private StringBuilder _sb;
   private ParseJob _pj;
+  private final NodeExtractor extractor;
   
-  public WebFeedCreator() {}
-  
+  public WebFeedCreator() {
+    extractor = new NodeExtractor();
+  }
+    
   public WebFeedCreator(String sitename, Sitetype sitetype)
   {
     this(Util.findSite(sitename, sitetype, true));
@@ -48,6 +51,7 @@ public class WebFeedCreator
     }
     
     this.site = site;
+    this.extractor = new NodeExtractor();
   }
   
   public Feed createFeed(PageNodes pageNodes)
@@ -60,14 +64,18 @@ public class WebFeedCreator
   }
   
     public void updateFeed(Feed feed, PageNodes pageNodes) {
+        
+        XLogger xlog = XLogger.getInstance();
+        Class cls = this.getClass();
 
         feed.setSiteid(site);
         
         final String sitename = site.getSite();
         
-        NodeExtractor extractor = new NodeExtractor(tolerance, sitename);
+        this.extractor.setTolerance(tolerance);
+        this.extractor.setSitename(sitename);
         
-        Map<String, String> extract = extractor.extract(pageNodes);
+        Map<String, String> extract = this.extractor.extract(pageNodes);
         
 //if(true) {
 //System.out.println("URL: "+pageNodes.getFormattedURL());
@@ -75,7 +83,7 @@ public class WebFeedCreator
 //System.out.println("Extract: "+extract);
 //    return feed;
 //}        
-        JsonConfig config = extractor.getContext().getConfig();
+        JsonConfig config = this.extractor.getContext().getConfig();
         Map defaultValues = config.getMap(Config.Formatter.defaultValues);
         
 ////////////// Author        
@@ -89,8 +97,7 @@ public class WebFeedCreator
         if(author == null || author.trim().isEmpty()) {
             author = sitename;
         }
-XLogger.getInstance().log(Level.FINER, "Author. {0} = {1}", 
-        NewsCrawler.class, extract.get("author"), author);
+        xlog.log(Level.FINER, "Author. {0} = {1}", cls, extract.get("author"), author);
         feed.setAuthor(author);
         
 ////////////// Categories        
@@ -120,8 +127,8 @@ XLogger.getInstance().log(Level.FINER, "Author. {0} = {1}",
             }
         }
         feed.setDescription(description);
-XLogger.getInstance().log(Level.FINER, "Description. {0} = {1}", 
-        NewsCrawler.class, extract.get("description"), feed.getDescription());
+        xlog.log(Level.FINER, "Description. {0} = {1}", 
+        cls, extract.get("description"), feed.getDescription());
         
 ////////////// Feeddate
         String dateStr = extract.get("feeddate");
@@ -134,7 +141,7 @@ XLogger.getInstance().log(Level.FINER, "Description. {0} = {1}",
             
             String [] datePatterns = extractor.getDatePatterns();
 
-XLogger.getInstance().log(Level.FINER, "Date patterns: {0}", NewsCrawler.class, 
+        xlog.log(Level.FINER, "Date patterns: {0}", cls, 
         datePatterns == null ? null : Arrays.toString(datePatterns));
             
             if(datePatterns != null && datePatterns.length != 0) {
@@ -145,7 +152,7 @@ XLogger.getInstance().log(Level.FINER, "Date patterns: {0}", NewsCrawler.class,
                         
                         feeddate = df.parse(dateStr);
                         
-XLogger.getInstance().log(Level.FINER, "Parsed date: {0}", NewsCrawler.class, feeddate);
+                        xlog.log(Level.FINER, "Parsed date: {0}", cls, feeddate);
 
                         break;
                     }catch(ParseException ignored) { }
@@ -155,8 +162,7 @@ XLogger.getInstance().log(Level.FINER, "Parsed date: {0}", NewsCrawler.class, fe
         if(feeddate == null){
             feeddate = new Date(); // We need this for sorting
         }
-XLogger.getInstance().log(Level.FINER, "Feeddate. {0} = {1}", 
-        NewsCrawler.class, extract.get("feeddate"), feeddate);
+        xlog.log(Level.FINER, "Feeddate. {0} = {1}", cls, extract.get("feeddate"), feeddate);
         feed.setFeeddate(feeddate); 
 
 ////////////// Imageurl
@@ -180,8 +186,8 @@ XLogger.getInstance().log(Level.FINER, "Feeddate. {0} = {1}",
                 feed.setImageurl(link.getLink());
             }
         }
-XLogger.getInstance().log(Level.FINER, "Imageurl. {0} = {1}", 
-        NewsCrawler.class, extract.get("imageurl"), feed.getImageurl());
+        xlog.log(Level.FINER, "Imageurl. {0} = {1}", 
+        cls, extract.get("imageurl"), feed.getImageurl());
 
 ////////////// Title        
         String keywords = getValue(extract, "keywords", defaultValues);

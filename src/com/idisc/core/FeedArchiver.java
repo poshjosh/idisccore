@@ -20,25 +20,6 @@ import javax.persistence.criteria.Root;
 import org.eclipse.persistence.annotations.BatchFetchType;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 public class FeedArchiver
 {
   private EntityController<Feed, Integer> _fc;
@@ -50,14 +31,6 @@ public class FeedArchiver
     
     return archiveFeeds(before, batchSize);
   }
-  
-
-
-
-
-
-
-
 
   public int archiveFeeds(Date before, int batchSize)
   {
@@ -72,7 +45,6 @@ public class FeedArchiver
       
       XLogger.getInstance().log(Level.FINE, "Offset: {0}, batchSize: {1}, Ids: {2}", getClass(), Integer.valueOf(offset), feedids == null ? null : Integer.valueOf(feedids.size()), feedids);
       
-
       if ((feedids == null) || (feedids.isEmpty())) {
         break;
       }
@@ -84,10 +56,8 @@ public class FeedArchiver
       try
       {
         for (Object feedid : feedids) {
-          String insertSelectQuery = "INSERT INTO `archivedfeed` (archivedfeedid, feedid, rawid, url, imageurl, author, title, keywords, categories, description, content, feeddate, datecreated, timemodified, extradetails, siteid)  SELECT null, feedid, rawid, url, imageurl, author, title, keywords, categories, description, content, feeddate, datecreated, timemodified, extradetails, siteid FROM `feed` WHERE `feed`.`feedid` = '" + feedid + "'";
-          String deleteQuery = "DELETE FROM `feed` WHERE `feed`.`feedid` = '" + feedid + "'";
           try {
-            int updateCount = executeUpdate(em, insertSelectQuery, deleteQuery);
+            int updateCount = executeUpdate(em, feedid);
           } catch (Exception e) { 
             if (XLogger.getInstance().isLoggable(Level.FINE, getClass())) {
               XLogger.getInstance().log(Level.FINE, e.toString(), getClass());
@@ -100,56 +70,85 @@ public class FeedArchiver
         em.close();
       }
     }
-    
 
     return offset;
   }
-  
 
-
-
-
-
-
-
-
-  public int executeUpdate(EntityManager em, String insertSelectQuery, String deleteQuery)
+  public int executeUpdate(EntityManager em, Object feedid)
     throws Exception
   {
+      
+    XLogger logger = XLogger.getInstance();
+    String insertSelectQuery = "INSERT INTO `archivedfeed` (archivedfeedid, feedid, rawid, url, imageurl, author, title, keywords, categories, description, content, feeddate, datecreated, timemodified, extradetails, siteid)  SELECT null, feedid, rawid, url, imageurl, author, title, keywords, categories, description, content, feeddate, datecreated, timemodified, extradetails, siteid FROM `feed` WHERE `feed`.`feedid` = '" + feedid + "'";
+    String deleteQuery = "DELETE FROM `feed` WHERE `feed`.`feedid` = '" + feedid + "'";
+    String selectArchivedfeed = "SELECT * FROM `archivedfeed` WHERE `archivedfeed`.`feedid` = '" + feedid + "' limit 0,1";
     int updateCount = -1;
     try {
       EntityTransaction t = em.getTransaction();
       try {
+          
         t.begin();
-        Query q = em.createNativeQuery(insertSelectQuery);
-        int insertCount = q.executeUpdate();
-        if (insertCount > 0) {
-          q = em.createNativeQuery(deleteQuery);
-          int deleteCount = q.executeUpdate();
-          if (deleteCount == insertCount) {
-            t.commit();
-            updateCount = insertCount;
-          } else {
+        
+        Feed feed = em.find(Feed.class, feedid);
+logger.log(Level.FINER, "Found feed: {0}", this.getClass(), feed);
+        if(feed == null) { // We can't archive a feed that doesn't exist
+            updateCount = 0;
+        }else{
+            
+          Query qsaf = em.createNativeQuery(selectArchivedfeed, Archivedfeed.class);
+          qsaf.setFirstResult(0);
+          qsaf.setMaxResults(1);
+          List found = qsaf.getResultList();
+          Object archivedfeed = found == null || found.isEmpty() ? null : found.get(0);
+
+          int insertCount = -1;
+          if(archivedfeed == null) { 
+              
+            Query q = em.createNativeQuery(insertSelectQuery);
+          
+            insertCount = q.executeUpdate();
+logger.log(Level.FINER, "Archived feed: {0}", this.getClass(), feed);
+          }else {
+logger.log(Level.FINER, "Already archived {0} as {1}", this.getClass(), feed, archivedfeed);
+          } 
+          
+          boolean alreadyArchived = archivedfeed != null;
+          boolean archiveSucceeded = insertCount > 0;
+            
+          if (alreadyArchived ||  archiveSucceeded) {
+              
+            Query q = em.createNativeQuery(deleteQuery);
+            
+            int deleteCount = q.executeUpdate();
+logger.log(Level.FINER, "Update count = {0} for operation 'DELETE {1} Feed'", 
+this.getClass(), deleteCount, (alreadyArchived?"already archived":"archived"));
+            if (deleteCount > 0) {
+              t.commit();
+              updateCount = deleteCount;
+            } else {
+logger.log(Level.FINER, "Rolling back delete of Feed: {1}", this.getClass(), feed);
+              t.rollback();
+              updateCount = 0;
+            }
+          }else {
+logger.log(Level.FINER, "Rolling back insert of Archivedfeed with feedid: {1}", this.getClass(), feed);
             t.rollback();
             updateCount = 0;
           }
-        } else {
-          updateCount = 0;
         }
       } finally {
         if (t.isActive()) {
+logger.log(Level.FINER, "Rolling back active transaction", this.getClass());
           t.rollback();
           updateCount = 0;
         }
       }
     } finally {
-      XLogger.getInstance().log(Level.FINER, "Insert Query: {0}\nDelete Query: {1}\nUpdate count: {2}", getClass(), insertSelectQuery, deleteQuery, Integer.valueOf(updateCount));
+//      XLogger.getInstance().log(Level.FINER, "Insert Query: {0}\nDelete Query: {1}\nUpdate count: {2}", getClass(), insertSelectQuery, deleteQuery, Integer.valueOf(updateCount));
     }
-    
 
     return updateCount;
   }
-  
 
   private void handleException(Throwable e)
   {
@@ -161,7 +160,6 @@ public class FeedArchiver
       
       if (((dbe.getInternalException() instanceof MySQLIntegrityConstraintViolationException)) && (dbe.getInternalException().getMessage().contains("Duplicate")))
       {
-
         log = false;
       }
     }
@@ -192,7 +190,6 @@ public class FeedArchiver
       List<Feed> feeds = getFeedsBefore(em, before, offset, batchSize);
       
       XLogger.getInstance().log(Level.FINE, "Offset: {0}, batchSize: {1}", getClass(), Integer.valueOf(offset), feeds == null ? null : Integer.valueOf(feeds.size()));
-      
 
       if ((feeds == null) || (feeds.isEmpty())) {
         break;
@@ -216,17 +213,8 @@ public class FeedArchiver
       }
     }
     
-
     return offset;
   }
-  
-
-
-
-
-
-
-
 
   public boolean archiveFeed(EntityManager em, Feed feed, Archivedfeed archivedfeed)
   {
@@ -241,10 +229,8 @@ public class FeedArchiver
       {
         t.begin();
         
-
         em.persist(archivedfeed);
         
-
         em.remove(feed);
         
         t.commit();
@@ -264,7 +250,6 @@ public class FeedArchiver
       XLogger.getInstance().log(Level.FINER, "Updated: {0}, Delete feed: {1}, Insert archvivedfeed: {2}", getClass(), Boolean.valueOf(output), feed, archivedfeed);
     }
     
-
     return output;
   }
   
@@ -308,25 +293,17 @@ public class FeedArchiver
     TypedQuery<Feed> typedQuery = em.createQuery(query);
     typedQuery.setFirstResult(offset);
     typedQuery.setMaxResults(limit);
-    
-
-
-
-
-
-
-
-
 
     typedQuery.setHint("eclipselink.batch", "f.commentList");
     typedQuery.setHint("eclipselink.batch", "f.feedhitList");
+    typedQuery.setHint("eclipselink.batch", "f.bookmarkfeedList");
+    typedQuery.setHint("eclipselink.batch", "f.favoritefeedList");
     typedQuery.setHint("eclipselink.batch.type", BatchFetchType.IN);
     
     List<Feed> feeds = typedQuery.getResultList();
     
     XLogger.getInstance().log(Level.FINER, "Expected: {0}, retreived {1} feeds from database", getClass(), Integer.valueOf(limit), feeds == null ? null : Integer.valueOf(feeds.size()));
     
-
     return feeds;
   }
   

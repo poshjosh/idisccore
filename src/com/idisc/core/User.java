@@ -14,23 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 public class User
   extends Feeduser
 {
@@ -45,10 +28,7 @@ public class User
     ControllerFactory factory = IdiscApp.getInstance().getControllerFactory();
     EntityController<Feeduser, Integer> ec = factory.getEntityController(Feeduser.class, Integer.class);
     
-
     Feeduser feeduser = new Feeduser();
-    
-
 
     output.authdetails = authdetails;
     String email = output.getAuthEmailaddress();
@@ -59,9 +39,11 @@ public class User
     List<Feeduser> found = ec.select(where, "AND");
     if (found.isEmpty()) {
       if (create) {
+XLogger.getInstance().log(Level.FINER, "Creating user: {0}", User.class, feeduser);
         feeduser.setDatecreated(new Date());
         try {
           ec.create(feeduser);
+XLogger.getInstance().log(Level.FINE, "Created user: {0}", User.class, feeduser);
           output.authdetails = authdetails;
           output.delegate = feeduser;
         } catch (Exception e) {
@@ -79,7 +61,7 @@ public class User
       output = null;
       throw new UnsupportedOperationException("Found > 1 records where 1 or less was expected, entity: " + Feeduser.class.getName() + ", parameters: " + authdetails);
     }
-    
+XLogger.getInstance().log(Level.FINE, "User: {0}", User.class, output);
 
     return output;
   }

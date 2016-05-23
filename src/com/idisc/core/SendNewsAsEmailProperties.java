@@ -1,6 +1,5 @@
 package com.idisc.core;
 
-import com.bc.mailservice.Message;
 import java.util.Map;
 
 public abstract interface SendNewsAsEmailProperties
@@ -17,5 +16,7 @@ public abstract interface SendNewsAsEmailProperties
   
   public abstract char[] getSenderPassword();
   
-  public abstract Message getEmailMessage();
+  public abstract String getSubject();
+  
+  public abstract String getMessage();
 }

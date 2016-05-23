@@ -1,20 +1,24 @@
 package com.idisc.core;
 
 import com.bc.json.config.JsonConfig;
-import com.bc.util.XLogger;
+import com.bc.webdatex.locator.TagLocator;
 import com.idisc.core.web.NewsCrawler;
 import com.idisc.pu.entities.Feed;
-import com.scrapper.CapturerApp;
+import com.scrapper.URLParser;
 import com.scrapper.config.Config;
 import com.scrapper.config.ScrapperConfigFactory;
 import com.scrapper.context.CapturerContext;
+import com.scrapper.extractor.MultipleNodesExtractor;
+import com.scrapper.extractor.MultipleNodesExtractorIx;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import org.htmlparser.Tag;
+import org.htmlparser.util.NodeList;
+import org.htmlparser.util.ParserException;
 import org.junit.Test;
 
 /**
@@ -30,10 +34,21 @@ import org.junit.Test;
  * @version  2.0
  * @since    2.0
  */
-public class CrawlerSingleUrlTest {
-
+public class CrawlerSingleUrlTest extends IdiscTestBase {
+    
+    public CrawlerSingleUrlTest() throws Exception {
+        super(Level.FINER);
+    }
+    
     @Test
-    public void testSingleUrl() throws Exception {
+    public void test() throws Exception {
+        boolean preLocateTarget = true;
+        final String site = this.getSite();
+//        this.extractSingleNode(site, "targetNode0", preLocateTarget);
+        this.extractSingleUrl(site);
+    }
+    
+    private String getSite() {
         String site;
 //        site = "thisday";
 //        site = "naij";
@@ -42,28 +57,16 @@ public class CrawlerSingleUrlTest {
 //        site = "channelstv_headlines";
 //        site = "bellanaija";
         site = "lindaikeji.blogspot";
-        String sampleUrl = this.getUrl(site);
-//        sampleUrl = "http://www.premiumtimesng.com/news/top-news/194472-falekes-status-in-saturdays-kogi-election-unclear.html";
-        this.testSingleUrl(site, sampleUrl);
+        return site;
     }
     
-    public void testSingleUrl(String site, String sampleUrl) throws Exception {
+    public void extractSingleUrl(String site) throws Exception {
+        
+        String sampleUrl = this.getUrl(site);
         
 log("URL to extract: "+ sampleUrl);        
-        IdiscApp idiscApp = this.createIdiscApp("META-INF/persistence_remote.xml");
-        IdiscApp.setInstance(idiscApp);
-        idiscApp.setScrapperPropertiesFilename("META-INF/properties/idisccore_scrapper_devmode.properties");
-        
-        idiscApp.init();
-        
-        CapturerApp capturerApp = idiscApp.getCapturerApp();
-        
-//        idiscApp.init(false);
-        
-        XLogger.getInstance().setLogLevel(com.idisc.core.IdiscApp.class.getPackage().getName(), Level.FINE);
-        XLogger.getInstance().setLogLevelForConsoleHandlers(Level.FINE);
-        
-        ScrapperConfigFactory factory = capturerApp.getConfigFactory();
+ 
+        ScrapperConfigFactory factory = getCapturerApp().getConfigFactory();
         
         CapturerContext ctx = factory.getContext(site);
         
@@ -117,6 +120,65 @@ log(false, "Content: "+feed.getContent());
         }
     }
     
+    private void extractSingleNode(String site, String key, boolean preLocateTarget) throws ParserException {
+        
+        MultipleNodesExtractorIx pageExtractor = getPageExtractor(site);
+
+        com.bc.webdatex.extractor.NodeExtractor nodeExtractor = 
+                ((MultipleNodesExtractor)pageExtractor).getExtractor(key);
+
+        String url = this.getUrl(site);
+
+        URLParser p = new URLParser();
+        NodeList nodes = p.parse(url);
+
+        if(preLocateTarget) {
+            
+            NodeList targetNodes = preLocateTarget(nodes, nodeExtractor);
+
+            if(targetNodes != null) {
+                nodes = targetNodes;
+            }
+        }
+        
+        nodes.visitAllNodesWith(nodeExtractor);
+            
+log("EXTRACT:\n"+nodeExtractor.getExtract());
+    }
+
+    private MultipleNodesExtractorIx getPageExtractor(String site) {
+        CapturerContext ctx;
+        ctx = getCapturerApp().getConfigFactory().getContext(site);
+        MultipleNodesExtractorIx pageExtractor = ctx.getExtractor();
+        return pageExtractor;
+    }
+    
+    private NodeList preLocateTarget(
+            NodeList nodes, com.bc.webdatex.extractor.NodeExtractor nodeExtractor) 
+            throws ParserException {
+
+        TagLocator locator = (TagLocator)nodeExtractor.getFilter().getTagLocator();
+
+        List<String> [] transverse = locator.getTransverse();
+        
+log("transverse:\n"+(transverse==null?null:Arrays.toString(transverse)));
+
+        nodes.visitAllNodesWith(locator);
+
+        Tag target = locator.getTarget();
+
+log("Target:\n"+(target==null?null:target.toHtml(false)));
+
+        if(target == null) {
+            return null;
+        }
+        
+        nodes = new NodeList();
+        nodes.add(target);
+
+        return nodes;
+    }
+
     private Object [] get(JsonConfig props, String propertyKey) {
         // DIV,,,DIV,,,DIV,,,SPAN P SPAN
         // Parents = DIV,DIV,DIV
@@ -142,12 +204,14 @@ log(false, "Content: "+feed.getContent());
         switch(site) {
             case "bellanaija":
                 urls = new String[]{
-                    "http://www.bellanaija.com/2016/03/ty-bello-is-bimpe-onakoyas-biggest-fan-read-her-inspiring-story-on-the-makeup-maestro/",
-                    "http://www.bellanaija.com/2015/06/09/designer-deola-sagoe-is-a-vision-in-gold-in-her-own-piece/"
+                    "https://www.bellanaija.com/2016/03/ty-bello-is-bimpe-onakoyas-biggest-fan-read-her-inspiring-story-on-the-makeup-maestro/",
+                    "https://www.bellanaija.com/2015/06/09/designer-deola-sagoe-is-a-vision-in-gold-in-her-own-piece/"
                 };
                 break;
             case "lindaikeji.blogspot":
                 urls = new String []{
+                    "http://www.lindaikejisblog.com/2016/04/manny-pacquiao-beefs-up-security-after.html",
+                    "http://www.lindaikejisblog.com/2016/04/former-nollywood-actress-anita-hogan.html",
                     "http://www.lindaikejisblog.com/2015/06/dear-lib-readers-my-wife-complains-that.html",
                     "http://www.lindaikejisblog.com/2015/06/photos-femi-otedolas-daughter-graduates.html",
                     "http://www.lindaikejisblog.com/2015/06/former-miss-mississippis-boobs-rots.html"
@@ -155,9 +219,10 @@ log(false, "Content: "+feed.getContent());
                 break;
             case "naij":
                 urls = new String[]{
-                    "http://www.naij.com/460524-read-happened-men-trekked-atiku.html",
-                    "http://www.naij.com/460495-live-ngr-vs-chad-afcon-qualifier.html",
-                    "http://www.naij.com/460491-photos-dprince-is-now-a-father.html"
+                    "https://www.naij.com/812314-shocking-efcc-uncovers-12-9-billion-arms-deal-fraud.html",
+                    "https://www.naij.com/460524-read-happened-men-trekked-atiku.html",
+                    "https://www.naij.com/460495-live-ngr-vs-chad-afcon-qualifier.html",
+                    "https://www.naij.com/460491-photos-dprince-is-now-a-father.html"
                 };
                 break;
             case "dailytrust":
@@ -235,25 +300,5 @@ log(false, "Content: "+feed.getContent());
         int random = com.bc.util.Util.randomInt(urls.length);
         
         return urls[random];
-    }
-    
-    private IdiscApp createIdiscApp(String persistenceFilename) {
-        if(persistenceFilename == null) {
-            persistenceFilename = "META-INF/persistence_remote.xml";
-        }
-        IdiscApp idiscApp = new IdiscApp();
-        idiscApp.setPersistenceFilename(persistenceFilename);
-        return idiscApp;
-    }
-
-    private void log(String msg) {
-        log(true, msg);
-    }
-    
-    private void log(boolean title, String msg) {
-        if(title) {
-System.out.print("x = x = x = x = x = x = x = x = x = x = x = x = "+new Date()+" "+this.getClass().getName()+" ");            
-        }
-System.out.println(msg);        
     }
 }

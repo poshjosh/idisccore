@@ -1,9 +1,9 @@
 package com.idisc.core;
 
 import com.bc.jpa.ControllerFactory;
-import com.bc.mailservice.DefaultMailConfig;
-import com.bc.mailservice.MailConfig;
-import com.bc.mailservice.XMLMailConfig;
+import com.bc.mail.config.DefaultMailConfig;
+import com.bc.mail.config.MailConfig;
+import com.bc.mail.config.XMLMailConfig;
 import com.bc.util.XLogger;
 import com.idisc.pu.IdiscControllerFactory;
 import com.scrapper.AppProperties;
@@ -19,20 +19,6 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 public class IdiscApp
 {
@@ -61,7 +47,6 @@ public class IdiscApp
     instance = app;
   }
   
-
   public void init()
     throws ConfigurationException, IOException, IllegalAccessException, InterruptedException, InvocationTargetException
   {
@@ -76,7 +61,6 @@ public class IdiscApp
     this.initialized = true;
   }
   
-
   public void init(URL propertiesFile)
     throws ConfigurationException, IOException, IllegalAccessException, InterruptedException, InvocationTargetException
   {
@@ -88,18 +72,21 @@ public class IdiscApp
     
     this.initialized = true;
   }
-  
 
   private void init(URL defaultConfigFile, URL configFile)
-    throws ConfigurationException, IOException, IllegalAccessException, InterruptedException, InvocationTargetException
+    throws ConfigurationException, IOException, IllegalAccessException, 
+          InterruptedException, InvocationTargetException, UnsupportedOperationException
   {
+      
+    if(this.isInitialized()) {
+        throw new UnsupportedOperationException("App is already initialized!");
+    }  
     
     XLogger.getInstance().log(Level.INFO, "Initializing: {0}", getClass(), getClass().getName());
     
     if (configFile == null) {
       throw new NullPointerException();
     }
-    
 
     this.config = loadConfig(defaultConfigFile, configFile, ',');
     
@@ -111,14 +98,11 @@ public class IdiscApp
     
     XLogger.getInstance().log(Level.INFO, "Done initializing app", getClass());
   }
-  
 
   public Configuration loadConfig(URL defaultFileLocation, URL fileLocation, char listDelimiter)
     throws ConfigurationException
   {
     XLogger.getInstance().log(Level.INFO, "Loading properties configuration. List delimiter: {0}\nDefault file: {1}\nFile: {2}", getClass(), Character.valueOf(listDelimiter), defaultFileLocation, fileLocation);
-    
-
 
     if (fileLocation == null) {
       throw new NullPointerException();

@@ -20,6 +20,10 @@ import javax.persistence.criteria.CriteriaQuery;
 
 public class EntityJsonFormat extends com.bc.util.JsonFormat
 {
+    
+  private static transient final Class cls = EntityJsonFormat.class;
+  private static transient final XLogger logger = XLogger.getInstance();
+  
   private boolean plainTextOnly;
   private int maxTextLength;
   private Map _m;
@@ -32,10 +36,12 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
   private EntityController<Site, Integer> _sc;
   private EntityController<Feedhit, Integer> _fhc;
   
+  public EntityJsonFormat() { }
+  
   private Map getReusedMap()
   {
     if (this._m == null) {
-      this._m = new HashMap(20, 0.75F);
+      this._m = new HashMap(32, 0.75F);
     } else {
       this._m.clear();
     }
@@ -45,27 +51,14 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
   private Map getReusedMap1()
   {
     if (this._m1 == null) {
-      this._m1 = new HashMap(20, 0.75F);
+      this._m1 = new HashMap(32, 0.75F);
     } else {
       this._m1.clear();
     }
     return this._m1;
   }
-  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  @Override
   public void appendJSONString(Object value, StringBuilder appendTo)
   {
     if ((value instanceof Feed)) {
@@ -101,8 +94,7 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     feeduserMap.put("commentList", null);
     feeduserMap.put("feedhitList", null);
     
-
-    XLogger.getInstance().log(Level.FINER, "Feeduser details: {0}", getClass(), feeduserMap);
+    logger.log(Level.FINER, "Feeduser details: {0}", cls, feeduserMap);
     
     if ((installations != null) && (!installations.isEmpty()))
     {
@@ -117,10 +109,9 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
       installationMap = null;
     }
     
-    XLogger.getInstance().log(Level.FINER, "Installation details: {0}", getClass(), installationMap);
+    logger.log(Level.FINER, "Installation details: {0}", cls, installationMap);
     
-    if (installationMap != null)
-    {
+    if (installationMap != null) {
 
       feeduserMap.putAll(installationMap);
     }
@@ -137,8 +128,6 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     Map map = toMap(feed, getReusedMap(), getReusedMap1());
     return map;
   }
-  
-
 
   private Map toMap(Feed feed, Map feedMap, Map siteMap)
   {
@@ -150,8 +139,6 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     feed.setContent(format(content));
     
     feed.setDescription(format(getPlainText(feed.getDescription())));
-    
-
 
     String imageUrl = feed.getImageurl();
     if (imageUrl == null) {
@@ -159,18 +146,12 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
       if (site != null) {
         feed.setImageurl(site.getIconurl());
       } else {
-        XLogger.getInstance().log(Level.WARNING, "No site found for feed:: id: {0}, author: {1}, title: {2}", getClass(), feed.getFeedid(), feed.getAuthor(), feed.getTitle());
+        logger.log(Level.WARNING, "No site found for feed:: id: {0}, author: {1}, title: {2}", 
+                cls, feed.getFeedid(), feed.getAuthor(), feed.getTitle());
       }
     }
-    
-
-
-
 
     feed.setCommentList(null);
-    
-
-
 
     long hitcount = getHitcount(feed);
     
@@ -206,9 +187,6 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     Installation installation = comment.getInstallationid();
     
     Feed feed = comment.getFeedid();
-    
-
-
 
     comment.setFeedid(null);
     comment.setInstallationid(null);
@@ -217,8 +195,6 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     comment.setCommentList(null);
     
     getCommentController().toMap(comment, commentMap, false);
-    
-
 
     Map feedMap = java.util.Collections.singletonMap("feedid", feed.getFeedid());
     
@@ -250,13 +226,11 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     if (installation != null)
     {
 
-
       installation.setBookmarkfeedList(null);
       installation.setCommentList(null);
       installation.setExtractedemailList(null);
       installation.setFavoritefeedList(null);
       installation.setFeedhitList(null);
-      installation.setUsersitehitcountList(null);
       
       installation.setFeeduserid(null);
       
@@ -281,11 +255,9 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     if (site != null)
     {
 
-
       site.setArchivedfeedList(null);
       site.setFeedList(null);
       site.setSitetypeid(null);
-      site.setUsersitehitcountList(null);
       
       getSiteController().toMap(site, siteMap, false);
     }
@@ -306,8 +278,7 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     {
       output = this.htmlParser.separator("\n\n").maxSeparators(1).comments(false).plainText(true).parse(s).toString();
     } catch (java.io.IOException e) {
-      XLogger.getInstance().log(Level.WARNING, "Error extracting plain text from: " + (s.length() <= 100 ? s : s.substring(0, 100)), getClass(), e);
-      
+      logger.log(Level.WARNING, "Error extracting plain text from: " + (s.length() <= 100 ? s : s.substring(0, 100)), cls, e);
       output = s;
     }
     return output;
@@ -316,14 +287,6 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
   public long getHitcount(Feed feed) {
     return getHitcount_2(feed);
   }
-  
-
-
-
-
-
-
-
 
   private long getHitcount_0(Feed feed)
   {

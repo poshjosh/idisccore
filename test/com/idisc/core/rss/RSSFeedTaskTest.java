@@ -45,8 +45,9 @@ public class RSSFeedTaskTest {
     public void testRun() {
 log("run");
     
-        XLogger.getInstance().setLogLevel(com.idisc.core.IdiscApp.class.getPackage().getName(), Level.FINER);
-        XLogger.getInstance().setLogLevelForConsoleHandlers(Level.FINER);
+        String packageLoggerName = com.idisc.core.IdiscApp.class.getPackage().getName();
+        XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
+        XLogger.getInstance().setLogLevel(packageLoggerName, Level.FINER);
         
         final RSSFeedTask instance = new RSSFeedTask(2, TimeUnit.MINUTES);
         

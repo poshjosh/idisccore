@@ -110,9 +110,9 @@ System.out.println("Returning");
 if(true) {
     ParseJob parseJob = new ParseJob();
     WebFeedCreator fc = new WebFeedCreator();
-System.out.println("A = " + fc.format(a, "null", 15, parseJob));    
-System.out.println("B = " + fc.format(b, "null", 15, parseJob));    
-System.out.println("C = " + fc.format(c, "null", 15, parseJob));    
+System.out.println("A = " + fc.format(a, "null", 15));    
+System.out.println("B = " + fc.format(b, "null", 15));    
+System.out.println("C = " + fc.format(c, "null", 15));    
     return;
 }            
             

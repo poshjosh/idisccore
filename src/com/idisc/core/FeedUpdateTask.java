@@ -17,7 +17,6 @@ import org.apache.commons.configuration.Configuration;
 public class FeedUpdateTask
   implements Runnable
 {
-  public static Level LOG_LEVEL = Level.FINER;
   private long _flt;
   
   public long getFeedLoadTimeoutSeconds() {

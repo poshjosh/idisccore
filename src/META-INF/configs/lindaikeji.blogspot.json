@@ -11,22 +11,12 @@
     "isTitleInUrl":true,
     "targetNode0":{
         "append":false,
-        "attributesRegex":{
-            "class":"published",
-            "itemprop":"datePublished",
-            "title":".+?"
+        "attributes":{
+            "class":"post-title entry-title",
+            "itemprop":"name"
         },
-        "attributesToExtract":["title"],
-        "columns":["feeddate"],
-        "nodeTypesToAccept":["tag"],
-        "nodesToRetainAttributes":["ABBR"],
-        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-footer'>","<div class='post-footer-line post-footer-line-1'>","<span class='post-timestamp'>","<A>","<abbr class='published' itemprop='datePublished' title='${@regex(.+?)}'>"],
-        "value":"ABBR"
-    },
-    "targetNode1":{
-        "append":false,
         "attributesRegex":{
-            "border":"0",
+            "border":".+?",
             "height":".+?",
             "src":".+?",
             "width":".+?"
@@ -35,51 +25,57 @@
         "columns":["imageurl"],
         "nodeTypesToAccept":["tag"],
         "nodesToRetainAttributes":["IMG"],
-        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-body entry-content' id='${@regex(.+?)}' itemprop='description articleBody'>","<div class=\"separator\" style=\"${@regex(.+?)}\">","<A>","<IMG>"],
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-body entry-content' id='${@regex(.+?)}' itemprop='description articleBody'>","<div class=\"separator\" style=\"${@regex(.+?)}\">","<A>","<IMG>"],
         "value":"IMG"
     },
-    "targetNode2":{
-        "append":false,
-        "columns":["feeddate"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<h2 class='date-header'>","<span>"],
-        "value":"SPAN"
-    },
-    "targetNode3":{
+    "targetNode1":{
         "append":false,
         "attributes":{
             "class":"post-title entry-title",
             "itemprop":"name"
         },
         "columns":["title"],
-        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'>"],
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'>"],
         "value":"H3"
     },
-    "targetNode4":{
+    "targetNode2":{
         "append":true,
         "attributes":{
-            "class":"post-header"
+            "class":"post-title entry-title",
+            "itemprop":"name"
         },
         "columns":["description"],
-        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'> <div class='post-header'>"],
+        "nodeTypesToAccept":["text"],
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <A> <h3 class='post-title entry-title' itemprop='name'>"],
+        "value":"H3"
+    },
+    "targetNode3":{
+        "append":false,
+        "attributesRegex":{
+            "id":"post-body-(.+?)"
+        },
+        "columns":["content"],
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <A> <h3 class='post-title entry-title' itemprop='name'> <div class='post-header'> <div class='post-body entry-content' id='post-body-${@regex(.+?)}' itemprop='description articleBody'>"],
         "value":"DIV"
+    },
+    "targetNode4":{
+        "append":false,
+        "attributes":{
+            "itemprop":"name"
+        },
+        "columns":["author"],
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-footer'>","<div class='${@regex(.+?)}'>","<span class='post-author vcard'>","<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http:\/\/schema.org\/Person'>","<A>","<span itemprop='name'>"],
+        "value":"SPAN"
     },
     "targetNode5":{
         "append":false,
-        "attributesRegex":{
-            "class":".+?",
-            "id":".+?",
-            "itemprop":".+?"
+        "attributes":{
+            "class":"date-header"
         },
-        "columns":["content"],
-        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'> <div class='post-header'> <div class='post-body entry-content' id='${@regex(.+?)}' itemprop='${@regex(.+?)}'>"],
-        "value":"DIV"
-    },
-    "targetNode6":{
-        "append":false,
-        "columns":["author"],
+        "columns":["feeddate"],
         "nodeTypesToAccept":["text"],
-        "transverse":["<HTML>","<BODY>","<div class='content'>","<div class='content-outer'>","<div class='fauxborder-left content-fauxborder-left'>","<div class='content-inner'>","<div class='main-outer'>","<div class='fauxborder-left main-fauxborder-left'>","<div class='region-inner main-inner'>","<div class='columns fauxcolumns'>","<div class='columns-inner'>","<div class='column-center-outer'>","<div class='column-center-inner'>","<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-footer'>","<div class='post-footer-line post-footer-line-1'>","<span class='post-author vcard'>","<span class='${@regex(.+?)}' itemprop='author' itemscope='${@regex(.+?)}' itemtype='http:\/\/schema.org\/Person'>","<meta content='${@regex(.+?)}' itemprop='url'\/> <A>"],
-        "value":"A"
+        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<h2 class='date-header'>"],
+        "value":"H2"
     },
     "url":{
         "_note":"http:\/\/lindaikeji.blogspot.com\/ redirects to http:\/\/lindaikejisblog.com\/",

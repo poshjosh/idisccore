@@ -28,6 +28,8 @@ import org.junit.Test;
  */
 public class CrawlerTest {
     
+    private final Level logLevel = Level.FINE;
+    
     @Test
     public void testCrawler() throws Exception {
         
@@ -56,8 +58,9 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
 //        app.init(false);
         
-        XLogger.getInstance().setLogLevel(com.idisc.core.IdiscApp.class.getPackage().getName(), Level.FINE);
-        XLogger.getInstance().setLogLevelForConsoleHandlers(Level.FINE);
+        String packageLoggerName = com.idisc.core.IdiscApp.class.getPackage().getName();
+        XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
+        XLogger.getInstance().setLogLevel(packageLoggerName, logLevel);
         
         ScrapperConfigFactory factory = app.getConfigFactory();
         

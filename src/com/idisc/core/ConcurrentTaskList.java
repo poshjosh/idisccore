@@ -69,7 +69,7 @@ public abstract class ConcurrentTaskList
     
     siteOffset += this.maxConcurrent;
 
-XLogger.getInstance().log(FeedUpdateTask.LOG_LEVEL, " Input: {0}\nOutput: {1}", this.getClass(), values, copy);
+XLogger.getInstance().log(Level.FINER, " Input: {0}\nOutput: {1}", this.getClass(), values, copy);
     return copy;
   }
   
@@ -84,7 +84,7 @@ XLogger.getInstance().log(FeedUpdateTask.LOG_LEVEL, " Input: {0}\nOutput: {1}", 
       distribute(siteNames);
     }
     
-    XLogger.getInstance().log(FeedUpdateTask.LOG_LEVEL, "Timeout: {0} minutes, Task count: {1}, max concurrent tasks: {2}", getClass(), Long.valueOf(this.timeoutMillis < 1000L ? 0L : TimeUnit.MILLISECONDS.toMinutes(this.timeoutMillis)), Integer.valueOf(siteNames.size()), Integer.valueOf(this.maxConcurrent));
+    XLogger.getInstance().log(Level.FINER, "Timeout: {0} minutes, Task count: {1}, max concurrent tasks: {2}", getClass(), Long.valueOf(this.timeoutMillis < 1000L ? 0L : TimeUnit.MILLISECONDS.toMinutes(this.timeoutMillis)), Integer.valueOf(siteNames.size()), Integer.valueOf(this.maxConcurrent));
     
     this.tasks = new StoppableTask[siteNames.size()];
     

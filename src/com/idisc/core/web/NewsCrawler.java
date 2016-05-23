@@ -6,7 +6,6 @@ import com.bc.jpa.fk.EnumReferences;
 import com.bc.json.config.JsonConfig;
 import com.bc.task.StoppableTask;
 import com.bc.util.XLogger;
-import com.idisc.core.FeedUpdateTask;
 import com.idisc.core.IdiscApp;
 import com.idisc.core.TaskHasResult;
 import com.idisc.core.Util;
@@ -18,19 +17,18 @@ import com.scrapper.config.Config;
 import com.scrapper.context.CapturerContext;
 import com.scrapper.util.PageNodes;
 import java.util.Collection;
-import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.configuration.Configuration;
 import org.htmlparser.NodeFilter;
 
-public class NewsCrawler
-  extends Crawler
+public class NewsCrawler extends Crawler
   implements TaskHasResult<Collection<Feed>>, StoppableTask
 {
   private final float tolerance;
+  private final Class cls;
+  private final XLogger logger;
   private final Sitetype sitetype;
   private final Collection<Feed> result;
-  private transient Feed feedToFind;
   private EntityController<Feed, Integer> ec_accessViaGetter;
   
   public NewsCrawler(JsonConfig config, Collection<Feed> resultsBuffer)
@@ -42,24 +40,28 @@ public class NewsCrawler
   {
     super(context);
     
-    XLogger.getInstance().log(Level.FINER, "Creating", getClass());
+    cls = this.getClass();
+    
+    logger = XLogger.getInstance();
+    
+    logger.log(Level.FINER, "Creating", cls);
     
     Configuration config = IdiscApp.getInstance().getConfiguration();
     
     this.tolerance = config.getFloat("dataComparisonTolerance", 0.0F);
     
-    XLogger.getInstance().log(Level.FINER, "Tolerance: {0}", getClass(), Float.valueOf(this.tolerance));
+    logger.log(Level.FINER, "Tolerance: {0}", cls, Float.valueOf(this.tolerance));
     
     this.result = resultsBuffer;
     setParseLimit(getLimit(Config.Extractor.parseLimit));
     setCrawlLimit(getLimit(Config.Extractor.crawlLimit));
     
-    XLogger.getInstance().log(Level.FINER, "Updated parse limit: {0}, crawl limit: {1}", getClass(), Integer.valueOf(getParseLimit()), Integer.valueOf(getCrawlLimit()));
+    logger.log(Level.FINER, "Updated parse limit: {0}, crawl limit: {1}", cls, Integer.valueOf(getParseLimit()), Integer.valueOf(getCrawlLimit()));
     
 
     EnumReferences refs = getControllerFactory().getEnumReferences();
     this.sitetype = ((Sitetype)refs.getEntity(References.sitetype.web));
-    XLogger.getInstance().log(Level.FINE, "Done creating: {0}", getClass(), this);
+    logger.log(Level.FINE, "Done creating: {0}", cls, NewsCrawler.this);
     
     setBatchInterval(0L);
   }
@@ -67,15 +69,10 @@ public class NewsCrawler
   @Override
   public boolean isInDatabase(String link)
   {
-    if (this.feedToFind == null) {
-      this.feedToFind = new Feed();
-    }
-    this.feedToFind.setUrl(link);
     EntityController<Feed, Integer> ec = getFeedController();
-    Map map = ec.toMap(this.feedToFind, false);
-    boolean found = ec.selectFirst(map) != null;
+    boolean found = ec.selectFirst("url", link) != null;
     if (found) {
-      XLogger.getInstance().log(FeedUpdateTask.LOG_LEVEL, "Link is already in database: {0}", getClass(), link);
+      logger.log(Level.FINER, "Link is already in database: {0}", cls, link);
     }
     return found;
   }
@@ -92,45 +89,52 @@ public class NewsCrawler
   @Override
   protected void doRun()
   {
-    int scrappLimit = getLimit(Config.Extractor.scrappLimit);
-    
-    int scrapped = 0;
-    
-    String baseUrl = getContext().getConfig().getString(new Object[] { "url", "value" });
-    NodeFilter imagesFilter = Util.createImagesFilter(baseUrl);
-    
-    WebFeedCreator feedCreator = new WebFeedCreator(getSitename(), this.sitetype);
-    feedCreator.setImagesFilter(imagesFilter);
-    feedCreator.setTolerance(this.tolerance);
-    
-    while ((hasNext()) && ((scrappLimit <= 0) || (scrapped < scrappLimit)))
-    {
-      if (isStopInitiated()) {
-        break;
-      }
-      
-      PageNodes pageNodes = next();
-      
-      XLogger.getInstance().log(Level.FINER, "PageNodes: {0}", getClass(), pageNodes);
-      
-      if ((pageNodes != null) && (pageNodes.getBody() != null) && 
-      
-        ((pageNodes.getTitle() == null) || (!pageNodes.getTitle().toPlainTextString().toLowerCase().contains("400 bad request"))) && 
+    logger.log(Level.FINER, "Running task {0} for {1}", cls, cls.getName(), this.getSitename());
 
-        (!pageNodes.getURL().equals(getStartUrl())))
-      {
-
-
-        Feed feed = feedCreator.createFeed(pageNodes);
+    try{
         
-        synchronized (this.result) {
-          XLogger.getInstance().log(FeedUpdateTask.LOG_LEVEL, "Adding Web Feed. Site {0}, author: {1}, title: {2}\nURL: {3}\nImage url: " + feed.getImageurl(), getClass(), feed.getSiteid() == null ? null : feed.getSiteid().getSite(), feed.getAuthor(), feed.getTitle(), feed.getUrl());
-          this.result.add(feed);
+        int scrappLimit = getLimit(Config.Extractor.scrappLimit);
+
+        int scrapped = 0;
+
+        String baseUrl = getContext().getConfig().getString(new Object[] { "url", "value" });
+        NodeFilter imagesFilter = Util.createImagesFilter(baseUrl);
+
+        WebFeedCreator feedCreator = new WebFeedCreator(getSitename(), this.sitetype);
+        feedCreator.setImagesFilter(imagesFilter);
+        feedCreator.setTolerance(this.tolerance);
+        
+        while ((hasNext()) && ((scrappLimit <= 0) || (scrapped < scrappLimit)))
+        {
+
+          if (isStopRequested()) {
+            break;
+          }
+
+          PageNodes pageNodes = next();
+
+          logger.log(Level.FINER, "PageNodes: {0}", cls, pageNodes);
+
+          if ((pageNodes != null) && (pageNodes.getBody() != null) && 
+            ((pageNodes.getTitle() == null) || (!pageNodes.getTitle().toPlainTextString().toLowerCase().contains("400 bad request"))) && 
+            (!pageNodes.getURL().equals(getStartUrl())))
+          {
+
+            Feed feed = feedCreator.createFeed(pageNodes);
+
+            synchronized (this.result) {
+              logger.log(Level.FINER, 
+                      "Adding Web Feed. Site {0}, author: {1}, title: {2}\nURL: {3}\nImage url: " + feed.getImageurl(), getClass(), feed.getSiteid() == null ? null : feed.getSiteid().getSite(), feed.getAuthor(), feed.getTitle(), feed.getUrl());
+              this.result.add(feed);
+            }
+
+            scrapped++;
+          }
         }
-        
-        scrapped++;
-      }
-    }
+    }finally{
+        logger.log(Level.FINE, "Site: {0}, number of feeds added: {1}", cls,
+                this.getSitename(), this.result == null ? null : this.result.size());
+    } 
   }
   
   @Override
@@ -150,7 +154,6 @@ public class NewsCrawler
     return IdiscApp.getInstance().getControllerFactory();
   }
   
-
   @Override
   public boolean isResumable()
   {

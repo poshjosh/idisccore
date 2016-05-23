@@ -1,11 +1,13 @@
 package com.idisc.core.web;
 
 import com.bc.task.StoppableTask;
+import com.bc.util.XLogger;
 import com.idisc.core.Setup;
 import com.scrapper.CapturerApp;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,6 +41,7 @@ public class WebFeedTaskTest {
     public void testRun() {
 System.out.println("run");
         final WebFeedTask instance = new WebFeedTask(120, TimeUnit.SECONDS);
+        instance.setMaxConcurrent(1);
         instance.run();
     }
 
@@ -48,17 +51,19 @@ System.out.println("run");
 //    @org.junit.Test
     public void testNewTask() {
 System.out.println("newTask");
+
+        int timeSeconds = 120;
         
-        final WebFeedTask instance = new WebFeedTask(60, TimeUnit.SECONDS);
+        final WebFeedTask instance = new WebFeedTask(timeSeconds, TimeUnit.SECONDS);
         String sitename = this.getSitename();
         sitename = "ngrguardiannews";
+        sitename = "bellanaija";
         
         final StoppableTask result = instance.createNewTask(sitename);
-        
-// Doesn't work        
-//XLogger.getInstance().setRootOnly(true);
-//XLogger.getInstance().setRootLoggerName("com.bc.ROOT");
-//XLogger.setLogLevel("com.bc.ROOT", Level.FINE);
+
+        String packageLoggerName = com.idisc.core.IdiscApp.class.getPackage().getName();
+        XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
+        XLogger.getInstance().setLogLevel(packageLoggerName, Level.FINE);
 
         final ScheduledExecutorService stopSvc = Executors.newSingleThreadScheduledExecutor();
         stopSvc.schedule(new Runnable(){
@@ -68,7 +73,7 @@ System.out.println("...................... Stopping");
                 result.stop();
                 com.bc.util.Util.shutdownAndAwaitTermination(stopSvc, 500, TimeUnit.MILLISECONDS);
             }
-        }, 60, TimeUnit.SECONDS);
+        }, timeSeconds, TimeUnit.SECONDS);
         
         result.run();
     }

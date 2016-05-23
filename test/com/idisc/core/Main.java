@@ -28,6 +28,10 @@ public class Main {
     public static void main(String [] args) {
         
         try{
+           System.out.println( 0 % 10); 
+if(true) {
+    return;
+}            
             
             String str = "/news/.+?/\\d{4,}";
             Pattern pn = Pattern.compile(str);
@@ -50,19 +54,6 @@ if(true) {
     return;
 }
             
-            IdiscApp app = IdiscApp.getInstance();
-            
-            app.setScrapperPropertiesFilename("META-INF/properties/idisccore_scrapper_devmode.properties");
-            
-            app.setPersistenceFilename("META-INF/persistence_remote.xml");
-            
-            app.init();
-            
-            new Updateusersitehitcounts().run();
-
-if(true) {
-    return;
-}            
 //            Configuration config = IdiscApp.getInstance().getConfiguration();
             
 //            FeedUpdateService svc = new FeedUpdateService();

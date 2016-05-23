@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -34,6 +35,25 @@ import org.htmlparser.util.NodeList;
 
 public class Util
 {
+    
+  public static void printFirstDateLastDateAndFeedIds(String key, List<Feed> feeds, Level level) {
+    if ((feeds != null) && (feeds.size() > 1)) {
+      Feed first = (Feed)feeds.get(0);
+      Feed last = (Feed)feeds.get(feeds.size() - 1);
+      XLogger.getInstance().log(level, "{0}. First feed, date: {1}. Last feed, date: {2}\n{3}", 
+              Util.class, key, first.getFeeddate(), last.getFeeddate(), toString(feeds));
+    }
+  }
+    
+  public static String toString(List<Feed> feeds)
+  {
+    StringBuilder ids = new StringBuilder();
+    for (Feed feed : feeds) {
+      ids.append(feed.getFeedid()).append(',');
+    }
+    return ids.toString();
+  }
+  
   public static Date getEarliestDate(Collection<Map> feeds, String dateColumnName)
   {
     Date earliestDate = null;
@@ -263,7 +283,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
   public static Site findSite(String sitename, Sitetype sitetype, boolean createIfNotExists)
   {
     EntityController<Site, ?> ec = IdiscApp.getInstance().getControllerFactory().getEntityController(Site.class);
-    
 
     Map map = new HashMap(2, 1.0F);
     if (sitename != null) {

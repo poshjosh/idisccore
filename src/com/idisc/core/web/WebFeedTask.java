@@ -5,7 +5,6 @@ import com.bc.task.StoppableTask;
 import com.bc.util.Util;
 import com.bc.util.XLogger;
 import com.idisc.core.ConcurrentTaskList;
-import com.idisc.core.FeedUpdateTask;
 import com.idisc.core.IdiscApp;
 import com.scrapper.CapturerApp;
 import java.util.ArrayList;
@@ -100,10 +99,14 @@ public class WebFeedTask extends ConcurrentTaskList
       }
       
     };
+
     String url = config.getString(new Object[] { "url", "start" });
     
     crawler.setStartUrl(url);
     
+XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}", 
+        this.getClass(), crawler.getClass().getName(), site);
+
     return crawler;
   }
   
@@ -153,8 +156,8 @@ public class WebFeedTask extends ConcurrentTaskList
         if (((task.isStarted()) && (!task.isCompleted()) && (timeSpent >= this.timePerTask)) || ((this.maxFailsAllowed > 0) && (failedCount > this.maxFailsAllowed)))
         {
 
-          if ((!task.isStopInitiated()) && (!future.isCancelled())) {
-            XLogger.getInstance().log(FeedUpdateTask.LOG_LEVEL, "Stopping task: {0}, Time spent: {1}, fails: {2}", getClass(), task.getTaskName(), Long.valueOf(timeSpent), Integer.valueOf(failedCount));
+          if ((!task.isStopRequested()) && (!future.isCancelled())) {
+            XLogger.getInstance().log(Level.FINER, "Stopping task: {0}, Time spent: {1}, fails: {2}", getClass(), task.getTaskName(), Long.valueOf(timeSpent), Integer.valueOf(failedCount));
             
             try
             {

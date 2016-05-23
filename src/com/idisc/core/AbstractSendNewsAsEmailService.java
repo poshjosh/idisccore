@@ -1,22 +1,5 @@
 package com.idisc.core;
 
-import com.bc.mailservice.Message;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 public abstract class AbstractSendNewsAsEmailService
   extends Service<AbstractSendNewsAsEmailTask>
   implements SendNewsAsEmailProperties
@@ -41,9 +24,14 @@ public abstract class AbstractSendNewsAsEmailService
         return AbstractSendNewsAsEmailService.this.getSenderPassword();
       }
       
-      public Message getEmailMessage() {
-        return AbstractSendNewsAsEmailService.this.getEmailMessage();
+      public String getMessage() {
+        return AbstractSendNewsAsEmailService.this.getMessage();
       }
+
+        @Override
+        public String getSubject() {
+            return AbstractSendNewsAsEmailService.this.getSubject();
+        }
     };
   }
   
