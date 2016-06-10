@@ -24,8 +24,7 @@ import javax.persistence.criteria.Root;
  * <b>Implements {@link java.lang.AutoCloseable} hence must be closed after use</b>
  * @author poshjosh
  */
-public class FeedComparator implements Comparator<Feed>, AutoCloseable
-{
+public class FeedComparator implements Comparator<Feed>, AutoCloseable {
     
   private boolean invertSort = true;
   private Map<Pattern, Integer> elite;
@@ -45,6 +44,10 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
     this.entityManager = IdiscApp.getInstance().getControllerFactory().getEntityManager(Feedhit.class);
     this.installation = installation;
   }  
+  
+  public boolean isOpen() {
+      return this.entityManager != null && this.entityManager.isOpen();
+  }
 
   @Override
   public void close() {
@@ -78,8 +81,7 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
     return time;
   }
 
-  protected long getAddedValueTime(Feed feed)
-  {
+  protected long getAddedValueTime(Feed feed) {
 
     long output = this.getAddedValueForFeedhits(feed);
     
@@ -117,8 +119,8 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
   }
   
   private long getAddedValueForFeedhits(Feed feed) {
-//long tb4 = System.currentTimeMillis();
-//long mb4 = Runtime.getRuntime().freeMemory();
+long tb4 = System.currentTimeMillis();
+long mb4 = Runtime.getRuntime().freeMemory();
 // This consumes a lot of memory      
 //    Long feedhits = this.count(Feedhit.class, "feedid", feed, false);
       
@@ -131,12 +133,9 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
     } else {
       output = 0L;
     }
-//this.logTimeAndMemoryConsumed("getAddedValueForFeedhits", tb4, mb4);
+this.logTimeAndMemoryConsumed("getAddedValueForFeedhits", tb4, mb4);
     return output;
   }
-  
-  private long user_totalhits = -1L;
-  private long numberOfSites = -1L;
   
   private final Map<Integer, Long> usersite_hitcounts = new HashMap<>();
   
@@ -144,31 +143,27 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
 
     long output = 0L;
     
-    if ((installation != null) && (site != null))
-    {
+    if (site != null) {
         
       Integer siteid = site.getSiteid();
       
-      if (!this.usersite_hitcounts.containsKey(siteid))
-      {
+      if (!this.usersite_hitcounts.containsKey(siteid)) {
 
-        Long appsitehits = this.countFeedhits(installation.getInstallationid(), siteid);
+        Long appsitehits = this.countFeedhits(installation==null?null:installation.getInstallationid(), siteid);
         
         this.usersite_hitcounts.put(siteid, appsitehits);
       }
       
       Long user_sitehits = this.usersite_hitcounts.get(siteid);
       
-      if (user_sitehits != null)
-      {
-        if (this.user_totalhits == -1L) {
-          initRequirements(installation);
-        }
+      if (user_sitehits != null) {
+          
+        long userTotalHits = installation == null ? 0L : this.getUserTotalHits(installation);
         long addedVal;
-        if ((user_sitehits == 0L) || (this.user_totalhits == 0L)) {
+        if ((user_sitehits == 0L) || (userTotalHits == 0L)) {
           addedVal = 0L;
         } else {
-          addedVal = user_sitehits / this.user_totalhits * this.numberOfSites * (getAddValuePerHit() * 4L);
+          addedVal = user_sitehits / userTotalHits * this.getNos() * (getAddValuePerHit() * 4L);
         }
         
         output = addedVal;
@@ -177,20 +172,22 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
     return output;
   }
 
-  private void initRequirements(Installation installation)
-  {
-//long tb4 = System.currentTimeMillis();
-//long mb4 = Runtime.getRuntime().freeMemory();
-    if(installation == null) {
-      throw new NullPointerException();
-    }
-
-    this.user_totalhits = this.count(Feedhit.class, "installationid", installation, false);
+  private long _uth = -1L;
+  private long getUserTotalHits(Installation installation) {
+    if(_uth == -1L) {
+      this._uth = this.count(Feedhit.class, "installationid", installation, false);
 // This consumes a lot of memory    
-//    this.user_totalhits = installation.getFeedhitList() == null ? 0L : installation.getFeedhitList().size();
-    
-    this.numberOfSites = this.count(Site.class);
-//this.logTimeAndMemoryConsumed("initRequirements", tb4, mb4);
+//      this._uth = installation.getFeedhitList() == null ? 0L : installation.getFeedhitList().size();
+    }
+    return _uth;
+  }
+  
+  private long _nos = -1L;
+  private long getNos() {
+    if(this._nos == -1L) {
+      this._nos = this.count(Site.class);
+    }
+    return this._nos;
   }
   
   protected int compareInts(int x, int y) { 
@@ -215,17 +212,30 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
   }
   
   private Long countFeedhits(Integer installationid, Integer siteid) { 
-//long tb4 = System.currentTimeMillis();
-//long mb4 = Runtime.getRuntime().freeMemory();
+    if(siteid == null) {
+        throw new NullPointerException();
+    }
+long tb4 = System.currentTimeMillis();
+long mb4 = Runtime.getRuntime().freeMemory();
     if(userSiteHitcountQuery == null) {
-      String queryString = "SELECT COUNT(t3.feedhitid) FROM site t0, installation t1, feed t2, feedhit t3 WHERE t0.siteid = ?1 AND t1.installationid = ?2 AND t2.siteid = ?3 AND t1.installationid = t3.installationid AND t2.feedid = t3.feedid";
+      String queryString;
+      if(installationid != null) {
+        queryString = "SELECT COUNT(t3.feedhitid) FROM site t0, installation t1, feed t2, feedhit t3 WHERE t0.siteid = ?1 AND t1.installationid = ?2 AND t2.siteid = ?3 AND t1.installationid = t3.installationid AND t2.feedid = t3.feedid";
+      }else{
+        queryString = "SELECT COUNT(t2.feedhitid) FROM site t0, feed t1, feedhit t2 WHERE t0.siteid = ?1 AND t1.siteid = ?2 AND t1.feedid = t2.feedid";  
+      }
       userSiteHitcountQuery = entityManager.createNativeQuery(queryString);
     }
-    userSiteHitcountQuery.setParameter(1, siteid);
-    userSiteHitcountQuery.setParameter(2, installationid);
-    userSiteHitcountQuery.setParameter(3, siteid);
+    if(installationid != null) {
+      userSiteHitcountQuery.setParameter(1, siteid);
+      userSiteHitcountQuery.setParameter(2, installationid);
+      userSiteHitcountQuery.setParameter(3, siteid);
+    }else{
+      userSiteHitcountQuery.setParameter(1, siteid);
+      userSiteHitcountQuery.setParameter(2, siteid);
+    }
     Long output = (Long)userSiteHitcountQuery.getSingleResult();
-//this.logTimeAndMemoryConsumed("countFeedHits", tb4, mb4);
+this.logTimeAndMemoryConsumed("countFeedHits", tb4, mb4);
     return output;
   }
   
@@ -272,8 +282,11 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable
     this.elite = elite;
   }
 
-//  private void logTimeAndMemoryConsumed(String key, long tb4, long mb4) {
-//System.out.println(key+". consumed time: "+
-//(System.currentTimeMillis()-tb4)+", memory: "+(mb4-Runtime.getRuntime().freeMemory()));        
-//  }
+  private void logTimeAndMemoryConsumed(String key, long tb4, long mb4) {
+    if(true) {
+      return;
+    }
+System.out.println(key+". consumed time: "+
+(System.currentTimeMillis()-tb4)+", memory: "+(mb4-Runtime.getRuntime().freeMemory()));        
+  }
 }

@@ -5,7 +5,6 @@ import com.bc.jpa.EntityController;
 import com.bc.jpa.JPQL;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Comment;
-import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Installation;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,11 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-
-
-
-public class CommentNotification
-{
+public class CommentNotification {
   public static List<Map<String, Object>> getNotifications(Installation installation, EntityJsonFormat jsonFormat, boolean directReplies, int maxAgeDays)
   {
     ControllerFactory cf = IdiscApp.getInstance().getControllerFactory();

@@ -14,9 +14,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.apache.commons.configuration.Configuration;
 
-public class FeedUpdateTask
-  implements Runnable
-{
+public class FeedUpdateTask  implements Runnable {
+    
   private long _flt;
   
   public long getFeedLoadTimeoutSeconds() {
@@ -28,17 +27,17 @@ public class FeedUpdateTask
     return this._flt;
   }
   
-
   @Override
-  public void run()
-  {
-    downloadFeeds();
+  public void run() {
+      
+    this.downloadFeeds();
     
-    archiveFeeds();
+    this.archiveFeeds();
+    
+    this.updateFeedCache();
   }
 
-  public boolean downloadFeeds()
-  {
+  public boolean downloadFeeds(){
     try
     {
       long feedLoadTimeoutSeconds = getFeedLoadTimeoutSeconds();
@@ -69,16 +68,15 @@ public class FeedUpdateTask
       }
       
       return true;
-    }
-    catch (Exception e)
-    {
+      
+    }catch (Exception e) {
+        
       XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e);
     }
     return false;
   }
   
-  public int archiveFeeds()
-  {
+  public int archiveFeeds() {
     try
     {
       Configuration config = IdiscApp.getInstance().getConfiguration();
@@ -88,11 +86,20 @@ public class FeedUpdateTask
       int batchSize = config.getInt("archiveBatchSize");
       
       return new FeedArchiver().archiveFeeds(maxAge, TimeUnit.DAYS, batchSize);
-    }
-    catch (RuntimeException e)
-    {
+    }catch (RuntimeException e) {
       XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e);
     }
     return 0;
   }
+
+  public boolean updateFeedCache() {
+    try {
+      new FeedCache().updateCache();
+      return true;
+    } catch (RuntimeException e) {
+      XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e); 
+    }
+    return false;
+  }
+
 }

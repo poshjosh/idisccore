@@ -55,8 +55,8 @@ public class CrawlerSingleUrlTest extends IdiscTestBase {
 //        site = "dailytrust";
 //        site = "punchng";
 //        site = "channelstv_headlines";
-//        site = "bellanaija";
-        site = "lindaikeji.blogspot";
+        site = "bellanaija";
+//      site = "lindaikeji.blogspot";
         return site;
     }
     
@@ -204,17 +204,20 @@ log("Target:\n"+(target==null?null:target.toHtml(false)));
         switch(site) {
             case "bellanaija":
                 urls = new String[]{
-                    "https://www.bellanaija.com/2016/03/ty-bello-is-bimpe-onakoyas-biggest-fan-read-her-inspiring-story-on-the-makeup-maestro/",
-                    "https://www.bellanaija.com/2015/06/09/designer-deola-sagoe-is-a-vision-in-gold-in-her-own-piece/"
+                    "https://www.bellanaija.com/2016/06/get-inspired-with-forbes-list-of-amercias-richest-self-made-women-oprah-winfrey-beyonce-taylor-swift-sheryl-sandberg-more/"//,
+//                    "https://www.bellanaija.com/2016/03/ty-bello-is-bimpe-onakoyas-biggest-fan-read-her-inspiring-story-on-the-makeup-maestro/",
+//                    "https://www.bellanaija.com/2015/06/09/designer-deola-sagoe-is-a-vision-in-gold-in-her-own-piece/"
                 };
                 break;
             case "lindaikeji.blogspot":
                 urls = new String []{
-                    "http://www.lindaikejisblog.com/2016/04/manny-pacquiao-beefs-up-security-after.html",
-                    "http://www.lindaikejisblog.com/2016/04/former-nollywood-actress-anita-hogan.html",
-                    "http://www.lindaikejisblog.com/2015/06/dear-lib-readers-my-wife-complains-that.html",
-                    "http://www.lindaikejisblog.com/2015/06/photos-femi-otedolas-daughter-graduates.html",
-                    "http://www.lindaikejisblog.com/2015/06/former-miss-mississippis-boobs-rots.html"
+                    "http://www.lindaikejisblog.com/2016/05/okonjo-iweala-reacts-to-reports-that.html",
+                    "http://www.lindaikejisblog.com/2016/05/comedian-elenu-and-his-wife-jane-join.html"
+//                    "http://www.lindaikejisblog.com/2016/04/manny-pacquiao-beefs-up-security-after.html",
+//                    "http://www.lindaikejisblog.com/2016/04/former-nollywood-actress-anita-hogan.html",
+//                    "http://www.lindaikejisblog.com/2015/06/dear-lib-readers-my-wife-complains-that.html",
+//                    "http://www.lindaikejisblog.com/2015/06/photos-femi-otedolas-daughter-graduates.html",
+//                    "http://www.lindaikejisblog.com/2015/06/former-miss-mississippis-boobs-rots.html"
                 };
                 break;
             case "naij":

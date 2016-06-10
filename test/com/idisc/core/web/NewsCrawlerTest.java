@@ -2,7 +2,9 @@ package com.idisc.core.web;
 
 import com.bc.json.config.JsonConfig;
 import com.bc.util.Util;
+import com.idisc.core.FeedResultUpdater;
 import com.idisc.core.Setup;
+import com.idisc.pu.entities.Feed;
 import com.scrapper.CapturerApp;
 import com.scrapper.util.PageNodes;
 import java.util.ArrayList;
@@ -43,15 +45,23 @@ public class NewsCrawlerTest {
         
         System.out.println("run");
         String site = "lindaikeji.blogspot";
-        site = "dailytrust";
-        site = "bellanaija";
+//        site = "dailytrust";
+//        site = "bellanaija";
         
         NewsCrawler instance = this.createCrawler(site);
-//        String link = this.getLink(site);
-//System.out.println("To be crawled: "+instance.isToBeCrawled(link)+", link: "+link);
-//        link = this.getLink(site);
-//System.out.println("To be crawled: "+instance.isToBeCrawled(link)+", link: "+link);
+        
+        instance.setCrawlLimit(100);
+        instance.setParseLimit(30);
+        
         instance.run();
+        
+        final Collection<Feed> result = instance.getResult();
+        
+System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Results: "+(result==null?null:result.size()));
+
+        final int updated = new FeedResultUpdater().process(instance.getTaskName(), result);
+        
+System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Updated: "+updated);
     }
     
     private String getLink(String site) {
@@ -90,7 +100,7 @@ public class NewsCrawlerTest {
             @Override
             public boolean isToBeCrawled(String link) {
                 boolean b = super.isToBeCrawled(link); 
-System.out.println("Is to be crawled: "+b+", link: "+link);                
+if(b) System.out.println("Is to be crawled: "+b+", link: "+link);                
                 return b;
             }
 
@@ -111,7 +121,7 @@ System.out.println("Url: "+url+", nodes: "+(list==null?null:list.size()));
             @Override
             public boolean hasNext() {
                 boolean b = super.hasNext();
-System.out.println("Has next: "+b);                
+//System.out.println("Has next: "+b);                
                 return b;
             }
             @Override

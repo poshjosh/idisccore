@@ -21,8 +21,8 @@ import org.htmlparser.NodeFilter;
 import org.htmlparser.tags.MetaTag;
 import org.htmlparser.tags.TitleTag;
 
-public class WebFeedCreator
-{
+public class WebFeedCreator {
+    
   private boolean allowOpenEnded;
   private int defaultSpaces = 1;
   
@@ -33,9 +33,12 @@ public class WebFeedCreator
   private NodeFilter imagesFilter;
   private StringBuilder _sb;
   private ParseJob _pj;
+  private final SimpleDateFormat simpleDateFormat;
+
   private final NodeExtractor extractor;
   
   public WebFeedCreator() {
+    simpleDateFormat = new SimpleDateFormat();  
     extractor = new NodeExtractor();
   }
     
@@ -51,6 +54,7 @@ public class WebFeedCreator
     }
     
     this.site = site;
+    this.simpleDateFormat = new SimpleDateFormat();
     this.extractor = new NodeExtractor();
   }
   
@@ -145,12 +149,11 @@ public class WebFeedCreator
         datePatterns == null ? null : Arrays.toString(datePatterns));
             
             if(datePatterns != null && datePatterns.length != 0) {
-                SimpleDateFormat df = new SimpleDateFormat();
                 for(String pattern:datePatterns) {
-                    df.applyPattern(pattern);
+                    simpleDateFormat.applyPattern(pattern);
                     try{
                         
-                        feeddate = df.parse(dateStr);
+                        feeddate = simpleDateFormat.parse(dateStr);
                         
                         xlog.log(Level.FINER, "Parsed date: {0}", cls, feeddate);
 

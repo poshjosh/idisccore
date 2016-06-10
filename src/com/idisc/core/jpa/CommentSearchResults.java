@@ -19,7 +19,7 @@ import java.util.Date;
  * </ul>
  * @author poshjosh
  */
-public class CommentSearchResults extends BaseSearchResults<Comment> {
+public class CommentSearchResults extends SearchResultsImpl<Comment> {
 
     public CommentSearchResults() {
         this(null, 20);

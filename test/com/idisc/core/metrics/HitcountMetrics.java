@@ -1,13 +1,9 @@
 package com.idisc.core.metrics;
 
-import com.bc.jpa.ControllerFactory;
-import com.bc.jpa.EntityController;
-import com.idisc.core.IdiscApp;
+import com.idisc.core.FeedHitcountComparator;
 import com.idisc.core.Setup;
+import com.idisc.core.FeedSelector;
 import com.idisc.pu.entities.Feed;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -22,74 +18,50 @@ public class HitcountMetrics {
             
             Setup.setupApp();
             
-            HitcountMetrics metrics = new HitcountMetrics();
+            FeedSelector feedSelector = new FeedSelector();
             
-            metrics.execute(1000, 100, 100, 200);
-            
-        }catch(Throwable t) {
-            
-            t.printStackTrace();
-        }
-        
-    }
-    
-    public void execute(int max, int batch, int metricsSize, int maxContentLen) {
-log(this.getClass().getName()+"#exectue(int, int, int, int)");        
-        try{
-            
-            ControllerFactory factory = IdiscApp.getInstance().getControllerFactory();
-            
-            EntityController<Feed, Integer> ec = factory.getEntityController(Feed.class, Integer.class);
-            
-            int offset = 0;
-            
-            List<Feed> feeds = new ArrayList<>(max);
-            
-            do{
-                
-                List<Feed> found = ec.find(batch, offset);
-                
-                final int feed_count = this.sizeOf(found);
-                
-log("Batch size: %1d, offset: %2d, results: %3d", batch, offset, feed_count);                
-                if(feed_count < 1) {
-                    break;
-                }
-                
-                feeds.addAll(found);
-                
-                offset += feed_count;
-                
-            }while(offset < max);
-            
-            Collections.sort(feeds, Collections.reverseOrder(new FeedHitcountComparator()));
-            
-            final int size = feeds.size() < metricsSize ? feeds.size() : metricsSize;
-            for(int i=0; i<size; i++) {
+            final int maxAgeDays = 7;
 
-                Feed feed = feeds.get(i);
-print(i, feed, maxContentLen);                
-            }
+            List<Feed> selected = feedSelector.getList(maxAgeDays, -1, 1000);
+log("Selected %s feeds", selected==null?null:selected.size());            
+            
+            List<Feed> outputList = feedSelector.sort(selected, new FeedHitcountComparator(true), 10); 
+
+for(Feed feed:outputList) {
+    System.out.print(sizeOf(feed.getFeedhitList())+", ");
+}            
+System.out.println();
+            
+int i = 0;            
+for(Feed feed:outputList) {
+    print(i++, feed, 150);
+}            
+            
+//            ToHtml<List<Feed>> listHtml = new FeedListTableHtml("http://www.looseboxes.com", "/idisc", "/images/appicon.png");
+            
+//            String outputStr = listHtml.toHtml(outputList);
+            
+//System.out.println(outputStr);
+
         }catch(Throwable t) {
             
             t.printStackTrace();
         }
     }
     
-    private class FeedHitcountComparator implements Comparator<Feed> {
-        @Override
-        public int compare(Feed f1, Feed f2) {
-            int c1 = sizeOf(f1.getFeedhitList());
-            int c2 = sizeOf(f2.getFeedhitList());
-            return Integer.compare(c1, c2);
-        }
+    private static void print(int serial, Feed feed, int maxContentLen) {
+log("Serial=%d, Feedid=%d, Site=%s, Hitcount=%d, Feeddate=%s, Categories=%s\nTitle=%s, Url=%s, ImageUrl=%s\n%s\n", 
+        serial, feed.getFeedid(), feed.getSiteid().getSite(), sizeOf(feed.getFeedhitList()), 
+        feed.getFeeddate(), feed.getCategories(), 
+        feed.getTitle(), feed.getUrl(), feed.getImageurl(),
+        truncate(feed.getContent(), maxContentLen, true));        
     }
     
-    private int sizeOf(List list) {
+    private static int sizeOf(List list) {
         return list == null ? 0 : list.size();
     }
     
-    private String truncate(String str, int maxLen, boolean ellipsize) {
+    private static String truncate(String str, int maxLen, boolean ellipsize) {
         String output;
         if(str == null || str.isEmpty() || str.length() <= maxLen) {
             output = str;
@@ -100,19 +72,11 @@ print(i, feed, maxContentLen);
         return output;
     }
     
-    private void print(int serial, Feed feed, int maxContentLen) {
-log("Serial=%d, Feedid=%d, Site=%s, Hitcount=%d, Feeddate=%s, Categories=%s\nTitle=%s, Url=%s, ImageUrl=%s\n%s\n", 
-        serial, feed.getFeedid(), feed.getSiteid().getSite(), this.sizeOf(feed.getFeedhitList()), 
-        feed.getFeeddate(), feed.getCategories(), 
-        feed.getTitle(), feed.getUrl(), feed.getImageurl(),
-        truncate(feed.getContent(), maxContentLen, true));        
-    }
-    
-    private void log(String format, Object... format_args) {
+    private static void log(String format, Object... format_args) {
         log(String.format(format, format_args));
     }
 
-    private void log(Object msg) {
+    private static void log(Object msg) {
         System.out.println(new Date()+". "+msg);
     }
 }

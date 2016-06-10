@@ -32,18 +32,10 @@ import org.htmlparser.NodeFilter;
 import org.htmlparser.Tag;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.util.NodeList;
+import com.bc.jpa.PersistenceMetaData;
 
 public class Util
 {
-    
-  public static void printFirstDateLastDateAndFeedIds(String key, List<Feed> feeds, Level level) {
-    if ((feeds != null) && (feeds.size() > 1)) {
-      Feed first = (Feed)feeds.get(0);
-      Feed last = (Feed)feeds.get(feeds.size() - 1);
-      XLogger.getInstance().log(level, "{0}. First feed, date: {1}. Last feed, date: {2}\n{3}", 
-              Util.class, key, first.getFeeddate(), last.getFeeddate(), toString(feeds));
-    }
-  }
     
   public static String toString(List<Feed> feeds)
   {
@@ -70,7 +62,7 @@ public class Util
     return earliestDate;
   }
   
-  public static Date getEarliestDate(Collection<Feed> feeds) {
+  public static <E extends Feed> Date getEarliestDate(Collection<E> feeds) {
     Date earliestDate = null;
     for (Feed feed : feeds) {
       Date date = feed.getFeeddate() == null ? feed.getDatecreated() : feed.getFeeddate();
@@ -209,8 +201,25 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     
     return truncate(toTruncate, len);
   }
+
+  private static int [] feedColumnsDisplaySizes;
+  public static int getColumnDisplaySize(Class tableClass, String columnName) {
+    int [] displaySizes;
+    PersistenceMetaData metaData = IdiscApp.getInstance().getControllerFactory().getMetaData();  
+    if(tableClass == Feed.class) {
+      if(feedColumnsDisplaySizes == null) {
+        // Round trips to the database  
+        feedColumnsDisplaySizes = metaData.getColumnDisplaySizes(tableClass);
+      }
+      displaySizes = feedColumnsDisplaySizes;
+    }else{
+      displaySizes = metaData.getColumnDisplaySizes(tableClass);
+    }
+    int displaySize = displaySizes[metaData.getColumnIndex(tableClass, columnName)];
+    return displaySize;
+  }  
   
-  public static int getColumnDisplaySize(Class tableClass, String columnName) { 
+  public static int getColumnDisplaySize_Old(Class tableClass, String columnName) {
     int len;
     if (tableClass == Feed.class) { 
       if ((columnName.equals("rawid")) || (columnName.equals("author"))) {

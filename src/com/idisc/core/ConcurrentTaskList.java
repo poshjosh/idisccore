@@ -17,8 +17,8 @@ import java.util.logging.Level;
 import org.apache.commons.configuration.Configuration;
 
 public abstract class ConcurrentTaskList
-  implements Serializable, Distributor<String>, TaskHasResult<Collection<Feed>>
-{
+  implements Serializable, Distributor<String>, TaskHasResult<Collection<Feed>> {
+    
   private boolean acceptDuplicates;
   private long timeoutMillis;
   private int maxConcurrent;
@@ -26,12 +26,10 @@ public abstract class ConcurrentTaskList
   private Future[] futures;
   private Collection<Feed> result;
   private boolean randomize;
-  private static int siteOffset;
   
   public ConcurrentTaskList() {}
   
-  public ConcurrentTaskList(long timeout, TimeUnit timeUnit)
-  {
+  public ConcurrentTaskList(long timeout, TimeUnit timeUnit) {
     this.timeoutMillis = timeUnit.toMillis(timeout);
     IdiscApp app = IdiscApp.getInstance();
     Configuration config = app.getConfiguration();
@@ -53,28 +51,8 @@ public abstract class ConcurrentTaskList
     }
   }
   
-  @Override
-  public List<String> distribute(List<String> values)
-  {
-    List<String> copy = new ArrayList(values);
-    
-    if (this.randomize)
-    {
-      Collections.shuffle(copy);
+  protected void doRun() {
       
-      return copy;
-    }
-    
-    Collections.rotate(copy, siteOffset);
-    
-    siteOffset += this.maxConcurrent;
-
-XLogger.getInstance().log(Level.FINER, " Input: {0}\nOutput: {1}", this.getClass(), values, copy);
-    return copy;
-  }
-  
-  protected void doRun()
-  {
     ExecutorService es = Executors.newFixedThreadPool(this.maxConcurrent);
     
     List<String> siteNames = getTaskNames();
@@ -161,9 +139,5 @@ XLogger.getInstance().log(Level.FINER, " Input: {0}\nOutput: {1}", this.getClass
   
   public void setResult(Collection<Feed> result) {
     this.result = result;
-  }
-  
-  public static int getDistributionOffet() {
-    return siteOffset;
   }
 }

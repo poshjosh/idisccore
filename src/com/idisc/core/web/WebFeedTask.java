@@ -8,6 +8,7 @@ import com.idisc.core.ConcurrentTaskList;
 import com.idisc.core.IdiscApp;
 import com.scrapper.CapturerApp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,16 +19,38 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.apache.commons.configuration.Configuration;
 
-public class WebFeedTask extends ConcurrentTaskList
-{
-  public WebFeedTask(long timeout, TimeUnit timeUnit)
-  {
+public class WebFeedTask extends ConcurrentTaskList {
+    
+  private static int siteOffset;
+  
+  public WebFeedTask(long timeout, TimeUnit timeUnit) {
     super(timeout, timeUnit);
   }
   
   @Override
-  protected void beforeShutdown()
-  {
+  public List<String> distribute(List<String> values) {
+      
+    List<String> copy = new ArrayList(values);
+    
+    if (this.isRandomize()) {
+        
+      Collections.shuffle(copy);
+      
+      return copy;
+    }
+    
+    Collections.rotate(copy, siteOffset);
+    
+XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Input: {2}\nOutput: {3}", 
+        this.getClass(), values.size(), siteOffset, values, copy);
+    
+    siteOffset += this.getMaxConcurrent();
+
+    return copy;
+  }
+  
+  @Override
+  protected void beforeShutdown() {
     IdiscApp app = IdiscApp.getInstance();
     Configuration config = app.getConfiguration();
     int maxFailsAllowed = config.getInt("maxFailsAllowedPerSite", 5);

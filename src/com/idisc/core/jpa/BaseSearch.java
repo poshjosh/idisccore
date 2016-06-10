@@ -43,8 +43,8 @@ public class BaseSearch<T> implements Search<T> {
   }
   
     @Override
-  public List<T> select(String toFind, Date after, int offset, int limit)
-  {
+  public List<T> select(String toFind, Date after, int offset, int limit) {
+      
     long mb4 = Runtime.getRuntime().freeMemory();
     long tb4 = System.currentTimeMillis();
 
@@ -60,8 +60,7 @@ public class BaseSearch<T> implements Search<T> {
 XLogger.getInstance().log(Level.FINE, "Expected: {0}, retreived {1} items from database. Consumed memory: {2}, time: {3}", 
         getClass(), limit, selected == null ? null : Integer.valueOf(selected.size()), mb4 - Runtime.getRuntime().freeMemory(), System.currentTimeMillis() - tb4);
     }
-    finally
-    {
+    finally{
       em.close();
     }
 XLogger.getInstance().log(Level.FINE, "Selected {0} items for query: {1}, offset: {2}, limit: {3}", 

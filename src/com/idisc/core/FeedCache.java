@@ -6,18 +6,15 @@ import com.idisc.core.jpa.FeedSearch;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-public class FeedCache 
-{
+public class FeedCache {
+    
   private static List<Feed> cachedFeeds;
-  
-  private static Map<Integer, CharSequence> cachedFeedsJson;
   
   private static long lastTime;
   
@@ -43,58 +40,54 @@ public class FeedCache
     return lastTime <= 0L ? 0L : System.currentTimeMillis() - lastTime;
   }
   
-  public boolean updateCache()
-  {
+  public boolean updateCache() {
+      
+XLogger.getInstance().entering(this.getClass(), "#updateCache()", "");
+      
     int cacheLimit = getCacheLimit();
     
     List<Feed> feeds = new FeedSearch().select(null, null, 0, cacheLimit * 2);
     
-    if ((feeds == null) || (feeds.isEmpty())) {
+XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds==null?null:feeds.size());
+
+    if (feeds == null || feeds.isEmpty()) {
       return false;
     }
     
-    try
-    {
-      Util.printFirstDateLastDateAndFeedIds("BEFORE SORT", feeds, Level.FINER);
+    try{
+        
+      this.printFirstDateLastDateAndFeedIds(Level.FINER, "BEFORE SORT", feeds);
       
-      if (!this.isRearrangeOutput())
-      {
+      if (!this.isRearrangeOutput()) {
         cachedFeeds = feeds.size() <= cacheLimit ? feeds : feeds.subList(0, cacheLimit);
-      }
-      else
-      {
+      }else{
         cachedFeeds = ensureEquality(feeds, cacheLimit);
       }
     } catch (Exception e) {
-      XLogger.getInstance().log(Level.WARNING, "Error apply distribution logic to feeds", getClass(), e);
+      XLogger.getInstance().log(Level.WARNING, "Error applying distribution logic to feeds", getClass(), e);
       cachedFeeds = feeds.size() <= cacheLimit ? feeds : feeds.subList(0, cacheLimit);
-    }finally{
-      if(cachedFeedsJson == null) {
-        cachedFeedsJson = new HashMap<>(cachedFeeds.size(), 1.0f);
-      }else{
-        cachedFeedsJson.clear();
-      }  
     }
 
-    XLogger.getInstance().log(Level.FINE, "Updated cache with {0} feeds", getClass(), cachedFeeds == null ? null : Integer.valueOf(cachedFeeds.size()));
-    Util.printFirstDateLastDateAndFeedIds("AFTER UPDATING CACHE", feeds, Level.FINER);
+    XLogger.getInstance().log(Level.FINE, "Updated cache with {0} feeds", 
+    getClass(), cachedFeeds == null ? null : Integer.valueOf(cachedFeeds.size()));
+    
+    this.printFirstDateLastDateAndFeedIds(Level.FINER, "AFTER UPDATING CACHE", feeds);
     
     lastTime = System.currentTimeMillis();
     
     return true;
   }
   
-  protected List<Feed> ensureEquality(List<Feed> feeds, int outputSize)
-  {
-    Util.printFirstDateLastDateAndFeedIds("BEFORE REARRANGE", feeds, Level.FINER);
+  protected List<Feed> ensureEquality(List<Feed> feeds, int outputSize) {
+      
+    this.printFirstDateLastDateAndFeedIds(Level.FINER, "BEFORE REARRANGE", feeds);
     
     FeedFrequency ff = new FeedFrequency(feeds);
     int numOfSites = ff.getSiteCount();
 
     final int multiple = 2;
     
-    if ((outputSize > numOfSites) && (feeds.size() > numOfSites * multiple))
-    {
+    if ((outputSize > numOfSites) && (feeds.size() > numOfSites * multiple)) {
       int ave = outputSize / numOfSites;
       if (ave < 1) {
         ave = 1;
@@ -162,22 +155,40 @@ public class FeedCache
         feeds.addAll(appendAtEnd);
       }
       
-      Util.printFirstDateLastDateAndFeedIds("AFTER REARRANGE", feeds, Level.FINER);
+      this.printFirstDateLastDateAndFeedIds(Level.FINER, "AFTER REARRANGE", feeds);
     }
     
     return feeds.size() <= outputSize ? feeds : feeds.subList(0, outputSize);
   }
 
-  public static boolean isCachedFeedsAvailable()
-  {
+  public static boolean isCachedFeedsAvailable(){
     return (cachedFeeds != null) && (!cachedFeeds.isEmpty());
   }
   
-  public static List<Feed> getCachedFeeds() {
-    return cachedFeeds;
+  public static int size() {
+    return isCachedFeedsAvailable() ? cachedFeeds.size() : 0;
   }
 
-  public static Map<Integer, CharSequence> getCachedFeedsJson() {
-    return cachedFeedsJson;
+  public static List<Feed> getCachedFeeds() {
+    return getCachedFeeds(size());
+  }
+  
+  public static List<Feed> getCachedFeeds(int limit) {
+    List<Feed> output;
+    if(!isCachedFeedsAvailable()) {
+      output = Collections.EMPTY_LIST;
+    }else{
+      output = new ArrayList(size() <= limit ? cachedFeeds : cachedFeeds.subList(0, limit));
+    }
+    return output;
+  }
+
+  private void printFirstDateLastDateAndFeedIds(Level level, String key, List<Feed> feeds) {
+    if (XLogger.getInstance().isLoggable(level, this.getClass()) && (feeds != null) && (feeds.size() > 1)) {
+      Feed first = (Feed)feeds.get(0);
+      Feed last = (Feed)feeds.get(feeds.size() - 1);
+      XLogger.getInstance().log(level, "{0}. First feed, date: {1}. Last feed, date: {2}\n{3}", 
+              this.getClass(), key, first.getFeeddate(), last.getFeeddate(), Util.toString(feeds));
+    }
   }
 }

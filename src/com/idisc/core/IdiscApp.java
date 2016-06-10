@@ -30,8 +30,7 @@ public class IdiscApp
   private static IdiscApp instance;
   private ControllerFactory _cf;
   
-  protected IdiscApp()
-  {
+  protected IdiscApp(){
     this.persistenceFilename = "META-INF/persistence.xml";
     this.scrapperPropertiesFilename = "META-INF/properties/idisccore_scrapper.properties";
   }

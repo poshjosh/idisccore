@@ -24,8 +24,8 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
   private static transient final Class cls = EntityJsonFormat.class;
   private static transient final XLogger logger = XLogger.getInstance();
   
-  private boolean plainTextOnly;
-  private int maxTextLength;
+  private final boolean plainTextOnly;
+  private final int maxTextLength;
   private Map _m;
   private Map _m1;
   private ParseJob htmlParser;
@@ -36,10 +36,16 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
   private EntityController<Site, Integer> _sc;
   private EntityController<Feedhit, Integer> _fhc;
   
-  public EntityJsonFormat() { }
+  public EntityJsonFormat() {  
+    this(false, 1000);
+  }
   
-  private Map getReusedMap()
-  {
+  public EntityJsonFormat(boolean plainTextOnly, int maxTextLength) {  
+    this.plainTextOnly = plainTextOnly;
+    this.maxTextLength = maxTextLength;
+  }
+  
+  private Map getReusedMap() {
     if (this._m == null) {
       this._m = new HashMap(32, 0.75F);
     } else {
@@ -399,19 +405,11 @@ public class EntityJsonFormat extends com.bc.util.JsonFormat
     return IdiscApp.getInstance().getControllerFactory();
   }
   
-  public boolean isPlainTextOnly() {
+  public final boolean isPlainTextOnly() {
     return this.plainTextOnly;
   }
   
-  public void setPlainTextOnly(boolean plainTextOnly) {
-    this.plainTextOnly = plainTextOnly;
-  }
-  
-  public int getMaxTextLength() {
+  public final int getMaxTextLength() {
     return this.maxTextLength;
-  }
-  
-  public void setMaxTextLength(int maxTextLength) {
-    this.maxTextLength = maxTextLength;
   }
 }

@@ -19,7 +19,7 @@ import java.util.Date;
  * </ul>
  * @author poshjosh
  */
-public class FeedSearchResults extends BaseSearchResults<Feed> {
+public class FeedSearchResults extends SearchResultsImpl<Feed> {
     
     public FeedSearchResults() {
         this(null, 20);

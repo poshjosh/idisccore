@@ -30,8 +30,5 @@ public class JsoupLauncher {
         
         Elements jelems = jdoc.getElementsByTag("DIV");
         
-        
-        
-        
     }
 }

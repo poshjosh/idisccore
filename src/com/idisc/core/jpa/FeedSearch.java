@@ -1,6 +1,5 @@
 package com.idisc.core.jpa;
 
-import com.idisc.pu.entities.Comment;
 import com.idisc.pu.entities.Feed;
 import java.util.Date;
 import javax.persistence.EntityManager;
@@ -17,17 +16,18 @@ import org.eclipse.persistence.annotations.BatchFetchType;
 public class FeedSearch extends BaseSearch<Feed> {
 
   public FeedSearch() {
+      
     super(Feed.class, new String[]{ "title", "keywords", "description", "content" }, "feeddate");
   }
 
   @Override
   protected void addOrderBy(CriteriaBuilder cb, CriteriaQuery<Feed> query, Root<Feed> root) {
+      
     query.orderBy(new Order[] { cb.desc(root.get("feeddate")) });
   }
     
   @Override
-  public TypedQuery<Feed> createTypedQuery(EntityManager em, String toFind, Date after)
-  {
+  public TypedQuery<Feed> createTypedQuery(EntityManager em, String toFind, Date after) {
 
       TypedQuery<Feed> typedQuery = super.createTypedQuery(em, toFind, after);
  
