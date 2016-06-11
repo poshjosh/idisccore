@@ -27,13 +27,21 @@ public class ListCharIterator<E> implements CharIterator, Serializable {
         this.buffer = new StringBuilder(bufferSize);
     }
     
-    public CharSequence getChars(E element) {
-        return String.valueOf(element);
+    protected void appendChars(StringBuilder appendTo, E element) {
+        appendTo.append(String.valueOf(element));
     }
     
     @Override
     public boolean hasNext() {
-        return next(false) != CharacterIterator.DONE;
+        return this.hasNextListItem() || this.hasNextBufferChar();
+    }
+    
+    protected boolean hasNextListItem() {
+        return (nextInList < list.size());
+    }
+    
+    protected boolean hasNextBufferChar() {
+        return (nextInBuffer < buffer.length());
     }
 
     @Override
@@ -41,30 +49,36 @@ public class ListCharIterator<E> implements CharIterator, Serializable {
         return next(true);
     }
     
-    private char next(boolean increment) {
+    protected char next(boolean increment) {
+        
 //System.out.println("Increment: "+increment+", list offset: "+nextInList+", buffer offset: "+nextInBuffer+", bufferSize: "+buffer.length());        
-        if(nextInList >= list.size() && nextInBuffer >= buffer.length()) {
+        if(!this.hasNext()) {
+            
             return CharacterIterator.DONE;
         }
+        
         if(buffer.length() == 0) {
-            E element = this.nextElement(increment);
-            buffer.append(getChars(element));
-            nextInBuffer = 0;
+            
+            E element = increment ? list.get(nextInList++) : list.get(nextInList);
+            
+            this.appendChars(buffer, element);
+            
 //System.out.println("= = = = = = = = = = Buffer refilled");            
         }else{
+            
             if(nextInBuffer >= buffer.length()) {
+                
                 buffer.setLength(0);
+                
+                nextInBuffer = 0;
 //System.out.println("= = = = = = = = = = Buffer cleared now recursing");                
-                ++nextInList;
+                
                 return next(increment);
             }
         }
+        
         char next = increment ? buffer.charAt(nextInBuffer++) : buffer.charAt(nextInBuffer);
 //System.out.println("Next: " + next + ", increment: "+increment+", list offset: "+nextInList+", buffer offset: "+nextInBuffer+", bufferSize: "+buffer.length());        
         return next;
-    }
-    
-    protected E nextElement(boolean increment) {
-        return increment ? list.get(nextInList++) : list.get(nextInList);
     }
 }

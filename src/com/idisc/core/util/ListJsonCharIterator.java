@@ -8,10 +8,10 @@ import java.util.List;
  * @author Josh
  */
 public class ListJsonCharIterator<E> extends ListCharIterator<E> {
+    
+    private boolean doneFirst;
 
     private final JsonFormat jsonFormat;
-    
-    private final StringBuilder listItemBuffer;
     
     public ListJsonCharIterator(List<E> list) {
         this(list, 1024, new EntityJsonFormat());
@@ -19,15 +19,37 @@ public class ListJsonCharIterator<E> extends ListCharIterator<E> {
 
     public ListJsonCharIterator(List<E> list, int bufferSize, JsonFormat jsonFormat) {
         super(list, bufferSize);
+        if(list == null || list.isEmpty()) {
+            throw new UnsupportedOperationException();
+        }
         this.jsonFormat = jsonFormat;
-        this.listItemBuffer = new StringBuilder(bufferSize);
     }
 
+    /**
+     * This method is overriden to construct the output in a json format
+     * @param appendTo
+     * @param listItem 
+     */
     @Override
-    public CharSequence getChars(E listItem) {
-        this.listItemBuffer.setLength(0);
-        this.jsonFormat.appendJSONString(listItem, listItemBuffer);
-        return this.listItemBuffer;
+    protected void appendChars(StringBuilder appendTo, E listItem) {
+        
+        if(!doneFirst) {
+            
+            doneFirst = true;
+            
+            appendTo.append('[');
+            
+        }else{
+            
+            appendTo.append(',').append(' ');
+        }
+        
+        this.jsonFormat.appendJSONString(listItem, appendTo);
+        
+        if(!this.hasNextListItem()) {
+         
+            appendTo.append(']');
+        }
     }
     
     public final JsonFormat getJsonFormat() {
