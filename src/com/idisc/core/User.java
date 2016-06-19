@@ -4,6 +4,7 @@ import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.jpa.exceptions.PreexistingEntityException;
 import com.bc.util.XLogger;
+import com.idisc.core.util.EntityMapBuilder;
 import com.idisc.pu.entities.Country;
 import com.idisc.pu.entities.Feeduser;
 import com.idisc.pu.entities.Gender;
@@ -70,7 +71,7 @@ XLogger.getInstance().log(Level.FINE, "User: {0}", User.class, output);
     XLogger.getInstance().log(Level.FINER, "Authentication details: {0}", getClass(), this.authdetails);
     Map output = new HashMap(40, 0.75F);
     output.putAll(this.authdetails);
-    Map feeduserdetails = new EntityJsonFormat().toMap(this.delegate);
+    Map feeduserdetails = new EntityMapBuilder().toMap(this.delegate);
     output.putAll(feeduserdetails);
     return output;
   }

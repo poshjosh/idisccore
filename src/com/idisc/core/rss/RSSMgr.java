@@ -56,7 +56,7 @@ public class RSSMgr
     
     ArrayList<SyndFeed> feeds = new ArrayList();
     
-    SyndFeedFormatter feedFmt = new SyndFeedFormatter();
+    RSSFeedFormatter feedFmt = new RSSFeedFormatter();
     
     for (String localFeedFilePath : localFeedFilePaths)
     {

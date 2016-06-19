@@ -1,7 +1,7 @@
 package com.idisc.core.twitter;
 
 import com.bc.util.XLogger;
-import com.idisc.core.Util;
+import com.idisc.core.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

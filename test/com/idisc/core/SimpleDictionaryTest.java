@@ -1,5 +1,6 @@
 package com.idisc.core;
 
+import com.idisc.core.util.SimpleDictionary;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

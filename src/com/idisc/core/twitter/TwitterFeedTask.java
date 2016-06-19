@@ -8,7 +8,7 @@ import com.bc.util.XLogger;
 import com.idisc.core.web.WebFeedCreator;
 import com.idisc.core.IdiscApp;
 import com.idisc.core.TaskHasResult;
-import com.idisc.core.Util;
+import com.idisc.core.util.Util;
 import com.idisc.pu.References;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;

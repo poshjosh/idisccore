@@ -2,6 +2,8 @@ package com.idisc.core;
 
 import com.idisc.pu.entities.Feed;
 import com.bc.jpa.EntityController;
+import com.idisc.core.util.StringUtil;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -10,6 +12,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.htmlparser.util.Translate;
 
 /**
  * @(#)Main.java   03-Nov-2014 08:34:36
@@ -26,8 +29,16 @@ import javax.persistence.criteria.Root;
 public class Main {
     
     public static void main(String [] args) {
+        //    \xF0\x9F\x98\x95\xF0\x9F
+        String tgt = "\\xF0\\x9F\\x8C\\xBB";
+        tgt = Character.toString('\u00a3');
         
         try{
+System.out.println("Input: "+tgt+", encode: "+Translate.encode(tgt)+", unescapeHtml3: "+StringUtil.unescapeHtml3(tgt)+", escape: "+Util.escape(tgt));         
+System.out.println("Input: "+tgt+", decode: "+Translate.decode(tgt)+", unescapeHtml3: "+StringUtil.unescapeHtml3(tgt)+", escape: "+Util.escape(tgt));         
+if(true) {
+    return;
+}            
            System.out.println( 0 % 10); 
 if(true) {
     return;

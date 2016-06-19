@@ -53,15 +53,15 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
   protected void beforeShutdown() {
     IdiscApp app = IdiscApp.getInstance();
     Configuration config = app.getConfiguration();
-    int maxFailsAllowed = config.getInt("maxFailsAllowedPerSite", 5);
-    long timePerTask = getTimePerTask(config, getMaxConcurrent());
+    final int maxFailsAllowed = config.getInt("maxFailsAllowedPerSite", 9);
+    final long timeoutPerSiteSeconds = getTimePerSiteSeconds(config, getMaxConcurrent());
     final long timeoutMillis = getTimeoutMillis();
-    if ((timePerTask > 0L) && (timePerTask < timeoutMillis)) {
+    if ((timeoutPerSiteSeconds > 0L) && (timeoutPerSiteSeconds < timeoutMillis)) {
       boolean scheduled = false;
       final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
       try {
-        TaskTerminator terminator = new TaskTerminator(timePerTask, maxFailsAllowed);
-        long interval = timePerTask / getTaskNames().size();
+        TaskTerminator terminator = new TaskTerminator(timeoutPerSiteSeconds, maxFailsAllowed);
+        long interval = timeoutPerSiteSeconds / getTaskNames().size();
         if (interval < 1000L) {
           interval = 1000L;
         }
@@ -82,7 +82,7 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
     }
   }
   
-  private long getTimePerTask(Configuration config, int maxConcurrent) {
+  private long getTimePerSiteSeconds(Configuration config, int maxConcurrent) {
     long __timePerTaskSeconds = config.getLong("timeoutPerSiteSeconds", computeDefaultTimePerTask(maxConcurrent));
     long timePerTask = TimeUnit.SECONDS.toMillis(__timePerTaskSeconds);
     return timePerTask;
@@ -166,24 +166,26 @@ XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}",
       }
     }
     
-    private void process(NewsCrawler task, Future future)
-    {
+    private void process(NewsCrawler task, Future future) {
+        
       try {
-        long timeSpent = System.currentTimeMillis() - task.getStartTime();
+          
+        final long timeSpent = System.currentTimeMillis() - task.getStartTime();
         
-        Set<String> failed = task.getFailed();
+        final Set<String> failed = task.getFailed();
         
-        int failedCount = failed == null ? 0 : failed.size();
-        XLogger.getInstance().log(Level.FINE, "Task: {0}, fails: {1}", getClass(), task.getTaskName(), failedCount);
+        final int failedCount = failed == null ? 0 : failed.size();
         
-        if (((task.isStarted()) && (!task.isCompleted()) && (timeSpent >= this.timePerTask)) || ((this.maxFailsAllowed > 0) && (failedCount > this.maxFailsAllowed)))
-        {
+        XLogger.getInstance().log(Level.FINER, "Task: {0}, fails: {1}", getClass(), task.getTaskName(), failedCount);
+        
+        if (((task.isStarted()) && (!task.isCompleted()) && (timeSpent >= this.timePerTask)) || ((this.maxFailsAllowed > 0) && (failedCount > this.maxFailsAllowed))) {
 
           if ((!task.isStopRequested()) && (!future.isCancelled())) {
-            XLogger.getInstance().log(Level.FINER, "Stopping task: {0}, Time spent: {1}, fails: {2}", getClass(), task.getTaskName(), Long.valueOf(timeSpent), Integer.valueOf(failedCount));
+              
+            XLogger.getInstance().log(Level.FINE, "Stopping task: {0}, Time spent: {1}, fails: {2}", 
+                    getClass(), task.getTaskName(), timeSpent, failedCount);
             
-            try
-            {
+            try {
               task.stop();
             } finally {
               future.cancel(true);

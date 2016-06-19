@@ -1,6 +1,8 @@
 package com.idisc.core.util;
 
+import com.idisc.core.characteriterator.ListJsonCharIterator;
 import com.bc.util.JsonFormat;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -33,7 +35,7 @@ public class ListJsonCharIteratorTest extends UtilTestBase {
     public void tearDown() { }
 
     @Test
-    public void testAll() {
+    public void testAll() throws IOException {
         Map [] arr = {
             Collections.singletonMap(0, Boolean.FALSE),
             Collections.singletonMap(1, 1),

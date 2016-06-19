@@ -1,5 +1,6 @@
 package com.idisc.core;
 
+import com.idisc.core.util.StringUtil;
 import com.idisc.core.web.WebFeedCreator;
 import com.bc.htmlparser.ParseJob;
 import com.bc.io.CharFileIO;

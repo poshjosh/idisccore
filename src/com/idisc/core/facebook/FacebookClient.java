@@ -2,7 +2,7 @@ package com.idisc.core.facebook;
 
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
-import com.idisc.core.Util;
+import com.idisc.core.util.Util;
 import com.restfb.BinaryAttachment;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.Parameter;

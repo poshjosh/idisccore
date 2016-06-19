@@ -16,15 +16,11 @@ import org.apache.commons.configuration.Configuration;
 
 public class FeedUpdateTask  implements Runnable {
     
-  private long _flt;
-  
-  public long getFeedLoadTimeoutSeconds() {
-    if (this._flt < 1L) {
-      Configuration config = IdiscApp.getInstance().getConfiguration();
-      this._flt = config.getLong("timeoutPerTaskSeconds", 300L);
-      XLogger.getInstance().log(Level.FINE, "Feed load timeout: {0} seconds", getClass(), Long.valueOf(this._flt));
-    }
-    return this._flt;
+  public long getFeedLoadTimeoutSeconds(String key) {
+    Configuration config = IdiscApp.getInstance().getConfiguration();
+    long flt = config.getLong(key, 180L);
+    XLogger.getInstance().log(Level.FINE, "Feed load timeout: {0} seconds", getClass(), flt);
+    return flt;
   }
   
   @Override
@@ -38,30 +34,29 @@ public class FeedUpdateTask  implements Runnable {
   }
 
   public boolean downloadFeeds(){
-    try
-    {
-      long feedLoadTimeoutSeconds = getFeedLoadTimeoutSeconds();
+    try {
       
       Map<String, TaskHasResult<Collection<Feed>>> tasks = new HashMap(3, 1.0F);
       
-      tasks.put("Web Feeds", new WebFeedTask(feedLoadTimeoutSeconds, TimeUnit.SECONDS));
-      tasks.put("RSS Feeds", new RSSFeedTask(feedLoadTimeoutSeconds, TimeUnit.SECONDS));
+      final long webTimeout = this.getFeedLoadTimeoutSeconds(AppProperties.WEB_TIMEOUT_PER_TASK_SECONDS);
+      final long rssTimeout = this.getFeedLoadTimeoutSeconds(AppProperties.RSS_TIMEOUT_PER_TASK_SECONDS);
+      
+      tasks.put("Web Feeds", new WebFeedTask(webTimeout, TimeUnit.SECONDS));
+      tasks.put("RSS Feeds", new RSSFeedTask(rssTimeout, TimeUnit.SECONDS));
       
       ExecutorService es = Executors.newFixedThreadPool(tasks.size());
-      try
-      {
+      try {
         for (TaskHasResult task : tasks.values()) {
           es.submit(task);
         }
-      }
-      finally {
-        Util.shutdownAndAwaitTermination(es, feedLoadTimeoutSeconds, TimeUnit.SECONDS);
+      } finally {
+        Util.shutdownAndAwaitTermination(es, Math.max(webTimeout, rssTimeout), TimeUnit.SECONDS);
       }
       
       FeedResultUpdater updater = new FeedResultUpdater();
       
-      for (String name : tasks.keySet())
-      {
+      for (String name : tasks.keySet()) {
+          
         TaskHasResult<Collection<Feed>> task = (TaskHasResult)tasks.get(name);
         
         updater.process(name, (Collection)task.getResult());
@@ -77,8 +72,8 @@ public class FeedUpdateTask  implements Runnable {
   }
   
   public int archiveFeeds() {
-    try
-    {
+    try {
+        
       Configuration config = IdiscApp.getInstance().getConfiguration();
       
       long maxAge = config.getLong("maxFeedAgeDays");
@@ -86,6 +81,7 @@ public class FeedUpdateTask  implements Runnable {
       int batchSize = config.getInt("archiveBatchSize");
       
       return new FeedArchiver().archiveFeeds(maxAge, TimeUnit.DAYS, batchSize);
+      
     }catch (RuntimeException e) {
       XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e);
     }
@@ -101,5 +97,4 @@ public class FeedUpdateTask  implements Runnable {
     }
     return false;
   }
-
 }

@@ -54,7 +54,7 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
   public StoppableTask createNewTask(String feedName)
   {
     XLogger.getInstance().entering(this.getClass(), "createNewTask(String)", feedName);
-    StoppableTask task = new DownloadSyndFeedTask(
+    StoppableTask task = new RSSFeedDownloadTask(
             feedName, this.feedProperties.getProperty(feedName), 
             this.isAcceptDuplicates(), this.getResult());
     return task;

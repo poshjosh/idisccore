@@ -42,8 +42,7 @@ public abstract class ConcurrentTaskList
   public abstract List<String> getTaskNames();
   
   @Override
-  public final void run()
-  {
+  public final void run() {
     try {
       doRun();
     } catch (Exception e) {
@@ -57,9 +56,9 @@ public abstract class ConcurrentTaskList
     
     List<String> siteNames = getTaskNames();
     
-    if (this.maxConcurrent < siteNames.size())
-    {
-      distribute(siteNames);
+    if (this.maxConcurrent < siteNames.size()) {
+        
+      siteNames = distribute(siteNames);
     }
     
     XLogger.getInstance().log(Level.FINER, "Timeout: {0} minutes, Task count: {1}, max concurrent tasks: {2}", getClass(), Long.valueOf(this.timeoutMillis < 1000L ? 0L : TimeUnit.MILLISECONDS.toMinutes(this.timeoutMillis)), Integer.valueOf(siteNames.size()), Integer.valueOf(this.maxConcurrent));

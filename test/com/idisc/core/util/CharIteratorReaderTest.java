@@ -1,5 +1,7 @@
 package com.idisc.core.util;
 
+import com.idisc.core.characteriterator.ListCharIterator;
+import com.idisc.core.characteriterator.CharIteratorReader;
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.io.StringReader;

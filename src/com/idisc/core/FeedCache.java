@@ -1,5 +1,6 @@
 package com.idisc.core;
 
+import com.idisc.core.util.Util;
 import com.bc.util.IntegerArray;
 import com.bc.util.XLogger;
 import com.idisc.core.jpa.FeedSearch;

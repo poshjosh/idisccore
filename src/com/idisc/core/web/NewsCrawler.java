@@ -8,7 +8,7 @@ import com.bc.task.StoppableTask;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
 import com.idisc.core.TaskHasResult;
-import com.idisc.core.Util;
+import com.idisc.core.util.Util;
 import com.idisc.pu.References;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Sitetype;
@@ -132,7 +132,7 @@ public class NewsCrawler extends Crawler
           }
         }
     }finally{
-        logger.log(Level.FINE, "Site: {0}, number of feeds added: {1}", cls,
+        logger.log(Level.FINE, "Site: {0}, added: {1} feeds", cls,
                 this.getSitename(), this.result == null ? null : this.result.size());
     } 
   }

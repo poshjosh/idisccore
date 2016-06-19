@@ -1,5 +1,6 @@
 package com.idisc.core;
 
+import com.idisc.core.util.BatchIterator;
 import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.util.XLogger;

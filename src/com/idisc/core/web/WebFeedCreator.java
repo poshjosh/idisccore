@@ -3,7 +3,7 @@ package com.idisc.core.web;
 import com.bc.htmlparser.ParseJob;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
-import com.idisc.core.Util;
+import com.idisc.core.util.Util;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;

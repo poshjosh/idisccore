@@ -1,5 +1,6 @@
 package com.idisc.core;
 
+import com.bc.jpa.ControllerFactory;
 import com.bc.json.config.JsonConfig;
 import com.bc.webdatex.locator.TagLocator;
 import com.idisc.core.web.NewsCrawler;
@@ -55,8 +56,8 @@ public class CrawlerSingleUrlTest extends IdiscTestBase {
 //        site = "dailytrust";
 //        site = "punchng";
 //        site = "channelstv_headlines";
-        site = "bellanaija";
-//      site = "lindaikeji.blogspot";
+//        site = "bellanaija";
+      site = "lindaikeji.blogspot";
         return site;
     }
     
@@ -118,6 +119,10 @@ log(false, "Image URL: "+feed.getImageurl());
 log(false, "Description: "+feed.getDescription());
 log(false, "Content: "+feed.getContent());
         }
+        
+        ControllerFactory cf = this.getIdiscApp().getControllerFactory();
+        
+        cf.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
     }
     
     private void extractSingleNode(String site, String key, boolean preLocateTarget) throws ParserException {

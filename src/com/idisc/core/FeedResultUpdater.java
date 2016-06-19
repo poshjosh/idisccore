@@ -1,12 +1,11 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
+import com.idisc.core.util.Util;
 import com.bc.jpa.EntityController;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Feed;
-import com.idisc.pu.entities.Site;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,45 +13,28 @@ import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-
-
-
-
-
-
-
-
-
-
-public class FeedResultUpdater
-{
-  private EntityController<Feed, Integer> _fc;
-  
-  public int process(Map<String, Collection<Feed>> allResults)
-  {
-    XLogger.getInstance().log(Level.FINER, "Saving feeds.", getClass());
+public class FeedResultUpdater {
     
-    EntityController<Feed, Integer> ec = getFeedController();
+  public int process(Map<String, Collection<Feed>> allResults) {
+      
+    XLogger.getInstance().log(Level.FINER, "Saving feeds.", getClass());
     
     int created = 0;
     
-    for (String taskName : allResults.keySet())
-    {
+    for (String taskName : allResults.keySet())  {
       Collection<Feed> taskResults = (Collection)allResults.get(taskName);
       
-      if ((taskResults != null) && (!taskResults.isEmpty()))
-      {
-
+      if ((taskResults != null) && (!taskResults.isEmpty())) {
 
         created += process(taskName, taskResults);
       }
     }
-    XLogger.getInstance().log(Level.FINE, "Saved {0} feeds", getClass(), Integer.valueOf(created));
+    XLogger.getInstance().log(Level.FINE, "Saved {0} feeds", getClass(), created);
     return created;
   }
   
-  public int process(String taskName, Collection<Feed> taskResults)
-  {
+  public int process(String taskName, Collection<Feed> taskResults) {
+      
     XLogger.getInstance().log(Level.FINE, "Task: {0}, has {1} results.", getClass(), taskName, taskResults == null ? null : Integer.valueOf(taskResults.size()));
     
 
@@ -64,32 +46,21 @@ public class FeedResultUpdater
     
     EntityManager em = getFeedController().getEntityManager();
     
-    Iterator<Feed> iter = taskResults.iterator();
+    // Use a copy to prevent concurrent modification exception
+    //
+    Iterator<Feed> iter = new ArrayList(taskResults).iterator();
     
     Feed reusedFeedParams = new Feed();
     
     Date dateCreated = new Date();
     
-    try
-    {
-      int count = 0;
-      
-      while (iter.hasNext())
-      {
-
-        Feed toCreate = null;
-        try {
-          toCreate = (Feed)iter.next();
-        } catch (ConcurrentModificationException e) {
-          count++; if (count > 100) {
-            XLogger.getInstance().log(Level.WARNING, "WARNING::BUG", getClass(), e);
-            break;
-          }
-        }
+    try {
         
-        if (toCreate != null)
-        {
+      while (iter.hasNext()) {
 
+        Feed toCreate = (Feed)iter.next();
+        
+        if (toCreate != null) {
 
           boolean updated = update(em, reusedFeedParams, toCreate, dateCreated);
           
@@ -100,29 +71,24 @@ public class FeedResultUpdater
       }
       XLogger.getInstance().log(Level.FINE, "Created {0} records for task: {1}.", getClass(), Integer.valueOf(created), taskName);
 
-    }
-    catch (Exception e)
-    {
+    }catch (Exception e) {
       XLogger.getInstance().log(Level.WARNING, "Unexpected error updating feeds of type: " + taskName, getClass(), e);
-    }
-    finally
-    {
+    } finally {
       em.close();
     }
     
     return created;
   }
   
-  private boolean update(EntityManager em, Feed reusedFeedParams, Feed toCreate, Date dateCreated)
-  {
+  private boolean update(EntityManager em, Feed reusedFeedParams, Feed toCreate, Date dateCreated) {
     boolean output = false;
     
     EntityTransaction t = null;
     
-    try
-    {
-      if (!Util.isInDatabase(getFeedController(), reusedFeedParams, toCreate))
-      {
+    try {
+        
+      if (!Util.isInDatabase(getFeedController(), reusedFeedParams, toCreate)) {
+          
         t = em.getTransaction();
         
         t.begin();
@@ -136,11 +102,7 @@ public class FeedResultUpdater
         
         output = true;
       }
-      
-
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       XLogger.getInstance().logSimple(Level.WARNING, getClass(), e);
     } finally {
       if ((t != null) && (t.isActive())) {
@@ -162,8 +124,8 @@ public class FeedResultUpdater
     return builder.toString();
   }
   
-  private EntityController<Feed, Integer> getFeedController()
-  {
+  private EntityController<Feed, Integer> _fc;
+  private EntityController<Feed, Integer> getFeedController() {
     if (this._fc == null) {
       this._fc = IdiscApp.getInstance().getControllerFactory().getEntityController(Feed.class, Integer.class);
     }

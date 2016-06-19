@@ -18,17 +18,8 @@ import org.htmlparser.Tag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
-
-
-
-
-
-
-
-
-
-public class NodeExtractor
-{
+public class NodeExtractor {
+    
   private float tolerance;
   private String sitename;
   private String[] dp_accessViaGetter;
@@ -36,14 +27,13 @@ public class NodeExtractor
   
   public NodeExtractor() {}
   
-  public NodeExtractor(float tolerance, String sitename)
-  {
+  public NodeExtractor(float tolerance, String sitename){
     this.tolerance = tolerance;
     this.sitename = sitename;
   }
   
-  public Map<String, String> extract(PageNodes pageNodes)
-  {
+  public Map<String, String> extract(PageNodes pageNodes) {
+      
     Map<String, String> output = null;
     
     CapturerContext context = getContext();
@@ -52,7 +42,7 @@ public class NodeExtractor
       throw new NullPointerException();
     }
     
-    int MAX = 10;
+    final int MAX = 20;
     
     for (int i = 0; i < 10; i++)
     {
@@ -86,7 +76,6 @@ public class NodeExtractor
         
         entry = newEntry("content", targetNodes.toHtml());
         
-
         i = 10;
       }
       
@@ -97,29 +86,22 @@ public class NodeExtractor
       output.put(entry.getKey(), entry.getValue());
     }
     
-
     return output;
   }
   
-
-
-
-
   public Map.Entry<String, String> extract(PageNodes pageNodes, int index)
-    throws ParserException
-  {
+    throws ParserException {
+      
     CapturerContext context = getContext();
     
-    String name = "targetNode" + index;
+    final String name = "targetNode" + index;
     
     Object targetProps = context.getConfig().getObject(new Object[] { name });
     
-    if (targetProps == null)
-    {
+    if (targetProps == null) {
       throw new NullPointerException();
     }
     
-
     MultipleNodesExtractorIx pageExtractor = context.getExtractor();
     
     com.bc.webdatex.extractor.NodeExtractor nodeExtractor = pageExtractor.getExtractor(name);
@@ -132,11 +114,10 @@ public class NodeExtractor
     
     Tag targetNode = tagLocator.getTarget();
     
-    if (targetNode != null)
-    {
+    if (targetNode != null) {
+        
       XLogger.getInstance().log(Level.FINER, "Found directly: {0} = {1}", getClass(), name, targetNode.toTagHtml());
       
-
       NodeList targetNodes = new NodeList();
       targetNodes.add(targetNode);
       
@@ -152,8 +133,8 @@ public class NodeExtractor
     String key = context.getSettings().getColumns(name)[0];
     String val = nodeExtractor.getExtract().toString();
     
-
     XLogger.getInstance().log(Level.FINER, "Extracted: {0}={1}", getClass(), key, val);
+    
     return newEntry(key, val);
   }
   
