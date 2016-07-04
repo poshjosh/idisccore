@@ -1,7 +1,6 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
-import com.bc.jpa.JPQL;
+import com.bc.jpa.query.JPQL;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Feed;
 import java.io.Serializable;
@@ -14,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import com.bc.jpa.JpaContext;
 
 /**
  * @author Josh
@@ -53,7 +53,7 @@ public class FeedSelector implements Serializable {
     
     public List<Feed> getList(Date maxAge, int maxSpread, int batchSize) {
         
-        ControllerFactory factory = IdiscApp.getInstance().getControllerFactory();
+        JpaContext factory = IdiscApp.getInstance().getJpaContext();
 
         JPQL<Feed> jpql = factory.getJpql(Feed.class);
 

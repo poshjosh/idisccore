@@ -1,7 +1,6 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
-import com.bc.jpa.JPQL;
+import com.bc.jpa.query.JPQL;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Comment;
 import com.idisc.pu.entities.Installation;
@@ -20,13 +19,14 @@ import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import com.bc.jpa.JpaContext;
 
 public class CommentNotificationsBuilder {
     
   public List<Map<String, Object>> build(
       Installation installation, boolean directRepliesOnly, int maxAgeDays, boolean repeat) {
       
-    ControllerFactory cf = IdiscApp.getInstance().getControllerFactory();
+    JpaContext cf = IdiscApp.getInstance().getJpaContext();
     
     EntityManager em = cf.getEntityManager(Comment.class);
     
@@ -136,7 +136,7 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
   
   public List<Comment> getComments(EntityManager em, Installation installation, int maxAgeDays) {
       
-    ControllerFactory cf = IdiscApp.getInstance().getControllerFactory();
+    JpaContext cf = IdiscApp.getInstance().getJpaContext();
     
     JPQL jpql = cf.getJpql(Comment.class);
     
@@ -182,7 +182,7 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
   public List<Integer> getFeedidsForUserComments(
           EntityManager em, Installation installation, int maxAgeDays) {
       
-    ControllerFactory cf = IdiscApp.getInstance().getControllerFactory();
+    JpaContext cf = IdiscApp.getInstance().getJpaContext();
     
     JPQL jpql = cf.getJpql(Comment.class);
     

@@ -1,6 +1,6 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
+import com.idisc.core.comparator.FeedComparatorUserSiteHitcount;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feedhit;
 import com.idisc.pu.entities.Installation;
@@ -15,6 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.bc.jpa.JpaContext;
 
 /**
  * @author poshjosh
@@ -32,7 +33,7 @@ public class FeedComparatorTest {
 
     @Test
     public void test() {
-        ControllerFactory cf = base.getIdiscApp().getControllerFactory();
+        JpaContext cf = base.getIdiscApp().getJpaContext();
         EntityManager em = cf.getEntityManager(Feedhit.class);
         Installation installation = em.find(Installation.class, 2);
         List<Feed> feeds;
@@ -54,12 +55,12 @@ public class FeedComparatorTest {
         }
 long tb4 = System.currentTimeMillis();
 long mb4 = Runtime.getRuntime().freeMemory();
-        try (FeedComparator fc = new FeedComparator(installation)) {
+        try (FeedComparatorUserSiteHitcount fc = new FeedComparatorUserSiteHitcount(installation)) {
             Collections.sort(feeds, fc);
         }
 this.logTimeAndMemoryConsumed(feeds.size(), tb4, mb4);
 this.printFeedids(feeds);
-        try (FeedComparator fc = new FeedComparator(null)) {
+        try (FeedComparatorUserSiteHitcount fc = new FeedComparatorUserSiteHitcount(null)) {
             Collections.sort(feeds, fc);
         }
 this.logTimeAndMemoryConsumed(feeds.size(), tb4, mb4);

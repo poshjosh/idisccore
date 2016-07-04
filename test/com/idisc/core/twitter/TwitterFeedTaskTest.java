@@ -1,10 +1,10 @@
 package com.idisc.core.twitter;
 
-import com.idisc.core.Setup;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import com.idisc.core.IdiscTestBase;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import org.apache.commons.configuration.ConfigurationException;
+import org.junit.Test;
 
 
 /**
@@ -20,25 +20,17 @@ import org.junit.BeforeClass;
  * @version  2.0
  * @since    2.0
  */
-public class TwitterFeedTaskTest {
+public class TwitterFeedTaskTest extends IdiscTestBase {
     
-    public TwitterFeedTaskTest() { }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        Setup.setupApp();
+    public TwitterFeedTaskTest() 
+            throws ConfigurationException, IOException, IllegalAccessException, 
+            InterruptedException, InvocationTargetException{
     }
-    @AfterClass
-    public static void tearDownClass() { }
-    @Before
-    public void setUp() { }
-    @After
-    public void tearDown() { }
 
     /**
-     * Test of run method, of class WebFeedTask.
+     * Test of run method, of class TwitterFeedTask.
      */
-    @org.junit.Test
+    @Test
     public void testRun() {
 System.out.println("run");
         final TwitterFeedTask instance = new TwitterFeedTask();

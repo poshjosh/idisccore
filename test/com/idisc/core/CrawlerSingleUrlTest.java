@@ -1,6 +1,5 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
 import com.bc.json.config.JsonConfig;
 import com.bc.webdatex.locator.TagLocator;
 import com.idisc.core.web.NewsCrawler;
@@ -16,11 +15,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.htmlparser.Tag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 import org.junit.Test;
+import com.bc.jpa.JpaContext;
 
 /**
  * @(#)CrawlerSingleUrlTest.java   13-Jun-2015 15:57:46
@@ -74,7 +75,7 @@ log("URL to extract: "+ sampleUrl);
         JsonConfig config = ctx.getConfig();
         Collection<Feed> resultBuffer = new ArrayList<>();
         
-        NewsCrawler crawler = new NewsCrawler(config, resultBuffer){
+        NewsCrawler crawler = new NewsCrawler(config, 5, TimeUnit.MINUTES, 20, resultBuffer){
             @Override
             public boolean isResume() {
                 return false;
@@ -120,9 +121,10 @@ log(false, "Description: "+feed.getDescription());
 log(false, "Content: "+feed.getContent());
         }
         
-        ControllerFactory cf = this.getIdiscApp().getControllerFactory();
+        JpaContext cf = this.getIdiscApp().getJpaContext();
         
-        cf.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
+        final int updateCount = cf.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
+log("Update count: "+updateCount);        
     }
     
     private void extractSingleNode(String site, String key, boolean preLocateTarget) throws ParserException {

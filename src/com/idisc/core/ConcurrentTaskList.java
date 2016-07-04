@@ -3,6 +3,7 @@ package com.idisc.core;
 import com.bc.task.StoppableTask;
 import com.bc.util.Util;
 import com.bc.util.XLogger;
+import com.bc.util.concurrent.NamedThreadFactory;
 import com.idisc.pu.entities.Feed;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,45 +15,47 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import org.apache.commons.configuration.Configuration;
 
 public abstract class ConcurrentTaskList
   implements Serializable, Distributor<String>, TaskHasResult<Collection<Feed>> {
     
-  private boolean acceptDuplicates;
-  private long timeoutMillis;
-  private int maxConcurrent;
+  private final long timeout;
+  private final TimeUnit timeoutUnit;
+  private final int maxConcurrent;
   private StoppableTask[] tasks;
   private Future[] futures;
-  private Collection<Feed> result;
-  private boolean randomize;
+  private final Collection<Feed> result;
   
-  public ConcurrentTaskList() {}
-  
-  public ConcurrentTaskList(long timeout, TimeUnit timeUnit) {
-    this.timeoutMillis = timeUnit.toMillis(timeout);
-    IdiscApp app = IdiscApp.getInstance();
-    Configuration config = app.getConfiguration();
-    this.maxConcurrent = config.getInt("maxConcurrentSites", 3);
+  public ConcurrentTaskList(long timeout, TimeUnit timeUnit, int maxConcurrent) {
+    this.timeout = timeout;
+    this.timeoutUnit = timeUnit;
+    this.maxConcurrent = maxConcurrent;
     this.result = Collections.synchronizedCollection(new ArrayList());
   }
   
   public abstract StoppableTask createNewTask(String paramString);
   
   public abstract List<String> getTaskNames();
+
+  @Override
+  public final Collection<Feed> call() {
+    this.run();
+    return this.getResult();
+  }
   
   @Override
   public final void run() {
     try {
       doRun();
     } catch (Exception e) {
-      XLogger.getInstance().log(Level.WARNING, null, getClass(), e);
+      XLogger.getInstance().log(Level.WARNING, "Thread: "+Thread.currentThread().getName(), getClass(), e);
     }
   }
   
   protected void doRun() {
       
-    ExecutorService es = Executors.newFixedThreadPool(this.maxConcurrent);
+    ExecutorService es = Executors.newFixedThreadPool(this.maxConcurrent,
+            new NamedThreadFactory(this.getClass().getName()+"_ThreadPool"));
     
     List<String> siteNames = getTaskNames();
     
@@ -61,16 +64,17 @@ public abstract class ConcurrentTaskList
       siteNames = distribute(siteNames);
     }
     
-    XLogger.getInstance().log(Level.FINER, "Timeout: {0} minutes, Task count: {1}, max concurrent tasks: {2}", getClass(), Long.valueOf(this.timeoutMillis < 1000L ? 0L : TimeUnit.MILLISECONDS.toMinutes(this.timeoutMillis)), Integer.valueOf(siteNames.size()), Integer.valueOf(this.maxConcurrent));
+XLogger.getInstance().log(Level.FINER, "Timeout: {0} {1}, Task count: {2}, max concurrent tasks: {3}", 
+        getClass(), timeout, timeoutUnit, siteNames.size(), this.maxConcurrent);
     
     this.tasks = new StoppableTask[siteNames.size()];
     
     this.futures = new Future[siteNames.size()];
     
-    try
-    {
-      for (int i = 0; i < siteNames.size(); i++)
-      {
+    try {
+        
+      for (int i = 0; i < siteNames.size(); i++) {
+          
         StoppableTask task = createNewTask((String)siteNames.get(i));
         
         Future future = es.submit(task);
@@ -83,7 +87,7 @@ public abstract class ConcurrentTaskList
       try {
         beforeShutdown();
       } finally {
-        Util.shutdownAndAwaitTermination(es, this.timeoutMillis, TimeUnit.MILLISECONDS);
+        Util.shutdownAndAwaitTermination(es, this.timeout, timeoutUnit);
       }
     }
   }
@@ -98,45 +102,20 @@ public abstract class ConcurrentTaskList
     return this.futures;
   }
   
-  public boolean isAcceptDuplicates() {
-    return this.acceptDuplicates;
-  }
-  
-  public void setAcceptDuplicates(boolean acceptDuplicates) {
-    this.acceptDuplicates = acceptDuplicates;
-  }
-  
-  public boolean isRandomize() {
-    return this.randomize;
-  }
-  
-  public void setRandomize(boolean randomize) {
-    this.randomize = randomize;
-  }
-  
-  public long getTimeoutMillis() {
-    return this.timeoutMillis;
-  }
-  
-  public void setTimeoutMillis(long timeoutMillis) {
-    this.timeoutMillis = timeoutMillis;
-  }
-  
   public int getMaxConcurrent() {
     return this.maxConcurrent;
   }
   
-  public void setMaxConcurrent(int maxConcurrent) {
-    this.maxConcurrent = maxConcurrent;
-  }
-  
   @Override
-  public Collection<Feed> getResult()
-  {
+  public Collection<Feed> getResult() {
     return this.result;
   }
-  
-  public void setResult(Collection<Feed> result) {
-    this.result = result;
+
+  public long getTimeout() {
+    return timeout;
+  }
+
+  public TimeUnit getTimeoutUnit() {
+    return timeoutUnit;
   }
 }

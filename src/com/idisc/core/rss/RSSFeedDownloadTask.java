@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.htmlparser.NodeFilter;
 import org.htmlparser.Parser;
@@ -29,36 +30,68 @@ import org.htmlparser.util.NodeList;
  */
 public class RSSFeedDownloadTask extends AbstractStoppableTask {
     
-    private final boolean acceptDuplicates;
+  private transient static final Class cls = RSSFeedDownloadTask.class;
     
-    private final String feedName;
+  private transient static final XLogger logger = XLogger.getInstance();
     
-    private final String url;
+  private final boolean acceptDuplicates;
     
-    private final Sitetype sitetype;
+  private final String feedName;
     
-    private final Class cls = RSSFeedDownloadTask.class;
+  private final String url;
     
-    private final XLogger logger = XLogger.getInstance();
+  private final Sitetype sitetype;
     
-    private final Collection<Feed> resultBuffer;
+  private final long timeoutMillis;
     
-    public RSSFeedDownloadTask(String feedName, String url, 
-            boolean acceptDuplicates, Collection<Feed> resultBuffer) { 
-        this.feedName = feedName;
-        this.url = url;
-        this.acceptDuplicates = acceptDuplicates;
-        EnumReferences refs = IdiscApp.getInstance().getControllerFactory().getEnumReferences();
-        this.sitetype = ((Sitetype)refs.getEntity(References.sitetype.rss));
-        this.resultBuffer = resultBuffer;
+  private final int maxFailsAllowed;
+    
+  private final Collection<Feed> resultBuffer;
+    
+  private int failedCount;
+    
+  public RSSFeedDownloadTask(String feedName, String url,
+      long timeout, TimeUnit timeoutUnit, 
+      boolean acceptDuplicates, Collection<Feed> resultBuffer) { 
+    this.feedName = feedName;
+    this.url = url;
+    this.timeoutMillis = timeoutUnit.toMillis(timeout);
+    this.maxFailsAllowed = 0;
+    this.acceptDuplicates = acceptDuplicates;
+    EnumReferences refs = IdiscApp.getInstance().getJpaContext().getEnumReferences();
+    this.sitetype = ((Sitetype)refs.getEntity(References.sitetype.rss));
+    this.resultBuffer = resultBuffer;
+  }
+
+  @Override
+  public long getTimeout() {
+    return this.timeoutMillis;
+  }
+    
+  public boolean shouldStop() {
+    boolean shouldStop = ((this.isRunning() && this.isTimedout()) || this.isFailed());
+    final Level level = shouldStop ? Level.FINE : Level.FINER;
+    if(logger.isLoggable(level, cls)) {
+      logger.log(level, "Should stop: {0}, timeout: {1}, timespent: {2}, max fails: {3}, current fails: "+this.getFailedCount(), 
+      cls, shouldStop, this.getTimeout(), this.getTimeSpent(), this.maxFailsAllowed);
     }
+    return shouldStop;
+  }
+    
+  public boolean isFailed() {
+    return (this.maxFailsAllowed > 0) && (this.getFailedCount() > this.maxFailsAllowed);
+  }
+  
+  public int getFailedCount() {
+    return this.failedCount;
+  }
     
     @Override
-    protected void doRun()
-    {
+    protected void doRun() {
+        
       logger.entering(this.getClass(), "doRun()", url);
-      try
-      {
+      
+      try {
         
         logger.log(Level.FINER, "Downloading RSS Feed for {0}", cls, url);
         
@@ -86,12 +119,12 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
         int added = 0;
         
         EntityController<Feed, Integer> feedCtrl = 
-                IdiscApp.getInstance().getControllerFactory().getEntityController(
+                IdiscApp.getInstance().getJpaContext().getEntityController(
                         Feed.class, Integer.class);
 
-        for (Object obj : entries)
-        {
-          if (isStopRequested()) {
+        for (Object obj : entries) {
+            
+          if (isStopRequested() || this.shouldStop()) {
             break;
           }
           
@@ -100,16 +133,16 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
           List contents = entry.getContents();
           
           contentStrBuilder.setLength(0);
+          
           if ((contents != null) && (!contents.isEmpty())) {
-            for (Object oval : contents)
-            {
+              
+            for (Object oval : contents) {
                 
               SyndContent content = (SyndContent)oval;
 
               String contentValue = content.getValue();
 
-              if ((contentValue != null) && (!contentValue.isEmpty()))
-              {
+              if ((contentValue != null) && (!contentValue.isEmpty())) {
 
                 contentStrBuilder.append(contentValue);
                 contentStrBuilder.append("<br/><br/>");
@@ -126,12 +159,12 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
 
           if (contentStrBuilder.length() == 0) {
 
-            if ((description != null) && (!description.isEmpty()))
-            {
+            if ((description != null) && (!description.isEmpty())) {
+                
               contentStrBuilder.append(description);
-            }
-            else if(entry.getTitle() != null && !entry.getTitle().isEmpty())
-            {
+              
+            } else if(entry.getTitle() != null && !entry.getTitle().isEmpty()) {
+                
               contentStrBuilder.append(entry.getTitle());
             }
           }
@@ -195,11 +228,9 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
             feed.setUrl(entry.getLink());
 
             boolean add = (this.acceptDuplicates) || (!com.idisc.core.util.Util.isInDatabase(feedCtrl, reusedFeedParams, feed));
-            if (add)
-            {
+            if (add) {
 
-              synchronized (resultBuffer)
-              {
+              synchronized (resultBuffer) {
 
                 resultBuffer.add(feed);
 
@@ -212,35 +243,29 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
         }
         logger.log(Level.FINER, "Added {0} Feed records for: {1} = {2}", cls, added, this.feedName, url);
 
-      }
-      catch (IOException|FeedException e)
-      {
+      } catch (IOException|FeedException e) {
         logger.logSimple(Level.WARNING, cls, e);
 //        logger.log(Level.WARNING, "", cls, e);
       } catch (RuntimeException e) {
         logger.log(Level.WARNING, "Error extracting RSS Feed from: "+this.url, cls, e);
-        
       }finally{
         logger.log(Level.FINE, "RSS: {0}, added {1} feeds", cls, url, this.resultBuffer == null ? null : this.resultBuffer.size());
       }
     }
     
     @Override
-    public String getTaskName()
-    {
+    public String getTaskName() {
       return getClass().getName();
     }
 
   private NodeList getNodes(Parser parser, String html) {
-    logger.entering(cls, "getNodes(org.htmlparser.Parser, String)", null);
     try {
       parser.reset();
       parser.setInputHTML(html);
       return parser.parse(null);
     } catch (Exception e) {
-      logger.log(Level.WARNING, "{0}", cls, e.toString()); 
+      XLogger.getInstance().log(Level.WARNING, "{0}", this.getClass(), e.toString()); 
     }
     return null;
   }
-  
 }

@@ -3,7 +3,6 @@ package com.idisc.core;
 import com.idisc.core.util.Util;
 import com.bc.util.IntegerArray;
 import com.bc.util.XLogger;
-import com.idisc.core.jpa.FeedSearch;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import java.util.ArrayList;
@@ -12,6 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import com.bc.jpa.JpaContext;
 
 public class FeedCache {
     
@@ -41,18 +46,32 @@ public class FeedCache {
     return lastTime <= 0L ? 0L : System.currentTimeMillis() - lastTime;
   }
   
-  public boolean updateCache() {
+  public List<Feed> updateCache() {
       
 XLogger.getInstance().entering(this.getClass(), "#updateCache()", "");
       
-    int cacheLimit = getCacheLimit();
+    final int cacheLimit = getCacheLimit();
     
-    List<Feed> feeds = new FeedSearch().select(null, null, 0, cacheLimit * 2);
+    final JpaContext cf = IdiscApp.getInstance().getJpaContext();
+    
+    final EntityManager em = cf.getEntityManager(Feed.class);
+    
+    final CriteriaBuilder cb = em.getCriteriaBuilder();
+    
+    final CriteriaQuery<Feed> cq = cb.createQuery(Feed.class);
+    
+    final Root<Feed> root = cq.from(Feed.class);
+    
+    final TypedQuery<Feed> tq = em.createQuery(cq);
+    
+    tq.setFirstResult(0).setMaxResults(cacheLimit * 2);
+    
+    List<Feed> feeds = tq.getResultList();
     
 XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds==null?null:feeds.size());
 
     if (feeds == null || feeds.isEmpty()) {
-      return false;
+      return Collections.EMPTY_LIST;
     }
     
     try{
@@ -76,7 +95,7 @@ XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds=
     
     lastTime = System.currentTimeMillis();
     
-    return true;
+    return getCachedFeeds();
   }
   
   protected List<Feed> ensureEquality(List<Feed> feeds, int outputSize) {
@@ -119,7 +138,7 @@ XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds=
         else
         {
 
-          int siteid = site.getSiteid().intValue();
+          Integer siteid = site.getSiteid();
           
           int siteIndex = siteIds.indexOf(siteid);
           
@@ -162,19 +181,19 @@ XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds=
     return feeds.size() <= outputSize ? feeds : feeds.subList(0, outputSize);
   }
 
-  public static boolean isCachedFeedsAvailable(){
+  public boolean isCachedFeedsAvailable(){
     return (cachedFeeds != null) && (!cachedFeeds.isEmpty());
   }
   
-  public static int size() {
+  public int size() {
     return isCachedFeedsAvailable() ? cachedFeeds.size() : 0;
   }
 
-  public static List<Feed> getCachedFeeds() {
+  public List<Feed> getCachedFeeds() {
     return getCachedFeeds(size());
   }
   
-  public static List<Feed> getCachedFeeds(int limit) {
+  public List<Feed> getCachedFeeds(int limit) {
     List<Feed> output;
     if(!isCachedFeedsAvailable()) {
       output = Collections.EMPTY_LIST;

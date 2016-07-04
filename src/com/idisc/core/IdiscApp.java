@@ -1,11 +1,11 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
 import com.bc.mail.config.DefaultMailConfig;
 import com.bc.mail.config.MailConfig;
 import com.bc.mail.config.XMLMailConfig;
+import com.bc.sql.MySQLDateTimePatterns;
 import com.bc.util.XLogger;
-import com.idisc.pu.IdiscControllerFactory;
+import com.idisc.pu.IdiscJpaContext;
 import com.scrapper.AppProperties;
 import com.scrapper.CapturerApp;
 import java.io.File;
@@ -19,16 +19,17 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import com.bc.jpa.JpaContext;
 
-public class IdiscApp
-{
+public class IdiscApp {
+    
   private boolean initialized;
   private String persistenceFilename;
   private String scrapperPropertiesFilename;
   private XMLMailConfig mailConfig;
   private Configuration config;
   private static IdiscApp instance;
-  private ControllerFactory _cf;
+  private JpaContext _cf;
   
   protected IdiscApp(){
     this.persistenceFilename = "META-INF/persistence.xml";
@@ -47,8 +48,8 @@ public class IdiscApp
   }
   
   public void init()
-    throws ConfigurationException, IOException, IllegalAccessException, InterruptedException, InvocationTargetException
-  {
+    throws ConfigurationException, IOException, IllegalAccessException, 
+          InterruptedException, InvocationTargetException {
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
     
     URL defaultFileLoc = loader.getResource("META-INF/properties/idiscdefaults.properties");
@@ -191,11 +192,12 @@ public class IdiscApp
     return this.config;
   }
   
-  public ControllerFactory getControllerFactory()
+  public JpaContext getJpaContext()
   {
     if (this._cf == null) {
       try {
-        this._cf = new IdiscControllerFactory(getPersistenceFilename(), null);
+        this._cf = new IdiscJpaContext(
+                getPersistenceFilename(), new MySQLDateTimePatterns());
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

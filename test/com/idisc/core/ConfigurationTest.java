@@ -1,16 +1,18 @@
 package com.idisc.core;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 
@@ -27,10 +29,24 @@ import org.junit.Test;
  * @version  2.0
  * @since    2.0
  */
-public class BaseTest {
+public class ConfigurationTest extends IdiscTestBase {
 
+    public ConfigurationTest() 
+            throws ConfigurationException, IOException, IllegalAccessException, 
+            InterruptedException, InvocationTargetException{ 
+    }
+
+    @BeforeClass
+    public static void setUpClass() { }
+    @AfterClass
+    public static void tearDownClass() { }
+    @Before
+    public void setUp() { }
+    @After
+    public void tearDown() { }
+    
     @Test
-    public void testConfigSubset() throws SQLException {
+    public void testConfigurationSubset() throws SQLException {
         
         try{
             
@@ -57,9 +73,6 @@ System.out.println("Nawa: "+defaults.getProperty("nawa"));
 
             List scopes = subset.getList("scope");
 System.out.println(scopes);
-if(true) {
-    return;
-}
             
             subset = defaults.subset("nigerian_newsmedia");
             
@@ -79,12 +92,14 @@ System.out.println(subset.getProperty("Vanguard Nigeria"));
             
 System.out.println(subset.getProperty("Vanguard Nigeria"));
             
-        }catch(Throwable t) {
+        }catch(IOException | ConfigurationException t) {
+            
             t.printStackTrace();
         }
     }
     
-    public void testOther() {
+    @Test
+    public void testConfiguration() {
         try{
             
             PropertiesConfiguration config = new PropertiesConfiguration();
@@ -103,55 +118,6 @@ System.out.println(subset.getProperty("Vanguard Nigeria"));
 
             List props = subset.getList("scope");
 System.out.println(props);
-if(true) {
-    return;
-}
-
-            final int timeout = 1000;
-            final int count = 10;
-            
-            Runnable rA = new Runnable() {
-                @Override
-                public synchronized void run() {
-                    for(int i=0; i<count; i++) {
-System.out.println("A: --- "+i);                        
-                        try{
-                            this.wait(timeout);
-                        }catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }finally{
-                            this.notifyAll();
-                        }
-                    }
-                }
-            };
-            
-            Runnable rB = new Runnable() {
-                @Override
-                public synchronized void run() {
-                    for(int i=0; i<count; i++) {
-System.out.println("B: --- "+i);                        
-                        try{
-                            this.wait(timeout);
-                        }catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }finally{
-                            this.notifyAll();
-                        }
-                    }
-                }
-            };
-            
-            FutureTask tA = new FutureTask(rA, rA);
-            FutureTask tB = new FutureTask(rB, rB);
-            
-            ExecutorService execsvc = Executors.newCachedThreadPool();
-            
-            execsvc.submit(tB);
-            execsvc.submit(tA);
-
-System.out.println(tA.getClass()+"#get() returned: "+tA.get(3, TimeUnit.SECONDS));
-            
         }catch(Throwable t) {
             t.printStackTrace();
         }

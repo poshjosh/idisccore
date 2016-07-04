@@ -1,8 +1,6 @@
 package com.idisc.core.web;
 
 import com.bc.json.config.JsonConfig;
-import com.bc.task.StoppableTask;
-import com.bc.util.Util;
 import com.bc.util.XLogger;
 import com.idisc.core.ConcurrentTaskList;
 import com.idisc.core.IdiscApp;
@@ -11,33 +9,46 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import org.apache.commons.configuration.Configuration;
 
 public class WebFeedTask extends ConcurrentTaskList {
     
   private static int siteOffset;
   
-  public WebFeedTask(long timeout, TimeUnit timeUnit) {
-    super(timeout, timeUnit);
+  private final boolean acceptDuplicateUrls;
+  
+  private final long timeoutEach;
+  
+  private final TimeUnit timeunitEach;
+  
+  private final int maxFailsAllowed;
+  
+  public WebFeedTask(
+      long timeout, TimeUnit timeUnit, 
+      long timeoutEach, TimeUnit timeunitEach, 
+      int maxConcurrent, int maxFailsAllowed, boolean acceptDuplicateUrls) {
+      
+    super(timeout, timeUnit, maxConcurrent);
+    
+    this.acceptDuplicateUrls = acceptDuplicateUrls;
+    this.timeoutEach = timeoutEach;
+    this.timeunitEach = timeunitEach;
+    this.maxFailsAllowed = maxFailsAllowed;
   }
   
+  @Override
+  public List<String> getTaskNames() {
+    CapturerApp cap = IdiscApp.getInstance().getCapturerApp();
+    List<String> _tn = new ArrayList(new HashSet(cap.getConfigFactory().getSitenames()));
+    _tn.remove(cap.getDefaultConfigname());
+    return _tn;
+  }
+
   @Override
   public List<String> distribute(List<String> values) {
       
     List<String> copy = new ArrayList(values);
-    
-    if (this.isRandomize()) {
-        
-      Collections.shuffle(copy);
-      
-      return copy;
-    }
     
     Collections.rotate(copy, siteOffset);
     
@@ -50,15 +61,55 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
   }
   
   @Override
+  public NewsCrawler createNewTask(String site) {
+      
+    JsonConfig config = CapturerApp.getInstance().getConfigFactory().getConfig(site);
+    
+    if(config == null) {
+        throw new NullPointerException(JsonConfig.class.getSimpleName()+" for site: "+site+" is null");
+    }
+    
+    NewsCrawler crawler = new NewsCrawler(
+            config, this.timeoutEach, this.timeunitEach, this.maxFailsAllowed, getResult()) {
+                
+      @Override
+      public String getTaskName() {
+        return "Task to extract web feeds from " + getSitename();
+      }
+      
+      @Override
+      public boolean isResume() {
+        return !WebFeedTask.this.acceptDuplicateUrls;
+      }
+    };
+
+    String url = config.getString(new Object[] { "url", "start" });
+    
+    crawler.setStartUrl(url);
+    
+XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}", 
+        this.getClass(), crawler.getClass().getName(), site);
+
+    return crawler;
+  }
+}
+
+/**
+ * 
+  @Override
   protected void beforeShutdown() {
     IdiscApp app = IdiscApp.getInstance();
     Configuration config = app.getConfiguration();
-    final int maxFailsAllowed = config.getInt("maxFailsAllowedPerSite", 9);
+    
     final long timeoutPerSiteSeconds = getTimePerSiteSeconds(config, getMaxConcurrent());
-    final long timeoutMillis = getTimeoutMillis();
+    final long timeoutMillis = this.getTimeoutUnit().toMillis(this.getTimeout());
     if ((timeoutPerSiteSeconds > 0L) && (timeoutPerSiteSeconds < timeoutMillis)) {
+      final int maxFailsAllowed = config.getInt("maxFailsAllowedPerSite", 9);  
       boolean scheduled = false;
-      final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
+      final String poolName = WebFeedTask.class.getSimpleName()+"_"+TaskTerminator.class.getSimpleName()+
+              "[timeout: "+timeoutPerSiteSeconds+", max fails: "+maxFailsAllowed+"]";
+      final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor(
+          new NamedThreadFactory(poolName));
       try {
         TaskTerminator terminator = new TaskTerminator(timeoutPerSiteSeconds, maxFailsAllowed);
         long interval = timeoutPerSiteSeconds / getTaskNames().size();
@@ -83,7 +134,7 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
   }
   
   private long getTimePerSiteSeconds(Configuration config, int maxConcurrent) {
-    long __timePerTaskSeconds = config.getLong("timeoutPerSiteSeconds", computeDefaultTimePerTask(maxConcurrent));
+    long __timePerTaskSeconds = config.getLong(ConfigNames.WEB_TIMEOUT_PER_SITE_SECONDS, computeDefaultTimePerTask(maxConcurrent));
     long timePerTask = TimeUnit.SECONDS.toMillis(__timePerTaskSeconds);
     return timePerTask;
   }
@@ -92,7 +143,7 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
     List<String> taskNames = getTaskNames();
     int taskCount = taskNames.size();
     
-    long timeoutMillis = getTimeoutMillis();
+    long timeoutMillis = this.getTimeoutUnit().toMillis(this.getTimeout());
     long timePerTask; 
     if (taskCount > maxConcurrent) {
       long factor = taskCount / maxConcurrent;
@@ -101,45 +152,6 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
       timePerTask = timeoutMillis;
     }
     return timePerTask;
-  }
-  
-
-  @Override
-  public NewsCrawler createNewTask(String site)
-  {
-    JsonConfig config = CapturerApp.getInstance().getConfigFactory().getConfig(site);
-    
-    NewsCrawler crawler = new NewsCrawler(config, getResult())
-    {
-      @Override
-      public String getTaskName() {
-        return "Extract Web Feeds from " + getSitename();
-      }
-      
-      @Override
-      public boolean isResume() {
-        return !WebFeedTask.this.isAcceptDuplicates();
-      }
-      
-    };
-
-    String url = config.getString(new Object[] { "url", "start" });
-    
-    crawler.setStartUrl(url);
-    
-XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}", 
-        this.getClass(), crawler.getClass().getName(), site);
-
-    return crawler;
-  }
-  
-  @Override
-  public List<String> getTaskNames()
-  {
-    CapturerApp cap = IdiscApp.getInstance().getCapturerApp();
-    List<String> _tn = new ArrayList(new HashSet(cap.getConfigFactory().getSitenames()));
-    _tn.remove(cap.getDefaultConfigname());
-    return _tn;
   }
   
   private class TaskTerminator implements Runnable {
@@ -153,6 +165,7 @@ XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}",
     
     @Override
     public void run() {
+      try{
       StoppableTask[] tasks = WebFeedTask.this.getTasks();
       Future[] futures = WebFeedTask.this.getFutures();
       for (int i = 0; i < tasks.length; i++) {
@@ -161,8 +174,11 @@ XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}",
           Future future = futures[i];
           process(task, future);
         } catch (Exception e) {
-          XLogger.getInstance().log(Level.WARNING, null, getClass(), e);
+          XLogger.getInstance().log(Level.WARNING, "Thread: "+Thread.currentThread().getName(), getClass(), e);
         }
+      }
+      }catch(Exception e) {
+        XLogger.getInstance().log(Level.WARNING, "Thread: "+Thread.currentThread().getName(), getClass(), e);  
       }
     }
     
@@ -197,4 +213,5 @@ XLogger.getInstance().log(Level.FINER, "Created task {0} for {1}",
       }
     }
   }
-}
+ * 
+ */

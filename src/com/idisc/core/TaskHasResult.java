@@ -1,5 +1,7 @@
 package com.idisc.core;
 
-public abstract interface TaskHasResult<T>
-  extends Runnable, HasResult<T>
-{}
+import java.util.concurrent.Callable;
+
+public interface TaskHasResult<T> extends Runnable, Callable<T>, HasResult<T> {
+
+}

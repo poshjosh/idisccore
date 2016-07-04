@@ -1,12 +1,11 @@
-package com.idisc.core;
+package com.idisc.core.comparator;
 
 import com.bc.util.XLogger;
+import com.idisc.core.IdiscApp;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feedhit;
 import com.idisc.pu.entities.Installation;
 import com.idisc.pu.entities.Site;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -24,11 +23,11 @@ import javax.persistence.criteria.Root;
  * <b>Implements {@link java.lang.AutoCloseable} hence must be closed after use</b>
  * @author poshjosh
  */
-public class FeedComparator implements Comparator<Feed>, AutoCloseable {
+public class FeedComparatorUserSiteHitcount extends BaseFeedComparator implements AutoCloseable {
     
-  private boolean invertSort = true;
-  private Map<Pattern, Integer> elite;
   private boolean exceptionLogged;
+  
+  private Map<Pattern, Integer> elite;
   
   private final EntityManager entityManager;
   
@@ -36,23 +35,29 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable {
   
   private Query userSiteHitcountQuery;
   
-  public FeedComparator() {
-      this(null);
+  public FeedComparatorUserSiteHitcount() {
+    this(null);
   } 
   
-  public FeedComparator(Installation installation) { 
-    this.entityManager = IdiscApp.getInstance().getControllerFactory().getEntityManager(Feedhit.class);
+  public FeedComparatorUserSiteHitcount(Installation installation) { 
+    this(installation, null, false);
+  }  
+  
+  public FeedComparatorUserSiteHitcount(Installation installation, Map<Pattern, Integer> elite, boolean reverseOrder) { 
+    super(reverseOrder);
     this.installation = installation;
+    this.elite = elite;
+    this.entityManager = IdiscApp.getInstance().getJpaContext().getEntityManager(Feedhit.class);
   }  
   
   public boolean isOpen() {
-      return this.entityManager != null && this.entityManager.isOpen();
+    return this.entityManager != null && this.entityManager.isOpen();
   }
 
   @Override
   public void close() {
     if(entityManager != null && entityManager.isOpen()) {
-        entityManager.close();
+      entityManager.close();
     }
   }
   
@@ -65,22 +70,15 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable {
   }
   
   @Override
-  public int compare(Feed o1, Feed o2)
-  {
-    long t1 = computeTimeForSorting(o1);
-    
-    long t2 = computeTimeForSorting(o2);
-    
-    return this.compareLongs(t1, t2);
-  }
-  
-  private long computeTimeForSorting(Feed feed)
-  {
+  public long getScore(Feed feed) {
+      
     long time = feed.getFeeddate() == null ? 0L : feed.getFeeddate().getTime();
+    
     time += getAddedValueTime(feed);
+    
     return time;
   }
-
+  
   protected long getAddedValueTime(Feed feed) {
 
     long output = this.getAddedValueForFeedhits(feed);
@@ -119,12 +117,13 @@ public class FeedComparator implements Comparator<Feed>, AutoCloseable {
   }
   
   private long getAddedValueForFeedhits(Feed feed) {
+      
 long tb4 = System.currentTimeMillis();
 long mb4 = Runtime.getRuntime().freeMemory();
+
 // This consumes a lot of memory      
 //    Long feedhits = this.count(Feedhit.class, "feedid", feed, false);
-      
-    Long feedhits = feed.getFeedhitList() == null ? 0L : feed.getFeedhitList().size();
+    final long feedhits = this.countFeedHits(feed);
 
     long output; 
     if (feedhits > 0L) {
@@ -190,27 +189,6 @@ this.logTimeAndMemoryConsumed("getAddedValueForFeedhits", tb4, mb4);
     return this._nos;
   }
   
-  protected int compareInts(int x, int y) { 
-    int n = this.invertSort ? Integer.compare(y, x) : Integer.compare(x, y);
-    return n; 
-  }
-  
-  protected int compareLongs(long x, long y) { 
-    int n = this.invertSort ? Long.compare(y, x) : Long.compare(x, y);
-    return n; 
-  }
-
-  protected int compareDates(Date date_a, Date date_b) { 
-    if ((date_a == null) && (date_b == null))
-      return 0;
-    if (date_a == null)
-      return this.invertSort ? 1 : -1;
-    if (date_b == null) {
-      return this.invertSort ? -1 : 1;
-    }
-    return this.invertSort ? date_b.compareTo(date_a) : date_a.compareTo(date_b);
-  }
-  
   private Long countFeedhits(Integer installationid, Integer siteid) { 
     if(siteid == null) {
         throw new NullPointerException();
@@ -266,22 +244,10 @@ this.logTimeAndMemoryConsumed("countFeedHits", tb4, mb4);
     return count;
   }
   
-  public boolean isInvertSort() {
-    return this.invertSort;
-  }
-  
-  public void setInvertSort(boolean invertSort) {
-    this.invertSort = invertSort;
-  }
-  
-  public Map<Pattern, Integer> getElite() {
+  public final Map<Pattern, Integer> getElite() {
     return this.elite;
   }
   
-  public void setElite(Map<Pattern, Integer> elite) {
-    this.elite = elite;
-  }
-
   private void logTimeAndMemoryConsumed(String key, long tb4, long mb4) {
     if(true) {
       return;

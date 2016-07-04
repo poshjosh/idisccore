@@ -1,7 +1,5 @@
 package com.idisc.core.web;
 
-import com.bc.jpa.ControllerFactory;
-import com.bc.jpa.EntityController;
 import com.bc.jpa.fk.EnumReferences;
 import com.bc.json.config.JsonConfig;
 import com.bc.task.StoppableTask;
@@ -17,78 +15,135 @@ import com.scrapper.config.Config;
 import com.scrapper.context.CapturerContext;
 import com.scrapper.util.PageNodes;
 import java.util.Collection;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import org.apache.commons.configuration.Configuration;
 import org.htmlparser.NodeFilter;
+import com.bc.jpa.JpaContext;
 
 public class NewsCrawler extends Crawler
-  implements TaskHasResult<Collection<Feed>>, StoppableTask
-{
+  implements TaskHasResult<Collection<Feed>>, StoppableTask {
+    
+  private transient static final Class cls = NewsCrawler.class;
+  private transient static final XLogger logger = XLogger.getInstance();
+  
   private final float tolerance;
-  private final Class cls;
-  private final XLogger logger;
   private final Sitetype sitetype;
   private final Collection<Feed> result;
-  private EntityController<Feed, Integer> ec_accessViaGetter;
   
-  public NewsCrawler(JsonConfig config, Collection<Feed> resultsBuffer)
-  {
-    this(IdiscApp.getInstance().getCapturerApp().getConfigFactory().getContext(config), resultsBuffer);
+  private long timeoutMillis;
+  private int maxFailsAllowed;
+  
+  private EntityManager entityManager;
+  
+  public NewsCrawler(
+          JsonConfig config, long timeout, TimeUnit timeoutUnit, 
+          int maxFailsAllowed, Collection<Feed> resultsBuffer) {
+      
+    this(
+            IdiscApp.getInstance().getCapturerApp().getConfigFactory().getContext(config), 
+            timeout, timeoutUnit, maxFailsAllowed, resultsBuffer
+    );
   }
 
-  public NewsCrawler(CapturerContext context, Collection<Feed> resultsBuffer)
-  {
+  public NewsCrawler(
+          CapturerContext context, long timeout, TimeUnit timeoutUnit, 
+          int maxFailsAllowed, Collection<Feed> resultsBuffer) {
+      
     super(context);
     
-    cls = this.getClass();
-    
-    logger = XLogger.getInstance();
-    
     logger.log(Level.FINER, "Creating", cls);
+    
+    this.timeoutMillis = timeoutUnit.toMillis(timeout);
+    
+    this.maxFailsAllowed = maxFailsAllowed;
     
     Configuration config = IdiscApp.getInstance().getConfiguration();
     
     this.tolerance = config.getFloat("dataComparisonTolerance", 0.0F);
     
-    logger.log(Level.FINER, "Tolerance: {0}", cls, Float.valueOf(this.tolerance));
+    logger.log(Level.FINER, "Tolerance: {0}", cls, this.tolerance);
     
     this.result = resultsBuffer;
     setParseLimit(getLimit(Config.Extractor.parseLimit));
     setCrawlLimit(getLimit(Config.Extractor.crawlLimit));
     
-    logger.log(Level.FINER, "Updated parse limit: {0}, crawl limit: {1}", cls, Integer.valueOf(getParseLimit()), Integer.valueOf(getCrawlLimit()));
+    logger.log(Level.FINER, "Updated parse limit: {0}, crawl limit: {1}", cls, getParseLimit(), getCrawlLimit());
     
-
     EnumReferences refs = getControllerFactory().getEnumReferences();
     this.sitetype = ((Sitetype)refs.getEntity(References.sitetype.web));
     logger.log(Level.FINE, "Done creating: {0}", cls, NewsCrawler.this);
     
     setBatchInterval(0L);
   }
+
+  @Override
+  public void completePendingActions() {
+    super.completePendingActions();
+    if(this.entityManager != null) {
+      this.entityManager.close();
+    }
+  }
   
   @Override
-  public boolean isInDatabase(String link)
-  {
-    EntityController<Feed, Integer> ec = getFeedController();
-    boolean found = ec.selectFirst("url", link) != null;
+  public long getTimeout() {
+    return this.timeoutMillis;
+  }
+    
+  public boolean shouldStop() {
+    boolean shouldStop = ((this.isRunning() && this.isTimedout()) || this.isFailed());
+    final Level level = shouldStop ? Level.FINE : Level.FINER;
+    if(logger.isLoggable(level, cls)) {
+      logger.log(level, "Should stop: {0}, timeout: {1}, timespent: {2}, max fails: {3}, current fails: "+this.getFailedCount(), 
+      cls, shouldStop, this.getTimeout(), this.getTimeSpent(), this.maxFailsAllowed);
+    }
+    return shouldStop;
+  }
+    
+  public boolean isFailed() {
+    return (this.maxFailsAllowed > 0) && (this.getFailedCount() > this.maxFailsAllowed);
+  }
+  
+  public int getFailedCount() {
+    return this.getFailed() == null ? 0 : this.getFailed().size();
+  }
+  
+  @Override
+  public boolean isInDatabase(String link) {
+    if(this.entityManager == null) {
+      this.entityManager = this.getControllerFactory().getEntityManager(Feed.class);
+    }
+    TypedQuery<String> query = this.entityManager.createQuery("SELECT f.url FROM Feed f WHERE f.url = :url", String.class);
+    query.setParameter("url", link);
+    query.setFirstResult(0);
+    query.setMaxResults(1);
+    final boolean found = query.getSingleResult() != null;
     if (found) {
       logger.log(Level.FINER, "Link is already in database: {0}", cls, link);
     }
     return found;
   }
-  
-  private int getLimit(Config.Extractor name) {
+
+  private Integer getLimit(Config.Extractor name) {
     Integer limit = getContext().getConfig().getInt(new Object[] { name });
     if (limit == null) {
       throw new NullPointerException("Required config value: " + name + " == null");
     }
-    return limit.intValue();
+    return limit;
+  }
+
+    @Override
+  public Collection<Feed> call() {
+    doRun();
+    return this.getResult();
   }
   
-
   @Override
-  protected void doRun()
-  {
+  protected void doRun() {
+      
     logger.log(Level.FINER, "Running task {0} for {1}", cls, cls.getName(), this.getSitename());
 
     try{
@@ -104,10 +159,11 @@ public class NewsCrawler extends Crawler
         feedCreator.setImagesFilter(imagesFilter);
         feedCreator.setTolerance(this.tolerance);
         
-        while ((hasNext()) && ((scrappLimit <= 0) || (scrapped < scrappLimit)))
-        {
+        Date datecreated = new Date();
+        
+        while ((hasNext()) && ((scrappLimit <= 0) || (scrapped < scrappLimit))) {
 
-          if (isStopRequested()) {
+          if (isStopRequested() || this.shouldStop()) {
             break;
           }
 
@@ -120,7 +176,7 @@ public class NewsCrawler extends Crawler
             (!pageNodes.getURL().equals(getStartUrl())))
           {
 
-            Feed feed = feedCreator.createFeed(pageNodes);
+            Feed feed = feedCreator.createFeed(pageNodes, datecreated);
 
             synchronized (this.result) {
               logger.log(Level.FINER, 
@@ -142,27 +198,17 @@ public class NewsCrawler extends Crawler
     return this.result;
   }
   
-  private EntityController<Feed, Integer> getFeedController()
-  {
-    if (this.ec_accessViaGetter == null) {
-      this.ec_accessViaGetter = getControllerFactory().getEntityController(Feed.class, Integer.class);
-    }
-    return this.ec_accessViaGetter;
-  }
-  
-  private ControllerFactory getControllerFactory() {
-    return IdiscApp.getInstance().getControllerFactory();
+  private JpaContext getControllerFactory() {
+    return IdiscApp.getInstance().getJpaContext();
   }
   
   @Override
-  public boolean isResumable()
-  {
+  public boolean isResumable() {
     return false;
   }
   
   @Override
-  public boolean isResume()
-  {
+  public boolean isResume() {
     return true;
   }
 }

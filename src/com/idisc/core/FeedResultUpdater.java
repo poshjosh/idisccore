@@ -15,9 +15,12 @@ import javax.persistence.EntityTransaction;
 
 public class FeedResultUpdater {
     
+  private final Class cls = FeedResultUpdater.class;
+  private final XLogger logger = XLogger.getInstance();
+    
   public int process(Map<String, Collection<Feed>> allResults) {
       
-    XLogger.getInstance().log(Level.FINER, "Saving feeds.", getClass());
+    logger.log(Level.FINER, "Saving feeds.", cls);
     
     int created = 0;
     
@@ -29,15 +32,16 @@ public class FeedResultUpdater {
         created += process(taskName, taskResults);
       }
     }
-    XLogger.getInstance().log(Level.FINE, "Saved {0} feeds", getClass(), created);
+    logger.log(Level.FINE, "Saved {0} feeds", cls, created);
     return created;
   }
   
   public int process(String taskName, Collection<Feed> taskResults) {
-      
-    XLogger.getInstance().log(Level.FINE, "Task: {0}, has {1} results.", getClass(), taskName, taskResults == null ? null : Integer.valueOf(taskResults.size()));
     
-
+    if(logger.isLoggable(Level.FINE, cls)) {
+      logger.log(Level.FINE, "Task: {0}, has {1} results.", cls, taskName, taskResults == null ? null : Integer.valueOf(taskResults.size()));
+    }  
+    
     if ((taskResults == null) || (taskResults.isEmpty())) {
       return 0;
     }
@@ -55,7 +59,7 @@ public class FeedResultUpdater {
     Date dateCreated = new Date();
     
     try {
-        
+
       while (iter.hasNext()) {
 
         Feed toCreate = (Feed)iter.next();
@@ -69,11 +73,15 @@ public class FeedResultUpdater {
           }
         }
       }
-      XLogger.getInstance().log(Level.FINE, "Created {0} records for task: {1}.", getClass(), Integer.valueOf(created), taskName);
+      
+      logger.log(Level.FINE, "Created {0} records for task: {1}.", cls, created, taskName);
 
     }catch (Exception e) {
-      XLogger.getInstance().log(Level.WARNING, "Unexpected error updating feeds of type: " + taskName, getClass(), e);
+        
+      logger.log(Level.WARNING, "Unexpected error updating feeds of type: " + taskName, cls, e);
+      
     } finally {
+        
       em.close();
     }
     
@@ -81,6 +89,11 @@ public class FeedResultUpdater {
   }
   
   private boolean update(EntityManager em, Feed reusedFeedParams, Feed toCreate, Date dateCreated) {
+    
+    if(logger.isLoggable(Level.FINER, cls)) {
+      logger.entering(cls, "#update(EntityManager, Feed, Feed, Date)", null);
+    }
+    
     boolean output = false;
     
     EntityTransaction t = null;
@@ -93,17 +106,22 @@ public class FeedResultUpdater {
         
         t.begin();
         
-        dateCreated.setTime(System.currentTimeMillis());
-        toCreate.setDatecreated(dateCreated);
+        if(toCreate.getDatecreated() == null) {
+          toCreate.setDatecreated(dateCreated);
+        }
         
         em.persist(toCreate);
+        
+        if(logger.isLoggable(Level.FINER, cls)) {
+          logger.log(Level.FINER, "Persisted feed with ID: {0}", cls, toCreate.getFeedid());
+        }
         
         t.commit();
         
         output = true;
       }
     } catch (Exception e) {
-      XLogger.getInstance().logSimple(Level.WARNING, getClass(), e);
+      logger.logSimple(Level.WARNING, cls, e);
     } finally {
       if ((t != null) && (t.isActive())) {
         t.rollback();
@@ -120,14 +138,14 @@ public class FeedResultUpdater {
     builder.append(", author: ").append(feed.getAuthor());
     builder.append(", date: ").append(feed.getFeeddate());
     builder.append(", link: ").append(feed.getUrl());
-    builder.append(", imageUrl: ").append(feed.getImageurl());
+//    builder.append(", imageUrl: ").append(feed.getImageurl());
     return builder.toString();
   }
   
   private EntityController<Feed, Integer> _fc;
   private EntityController<Feed, Integer> getFeedController() {
     if (this._fc == null) {
-      this._fc = IdiscApp.getInstance().getControllerFactory().getEntityController(Feed.class, Integer.class);
+      this._fc = IdiscApp.getInstance().getJpaContext().getEntityController(Feed.class, Integer.class);
     }
     return this._fc;
   }

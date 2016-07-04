@@ -1,7 +1,6 @@
 package com.idisc.core;
 
-public abstract interface AppProperties
-{
+public abstract interface ConfigNames {
   public static final String NIGERIAN_NEWSMEDIA = "nigerian_newsmedia";
   public static final String BASE_URL = "baseURL";
   public static final String MAX_FEED_AGE_DAYS = "maxFeedAgeDays";

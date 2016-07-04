@@ -34,12 +34,42 @@ import org.htmlparser.tags.ImageTag;
 import org.htmlparser.util.NodeList;
 import com.bc.jpa.PersistenceMetaData;
 import com.idisc.core.IdiscApp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
-public class Util
-{
+public class Util {
     
-  public static String toString(List<Feed> feeds)
-  {
+  public static long getMillisUntil(
+          String timePattern, String timeString, TimeZone timeZone) throws ParseException {
+    SimpleDateFormat fmt = new SimpleDateFormat();
+    fmt.applyPattern(timePattern);
+    fmt.setTimeZone(timeZone);
+    Date startHours = fmt.parse(timeString);
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeZone(timeZone);
+    cal.set(11, 0);
+    cal.set(12, 0);
+    cal.set(13, 0);
+    cal.set(14, 0);
+    long updatedTime = cal.getTimeInMillis() + startHours.getTime();
+    cal.setTimeInMillis(updatedTime);
+    startHours = cal.getTime();
+    return getMillisUntil(startHours, 1L, TimeUnit.DAYS);
+  }
+  
+  public static long getMillisUntil(Date targetDate, long interval, TimeUnit timeUnit) {
+    return getMillisUntil(targetDate.getTime(), interval, timeUnit);
+  }
+  
+  public static long getMillisUntil(long targetDate, long interval, TimeUnit timeUnit) {
+    final long currTime = System.currentTimeMillis();
+    return currTime < targetDate ? targetDate - currTime : targetDate - currTime + timeUnit.toMillis(interval);
+  }
+    
+  public static String toString(List<Feed> feeds) {
     StringBuilder ids = new StringBuilder();
     for (Feed feed : feeds) {
       ids.append(feed.getFeedid()).append(',');
@@ -191,9 +221,27 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
 //            return false;
 //        }    
     }
+    
+  public final static String removeNonBasicMultilingualPlaneChars(String test) {
+      
+    StringBuilder sb = new StringBuilder(test.length());
+    
+    for (int ii = 0; ii < test.length(); ) {
+          
+       int codePoint = test.codePointAt(ii);
+       
+       if (codePoint > 0xFFFF) {
+         ii += Character.charCount(codePoint);
+       }else {
+         sb.appendCodePoint(codePoint);
+         ii++;
+       }
+    }
+    
+    return sb.toString();
+  }
   
-  public static String truncate(Class tableClass, String columnName, String toTruncate)
-  {
+  public static String truncate(Class tableClass, String columnName, String toTruncate) {
     if (toTruncate == null) {
       return null;
     }
@@ -206,7 +254,7 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
   private static int [] feedColumnsDisplaySizes;
   public static int getColumnDisplaySize(Class tableClass, String columnName) {
     int [] displaySizes;
-    PersistenceMetaData metaData = IdiscApp.getInstance().getControllerFactory().getMetaData();  
+    PersistenceMetaData metaData = IdiscApp.getInstance().getJpaContext().getMetaData();  
     if(tableClass == Feed.class) {
       if(feedColumnsDisplaySizes == null) {
         // Round trips to the database  
@@ -249,33 +297,39 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     return s;
   }
   
-
-
-
-  public static boolean isInDatabase(EntityController<Feed, Integer> ec, Feed params, Feed toFind)
-  {
+  public static boolean isInDatabase(EntityController<Feed, Integer> ec, Feed params, Feed toFind) {
+      
+    boolean exists = Util.selectFirst(ec, params, toFind) != null;
+      
+    if(XLogger.getInstance().isLoggable(Level.FINER, Util.class)) {
+      XLogger.getInstance().log(Level.FINER, "Feed exists: {0}, feed: {1}", Util.class, exists, toFind);
+    }
+      
+    return exists;
+  }
+  
+  public static Feed selectFirst(EntityController<Feed, Integer> ec, Feed params, Feed toFind) {
+      
     params.setTitle(toFind.getTitle());
     params.setContent(toFind.getContent());
     params.setDescription(toFind.getDescription());
     params.setSiteid(toFind.getSiteid());
     
-    try
-    {
-      Map map = ec.toMap(params, false);
+    try {
+        
+      Map paramMap = ec.toMap(params, false);
       
-      boolean exists = ec.selectFirst(map) != null;
+      return ec.selectFirst(paramMap);
       
-      XLogger.getInstance().log(Level.FINER, "Feed exists: {0}, parameters: {1}", Util.class, Boolean.valueOf(exists), map);
+    } catch (Exception e) {
+        
+      XLogger.getInstance().logSimple(Level.WARNING, Util.class, e); 
       
-      return exists;
+      return null;
     }
-    catch (Exception e) {
-      XLogger.getInstance().logSimple(Level.WARNING, Util.class, e); }
-    return false;
   }
   
-  public static String getHeading(Feed feed)
-  {
+  public static String getHeading(Feed feed) {
     String sval = feed.getTitle() == null ? null : feed.getTitle().trim();
     if ((sval == null) || (sval.isEmpty())) {
       sval = feed.getContent() == null ? null : feed.getContent().trim();
@@ -287,12 +341,9 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     return truncate(Feed.class, "title", sval);
   }
   
-
-
-
   public static Site findSite(String sitename, Sitetype sitetype, boolean createIfNotExists)
   {
-    EntityController<Site, ?> ec = IdiscApp.getInstance().getControllerFactory().getEntityController(Site.class);
+    EntityController<Site, ?> ec = IdiscApp.getInstance().getJpaContext().getEntityController(Site.class);
 
     Map map = new HashMap(2, 1.0F);
     if (sitename != null) {
@@ -322,14 +373,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     return site;
   }
   
-
-
-
-
-
-
-
-
   public static void appendQuery(Map<String, Object> params, StringBuilder appendTo, String charset)
   {
     Map<String, Object> update = new HashMap();
@@ -352,12 +395,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     appendQuery(update, appendTo);
   }
   
-
-
-
-
-
-
   public static void appendQuery(Map<String, Object> params, StringBuilder appendTo)
   {
     if (appendTo == null) {
@@ -392,15 +429,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     }
   }
   
-
-
-
-
-
-
-
-
-
   public static Map<String, String> getParameters(String input, String separator)
   {
     return getParameters(input, separator, false);
@@ -411,8 +439,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
   {
     XLogger.getInstance().log(Level.FINER, "Separator: {0}, Nulls allowed: {1}, Query: {2}", Util.class, separator, Boolean.valueOf(nullsAllowed), input);
     
-
-
     LinkedHashMap<String, String> result = new LinkedHashMap();
     
     String[] queryPairs = input.split(separator);
@@ -466,17 +492,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
         stackTrace.append(t);
       }
       
-
-
-
-
-
-
-
-
-
-
-
       return stackTrace.toString();
     }
     catch (Exception ex)
@@ -494,15 +509,10 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     }
   }
   
-  public static String getMessage(Throwable t)
-  {
+  public static String getMessage(Throwable t) {
     if (t.getCause() != null) {
       t = t.getCause();
     }
-    
-
-
-
     return t.toString();
   }
   
@@ -514,14 +524,7 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
     return new FileInputStream(path);
   }
   
-
-
-
-
-
-
-  public static String getFileName(String path)
-  {
+  public static String getFileName(String path) {
     String output = getFileName(path, File.separatorChar);
     if (output == null) {
       output = getFileName(path, '/');

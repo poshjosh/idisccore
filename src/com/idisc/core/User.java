@@ -1,6 +1,5 @@
 package com.idisc.core;
 
-import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.jpa.exceptions.PreexistingEntityException;
 import com.bc.util.XLogger;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import com.bc.jpa.JpaContext;
 
 public class User
   extends Feeduser
@@ -26,7 +26,7 @@ public class User
   {
     User output = new User();
     
-    ControllerFactory factory = IdiscApp.getInstance().getControllerFactory();
+    JpaContext factory = IdiscApp.getInstance().getJpaContext();
     EntityController<Feeduser, Integer> ec = factory.getEntityController(Feeduser.class, Integer.class);
     
     Feeduser feeduser = new Feeduser();

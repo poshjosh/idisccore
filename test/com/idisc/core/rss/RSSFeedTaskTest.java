@@ -1,14 +1,14 @@
 package com.idisc.core.rss;
 
 import com.bc.util.XLogger;
-import com.idisc.core.Setup;
+import com.idisc.core.IdiscTestBase;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.apache.commons.configuration.ConfigurationException;
+import org.junit.Test;
 
 /**
  * @(#)TwitterFeedTaskTest.java   16-Jun-2015 16:06:42
@@ -23,33 +23,26 @@ import org.junit.BeforeClass;
  * @version  2.0
  * @since    2.0
  */
-public class RSSFeedTaskTest {
+public class RSSFeedTaskTest extends IdiscTestBase {
     
-    public RSSFeedTaskTest() { }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        Setup.setupApp();
+    public RSSFeedTaskTest() 
+            throws ConfigurationException, IOException, IllegalAccessException, 
+            InterruptedException, InvocationTargetException{
     }
-    @AfterClass
-    public static void tearDownClass() { }
-    @Before
-    public void setUp() { }
-    @After
-    public void tearDown() { }
+
 
     /**
      * Test of run method, of class WebFeedTask.
      */
-    @org.junit.Test
+    @Test
     public void testRun() {
 log("run");
     
         String packageLoggerName = com.idisc.core.IdiscApp.class.getPackage().getName();
         XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
         XLogger.getInstance().setLogLevel(packageLoggerName, Level.FINER);
-        
-        final RSSFeedTask instance = new RSSFeedTask(2, TimeUnit.MINUTES);
+
+        final RSSFeedTask instance = new RSSFeedTask(2, TimeUnit.MINUTES, 1, TimeUnit.MINUTES, 5, false);
         
 //        instance.setFeedProperties(this.getLocalFeedProperties());
 
@@ -61,8 +54,6 @@ log("run");
         props.setProperty(name, props.getProperty(name));
 log("Properties: "+props);
 
-        instance.setMaxConcurrent(instance.getTaskNames().size());
-        
         instance.run();
     }
     
@@ -72,9 +63,5 @@ log("Properties: "+props);
         props.setProperty("Vanguard Nigeria", dir + "/vanguardngr.xht");
         props.setProperty("Aljazeera", dir + "/aljazeera.xht");
         return props;
-    }
-    
-    private void log(Object msg) {
-        System.out.println(this.getClass().getName()+". "+msg);
     }
 }

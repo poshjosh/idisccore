@@ -42,32 +42,29 @@ public class WebFeedCreator {
     extractor = new NodeExtractor();
   }
     
-  public WebFeedCreator(String sitename, Sitetype sitetype)
-  {
+  public WebFeedCreator(String sitename, Sitetype sitetype){
     this(Util.findSite(sitename, sitetype, true));
   }
   
-  public WebFeedCreator(Site site)
-  {
+  public WebFeedCreator(Site site){
     if (site == null) {
       throw new NullPointerException();
     }
-    
     this.site = site;
     this.simpleDateFormat = new SimpleDateFormat();
     this.extractor = new NodeExtractor();
   }
   
-  public Feed createFeed(PageNodes pageNodes)
-  {
+  public Feed createFeed(PageNodes pageNodes, Date datecreated){
+      
     Feed feed = new Feed();
     
-    updateFeed(feed, pageNodes);
+    updateFeed(feed, pageNodes, datecreated);
     
     return feed;
   }
   
-    public void updateFeed(Feed feed, PageNodes pageNodes) {
+    public void updateFeed(Feed feed, PageNodes pageNodes, Date datecreated) {
         
         XLogger xlog = XLogger.getInstance();
         Class cls = this.getClass();
@@ -91,7 +88,7 @@ public class WebFeedCreator {
         Map defaultValues = config.getMap(Config.Formatter.defaultValues);
         
 ////////////// Author        
-        String author = getValue(extract, "author", defaultValues);
+        String author = getValue(extract, "author", defaultValues, true);
         if ((author != null) && (author.startsWith("a target=")) && (author.contains("punch"))) {
             author = "Punch Newspaper";
         }
@@ -105,24 +102,27 @@ public class WebFeedCreator {
         feed.setAuthor(author);
         
 ////////////// Categories        
-        String categories = getValue(extract, "categories", defaultValues);
+        String categories = getValue(extract, "categories", defaultValues, true);
         if(categories == null) {
             categories = defaultCategories;
         }
         feed.setCategories(categories);
         
 ////////////// Content        
-        String content = extract.get("content");
-        feed.setContent(Util.truncate(Feed.class, "content", content));
+        final String $_s = getValue(extract, "content", defaultValues, false);
+        final String content = Util.removeNonBasicMultilingualPlaneChars($_s);
+        feed.setContent(content);
         
-//        feed.setDatecreated(new Date()); // set before creation
+////////////// Datecreated
+        feed.setDatecreated(datecreated);
 
 ////////////// Description        
-        String description = getValue(extract, "description", defaultValues);
+        String description = getValue(extract, "description", defaultValues, true);
         if(description == null) {
             Boolean descriptionIsGeneric = getBoolean(config, Config.Extractor.isDescriptionGeneric);
             if(descriptionIsGeneric) {
-                description = format(content, (String)defaultValues.get("description"), 300);
+                description = format(content, (String)defaultValues.get("description"), 
+                        Util.getColumnDisplaySize(Feed.class, "description"), true);
             }else{
                 if(pageNodes.getDescription() != null) {
                     MetaTag meta = pageNodes.getDescription();
@@ -193,7 +193,7 @@ public class WebFeedCreator {
         cls, extract.get("imageurl"), feed.getImageurl());
 
 ////////////// Title        
-        String keywords = getValue(extract, "keywords", defaultValues);
+        String keywords = getValue(extract, "keywords", defaultValues, true);
         if(keywords == null) {
             if(pageNodes.getKeywords() != null) {
                 MetaTag meta = pageNodes.getKeywords();
@@ -203,7 +203,7 @@ public class WebFeedCreator {
         feed.setKeywords(keywords);
         
 ////////////// Title
-        String title = getValue(extract, "title", defaultValues);
+        String title = getValue(extract, "title", defaultValues, true);
         if(title == null) {
             Boolean titleIsInUrl = getBoolean(config, Config.Extractor.isTitleInUrl);
             if(titleIsInUrl) {
@@ -213,7 +213,7 @@ public class WebFeedCreator {
             if(title == null) {
                 Boolean titleIsGeneric = getBoolean(config, Config.Extractor.isTitleGeneric);
                 if(titleIsGeneric) {
-                    title = format(content, null, Util.getColumnDisplaySize(Feed.class, "title"));
+                    title = format(content, null, Util.getColumnDisplaySize(Feed.class, "title"), true);
                 }else{
                     if(pageNodes.getTitle() != null) {
                         TitleTag titleTag = pageNodes.getTitle();
@@ -230,27 +230,27 @@ public class WebFeedCreator {
         feed.setUrl(pageNodes.getURL());
     }
     
-    private String getValue(Map<String, String> extract, String col, Map defaultValues) {
+    private String getValue(Map<String, String> extract, String col, Map defaultValues, boolean plainTextOnly) {
         
         String val = extract.get(col);
         
         if(val != null) {
             
-            val = format(col, val, defaultValues);
+            val = format(col, val, defaultValues, plainTextOnly);
         }
         
         return val;
     }
     
-    private String format(String col, String val, Map defaultValues) {
+    public String format(String col, String val, Map defaultValues, boolean plainTextOnly) {
         
-        int maxLen = Util.getColumnDisplaySize(Feed.class, col) - 3;
+        int maxLen = Util.getColumnDisplaySize(Feed.class, col);
         
-        return format(val, (String)defaultValues.get(col), maxLen);
+        return format(val, (String)defaultValues.get(col), maxLen, plainTextOnly);
     }
     
     public String format(
-            String s, String defaultValue, int maxLen) {
+            String s, String defaultValue, int maxLen, boolean plainTextOnly) {
         if(s == null) {
             s = defaultValue;
         }
@@ -258,7 +258,7 @@ public class WebFeedCreator {
         if(s == null) {
             s = defaultValue;
         }
-        return Util.truncate(s, maxLen);
+        return Util.truncate(s, maxLen-3);
     }
 
     private String getPlainText(String s) {

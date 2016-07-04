@@ -1,22 +1,38 @@
 package com.idisc.core.metrics;
 
-import com.idisc.core.FeedHitcountComparator;
-import com.idisc.core.Setup;
+import com.idisc.core.comparator.BaseFeedComparator;
 import com.idisc.core.FeedSelector;
+import com.idisc.core.IdiscTestBase;
+import com.idisc.core.html.FeedListTableHtml;
+import com.idisc.core.html.ToHtml;
 import com.idisc.pu.entities.Feed;
-import java.util.Date;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * @author poshjosh
  */
-public class HitcountMetrics {
+public class HitcountMetrics extends IdiscTestBase {
+
+    public HitcountMetrics() 
+            throws ConfigurationException, IOException, IllegalAccessException, 
+            InterruptedException, InvocationTargetException {
+    }
     
     public static void main(String [] args) {
+        try{
+            new HitcountMetrics().run();
+        }catch(ConfigurationException | IOException | IllegalAccessException | 
+                InterruptedException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void run() {
         
         try{
-            
-            Setup.setupApp();
             
             FeedSelector feedSelector = new FeedSelector();
             
@@ -25,7 +41,7 @@ public class HitcountMetrics {
             List<Feed> selected = feedSelector.getList(maxAgeDays, -1, 1000);
 log("Selected %s feeds", selected==null?null:selected.size());            
             
-            List<Feed> outputList = feedSelector.sort(selected, new FeedHitcountComparator(true), 10); 
+            List<Feed> outputList = feedSelector.sort(selected, new BaseFeedComparator(true), 10); 
 
 for(Feed feed:outputList) {
     System.out.print(sizeOf(feed.getFeedhitList())+", ");
@@ -37,11 +53,12 @@ for(Feed feed:outputList) {
     print(i++, feed, 150);
 }            
             
-//            ToHtml<List<Feed>> listHtml = new FeedListTableHtml("http://www.looseboxes.com", "/idisc", "/images/appicon.png");
+System.out.println("======================== PRINTING HTML =========================");
+            ToHtml<List<Feed>> listHtml = new FeedListTableHtml("http://www.looseboxes.com", "/idisc", "/images/appicon.png");
             
-//            String outputStr = listHtml.toHtml(outputList);
+            String outputStr = listHtml.toHtml(outputList);
             
-//System.out.println(outputStr);
+System.out.println(outputStr);
 
         }catch(Throwable t) {
             
@@ -49,7 +66,7 @@ for(Feed feed:outputList) {
         }
     }
     
-    private static void print(int serial, Feed feed, int maxContentLen) {
+    private void print(int serial, Feed feed, int maxContentLen) {
 log("Serial=%d, Feedid=%d, Site=%s, Hitcount=%d, Feeddate=%s, Categories=%s\nTitle=%s, Url=%s, ImageUrl=%s\n%s\n", 
         serial, feed.getFeedid(), feed.getSiteid().getSite(), sizeOf(feed.getFeedhitList()), 
         feed.getFeeddate(), feed.getCategories(), 
@@ -57,26 +74,4 @@ log("Serial=%d, Feedid=%d, Site=%s, Hitcount=%d, Feeddate=%s, Categories=%s\nTit
         truncate(feed.getContent(), maxContentLen, true));        
     }
     
-    private static int sizeOf(List list) {
-        return list == null ? 0 : list.size();
-    }
-    
-    private static String truncate(String str, int maxLen, boolean ellipsize) {
-        String output;
-        if(str == null || str.isEmpty() || str.length() <= maxLen) {
-            output = str;
-        }else {
-            final String prefix = ellipsize ? "..." : "";
-            output = str.substring(0, maxLen-prefix.length()) + prefix;
-        }
-        return output;
-    }
-    
-    private static void log(String format, Object... format_args) {
-        log(String.format(format, format_args));
-    }
-
-    private static void log(Object msg) {
-        System.out.println(new Date()+". "+msg);
-    }
 }

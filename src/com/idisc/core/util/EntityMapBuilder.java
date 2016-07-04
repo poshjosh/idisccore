@@ -1,7 +1,6 @@
 package com.idisc.core.util;
 
 import com.bc.htmlparser.ParseJob;
-import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
@@ -18,6 +17,7 @@ import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import com.bc.jpa.JpaContext;
 
 /**
  * @author Josh
@@ -360,8 +360,8 @@ public class EntityMapBuilder {
     return this._fhc;
   }
   
-  public ControllerFactory getControllerFactory() {
-    return IdiscApp.getInstance().getControllerFactory();
+  public JpaContext getControllerFactory() {
+    return IdiscApp.getInstance().getJpaContext();
   }
   
   public final boolean isPlainTextOnly() {

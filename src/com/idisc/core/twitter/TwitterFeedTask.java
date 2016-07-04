@@ -1,6 +1,5 @@
 package com.idisc.core.twitter;
 
-import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.jpa.fk.EnumReferences;
 import com.bc.json.config.JsonConfig;
@@ -48,18 +47,10 @@ import twitter4j.Trend;
 import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.User;
+import com.bc.jpa.JpaContext;
 
-
-
-
-
-
-
-
-
-public class TwitterFeedTask
-  implements Serializable, TaskHasResult<Collection<Feed>>
-{
+public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<Feed>>{
+    
   private final Collection<Feed> result;
   private final Sitetype timeline;
   private final Sitetype trending;
@@ -68,8 +59,7 @@ public class TwitterFeedTask
   private WebFeedCreator _fc;
   private ResumableUrlParser _parser_no_direct_access;
   
-  public TwitterFeedTask()
-  {
+  public TwitterFeedTask() {
     this.result = Collections.synchronizedCollection(new ArrayList());
     this.refs = getControllerFactory().getEnumReferences();
     this.timeline = ((Sitetype)this.refs.getEntity(References.sitetype.timeline));
@@ -77,21 +67,37 @@ public class TwitterFeedTask
     Configuration config = IdiscApp.getInstance().getConfiguration();
     this.tolerance = config.getFloat("dataComparisonTolerance", 0.0F);
   }
+
+  @Override
+  public Collection<Feed> call() throws TwitterException {
+    this.doRun();
+    return this.getResult();
+  }
   
-  public void run()
-  {
-    XLogger.getInstance().log(Level.FINER, "Running {0} :: {1}", getClass(), getClass().getSimpleName(), this);
+  @Override
+  public void run() {
+      
+    try {
+        
+      this.doRun();
+        
+    }catch (TwitterException e) {
+      XLogger.getInstance().logSimple(Level.WARNING, getClass(), e);
+    }catch (RuntimeException e) {
+      XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e);
+    }
+  }
+  
+  protected void doRun() throws TwitterException {
+      
+      XLogger.getInstance().log(Level.FINER, "Running {0} :: {1}", getClass(), getClass().getSimpleName(), this);
     
-
-
-    try
-    {
       TwitterClient twr = new TwitterClient();
       
-      long sinceId = getNewestTweetId();
-      XLogger.getInstance().log(Level.FINER, "Newest tweet id: {0}", getClass(), Long.valueOf(sinceId));
+      final long sinceId = getNewestTweetId();
       
-
+      XLogger.getInstance().log(Level.FINER, "Newest tweet id: {0}", getClass(), sinceId);
+      
       ResponseList<Status> timeLine;
       
       if (sinceId == -1L) {
@@ -105,28 +111,15 @@ public class TwitterFeedTask
       XLogger.getInstance().log(Level.FINE, "Twitter timeline count: {0}", getClass(), timeLine == null ? null : Integer.valueOf(timeLine.size()));
       XLogger.getInstance().log(Level.FINER, "Twitter timeline: {0}", getClass(), timeLine);
       
-      if ((timeLine != null) && (!timeLine.isEmpty()))
-      {
+      if ((timeLine != null) && (!timeLine.isEmpty())) {
         addTimeline(timeLine);
       }
-    }
-    catch (TwitterException e) {
-      XLogger.getInstance().logSimple(Level.WARNING, getClass(), e);
-    }
-    catch (RuntimeException e)
-    {
-      XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e);
-    }
   }
   
-  private long getNewestTweetId()
-  {
+  private long getNewestTweetId() {
+      
     EntityController<Feed, Integer> ec = getControllerFactory().getEntityController(Feed.class, Integer.class);
     
-
-
-
-
     Map params = Collections.singletonMap("categories", "statuses");
     
     Map<String, String> orderBy = Collections.singletonMap("feeddate", "DESC");
@@ -143,10 +136,8 @@ public class TwitterFeedTask
     return Long.parseLong(rawId);
   }
   
-
-
-  private void addTimeline(List<Status> statuses)
-  {
+  private void addTimeline(List<Status> statuses) {
+      
     if ((statuses == null) || (statuses.isEmpty())) {
       return;
     }
@@ -154,6 +145,8 @@ public class TwitterFeedTask
     NodeFilter filter0 = new NodeClassFilter(ImageTag.class);
     NodeFilter filter1 = new TagNameFilter("IMG");
     NodeFilter imagesFilter = new OrFilter(new NodeFilter[] { filter0, filter1 });
+    
+    Date datecreated = new Date();
     
     for (Status status : statuses)
     {
@@ -165,30 +158,22 @@ public class TwitterFeedTask
       
       boolean updatedWithDirectContents = false;
       
-
-
-
-
-
       String link = null;
       
       URLEntity[] entities = status.getURLEntities();
-      if ((entities != null) && (entities.length != 0))
-      {
-        for (URLEntity entity : entities)
-        {
+      if ((entities != null) && (entities.length != 0)) {
+          
+        for (URLEntity entity : entities) {
+            
           String expandedUrl = entity.getExpandedURL();
           
           XLogger.getInstance().log(Level.INFO, "URL: {0}\nExpanded URL: {1}", getClass(), entity.getURL(), expandedUrl);
           
-
           link = expandedUrl != null ? expandedUrl : entity.getURL();
           
-
-
-          if ((expandedUrl != null) && (!link.toLowerCase().contains("hootsuite")))
-          {
-            updatedWithDirectContents = updateFeedWithDirectContent(feed, expandedUrl, imagesFilter);
+          if ((expandedUrl != null) && (!link.toLowerCase().contains("hootsuite"))) {
+              
+            updatedWithDirectContents = updateFeedWithDirectContent(feed, expandedUrl, imagesFilter, datecreated);
           }
           
           if (updatedWithDirectContents) {
@@ -275,7 +260,7 @@ public class TwitterFeedTask
     }
   }
   
-  private boolean updateFeedWithDirectContent(Feed feed, String link, NodeFilter imagesFilter)
+  private boolean updateFeedWithDirectContent(Feed feed, String link, NodeFilter imagesFilter, Date datecreated)
   {
     try
     {
@@ -324,7 +309,7 @@ public class TwitterFeedTask
       fc.setImagesFilter(imagesFilter);
       fc.setTolerance(this.tolerance);
       
-      fc.updateFeed(feed, pageNodes);
+      fc.updateFeed(feed, pageNodes, datecreated);
       
       return true;
     }
@@ -486,8 +471,8 @@ public class TwitterFeedTask
     return this._parser_no_direct_access;
   }
   
-  private ControllerFactory getControllerFactory() {
-    return IdiscApp.getInstance().getControllerFactory();
+  private JpaContext getControllerFactory() {
+    return IdiscApp.getInstance().getJpaContext();
   }
   
   public Collection<Feed> getResult()

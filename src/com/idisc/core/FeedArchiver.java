@@ -1,7 +1,7 @@
 package com.idisc.core;
 
 import com.bc.jpa.EntityController;
-import com.bc.jpa.JPQL;
+import com.bc.jpa.query.JPQL;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Archivedfeed;
 import com.idisc.pu.entities.Feed;
@@ -336,7 +336,7 @@ logger.log(Level.FINER, "Rolling back active transaction", this.getClass());
   private EntityController<Feed, Integer> getFeedController()
   {
     if (this._fc == null) {
-      this._fc = IdiscApp.getInstance().getControllerFactory().getEntityController(Feed.class, Integer.class);
+      this._fc = IdiscApp.getInstance().getJpaContext().getEntityController(Feed.class, Integer.class);
     }
     return this._fc;
   }
@@ -344,7 +344,7 @@ logger.log(Level.FINER, "Rolling back active transaction", this.getClass());
   private EntityController<Archivedfeed, Integer> getArchivedfeedController()
   {
     if (this._afc == null) {
-      this._afc = IdiscApp.getInstance().getControllerFactory().getEntityController(Archivedfeed.class, Integer.class);
+      this._afc = IdiscApp.getInstance().getJpaContext().getEntityController(Archivedfeed.class, Integer.class);
     }
     return this._afc;
   }

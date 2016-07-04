@@ -15,24 +15,35 @@ public class RSSFeedTask extends ConcurrentTaskList {
     
   private static int siteOffset;
   
+  private final boolean acceptDuplicates;
+  
+  private final long timeoutEach;
+  
+  private final TimeUnit timeunitEach;
+  
   private Properties feedProperties;
   
-  public RSSFeedTask(long timeout, TimeUnit timeUnit) {
-    super(timeout, timeUnit);
+  public RSSFeedTask(
+      long timeout, TimeUnit timeUnit, 
+      long timeoutEach, TimeUnit timeunitEach, 
+      int maxConcurrent, boolean acceptDuplicates) {
+    super(timeout, timeUnit, maxConcurrent);
+    this.acceptDuplicates = acceptDuplicates;
+    this.timeoutEach = timeoutEach;
+    this.timeunitEach = timeunitEach;
     this.feedProperties = new RSSMgr().getFeedNamesProperties();
+  }
+  
+  @Override
+  public List<String> getTaskNames() {
+    Set<String> feedNames = this.feedProperties.stringPropertyNames();
+    return new ArrayList(feedNames);
   }
   
   @Override
   public List<String> distribute(List<String> values) {
       
     List<String> copy = new ArrayList(values);
-    
-    if (this.isRandomize()) {
-        
-      Collections.shuffle(copy);
-      
-      return copy;
-    }
     
     Collections.rotate(copy, siteOffset);
     
@@ -45,18 +56,15 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
   }
   
   @Override
-  public List<String> getTaskNames() {
-    Set<String> feedNames = this.feedProperties.stringPropertyNames();
-    return new ArrayList(feedNames);
-  }
-  
-  @Override
-  public StoppableTask createNewTask(String feedName)
-  {
+  public StoppableTask createNewTask(String feedName) {
+      
     XLogger.getInstance().entering(this.getClass(), "createNewTask(String)", feedName);
+    
     StoppableTask task = new RSSFeedDownloadTask(
             feedName, this.feedProperties.getProperty(feedName), 
-            this.isAcceptDuplicates(), this.getResult());
+            this.timeoutEach, this.timeunitEach, 
+            this.acceptDuplicates, this.getResult());
+    
     return task;
   }
 

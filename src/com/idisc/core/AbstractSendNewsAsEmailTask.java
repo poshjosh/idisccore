@@ -1,7 +1,6 @@
 package com.idisc.core;
 
 import com.idisc.core.util.BatchIterator;
-import com.bc.jpa.ControllerFactory;
 import com.bc.jpa.EntityController;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Extractedemail;
@@ -15,58 +14,55 @@ import java.util.logging.Level;
 import javax.mail.MessagingException;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import com.bc.jpa.JpaContext;
 
-public abstract class AbstractSendNewsAsEmailTask
-  extends BatchIterator<Extractedemail>
+public abstract class AbstractSendNewsAsEmailTask extends BatchIterator<Extractedemail>
   implements Runnable, Serializable, SendNewsAsEmailProperties
 {
   private transient EntityController<Extractedemail, Integer> _accessViaGetter;
   
   @Override
-  public void run()
-  {
-    try
-    {
+  public void run() {
+    try {
       doRun();
     } catch (RuntimeException e) {
-      XLogger.getInstance().log(Level.WARNING, "Unexpected exception.", getClass(), e);
+      XLogger.getInstance().log(Level.WARNING, "Thread: "+Thread.currentThread().getName(), getClass(), e);
     }
   }
   
-  private synchronized void doRun()
-  {
+  private synchronized void doRun() {
+      
     try {
-      while (hasNext())
-      {
-        try
-        {
+        
+      while (hasNext()) {
+          
+        try  {
+            
           Collection<Extractedemail> next = next();
           
           sendNext(next);
           
           wait(getSendInterval());
-        }
-        catch (MessagingException e)
-        {
+          
+        } catch (MessagingException e) {
+            
           XLogger.getInstance().log(Level.WARNING, "Error sending emails.", getClass(), e);
         }
       }
-    }
-    catch (InterruptedException e) {
+    } catch (InterruptedException e) {
+        
       XLogger.getInstance().log(Level.WARNING, "Send mail task interrupted", getClass(), e);
       
-
-
       Thread.currentThread().interrupt();
-    }
-    finally
-    {
+      
+    }finally {
+        
       notifyAll();
     }
   }
   
-  private void sendNext(Collection<Extractedemail> next) throws MessagingException
-  {
+  private void sendNext(Collection<Extractedemail> next) throws MessagingException {
+      
     XLogger.getInstance().log(Level.FINER, "Batch size: {0}", getClass(), next == null ? null : Integer.valueOf(next.size()));
     
     Iterator<Extractedemail> iter = next.iterator();
@@ -142,7 +138,7 @@ public abstract class AbstractSendNewsAsEmailTask
   public EntityController<Extractedemail, Integer> getEntityController()
   {
     if (this._accessViaGetter == null) {
-      ControllerFactory factory = IdiscApp.getInstance().getControllerFactory();
+      JpaContext factory = IdiscApp.getInstance().getJpaContext();
       this._accessViaGetter = factory.getEntityController(Extractedemail.class, Integer.class);
     }
     return this._accessViaGetter;
