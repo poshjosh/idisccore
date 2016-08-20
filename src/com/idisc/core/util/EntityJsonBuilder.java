@@ -15,35 +15,43 @@ import java.util.Map;
  */
 public class EntityJsonBuilder<E extends Appendable> extends JsonBuilder<E> {
     
-    private final EntityMapBuilder mapBuilder;
+  private final EntityMapBuilder mapBuilder;
 
-    public EntityJsonBuilder(int columnMaxLength) { 
-        super();
-        mapBuilder = new EntityMapBuilder(false, columnMaxLength);
-    }
+  public EntityJsonBuilder(int columnMaxLength) { 
+      
+    this(false, columnMaxLength);
+  }
     
-    public EntityJsonBuilder(boolean plainTextOnly, int columnMaxLength) { 
-        super();
-        mapBuilder = new EntityMapBuilder(plainTextOnly, columnMaxLength);
-    }
+  public EntityJsonBuilder(boolean plainTextOnly, int columnMaxLength) {
+      
+    this(false, plainTextOnly, columnMaxLength);
+  }
 
-    public EntityJsonBuilder(boolean tidyOutput, boolean plainTextOnly, int columnMaxLength) {
-        super(tidyOutput);
-        mapBuilder = new EntityMapBuilder(plainTextOnly, columnMaxLength);
-    }
+  public EntityJsonBuilder(boolean tidyOutput, boolean plainTextOnly, int columnMaxLength) {
+        
+    this(tidyOutput, true, plainTextOnly, columnMaxLength);
+  }
 
-    public EntityJsonBuilder(boolean tidyOutput, boolean escapeOutput, 
-            boolean plainTextOnly, int columnMaxLength) {
-        super(tidyOutput, escapeOutput);
-        mapBuilder = new EntityMapBuilder(plainTextOnly, columnMaxLength);
-    }
+  public EntityJsonBuilder(boolean tidyOutput, boolean escapeOutput, 
+      boolean plainTextOnly, int columnMaxLength) {
+        
+    this(tidyOutput, escapeOutput, "  ", new EntityMapBuilder(plainTextOnly, columnMaxLength));
+  }
 
-    public EntityJsonBuilder(boolean tidyOutput, boolean escapeOutput, 
+  public EntityJsonBuilder(boolean tidyOutput, boolean escapeOutput, 
             String indent, boolean plainTextOnly, int columnMaxLength) {
-        super(tidyOutput, escapeOutput, indent);
-        mapBuilder = new EntityMapBuilder(plainTextOnly, columnMaxLength);
-    }
+      
+    this(tidyOutput, escapeOutput, indent, new EntityMapBuilder(plainTextOnly, columnMaxLength));
+  }
 
+  public EntityJsonBuilder(boolean tidyOutput, boolean escapeOutput, 
+            String indent, EntityMapBuilder mapBuilder) {
+      
+    super(tidyOutput, escapeOutput, indent);
+    
+    this.mapBuilder = mapBuilder;
+  }
+  
   @Override
   public void appendJSONString(Object value, E appendTo) throws IOException {
     if ((value instanceof Feed)) {

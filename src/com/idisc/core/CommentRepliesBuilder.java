@@ -1,12 +1,10 @@
 package com.idisc.core;
 
-import com.bc.jpa.query.JPQL;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Comment;
 import com.idisc.pu.entities.Installation;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,11 +18,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import com.bc.jpa.JpaContext;
+import com.idisc.pu.entities.Comment_;
+import com.idisc.pu.entities.Commentreplynotice;
+import com.bc.jpa.dao.BuilderForSelect;
 
-public class CommentNotificationsBuilder {
+public class CommentRepliesBuilder {
     
   public List<Map<String, Object>> build(
-      Installation installation, boolean directRepliesOnly, int maxAgeDays, boolean repeat) {
+      Installation installation, boolean directRepliesOnly, int maxAgeDays, int maxNotifications) {
       
     JpaContext cf = IdiscApp.getInstance().getJpaContext();
     
@@ -35,7 +36,7 @@ public class CommentNotificationsBuilder {
       List<Comment> comments = getComments(em, installation, maxAgeDays);
       
 XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} days old or earlier", 
-        this.getClass(), comments==null?null:comments.size(), maxAgeDays);
+        this.getClass(), installation, comments==null?null:comments.size(), maxAgeDays);
 
       if ((comments == null) || (comments.isEmpty())) {
         return Collections.EMPTY_LIST;
@@ -52,8 +53,9 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
         t.begin();
         
         for (Comment comment : comments) {
-            
-          if (repeat || !isUserAlreadyNotified(comment)) {
+// commentreplynotice            
+          if ((maxNotifications < 1 || this.getNotificationCount(comment) < maxNotifications) && 
+                  !this.isReadByUser(comment)) {
 
             List<Comment> replies = getReplies(comment, directRepliesOnly);
             
@@ -62,11 +64,11 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
             
             if ((replies != null) && (!replies.isEmpty())) {
 
-              commentReplies.put(comment, replies);
-              
-              comment.setDateusernotified(NOW);
-              
-              em.merge(comment);
+              Commentreplynotice notification = new Commentreplynotice();
+              notification.setCommentid(comment);
+              notification.setDateusernotified(NOW);
+
+              em.persist(notification);
             }
           }
         }
@@ -106,17 +108,40 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
     }
   }
   
+  public int getNotificationCount(Comment comment) {
+    List<Commentreplynotice> notifications = comment.getCommentreplynoticeList();
+    if(notifications == null || notifications.isEmpty()) {
+      return 0;
+    }else{
+      return notifications.size();
+    }
+  }
+
+  public boolean isReadByUser(Comment comment) {
+    List<Commentreplynotice> notifications = comment.getCommentreplynoticeList();
+    if(notifications == null || notifications.isEmpty()) {
+      return false;    
+    }else{
+      return notifications.get(0).getDateuserread() != null;
+    }
+  }
+  
   public boolean isUserAlreadyNotified(Comment comment) {
-    return comment.getDateusernotified() != null;
+    List<Commentreplynotice> notifications = comment.getCommentreplynoticeList();
+    if(notifications == null || notifications.isEmpty()) {
+      return false;    
+    }else{
+      return notifications.get(0).getDateusernotified() != null;
+    }
   }
   
   public List<Comment> getReplies(Comment comment, boolean directReplies) {
       
     List<Comment> replies = directReplies ? comment.getCommentList() : comment.getFeedid().getCommentList();
     
-    replies = new ArrayList(replies);
+    replies = replies == null ? Collections.EMPTY_LIST : new ArrayList(replies);
     
-    if (!directReplies) {
+    if (directReplies) {
 
       Iterator<Comment> iter = replies.iterator();
       
@@ -136,40 +161,18 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
   
   public List<Comment> getComments(EntityManager em, Installation installation, int maxAgeDays) {
       
-    JpaContext cf = IdiscApp.getInstance().getJpaContext();
-    
-    JPQL jpql = cf.getJpql(Comment.class);
-    
-    Map<String, Object> where = new HashMap(3, 1.0F);
-    
-    where.put("installationid", installation);
-    
     Calendar cal = Calendar.getInstance();
     cal.add(6, -maxAgeDays);
-    where.put("datecreated", cal.getTime());
     
-    XLogger.getInstance().log(Level.FINER, "Query parameters: {0}", this.getClass(), where);
+    JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
     
-    StringBuilder query = new StringBuilder();
+    BuilderForSelect<Comment> qb = jpaContext.getBuilderForSelect(Comment.class);
     
-    String tableAlias = jpql.getTableAlias();
+    qb.descOrder(Comment_.commentid.getName());
     
-    jpql.appendSelectQuery(null, query);
+    this.format(qb, installation, cal.getTime());
     
-    query.append(" WHERE ");
-    
-    jpql.setComparisonOperator("=");
-    jpql.appendWherePair("installationid", tableAlias, query);
-    
-    query.append(" AND ");
-    jpql.setComparisonOperator(" >= ");
-    jpql.appendWherePair("datecreated", tableAlias, query);
-    
-    XLogger.getInstance().log(Level.FINER, "Query: {0}", this.getClass(), query);
-    
-    TypedQuery<Comment> tq = em.createQuery(query.toString(), Comment.class);
-    
-    jpql.updateQuery(em, tq, where, true);
+    TypedQuery<Comment> tq = qb.createQuery();
     
     List<Comment> comments = tq.getResultList();
     
@@ -182,41 +185,19 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
   public List<Integer> getFeedidsForUserComments(
           EntityManager em, Installation installation, int maxAgeDays) {
       
-    JpaContext cf = IdiscApp.getInstance().getJpaContext();
+    JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+
+    BuilderForSelect<Integer> qb = jpaContext.getBuilderForSelect(Comment.class, Integer.class);
     
-    JPQL jpql = cf.getJpql(Comment.class);
-    
-    Map<String, Object> where = new HashMap(3, 1.0F);
-    
-    where.put("installationid", installation);
+    qb.select(Comment_.feedid.getName());
+    qb.descOrder(Comment_.feedid.getName());
     
     Calendar cal = Calendar.getInstance();
     cal.add(6, -maxAgeDays);
-    where.put("datecreated", cal.getTime());
     
-    XLogger.getInstance().log(Level.FINER, "Query parameters: {0}", this.getClass(), where);
+    this.format(qb, installation, cal.getTime());
     
-    StringBuilder query = new StringBuilder();
-    
-    String tableAlias = jpql.getTableAlias();
-    
-    Collection columnToSelect = Collections.singleton("feedid");
-    jpql.appendSelectQuery(columnToSelect, query);
-    
-    query.append(" WHERE ");
-    
-    jpql.setComparisonOperator("=");
-    jpql.appendWherePair("installationid", tableAlias, query);
-    
-    query.append(" AND ");
-    jpql.setComparisonOperator(" >= ");
-    jpql.appendWherePair("datecreated", tableAlias, query);
-    
-    XLogger.getInstance().log(Level.FINER, "Query: {0}", this.getClass(), query);
-    
-    TypedQuery<Integer> tq = em.createQuery(query.toString(), Integer.class);
-    
-    jpql.updateQuery(em, tq, where, true);
+    TypedQuery<Integer> tq = qb.createQuery();
     
     List<Integer> feedids = tq.getResultList();
     
@@ -224,5 +205,11 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
             this.getClass(), feedids == null ? null : feedids.size());
     
     return feedids;
+  }
+  
+  private void format(BuilderForSelect<?> select, Installation installation, Date date) {
+      
+    select.where(Comment_.installationid.getName(), BuilderForSelect.EQ, installation)
+    .and().where(Comment_.datecreated.getName(), BuilderForSelect.GTE, date);
   }
 }

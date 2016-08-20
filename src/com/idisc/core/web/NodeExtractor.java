@@ -13,8 +13,10 @@ import com.scrapper.util.PageNodes;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import org.htmlparser.Tag;
+import org.htmlparser.tags.BodyTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
@@ -36,57 +38,75 @@ public class NodeExtractor {
       
     Map<String, String> output = null;
     
-    CapturerContext context = getContext();
-    
-    if (context == null) {
-      throw new NullPointerException();
-    }
+    CapturerContext context = Objects.requireNonNull(getContext());
     
     final int MAX = 20;
     
-    for (int i = 0; i < 10; i++)
-    {
-      Object targetProps = context.getConfig().getObject(new Object[] { "targetNode" + i });
-      
-      if (targetProps == null)
-      {
-        if (i != 0)
-          break;
-        NodeList targetNodes = pageNodes.getBody().getChildren();
+    for (int i = 0; i < MAX; i++) {
         
-        output = Collections.singletonMap("content", targetNodes.toHtml());
+      final Object targetProps = context.getConfig().getObject(new Object[] { "targetNode" + i });
+      
+      if (targetProps == null) {
+          
+        if (i == 0) {
+            
+          final String content = this.getContent(pageNodes, null);
+        
+          if(content != null) {
+            output = Collections.singletonMap("content", content);
+          }else{
+            output = Collections.EMPTY_MAP;  
+          }
+        }
         
         break;
       }
       
-
-
       Map.Entry<String, String> entry;
-      
-
-      try
-      {
+      try {
+          
         entry = extract(pageNodes, i);
-      }
-      catch (ParserException e)
-      {
+        
+      } catch (ParserException e) {
+          
         XLogger.getInstance().log(Level.WARNING, "Parse failed", getClass(), e);
         
-        NodeList targetNodes = pageNodes.getBody().getChildren();
-        
-        entry = newEntry("content", targetNodes.toHtml());
-        
-        i = 10;
+        String content = this.getContent(pageNodes, null);
+
+        if(content != null) {
+            
+            entry = newEntry("content", content);
+
+            i = MAX;
+            
+        }else{
+            
+            entry = null;
+        }
       }
       
       if (output == null) {
         output = new HashMap();
       }
       
+      if(entry != null) {
       output.put(entry.getKey(), entry.getValue());
+      }
     }
     
     return output;
+  }
+  
+  public String getContent(PageNodes pageNodes, String outputIfNone) {
+    String content;
+    BodyTag bodyTag = pageNodes.getBody();
+    if(bodyTag == null) {
+        NodeList nodes = pageNodes.getNodeList();
+        content = nodes == null ? null : nodes.toHtml();
+    }else{
+        content = bodyTag.toHtml();
+    }
+    return content == null ? outputIfNone : content;
   }
   
   public Map.Entry<String, String> extract(PageNodes pageNodes, int index)
@@ -133,6 +153,9 @@ public class NodeExtractor {
     String key = context.getSettings().getColumns(name)[0];
     String val = nodeExtractor.getExtract().toString();
     
+//if("content".equals(key)) {
+//System.out.println("" + new Date() + '@' + this.getClass().getName()+"\n----------------------\n"+val+"\n----------------------");    
+//}    
     XLogger.getInstance().log(Level.FINER, "Extracted: {0}={1}", getClass(), key, val);
     
     return newEntry(key, val);

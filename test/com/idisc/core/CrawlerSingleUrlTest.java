@@ -54,11 +54,13 @@ public class CrawlerSingleUrlTest extends IdiscTestBase {
         String site;
 //        site = "thisday";
 //        site = "naij";
-//        site = "dailytrust";
+        site = "dailytrust";
 //        site = "punchng";
 //        site = "channelstv_headlines";
 //        site = "bellanaija";
-      site = "lindaikeji.blogspot";
+//      site = "lindaikeji.blogspot";
+//        site = "ngrguardiannews";
+//        site = "thenationonlineng";
         return site;
     }
     
@@ -112,7 +114,7 @@ log("Extracted "+(feeds==null?null:feeds.size())+" feeds");
         while(iter.hasNext()) {
         
             Feed feed = iter.next();
-log(" = = = = = = = = = = = =  PRINTING FEED = = = = = = = = = = = =  ");            
+log(true, " = = = = = = = = = = = =  PRINTING FEED = = = = = = = = = = = =  ");            
 log(false, "Title: "+feed.getTitle());            
 log(false, "Author: "+feed.getAuthor());
 log(false, "Feeddate: "+feed.getFeeddate());
@@ -121,9 +123,9 @@ log(false, "Description: "+feed.getDescription());
 log(false, "Content: "+feed.getContent());
         }
         
-        JpaContext cf = this.getIdiscApp().getJpaContext();
+        JpaContext jpaContext = this.getIdiscApp().getJpaContext();
         
-        final int updateCount = cf.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
+        final int updateCount = jpaContext.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
 log("Update count: "+updateCount);        
     }
     

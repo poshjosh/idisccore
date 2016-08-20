@@ -19,7 +19,16 @@ public class BaseFeedComparator extends AbstractComparator<Feed> implements Seri
     @Override
     public long getScore(Feed feed) {
         
-        return this.countFeedHits(feed);
+        long score = this.countFeedHits(feed);
+        
+        String imageUrl = feed.getImageurl();
+        
+        if(imageUrl != null) {
+            
+            score = score * 2;
+        }
+        
+        return score;
     }
     
     public final int countFeedHits(Feed feed) {

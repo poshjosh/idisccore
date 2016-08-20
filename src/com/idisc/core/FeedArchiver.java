@@ -1,7 +1,7 @@
 package com.idisc.core;
 
 import com.bc.jpa.EntityController;
-import com.bc.jpa.query.JPQL;
+import com.bc.jpa.JpaContext;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Archivedfeed;
 import com.idisc.pu.entities.Feed;
@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.persistence.annotations.BatchFetchType;
 import org.eclipse.persistence.exceptions.DatabaseException;
+import com.bc.jpa.dao.BuilderForSelect;
 
 public class FeedArchiver
 {
@@ -253,15 +254,18 @@ logger.log(Level.FINER, "Rolling back active transaction", this.getClass());
     return output;
   }
   
-  public List getFeedIdsBefore(Date before, int offset, int limit) {
-    EntityController<Feed, Integer> ec = getFeedController();
-    JPQL jpql = ec.getJpql();
-    String old_value = jpql.getComparisonOperator();
-    try {
-      jpql.setComparisonOperator("<");
-      return ec.selectColumn("feedid", "feeddate", before, offset, limit);
-    } finally {
-      jpql.setComparisonOperator(old_value);
+  public List<Integer> getFeedIdsBefore(Date before, int offset, int limit) {
+      
+    final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+    
+    try(BuilderForSelect<Integer> qb = jpaContext.getBuilderForSelect(Feed.class, Integer.class)) {
+        
+        List<Integer> feedids = qb.from(Feed.class)
+        .select("feedid")        
+        .where("feeddate", BuilderForSelect.LT, before)
+        .createQuery().getResultList();
+        
+        return feedids;
     }
   }
   
@@ -323,7 +327,7 @@ logger.log(Level.FINER, "Rolling back active transaction", this.getClass());
     feedarchive.setExtradetails(feed.getExtradetails());
     feedarchive.setArchivedfeedid(null);
     feedarchive.setFeeddate(feed.getFeeddate());
-    feedarchive.setFeedid(feed.getFeedid().intValue());
+    feedarchive.setFeedid(feed.getFeedid());
     feedarchive.setImageurl(feed.getImageurl());
     feedarchive.setKeywords(feed.getKeywords());
     feedarchive.setRawid(feed.getRawid());

@@ -6,7 +6,6 @@ import com.bc.task.StoppableTask;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
 import com.idisc.core.TaskHasResult;
-import com.idisc.core.util.Util;
 import com.idisc.pu.References;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Sitetype;
@@ -23,8 +22,9 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.configuration.Configuration;
 import org.htmlparser.NodeFilter;
 import com.bc.jpa.JpaContext;
+import com.idisc.core.filters.CapturerContextImagesFilter;
 
-public class NewsCrawler extends Crawler
+public class NewsCrawler extends Crawler<Collection<Feed>>
   implements TaskHasResult<Collection<Feed>>, StoppableTask {
     
   private transient static final Class cls = NewsCrawler.class;
@@ -136,28 +136,19 @@ public class NewsCrawler extends Crawler
   }
 
     @Override
-  public Collection<Feed> call() {
-    doRun();
-    return this.getResult();
-  }
-  
-  @Override
-  protected void doRun() {
+  public Collection<Feed> doCall() {
       
     logger.log(Level.FINER, "Running task {0} for {1}", cls, cls.getName(), this.getSitename());
 
     try{
-        
+
         int scrappLimit = getLimit(Config.Extractor.scrappLimit);
 
         int scrapped = 0;
 
-        String baseUrl = getContext().getConfig().getString(new Object[] { "url", "value" });
-        NodeFilter imagesFilter = Util.createImagesFilter(baseUrl);
+        NodeFilter imagesFilter = new CapturerContextImagesFilter(this.getContext());
 
-        WebFeedCreator feedCreator = new WebFeedCreator(getSitename(), this.sitetype);
-        feedCreator.setImagesFilter(imagesFilter);
-        feedCreator.setTolerance(this.tolerance);
+        WebFeedCreator feedCreator = new WebFeedCreator(getSitename(), this.sitetype, imagesFilter, this.tolerance);
         
         Date datecreated = new Date();
         
@@ -171,10 +162,7 @@ public class NewsCrawler extends Crawler
 
           logger.log(Level.FINER, "PageNodes: {0}", cls, pageNodes);
 
-          if ((pageNodes != null) && (pageNodes.getBody() != null) && 
-            ((pageNodes.getTitle() == null) || (!pageNodes.getTitle().toPlainTextString().toLowerCase().contains("400 bad request"))) && 
-            (!pageNodes.getURL().equals(getStartUrl())))
-          {
+          if (this.accept(pageNodes)){
 
             Feed feed = feedCreator.createFeed(pageNodes, datecreated);
 
@@ -191,6 +179,18 @@ public class NewsCrawler extends Crawler
         logger.log(Level.FINE, "Site: {0}, added: {1} feeds", cls,
                 this.getSitename(), this.result == null ? null : this.result.size());
     } 
+    
+    return this.getResult();
+  }
+  
+  public boolean accept(PageNodes pageNodes) {
+    return (pageNodes != null && //pageNodes.getBody() != null && 
+        this.acceptTitle(pageNodes) && 
+        !pageNodes.getURL().equals(getStartUrl()));
+  }
+  
+  private boolean acceptTitle(PageNodes pageNodes) {
+    return pageNodes.getTitle() == null || !pageNodes.getTitle().toPlainTextString().toLowerCase().contains("400 bad request");  
   }
   
   @Override

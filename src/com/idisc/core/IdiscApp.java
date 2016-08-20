@@ -1,17 +1,11 @@
 package com.idisc.core;
 
-import com.bc.mail.config.DefaultMailConfig;
-import com.bc.mail.config.MailConfig;
-import com.bc.mail.config.XMLMailConfig;
-import com.bc.sql.MySQLDateTimePatterns;
 import com.bc.util.XLogger;
-import com.idisc.pu.IdiscJpaContext;
 import com.scrapper.AppProperties;
 import com.scrapper.CapturerApp;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import org.apache.commons.configuration.AbstractFileConfiguration;
@@ -20,16 +14,17 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import com.bc.jpa.JpaContext;
+import com.bc.sql.MySQLDateTimePatterns;
+import com.idisc.pu.IdiscJpaContext;
 
 public class IdiscApp {
     
   private boolean initialized;
   private String persistenceFilename;
   private String scrapperPropertiesFilename;
-  private XMLMailConfig mailConfig;
   private Configuration config;
   private static IdiscApp instance;
-  private JpaContext _cf;
+  private JpaContext jpaContext;
   
   protected IdiscApp(){
     this.persistenceFilename = "META-INF/persistence.xml";
@@ -50,6 +45,7 @@ public class IdiscApp {
   public void init()
     throws ConfigurationException, IOException, IllegalAccessException, 
           InterruptedException, InvocationTargetException {
+      
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
     
     URL defaultFileLoc = loader.getResource("META-INF/properties/idiscdefaults.properties");
@@ -92,16 +88,24 @@ public class IdiscApp {
     
     AppProperties.load(this.scrapperPropertiesFilename);
     
+    this.jpaContext = this.initJpaContext(persistenceFilename);
+    
     CapturerApp.getInstance().init(false);
     
     this.initialized = true;
     
     XLogger.getInstance().log(Level.INFO, "Done initializing app", getClass());
   }
+  
+  public JpaContext initJpaContext(String persistenceFilename) throws IOException {
+      
+      return new IdiscJpaContext(persistenceFilename, new MySQLDateTimePatterns());
+  }
 
-  public Configuration loadConfig(URL defaultFileLocation, URL fileLocation, char listDelimiter)
-    throws ConfigurationException
-  {
+  public Configuration loadConfig(
+          URL defaultFileLocation, URL fileLocation, char listDelimiter)
+          throws ConfigurationException {
+      
     XLogger.getInstance().log(Level.INFO, "Loading properties configuration. List delimiter: {0}\nDefault file: {1}\nFile: {2}", getClass(), Character.valueOf(listDelimiter), defaultFileLocation, fileLocation);
 
     if (fileLocation == null) {
@@ -176,33 +180,12 @@ public class IdiscApp {
     return new File(relativePath).getAbsolutePath();
   }
   
-  public MailConfig getMailConfig() {
-    if (this.mailConfig == null) {
-      String baseURL = getConfiguration().getString("baseURL");
-      try {
-        this.mailConfig = new DefaultMailConfig(new URL(baseURL));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
-    }
-    return this.mailConfig;
-  }
-  
   public Configuration getConfiguration() {
     return this.config;
   }
   
-  public JpaContext getJpaContext()
-  {
-    if (this._cf == null) {
-      try {
-        this._cf = new IdiscJpaContext(
-                getPersistenceFilename(), new MySQLDateTimePatterns());
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-    return this._cf;
+  public JpaContext getJpaContext() {
+    return this.jpaContext;
   }
   
   public boolean isInitialized() {
@@ -222,7 +205,7 @@ public class IdiscApp {
       throw new NullPointerException();
     }
     this.persistenceFilename = persistenceFilename;
-    this._cf = null;
+    this.jpaContext = null;
   }
   
   public String getScrapperPropertiesFilename() {

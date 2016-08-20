@@ -1,11 +1,14 @@
 package com.idisc.core;
 
+import com.bc.jpa.JpaContext;
 import com.bc.util.XLogger;
+import com.idisc.pu.IdiscJpaContext;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.scrapper.CapturerApp;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +26,7 @@ public class IdiscTestBase {
     public IdiscTestBase() 
             throws ConfigurationException, IOException, IllegalAccessException, 
             InterruptedException, InvocationTargetException{
-        this(Level.FINER);
+        this(Level.INFO);
     }
     
     public IdiscTestBase(Level logLevel) 
@@ -32,11 +35,19 @@ public class IdiscTestBase {
         
         if(idiscApp == null) {
             
-            idiscApp = this.createIdiscApp("META-INF/persistence_remote.xml");
+System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  Initializing IdiscApp");
+
+            idiscApp = this.createIdiscApp();
             IdiscApp.setInstance(idiscApp);
             idiscApp.setScrapperPropertiesFilename("META-INF/properties/idisccore_scrapper_devmode.properties");
 
             idiscApp.init();
+            
+            JpaContext jpaContext = idiscApp.getJpaContext();
+            
+System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  JpaContext type: "+jpaContext==null?null:jpaContext.getClass().getName());
+            
+//            jpaContext.getQueryBuilder(Feed.class);
 
             capturerApp = idiscApp.getCapturerApp();
 
@@ -75,13 +86,19 @@ public class IdiscTestBase {
         return feed;
     }
     
-    private IdiscApp createIdiscApp(String persistenceFilename) {
-        if(persistenceFilename == null) {
-            persistenceFilename = "META-INF/persistence_remote.xml";
+    private IdiscApp createIdiscApp() {
+        try{
+            final URI uri = new URI("file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/test/META-INF/persistence.xml");
+            IdiscApp app = new IdiscApp(){
+                @Override
+                public JpaContext initJpaContext(String persistenceFilename) throws IOException {
+                    return new IdiscJpaContext(uri);
+                }
+            };
+            return app;
+        }catch(Exception e) {
+            throw new RuntimeException(e);
         }
-        IdiscApp app = new IdiscApp();
-        app.setPersistenceFilename(persistenceFilename);
-        return app;
     }
 
     public int sizeOf(List list) {

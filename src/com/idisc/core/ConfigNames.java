@@ -3,6 +3,7 @@ package com.idisc.core;
 public abstract interface ConfigNames {
   public static final String NIGERIAN_NEWSMEDIA = "nigerian_newsmedia";
   public static final String BASE_URL = "baseURL";
+  public static final String DEFAULTSITE_ID = "defaultSite.id";
   public static final String MAX_FEED_AGE_DAYS = "maxFeedAgeDays";
   public static final String ARCHIVE_BATCH_SIZE = "archiveBatchSize";
   public static final String REQUESTHANDLER_PROVIDER = "requesthandlerFactory";

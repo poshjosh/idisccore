@@ -63,7 +63,7 @@ XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Inpu
   @Override
   public NewsCrawler createNewTask(String site) {
       
-    JsonConfig config = CapturerApp.getInstance().getConfigFactory().getConfig(site);
+    JsonConfig config = CapturerApp.getInstance().getConfigFactory().getContext(site).getConfig();
     
     if(config == null) {
         throw new NullPointerException(JsonConfig.class.getSimpleName()+" for site: "+site+" is null");

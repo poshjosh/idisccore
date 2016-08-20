@@ -1,0 +1,64 @@
+==== = ==  === = = = = = = = =  Site: aitonline_news, deficient: true
+==== = ==  === = = = = = = = =  Results: 1
+==== = ==  === = = = = = = = =  Updated: 1
+==== = ==  === = = = = = = = =  Site: bellanaija, deficient: true
+==== = ==  === = = = = = = = =  Results: 18
+==== = ==  === = = = = = = = =  Updated: 14
+==== = ==  === = = = = = = = =  Site: channelstv_headlines, deficient: true
+==== = ==  === = = = = = = = =  Results: 17
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: dailytrust, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: leadership.ng, deficient: true
+==== = ==  === = = = = = = = =  Results: 21
+==== = ==  === = = = = = = = =  Updated: 21
+==== = ==  === = = = = = = = =  Site: lindaikeji.blogspot, deficient: true
+==== = ==  === = = = = = = = =  Results: 39
+==== = ==  === = = = = = = = =  Updated: 39
+==== = ==  === = = = = = = = =  Site: naij, deficient: true
+==== = ==  === = = = = = = = =  Results: 39
+==== = ==  === = = = = = = = =  Updated: 34
+==== = ==  === = = = = = = = =  Site: ngrguardiannews, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: punchng, deficient: true
+==== = ==  === = = = = = = = =  Results: 39
+
+[EL Warning]: 2016-07-08 09:34:16.222--ClientSession(17344334)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'content' cannot be null
+Error Code: 1048
+Call: INSERT INTO feed (author, categories, content, datecreated, description, extradetails, feeddate, imageurl, keywords, rawid, timemodified, title, url, siteid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	bind => [14 parameters bound]
+Query: ValueReadQuery(name="SEQ_GEN_IDENTITY" sql="SELECT LAST_INSERT_ID()")
+
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: saharareporters, deficient: true
+==== = ==  === = = = = = = = =  Results: 34
+==== = ==  === = = = = = = = =  Updated: 6
+==== = ==  === = = = = = = = =  Site: sunnewsonline_breaking, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: sunnewsonline_national, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: thenationonlineng, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: thisday, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: tribune, deficient: true
+==== = ==  === = = = = = = = =  Results: 0
+==== = ==  === = = = = = = = =  Updated: 0
+==== = ==  === = = = = = = = =  Site: vanguardngr, deficient: true
+==== = ==  === = = = = = = = =  Results: 39
+
+[EL Warning]: 2016-07-08 09:43:29.401--ClientSession(9241659)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'content' cannot be null
+Error Code: 1048
+Call: INSERT INTO feed (author, categories, content, datecreated, description, extradetails, feeddate, imageurl, keywords, rawid, timemodified, title, url, siteid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	bind => [14 parameters bound]
+Query: ValueReadQuery(name="SEQ_GEN_IDENTITY" sql="SELECT LAST_INSERT_ID()")
+
+==== = ==  === = = = = = = = =  Updated: 0

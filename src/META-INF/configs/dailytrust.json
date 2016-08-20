@@ -10,61 +10,64 @@
     "isTitleGeneric":false,
     "isTitleInUrl":false,
     "targetNode0":{
-        "append":false,
-        "columns":["title"],
-        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <h1>"],
-        "value":"H1"
-    },
-    "targetNode1":{
-        "append":false,
-        "attributes":{
-            "class":"fleft storydate"
-        },
-        "columns":["author"],
-        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <h1> <span class=\"fleft storydate\">"],
-        "value":"SPAN"
-    },
-    "targetNode2":{
-        "append":false,
-        "attributes":{
-            "class":"fleft storydate"
-        },
-        "columns":["feeddate"],
-        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <h1> <span class=\"fleft storydate\">"],
-        "value":"SPAN"
-    },
-    "targetNode3":{
-        "append":false,
-        "attributesRegex":{
-            "alt":".+?",
-            "src":".+?",
-            "title":".+?"
-        },
-        "attributesToExtract":["src"],
-        "columns":["imageurl"],
-        "nodeTypesToAccept":["tag"],
-        "nodesToRetainAttributes":["IMG"],
-        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvtopStory\" class=\"story\">","<span class=\"fleft storypic\">","<div style=\"${@regex(.+?)}\">","<IMG>"],
-        "value":"IMG"
-    },
-    "targetNode4":{
-        "append":true,
-        "attributesRegex":{
-            "style":".+?"
-        },
-        "columns":["description"],
-        "nodeTypesToAccept":["tag","text"],
-        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvbtmStory\" class=\"fleft\">","<span class=\"fullstory\">","<p>","<b style=\"${@regex(.+?)}\"> <span style=\"${@regex(.+?)}\">"],
-        "value":"SPAN"
-    },
-    "targetNode5":{
-        "append":false,
+        "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"${@regex(.+?)}\" class=\"fleft\">","<span class=\"fullstory\">"],
         "attributes":{
             "class":"fullstory"
         },
-        "columns":["content"],
-        "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"ctl00_ContentPlaceHolder1_dvbtmStory\" class=\"fleft\">","<span class=\"fullstory\">"],
-        "value":"SPAN"
+        "append":false,
+        "value":"SPAN",
+        "columns":["content"]
+    },
+    "targetNode1":{
+        "nodeTypesToAccept":["text"],
+        "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"${@regex(.+?)}\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <div class=\"${@regex(.+?)}\"> <h1>"],
+        "append":false,
+        "value":"H1",
+        "columns":["title"]
+    },
+    "targetNode2":{
+        "nodeTypesToAccept":["text"],
+        "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"${@regex(.+?)}\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <div class=\"${@regex(.+?)}\"> <h1> <span class=\"fleft storydate\">"],
+        "attributes":{
+            "class":"fleft storydate"
+        },
+        "append":false,
+        "value":"SPAN",
+        "columns":["author"]
+    },
+    "targetNode3":{
+        "nodeTypesToAccept":["text"],
+        "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"${@regex(.+?)}\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <div class=\"${@regex(.+?)}\"> <h1> <span class=\"fleft storydate\">"],
+        "attributes":{
+            "class":"fleft storydate"
+        },
+        "append":false,
+        "value":"SPAN",
+        "columns":["feeddate"]
+    },
+    "targetNode4":{
+        "nodeTypesToAccept":["tag"],
+        "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"${@regex(.+?)}\" class=\"story\">","<span class=\"fleft storypic\">","<div style=\"${@regex(.+?)}\">","<IMG>"],
+        "append":false,
+        "value":"IMG",
+        "attributesRegex":{
+            "title":".+?",
+            "alt":".+?",
+            "src":".+?"
+        },
+        "columns":["imageurl"],
+        "nodesToRetainAttributes":["IMG"],
+        "attributesToExtract":["src"]
+    },
+    "targetNode5":{
+        "nodeTypesToAccept":["text"],
+        "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"${@regex(.+?)}\" class=\"fleft\">","<span class=\"fullstory\">","<p style=\"${@regex(.+?)}\">"],
+        "attributes":{
+            "style":"text-align: justify;"
+        },
+        "append":true,
+        "value":"P",
+        "columns":["description"]
     },
     "url":{
         "start":"http:\/\/www.dailytrust.com.ng",

@@ -2,10 +2,7 @@ package com.idisc.core.util;
 
 import com.bc.jpa.EntityController;
 import com.bc.util.XLogger;
-import com.idisc.core.web.NewsCrawler;
 import com.idisc.pu.entities.Feed;
-import com.idisc.pu.entities.Site;
-import com.idisc.pu.entities.Sitetype;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,14 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.htmlparser.Attribute;
-import org.htmlparser.Node;
-import org.htmlparser.NodeFilter;
-import org.htmlparser.Tag;
-import org.htmlparser.tags.ImageTag;
-import org.htmlparser.util.NodeList;
-import com.bc.jpa.PersistenceMetaData;
-import com.idisc.core.IdiscApp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -108,188 +97,6 @@ public class Util {
     return earliestDate;
   }
   
-  public static NodeFilter createImagesFilter(final String baseUrl) {
-    if (baseUrl == null) {
-      return null;
-    }
-    NodeFilter imagesFilter = new NodeFilter()
-    {
-      @Override
-      public boolean accept(Node node) {
-        if ((node instanceof Tag)) {
-          Tag tag = (Tag)node;
-          if (((tag instanceof ImageTag)) || ("IMG".equalsIgnoreCase(tag.getTagName()))) {
-            Attribute attr = tag.getAttributeEx("src");
-            if (attr == null) {
-              return false;
-            }
-            String value = attr.getValue();
-            if (value == null) {
-              return false;
-            }
-            return value.toLowerCase().startsWith(baseUrl);
-          }
-          return false;
-        }
-        
-        return false;
-      }
-      
-    };
-    return imagesFilter;
-  }
-  
-    public static String getFirstImageUrl(NodeList nodeList, NodeFilter imagesFilter) {
-    
-        try{
-            
-            if(imagesFilter != null) {
-
-                String html = nodeList.toHtml();
-                int start = html.indexOf("<img ");
-                if(start == -1) {
-                    start = html.indexOf("<IMG ");
-                }
-                if(start != -1) {
-                    int end = start + 200 > html.length() ? html.length() : start + 200;
-                    XLogger.getInstance().log(Level.FINE, "IMAGE part: {0}", NewsCrawler.class, html.substring(start, end));
-                }
-
-                ImageTag imageTag = (ImageTag)getFirst(nodeList, imagesFilter);
-
-                if (imageTag != null) {
-                    
-                    String imageUrl = imageTag.getImageURL();
-                    if(acceptImageUrl(imageUrl)) {
-if(start != -1) {
-XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, imageUrl);
-}                
-                        return imageUrl;
-                    }
-                }
-            }
-        }catch(Exception e) {
-            
-            XLogger.getInstance().log(Level.WARNING, "Error extracting image url", Util.class, e);
-        }
-        
-        return null;
-    }
-    
-    private static Node getFirst(NodeList nodeList, NodeFilter filter) {
-//        NodeList nodes = nodeList.extractAllNodesThatMatch(filter, true);        
-        Node output = null;
-        for (Node node:nodeList) {
-            if (filter.accept (node)) {
-                output = node;
-                break;
-            }
-            NodeList children = node.getChildren();
-            if (null != children) {
-                output = getFirst(children, filter);
-                if(output != null) {
-                    break;
-                }
-            }    
-        }
-        return output;
-    }
-    
-    private static boolean acceptImageUrl(String imageUrl) {
-        
-        if(imageUrl == null || imageUrl.isEmpty()) {
-            return false;
-        }
-        
-//@todo unwanted formats. Make this a property                
-// https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=rrH8k1a0CM00UH                
-        int n = imageUrl.indexOf(".cloudfront.net/");
-        if(n != -1) {
-            return false;
-        }
-  
-        try{
-            URL url = new URL(imageUrl);
-            return true;
-        }catch(MalformedURLException e) {
-            return false;
-        }
-// Potentially time consuming        
-//        try{
-//            return ConnectionManager.exists(imageUrl);
-//        }catch(Exception e) {
-//            return false;
-//        }    
-    }
-    
-  public final static String removeNonBasicMultilingualPlaneChars(String test) {
-      
-    StringBuilder sb = new StringBuilder(test.length());
-    
-    for (int ii = 0; ii < test.length(); ) {
-          
-       int codePoint = test.codePointAt(ii);
-       
-       if (codePoint > 0xFFFF) {
-         ii += Character.charCount(codePoint);
-       }else {
-         sb.appendCodePoint(codePoint);
-         ii++;
-       }
-    }
-    
-    return sb.toString();
-  }
-  
-  public static String truncate(Class tableClass, String columnName, String toTruncate) {
-    if (toTruncate == null) {
-      return null;
-    }
-
-    int len = getColumnDisplaySize(tableClass, columnName);
-    
-    return truncate(toTruncate, len);
-  }
-
-  private static int [] feedColumnsDisplaySizes;
-  public static int getColumnDisplaySize(Class tableClass, String columnName) {
-    int [] displaySizes;
-    PersistenceMetaData metaData = IdiscApp.getInstance().getJpaContext().getMetaData();  
-    if(tableClass == Feed.class) {
-      if(feedColumnsDisplaySizes == null) {
-        // Round trips to the database  
-        feedColumnsDisplaySizes = metaData.getColumnDisplaySizes(tableClass);
-      }
-      displaySizes = feedColumnsDisplaySizes;
-    }else{
-      displaySizes = metaData.getColumnDisplaySizes(tableClass);
-    }
-    int displaySize = displaySizes[metaData.getColumnIndex(tableClass, columnName)];
-    return displaySize;
-  }  
-  
-  public static int getColumnDisplaySize_Old(Class tableClass, String columnName) {
-    int len;
-    if (tableClass == Feed.class) { 
-      if ((columnName.equals("rawid")) || (columnName.equals("author"))) {
-        len = 100; } else { 
-        if ((columnName.equals("title")) || (columnName.equals("extradetails"))) {
-          len = 500; } else {
-          if ((columnName.equals("keywords")) || (columnName.equals("categories")) || (columnName.equals("description")))
-          {
-
-            len = 1000; } else { 
-            if (columnName.equals("content")) {
-              len = 100000;
-            } else
-              len = -1;
-          }
-        }
-      } } else { len = -1;
-    }
-    return len;
-  }
-  
   public static String truncate(String s, int maxLen) {
     if ((s != null) && (maxLen > -1) && (s.length() > maxLen)) {
       s = s.substring(0, maxLen);
@@ -327,50 +134,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
       
       return null;
     }
-  }
-  
-  public static String getHeading(Feed feed) {
-    String sval = feed.getTitle() == null ? null : feed.getTitle().trim();
-    if ((sval == null) || (sval.isEmpty())) {
-      sval = feed.getContent() == null ? null : feed.getContent().trim();
-      if ((sval == null) || (sval.isEmpty())) {
-        sval = feed.getDescription() == null ? null : feed.getDescription().trim();
-      }
-    }
-    
-    return truncate(Feed.class, "title", sval);
-  }
-  
-  public static Site findSite(String sitename, Sitetype sitetype, boolean createIfNotExists)
-  {
-    EntityController<Site, ?> ec = IdiscApp.getInstance().getJpaContext().getEntityController(Site.class);
-
-    Map map = new HashMap(2, 1.0F);
-    if (sitename != null) {
-      map.put("site", sitename);
-    }
-    if (sitetype != null) {
-      map.put("sitetypeid", sitetype);
-    }
-    
-    XLogger.getInstance().log(Level.FINER, "Parameters: {0}", Util.class, map);
-    
-    Site site = (Site)ec.selectFirst(map);
-    
-    if ((site == null) && (createIfNotExists)) {
-      site = new Site();
-      site.setDatecreated(new Date());
-      site.setSite(sitename);
-      site.setSitetypeid(sitetype);
-      try {
-        ec.create(site);
-      } catch (Exception e) {
-        site = null;
-        XLogger.getInstance().log(Level.WARNING, "Failed to create entity type: " + Site.class.getName() + " using: " + map, Util.class, e);
-      }
-    }
-    
-    return site;
   }
   
   public static void appendQuery(Map<String, Object> params, StringBuilder appendTo, String charset)

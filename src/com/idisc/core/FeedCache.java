@@ -11,12 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import com.bc.jpa.JpaContext;
+import com.idisc.pu.entities.Feed_;
+import com.bc.jpa.dao.BuilderForSelect;
 
 public class FeedCache {
     
@@ -54,19 +51,14 @@ XLogger.getInstance().entering(this.getClass(), "#updateCache()", "");
     
     final JpaContext cf = IdiscApp.getInstance().getJpaContext();
     
-    final EntityManager em = cf.getEntityManager(Feed.class);
-    
-    final CriteriaBuilder cb = em.getCriteriaBuilder();
-    
-    final CriteriaQuery<Feed> cq = cb.createQuery(Feed.class);
-    
-    final Root<Feed> root = cq.from(Feed.class);
-    
-    final TypedQuery<Feed> tq = em.createQuery(cq);
-    
-    tq.setFirstResult(0).setMaxResults(cacheLimit * 2);
-    
-    List<Feed> feeds = tq.getResultList();
+    List<Feed> feeds;
+    try(BuilderForSelect<Feed> qb = cf.getBuilderForSelect(Feed.class)) {
+        
+        feeds = qb.from(Feed.class)
+                .descOrder(Feed_.feedid.getName())
+                .createQuery().setFirstResult(0).setMaxResults(cacheLimit * 2)
+                .getResultList();
+    }
     
 XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds==null?null:feeds.size());
 
@@ -76,7 +68,7 @@ XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds=
     
     try{
         
-      this.printFirstDateLastDateAndFeedIds(Level.FINER, "BEFORE SORT", feeds);
+      this.printFirstDateLastDateAndFeedIds(Level.FINER, "BEFORE", feeds);
       
       if (!this.isRearrangeOutput()) {
         cachedFeeds = feeds.size() <= cacheLimit ? feeds : feeds.subList(0, cacheLimit);
@@ -89,9 +81,9 @@ XLogger.getInstance().log(Level.FINE, "Found {0} feeds", this.getClass(), feeds=
     }
 
     XLogger.getInstance().log(Level.FINE, "Updated cache with {0} feeds", 
-    getClass(), cachedFeeds == null ? null : Integer.valueOf(cachedFeeds.size()));
+    getClass(), cachedFeeds == null ? null : cachedFeeds.size());
     
-    this.printFirstDateLastDateAndFeedIds(Level.FINER, "AFTER UPDATING CACHE", feeds);
+    this.printFirstDateLastDateAndFeedIds(Level.FINER, "AFTER", feeds);
     
     lastTime = System.currentTimeMillis();
     

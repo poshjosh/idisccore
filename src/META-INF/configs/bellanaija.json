@@ -8,6 +8,7 @@
         "author":"Bella Naija",
         "categories":"blog,entertainment,news,events,music,movies,tv,style,careers,relationships"
     },
+    "imageUrl_unwantedRegex":"\/bn-favourites\/img\/heart.png",
     "targetNode0":{
         "append":false,
         "attributes":{
