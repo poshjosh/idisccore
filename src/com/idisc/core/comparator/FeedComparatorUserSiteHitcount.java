@@ -56,7 +56,7 @@ public class FeedComparatorUserSiteHitcount extends BaseFeedComparator implement
 
   @Override
   public void close() {
-    if(entityManager != null && entityManager.isOpen()) {
+    if(this.isOpen()) {
       entityManager.close();
     }
   }
@@ -72,11 +72,18 @@ public class FeedComparatorUserSiteHitcount extends BaseFeedComparator implement
   @Override
   public long getScore(Feed feed) {
       
-    long time = feed.getFeeddate() == null ? 0L : feed.getFeeddate().getTime();
+    long score = feed.getFeeddate() == null ? 0L : feed.getFeeddate().getTime();
     
-    time += getAddedValueTime(feed);
+    score += getAddedValueTime(feed);
     
-    return time;
+    String imageUrl = feed.getImageurl();
+
+    if(imageUrl != null) {
+
+      score = score * 2;
+    }
+    
+    return score;
   }
   
   protected long getAddedValueTime(Feed feed) {

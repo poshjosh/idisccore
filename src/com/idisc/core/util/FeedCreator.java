@@ -21,7 +21,6 @@ import com.bc.jpa.PersistenceMetaData;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
-import com.idisc.core.web.NewsCrawler;
 import com.idisc.core.web.NodeExtractor;
 import com.idisc.pu.Sites;
 import com.idisc.pu.entities.Feed;
@@ -30,8 +29,6 @@ import com.idisc.pu.entities.Sitetype;
 import com.scrapper.config.Config;
 import com.scrapper.util.PageNodes;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -266,33 +263,20 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
             
             if(imagesFilter != null) {
 
-                String html = nodeList.toHtml();
-                int start = html.indexOf("<img ");
-                if(start == -1) {
-                    start = html.indexOf("<IMG ");
-                }
-                if(start != -1) {
-                    int end = start + 200 > html.length() ? html.length() : start + 200;
-                    XLogger.getInstance().log(Level.FINE, "IMAGE part: {0}", NewsCrawler.class, html.substring(start, end));
-                }
-
                 ImageTag imageTag = (ImageTag)getFirst(nodeList);
 
                 if (imageTag != null) {
                     
                     String imageUrl = imageTag.getImageURL();
                     
-                    if(acceptImageUrl(imageUrl)) {
-if(start != -1) {
-XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, imageUrl);
-}                
-                        return imageUrl;
-                    }
+                    XLogger.getInstance().log(Level.FINE, "Image URL: {0}", this.getClass(), imageUrl);
+
+                    return imageUrl;
                 }
             }
         }catch(Exception e) {
             
-            XLogger.getInstance().log(Level.WARNING, "Error extracting image url", Util.class, e);
+            XLogger.getInstance().log(Level.WARNING, "Error extracting image url", this.getClass(), e);
         }
         
         return null;
@@ -316,34 +300,6 @@ XLogger.getInstance().log(Level.FINE, "IMAGE URL: {0}", NewsCrawler.class, image
         }
         return output;
     }
-    
-    private boolean acceptImageUrl(String imageUrl) {
-        
-        if(imageUrl == null || imageUrl.isEmpty()) {
-            return false;
-        }
-        
-//@todo unwanted formats. Make this a property                
-// https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=rrH8k1a0CM00UH                
-        int n = imageUrl.indexOf(".cloudfront.net/");
-        if(n != -1) {
-            return false;
-        }
-  
-        try{
-            URL url = new URL(imageUrl);
-            return true;
-        }catch(MalformedURLException e) {
-            return false;
-        }
-// Potentially time consuming        
-//        try{
-//            return ConnectionManager.exists(imageUrl);
-//        }catch(Exception e) {
-//            return false;
-//        }    
-    }
-    
     
   public Boolean getBoolean(JsonConfig config, Config.Extractor key) {
     Boolean bval = config.getBoolean(key);

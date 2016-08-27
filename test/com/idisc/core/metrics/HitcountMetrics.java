@@ -54,6 +54,10 @@ for(Feed feed:outputList) {
     System.out.print(sizeOf(feed.getFeedhitList())+", ");
 }            
 System.out.println();
+
+if(true) {
+    return;
+}
             
 int i = 0;            
 for(Feed feed:outputList) {

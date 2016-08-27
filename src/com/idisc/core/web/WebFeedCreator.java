@@ -3,11 +3,13 @@ package com.idisc.core.web;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
+import com.idisc.core.filters.ImagesFilter;
 import com.idisc.core.util.FeedCreator;
 import com.idisc.pu.Sites;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
+import com.scrapper.Filter;
 import com.scrapper.config.Config;
 import com.scrapper.util.PageNodes;
 import java.util.Date;
@@ -121,13 +123,22 @@ xlog.log(Level.FINER, "Feeddate. {0} = {1}", cls, extract.get("feeddate"), feedd
 
 ////////////// Imageurl
         String imageurl = extract.get("imageurl");
+xlog.log(Level.FINER, "Extracted image url: {0}", cls, imageurl);        
+
+        if(imageurl != null) {
+            Filter<String> filter = ((ImagesFilter)this.getImagesFilter()).getImageSrcFilter();
+            boolean accepted = filter.accept(imageurl);
+xlog.log(Level.FINE, "Extracted image url accepted: {0}", cls, accepted);        
+            
+            if(!accepted) {
+                imageurl = null;
+            }
+        }
         if(imageurl == null) {
             imageurl = this.getImageUrl(pageNodes);
+xlog.log(Level.FINE, "Body content extracted image url: ", cls, imageurl);        
         }
         feed.setImageurl(imageurl);
-        
-        xlog.log(Level.FINER, "Imageurl. {0} = {1}", 
-        cls, extract.get("imageurl"), feed.getImageurl());
 
 ////////////// Title        
         String keywords = getValue(extract, "keywords", defaultValues, true);

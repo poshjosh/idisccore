@@ -42,12 +42,17 @@ public class ImagesFilter implements NodeFilter {
         if(imageSrcFilter == null) {
             return true;
         }else{
-            return imageSrcFilter.accept(value);
+            boolean accepted = imageSrcFilter.accept(value);
+            return accepted;
         }
       }
       return false;
     }
 
     return false;
+  }
+
+  public final Filter<String> getImageSrcFilter() {
+    return imageSrcFilter;
   }
 }

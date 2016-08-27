@@ -11,11 +11,7 @@ import org.apache.commons.configuration.Configuration;
 
 public class FeedUpdateTask  implements Runnable {
   
-  public FeedUpdateTask(){ }
-  
-  public FeedCache createFeedCache() {
-    return new FeedCache();
-  }
+  public FeedUpdateTask(){  }
   
   @Override
   public void run() {
@@ -30,15 +26,17 @@ public class FeedUpdateTask  implements Runnable {
 
         this.sleep();
 
-        this.updateFeedCache();
-        
     }catch(RuntimeException e) {
      
-        XLogger.getInstance().log(Level.WARNING, "Thread: "+Thread.currentThread().getName(), this.getClass(), e);
+      this.handleRuntimeException(e);
     }
   }
   
-  private void sleep() {
+  protected void handleRuntimeException(RuntimeException e) {
+    XLogger.getInstance().log(Level.WARNING, "Thread: "+Thread.currentThread().getName(), this.getClass(), e);  
+  }
+  
+  protected void sleep() {
     final long interval = this.getIntervalMillis();
     if(interval > 0) {
       Runtime.getRuntime().gc();
@@ -125,18 +123,6 @@ public class FeedUpdateTask  implements Runnable {
       XLogger.getInstance().log(Level.WARNING, "Unexpected exception while archiving feeds", getClass(), e);
       
       return 0;
-    }
-  }
-
-  public boolean updateFeedCache() {
-    try {
-      XLogger.getInstance().log(Level.FINE, "Updating feed cache", getClass());  
-      this.createFeedCache().updateCache();
-      XLogger.getInstance().log(Level.FINE, "Done updating feed cache", getClass());
-      return true;
-    } catch (RuntimeException e) {
-      XLogger.getInstance().log(Level.WARNING, "Unexpected exception while updating feed cache", getClass(), e); 
-      return false;
     }
   }
 

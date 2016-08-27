@@ -54,11 +54,11 @@ public class CrawlerSingleUrlTest extends IdiscTestBase {
         String site;
 //        site = "thisday";
 //        site = "naij";
-        site = "dailytrust";
+//        site = "dailytrust";
 //        site = "punchng";
 //        site = "channelstv_headlines";
-//        site = "bellanaija";
-//      site = "lindaikeji.blogspot";
+        site = "bellanaija";
+//        site = "lindaikeji.blogspot";
 //        site = "ngrguardiannews";
 //        site = "thenationonlineng";
         return site;
@@ -123,10 +123,9 @@ log(false, "Description: "+feed.getDescription());
 log(false, "Content: "+feed.getContent());
         }
         
-        JpaContext jpaContext = this.getIdiscApp().getJpaContext();
-        
-        final int updateCount = jpaContext.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
-log("Update count: "+updateCount);        
+//        JpaContext jpaContext = this.getIdiscApp().getJpaContext();
+//        final int updateCount = jpaContext.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
+//log("Update count: "+updateCount);        
     }
     
     private void extractSingleNode(String site, String key, boolean preLocateTarget) throws ParserException {
