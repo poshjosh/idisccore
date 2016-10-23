@@ -26,10 +26,16 @@ import com.bc.jpa.dao.BuilderForSelect;
 public class CrawlDeficientSites extends IdiscTestBase {
     
     private final boolean debug = false;
+    private final boolean resumable = false;
+    private final boolean resume = false;
     private final int maxAgeHours = 4;
     private final int parseLimit = maxAgeHours * 10;
     private final int crawlLimit = parseLimit * 3;
     private final int max = parseLimit / 2;
+    
+    private final int timeout = 4;
+    private final TimeUnit timeoutUnit = TimeUnit.MINUTES;
+    private final int maxFailsAllowed = 20;
     
     private final Date maxAge;
     
@@ -51,7 +57,7 @@ public class CrawlDeficientSites extends IdiscTestBase {
         sites = list.toArray(new String[0]);
         
         for(String site:sites) {
-            
+          
             if("default".equalsIgnoreCase(site)) {
                 continue;
             }
@@ -69,11 +75,13 @@ System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", deficient: "
                 
                 Collection<Feed> result = this.crawlsite(site, this.crawlLimit, this.parseLimit);
                 
-System.out.println("==== = ==  === = = = = = = = =  Results: "+(result==null?null:result.size()));
+                final int resultSize = (result==null?0:result.size());
+                
+System.out.println("==== = ==  === = = = = = = = =  Results: "+resultSize);
 
-                final int updated = new FeedResultUpdater().process(site, result);
+                final Collection<Feed> failedToCreate = new FeedResultUpdater().process(site, result);
         
-System.out.println("==== = ==  === = = = = = = = =  Updated: "+updated);
+System.out.println("==== = ==  === = = = = = = = =  Updated: "+(resultSize-failedToCreate.size()));
             }
         }
     }
@@ -84,7 +92,7 @@ System.out.println("==== = ==  === = = = = = = = =  Updated: "+updated);
                 s.startsWith("lindaikeji") || 
                 s.startsWith("bellanaija") ||
                 s.startsWith("dailytrust") ||
-                s.startsWith("naij") ||
+//                s.startsWith("naij") ||
                 s.startsWith("leadership")
         ); 
         return accept;
@@ -107,7 +115,7 @@ System.out.println("==== = ==  === = = = = = = = =  Updated: "+updated);
               .where(Feed_.siteid.getName(), siteId)
               .and().where(Feed_.datecreated.getName(), BuilderForSelect.GT, maxAge).createQuery();
             Number count = tq.getSingleResult();
-System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", has "+count+" feeds younger than "+maxAgeHours+" hours ago");            
+//System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", has "+count+" feeds younger than "+maxAgeHours+" hours ago");            
             return count == null || count.intValue() < max;
         }catch(javax.persistence.NoResultException e) {
             return true;
@@ -116,7 +124,8 @@ System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", has "+count+
     
     public Collection<Feed> crawlsite(String site, int crawlLimit, int parseLimit) {
         
-        NewsCrawler crawler = new TestNewsCrawler(site, debug);
+        NewsCrawler crawler = new TestNewsCrawler(site, debug, timeout, timeoutUnit, 
+                maxFailsAllowed, resumable, resume);
         
         crawler.setCrawlLimit(crawlLimit);
         

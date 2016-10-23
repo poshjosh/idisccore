@@ -1,63 +1,19 @@
 package com.idisc.core.twitter;
 
-import com.bc.oauth.AbstractOAuthProperties;
-import com.idisc.core.IdiscApp;
-import java.util.Iterator;
-import java.util.Properties;
-import org.apache.commons.configuration.Configuration;
+import com.bc.oauth.OAuthProperties;
 
-
-
-
-
-
-
-
-
-
-
-
-public class TwitterOAuthProperties
-  extends AbstractOAuthProperties
-  implements TwitterProperties
-{
-  public static final String PROPERTIES_NAME = "twitter";
-  private Properties props;
+public abstract interface TwitterOAuthProperties extends OAuthProperties {
+    
+  public static final String LATITUDE = "latitude";
+  public static final String LONGITUDE = "longitude";
+  public static final String PLACE_ID = "placeId";
+  public static final String TRENDING_ITEM = "trendingItem";
   
-  public Properties getProperties()
-  {
-    if (this.props == null) {
-      Configuration config = IdiscApp.getInstance().getConfiguration();
-      Configuration subset = config.subset("twitter");
-      this.props = new Properties();
-      Iterator<String> keys = subset.getKeys();
-      while (keys.hasNext()) {
-        String key = (String)keys.next();
-        this.props.put(key, subset.getProperty(key));
-      }
-    }
-    return this.props;
-  }
+  public abstract double getLatitude();
   
-  public String getPlaceId()
-  {
-    return getProperties().getProperty("placeId");
-  }
+  public abstract double getLongitude();
   
-  public String getTrendingItem()
-  {
-    return getProperties().getProperty("trendingItem");
-  }
+  public abstract String getPlaceId();
   
-  public double getLatitude()
-  {
-    String lat = getProperties().getProperty("latitude");
-    return Double.parseDouble(lat);
-  }
-  
-  public double getLongitude()
-  {
-    String lng = getProperties().getProperty("longitude");
-    return Double.parseDouble(lng);
-  }
+  public abstract String getTrendingItem();
 }

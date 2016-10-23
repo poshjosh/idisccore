@@ -1,29 +1,36 @@
 package com.idisc.core.twitter;
 
-import com.bc.jpa.EntityController;
+import com.bc.jpa.JpaContext;
+import com.bc.jpa.dao.Criteria;
 import com.bc.jpa.fk.EnumReferences;
 import com.bc.json.config.JsonConfig;
-import com.bc.util.XLogger;
-import com.idisc.core.web.WebFeedCreator;
-import com.idisc.core.IdiscApp;
-import com.idisc.core.TaskHasResult;
-import com.idisc.pu.References;
 import com.idisc.pu.entities.Feed;
+import com.scrapper.ResumableUrlParser;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.logging.Level;
+import com.bc.task.AbstractStoppableTask;
+import com.bc.util.XLogger;
+import com.bc.webdatex.converter.DateTimeConverter;
+import com.idisc.core.IdiscApp;
+import com.bc.webdatex.filter.ImagesFilter;
+import com.idisc.core.web.WebFeedCreator;
+import com.idisc.pu.References;
+import com.idisc.pu.SiteService;
+import com.idisc.pu.entities.Feed_;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
-import com.scrapper.ResumableUrlParser;
 import com.scrapper.config.ScrapperConfigFactory;
-import com.scrapper.util.PageNodes;
-import com.scrapper.util.PageNodesImpl;
-import java.io.Serializable;
+import com.bc.webdatex.nodedata.SimpleDom;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Level;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import org.apache.commons.configuration.Configuration;
 import org.htmlparser.Node;
 import org.htmlparser.NodeFilter;
@@ -39,50 +46,71 @@ import twitter4j.Trend;
 import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.User;
-import com.bc.jpa.JpaContext;
-import com.idisc.core.filters.ImagesFilter;
-import com.idisc.pu.Sites;
+import com.bc.webdatex.nodedata.Dom;
+import java.util.TimeZone;
 
-public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<Feed>>{
+public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> implements Serializable {
+    
+  private final class ResumableUrlParserImpl extends ResumableUrlParser implements AutoCloseable {
+    private EntityManager entityManager;
+    public ResumableUrlParserImpl() {
+      super(new ArrayList(), false, true);
+    }
+    @Override
+    protected void post() {
+      super.post();
+      this.close();
+    }
+    @Override
+    public void close() {
+      if(this.entityManager != null && this.entityManager.isOpen()) {
+        this.entityManager.close();
+      }
+    }
+    @Override
+    public boolean isInDatabase(String link) {
+        if(entityManager == null) {
+          entityManager = getJpaContext().getEntityManager(Feed.class);
+        }
+        boolean found;
+        try{
+          TypedQuery<String> query = entityManager.createQuery("SELECT f.url FROM Feed f WHERE f.url = :url", String.class);
+          query.setParameter("url", link);
+          query.setFirstResult(0);
+          query.setMaxResults(1);
+          found = query.getSingleResult() != null;
+        }catch(NoResultException ignored) {
+            found = false;
+        }
+        if (found) {
+          XLogger.getInstance().log(Level.FINER, "Link is already in database: {0}", this.getClass(), link);
+        }
+        return found;
+    }
+  }
     
   private final Collection<Feed> result;
   private final Sitetype timeline;
   private final Sitetype trending;
   private final EnumReferences refs;
   private final float tolerance;
-  private WebFeedCreator _fc;
-  private ResumableUrlParser _parser_no_direct_access;
-  
+
   public TwitterFeedTask() {
     this.result = Collections.synchronizedCollection(new ArrayList());
-    this.refs = getControllerFactory().getEnumReferences();
+    this.refs = getJpaContext().getEnumReferences();
     this.timeline = ((Sitetype)this.refs.getEntity(References.sitetype.timeline));
     this.trending = ((Sitetype)this.refs.getEntity(References.sitetype.trend));
     Configuration config = IdiscApp.getInstance().getConfiguration();
     this.tolerance = config.getFloat("dataComparisonTolerance", 0.0F);
   }
 
-  @Override
-  public Collection<Feed> call() throws TwitterException {
-    this.doRun();
-    return this.getResult();
+    @Override
+  public String getTaskName() {
+    return this.getClass().getName();
   }
-  
+
   @Override
-  public void run() {
-      
-    try {
-        
-      this.doRun();
-        
-    }catch (TwitterException e) {
-      XLogger.getInstance().logSimple(Level.WARNING, getClass(), e);
-    }catch (RuntimeException e) {
-      XLogger.getInstance().log(Level.WARNING, "Unexpected exception", getClass(), e);
-    }
-  }
-  
-  protected void doRun() throws TwitterException {
+  protected Collection<Feed> doCall() throws TwitterException {
       
       XLogger.getInstance().log(Level.FINER, "Running {0} :: {1}", getClass(), getClass().getSimpleName(), this);
     
@@ -101,152 +129,165 @@ public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<F
         paging.setSinceId(sinceId);
         timeLine = twr.getTwitter().getHomeTimeline(paging);
       }
-      
+
       XLogger.getInstance().log(Level.FINE, "Twitter timeline count: {0}", getClass(), timeLine == null ? null : Integer.valueOf(timeLine.size()));
       XLogger.getInstance().log(Level.FINER, "Twitter timeline: {0}", getClass(), timeLine);
       
       if ((timeLine != null) && (!timeLine.isEmpty())) {
         addTimeline(timeLine);
       }
+      
+      return this.result;
   }
   
   private long getNewestTweetId() {
       
-    EntityController<Feed, Integer> ec = getControllerFactory().getEntityController(Feed.class, Integer.class);
-    
-    Map params = Collections.singletonMap("categories", "statuses");
-    
-    Map<String, String> orderBy = Collections.singletonMap("feeddate", "DESC");
-    
-    List<Feed> feeds = ec.select(params, orderBy, 0, 1);
-    
-    if ((feeds == null) || (feeds.isEmpty())) {
-      return -1L;
+    Feed newest;
+    try{
+      newest = this.getJpaContext().getBuilderForSelect(Feed.class)
+          .where(Feed.class, Feed_.categories.getName(), Criteria.EQ, "statuses")
+          .descOrder(Feed_.feeddate.getName()).getSingleResultAndClose();
+    }catch(NoResultException ignored) {
+      newest = null;  
     }
-    String rawId = ((Feed)feeds.get(0)).getRawid();
-    if (rawId == null) {
-      return -1L;
+    
+    long newestTweetId;
+    
+    if (newest == null) {
+      newestTweetId = -1L;
+    }else{
+      String rawId = newest.getRawid();
+      newestTweetId = rawId == null ? -1L : Long.parseLong(rawId);
     }
-    return Long.parseLong(rawId);
+    
+    return newestTweetId;
   }
   
   private void addTimeline(List<Status> statuses) {
       
-    if ((statuses == null) || (statuses.isEmpty())) {
+    if (statuses == null || statuses.isEmpty()) {
       return;
     }
     
-    JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();    
+    final JpaContext jpaContext = this.getJpaContext();    
     
-    Site site = new Sites(jpaContext).from("twitter", this.timeline, true);
+    Site site = new SiteService(jpaContext).from("twitter", this.timeline, true);
     
     NodeFilter imagesFilter = new ImagesFilter((String)null);
     
     WebFeedCreator webFeedCreator = new WebFeedCreator(site, imagesFilter, this.tolerance);
     
-    Date datecreated = new Date();
+    DateTimeConverter dateTimeZoneConverter =
+            new DateTimeConverter(TimeZone.getDefault(), webFeedCreator.getOutputTimeZone());
     
-    for (Status status : statuses) {
+    final Date NOW = new Date();
+    
+    try(ResumableUrlParserImpl urlParser = new ResumableUrlParserImpl()){
         
-      Feed feed = new Feed();
-      
-      feed.setSiteid(site);
-      
-      boolean updatedWithDirectContents = false;
-      
-      String link = null;
-      
-      URLEntity[] entities = status.getURLEntities();
-      if ((entities != null) && (entities.length != 0)) {
-          
-        for (URLEntity entity : entities) {
+        for (Status status : statuses) {
             
-          String expandedUrl = entity.getExpandedURL();
-          
-          XLogger.getInstance().log(Level.INFO, "URL: {0}\nExpanded URL: {1}", getClass(), entity.getURL(), expandedUrl);
-          
-          link = expandedUrl != null ? expandedUrl : entity.getURL();
-          
-          if ((expandedUrl != null) && (!link.toLowerCase().contains("hootsuite"))) {
-              
-            updatedWithDirectContents = updateFeedWithDirectContent(
-                    feed, expandedUrl, webFeedCreator, datecreated);
+          Feed feed = new Feed();
+
+          feed.setSiteid(site);
+
+          boolean updatedWithDirectContents = false;
+
+          String link = null;
+
+          URLEntity[] entities = status.getURLEntities();
+
+          if ((entities != null) && (entities.length != 0)) {
+
+            for (URLEntity entity : entities) {
+
+              String expandedUrl = entity.getExpandedURL();
+
+              XLogger.getInstance().log(Level.INFO, "URL: {0}\nExpanded URL: {1}", getClass(), entity.getURL(), expandedUrl);
+
+              link = expandedUrl != null ? expandedUrl : entity.getURL();
+
+              if ((expandedUrl != null) && (!link.toLowerCase().contains("hootsuite"))) {
+
+                updatedWithDirectContents = updateFeedWithDirectContent(
+                        feed, expandedUrl, urlParser, webFeedCreator, null);
+              }
+
+              if (updatedWithDirectContents) {
+                break;
+              }
+            }
           }
-          
-          if (updatedWithDirectContents) {
-            break;
+
+          String imageUrl = null;
+
+          MediaEntity[] mediaEntities = status.getMediaEntities();
+
+          if (mediaEntities != null) {
+
+            for (MediaEntity media : mediaEntities) {
+
+              XLogger.getInstance().log(Level.INFO, "Media URL: {0}\nExpanded URL: {1}\nURL: {2}", getClass(), media.getMediaURL(), media.getExpandedURL(), media.getURL());
+
+              imageUrl = media.getMediaURL() == null ? media.getMediaURLHttps() : media.getMediaURL();
+
+              if (imageUrl != null) {
+                break;
+              }
+            }
+          }
+
+          User user = status.getUser();
+
+          if ((imageUrl == null) && (user != null)) {
+            imageUrl = user.getMiniProfileImageURL();
+            if (imageUrl == null) {
+              imageUrl = user.getProfileImageURL();
+            }
+          }
+          feed.setImageurl(imageUrl);
+
+          if (link == null) {
+            link = getHrefFromHtmlLink(status.getSource());
+          }
+
+          if (feed.getUrl() == null){
+            feed.setUrl(link);
+          }
+
+          if (feed.getAuthor() == null)  {
+            String userName = user == null ? null : user.getName();
+            feed.setAuthor(webFeedCreator.format("author", userName, false));
+          }
+
+          if (!updatedWithDirectContents) {
+            feed.setCategories("statuses");
+          }
+
+          if (feed.getFeeddate() == null) {
+            feed.setFeeddate(status.getCreatedAt() == null ? NOW : 
+                    dateTimeZoneConverter.convert(status.getCreatedAt()));
+          }
+
+          feed.setRawid("" + status.getId());
+
+          if (!updatedWithDirectContents) {
+            feed.setContent(webFeedCreator.format("content", status.getText(), false));
+            feed.setKeywords(null);
+          }
+
+          synchronized (this.result){
+            XLogger.getInstance().log(Level.INFO, "Adding Twitter Status Feed. Site: {0}, author: {1}, title: {2}\nURL: {3}", getClass(), feed.getSiteid() == null ? null : feed.getSiteid().getSite(), feed.getAuthor(), feed.getTitle(), feed.getUrl());
+            this.result.add(feed);
           }
         }
-      }
-      
-      String imageUrl = null;
-      MediaEntity[] mediaEntities = status.getMediaEntities();
-      if (mediaEntities != null) {
-        for (MediaEntity media : mediaEntities)
-        {
-          XLogger.getInstance().log(Level.INFO, "Media URL: {0}\nExpanded URL: {1}\nURL: {2}", getClass(), media.getMediaURL(), media.getExpandedURL(), media.getURL());
-          
-
-          imageUrl = media.getMediaURL() == null ? media.getMediaURLHttps() : media.getMediaURL();
-          
-
-          if (imageUrl != null) {
-            break;
-          }
-        }
-      }
-      
-      User user = status.getUser();
-      
-      if ((imageUrl == null) && (user != null)) {
-        imageUrl = user.getMiniProfileImageURL();
-        if (imageUrl == null) {
-          imageUrl = user.getProfileImageURL();
-        }
-      }
-      feed.setImageurl(imageUrl);
-      
-      if (link == null) {
-        link = getHrefFromHtmlLink(status.getSource());
-      }
-      
-
-
-
-
-      if (feed.getUrl() == null){
-        feed.setUrl(link);
-      }
-      
-      if (feed.getAuthor() == null)  {
-        String userName = user == null ? null : user.getName();
-        feed.setAuthor(webFeedCreator.format("author", userName, false));
-      }
-      
-      if (!updatedWithDirectContents) {
-        feed.setCategories("statuses");
-      }
-      
-      if (feed.getFeeddate() == null) {
-        feed.setFeeddate(status.getCreatedAt() == null ? new Date() : status.getCreatedAt());
-      }
-      
-      feed.setRawid("" + status.getId());
-      
-      if (!updatedWithDirectContents) {
-        feed.setContent(webFeedCreator.format("content", status.getText(), false));
-        feed.setKeywords(null);
-      }
-      
-      synchronized (this.result){
-        XLogger.getInstance().log(Level.INFO, "Adding Twitter Status Feed. Site: {0}, author: {1}, title: {2}\nURL: {3}", getClass(), feed.getSiteid() == null ? null : feed.getSiteid().getSite(), feed.getAuthor(), feed.getTitle(), feed.getUrl());
-        this.result.add(feed);
-      }
+        
     }
   }
   
   private boolean updateFeedWithDirectContent(
-          Feed feed, String link, WebFeedCreator webFeedCreator, Date datecreated) {
+      Feed feed, String link, ResumableUrlParser parser, 
+      WebFeedCreator webFeedCreator, Date datecreated) {
+      
     try {
         
       ScrapperConfigFactory cf = IdiscApp.getInstance().getCapturerApp().getConfigFactory();
@@ -254,9 +295,10 @@ public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<F
       Set<String> sites = cf.getSitenames();
       
       String selectedSite = null;
-      for (String site : sites)
-        if (!site.equalsIgnoreCase("default"))
-        {
+      
+      for (String site : sites) { 
+          
+        if (!site.equalsIgnoreCase("default")) {
 
           JsonConfig cfg = cf.getContext(site).getConfig();
           String baseUrl = cfg.getString(new Object[] { "url", "value" });
@@ -266,6 +308,8 @@ public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<F
             break;
           }
         }
+      }
+      
       XLogger.getInstance().log(Level.FINER, "Selected site: {0} for link: {1}", getClass(), selectedSite, link);
       
       if (selectedSite == null) {
@@ -276,25 +320,21 @@ public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<F
       
       JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
       
-      Site site = new Sites(jpaContext).from(selectedSite, webtype, false);
+      Site site = new SiteService(jpaContext).from(selectedSite, webtype, false);
       
-      if (site == null) {
-        throw new NullPointerException();
-      }
-      
-      ResumableUrlParser parser = getParser();
-      
-      parser.setSitename(site.getSite());
+      Objects.requireNonNull(site);
       
       NodeList nodeList = parser.parse(link);
       
-      PageNodes pageNodes = new PageNodesImpl(link, nodeList);
+      Dom pageNodes = new SimpleDom(link, nodeList);
       
       webFeedCreator.updateFeed(feed, pageNodes, datecreated);
       
       return true;
       
-    }catch (ParserException e) {}
+    }catch (ParserException e) {
+      XLogger.getInstance().log(Level.WARNING, "Exception parsing: "+link, this.getClass(), e);
+    }
     
     return false;
   }
@@ -305,9 +345,9 @@ public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<F
       return;
     }
     
-    JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+    final JpaContext jpaContext = this.getJpaContext();
     
-    final Site site = new Sites(jpaContext).from("twitter", this.trending, true);
+    final Site site = new SiteService(jpaContext).from("twitter", this.trending, true);
     
     for (Trend trend : trends) {
         
@@ -350,51 +390,10 @@ public class TwitterFeedTask implements Serializable, TaskHasResult<Collection<F
       }
     }
     
-
     return output;
   }
   
-  private ResumableUrlParser getParser()
-  {
-    if (this._parser_no_direct_access == null) {
-      this._parser_no_direct_access = new ResumableUrlParser() {
-        private transient Feed feedToFind;
-        private EntityController<Feed, Integer> ec_accessViaGetter;
-        
-        @Override
-        public boolean isResumable() { return false; }
-        
-        @Override
-        public boolean isResume() { return true; }
-        
-        @Override
-        public boolean isInDatabase(String link) {
-          if (this.feedToFind == null) {
-            this.feedToFind = new Feed();
-          }
-          this.feedToFind.setUrl(link);
-          EntityController<Feed, Integer> ec = getFeedController();
-          Map map = ec.toMap(this.feedToFind, false);
-          return ec.selectFirst(map) != null;
-        }
-        
-        private EntityController<Feed, Integer> getFeedController() {
-          if (this.ec_accessViaGetter == null) {
-            this.ec_accessViaGetter = TwitterFeedTask.this.getControllerFactory().getEntityController(Feed.class, Integer.class);
-          }
-          return this.ec_accessViaGetter;
-        }
-      };
-    }
-    return this._parser_no_direct_access;
-  }
-  
-  private JpaContext getControllerFactory() {
+  private JpaContext getJpaContext() {
     return IdiscApp.getInstance().getJpaContext();
-  }
-  
-  @Override
-  public Collection<Feed> getResult() {
-    return this.result;
   }
 }

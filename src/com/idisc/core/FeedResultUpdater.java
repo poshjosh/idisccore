@@ -1,152 +1,95 @@
 package com.idisc.core;
 
-import com.idisc.core.util.Util;
-import com.bc.jpa.EntityController;
+import com.bc.jpa.JpaContext;
 import com.bc.util.XLogger;
+import com.idisc.pu.FeedService;
 import com.idisc.pu.entities.Feed;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 public class FeedResultUpdater {
     
   private final Class cls = FeedResultUpdater.class;
   private final XLogger logger = XLogger.getInstance();
     
-  public int process(Map<String, Collection<Feed>> allResults) {
+  public Map<String, Collection<Feed>> process(Map<String, Collection<Feed>> allResults) {
       
-    logger.log(Level.FINER, "Saving feeds.", cls);
+    final Set<String> names = allResults.keySet();
     
-    int created = 0;
+    logger.log(Level.FINER, "Saving feeds of types: {0}", cls, names);
     
-    for (String taskName : allResults.keySet())  {
-      Collection<Feed> taskResults = (Collection)allResults.get(taskName);
+    Map<String, Collection<Feed>> failedToCreate = null;
+    
+    for (String name : names)  {
+        
+      Collection<Feed> taskResults = allResults.get(name);
       
-      if ((taskResults != null) && (!taskResults.isEmpty())) {
+      if (taskResults != null && !taskResults.isEmpty()) {
 
-        created += process(taskName, taskResults);
+        Collection<Feed> failed = process(name, taskResults);
+        
+        if(!failed.isEmpty()) {
+            
+          if(failedToCreate  == null) {
+            failedToCreate = new HashMap<>();
+          }
+        
+          failedToCreate.put(name, failed);
+        }
       }
     }
-    logger.log(Level.FINE, "Saved {0} feeds", cls, created);
-    return created;
+    
+    return failedToCreate == null ? Collections.EMPTY_MAP : failedToCreate;
   }
   
-  public int process(String taskName, Collection<Feed> taskResults) {
+  /**
+   * @param name
+   * @param feedsToCreate
+   * @return The collection of feeds (a subset of the input collection) which were not created.
+   */
+  public Collection<Feed> process(String name, Collection<Feed> feedsToCreate) {
     
     if(logger.isLoggable(Level.FINE, cls)) {
-      logger.log(Level.FINE, "Task: {0}, has {1} results.", cls, taskName, taskResults == null ? null : Integer.valueOf(taskResults.size()));
+      logger.log(Level.FINE, "Task: {0}, has {1} results.", cls, 
+      name, feedsToCreate == null ? null : feedsToCreate.size());
     }  
     
-    if ((taskResults == null) || (taskResults.isEmpty())) {
-      return 0;
-    }
+    Collection<Feed> failedToCreate;    
     
-    int created = 0;
-    
-    EntityManager em = getFeedController().getEntityManager();
-    
-    // Use a copy to prevent concurrent modification exception
-    //
-    Iterator<Feed> iter = new ArrayList(taskResults).iterator();
-    
-    Feed reusedFeedParams = new Feed();
-    
-    Date dateCreated = new Date();
-    
-    try {
-
-      while (iter.hasNext()) {
-
-        Feed toCreate = (Feed)iter.next();
+    if (feedsToCreate == null || feedsToCreate.isEmpty()) {
         
-        if (toCreate != null) {
-
-          boolean updated = update(em, reusedFeedParams, toCreate, dateCreated);
-          
-          if (updated) {
-            created++;
-          }
-        }
-      }
+      failedToCreate = Collections.EMPTY_LIST;
       
-      logger.log(Level.FINE, "Created {0} records for task: {1}.", cls, created, taskName);
+    }else{
+        
+      JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
 
-    }catch (Exception e) {
-        
-      logger.log(Level.WARNING, "Unexpected error updating feeds of type: " + taskName, cls, e);
-      
-    } finally {
-        
-      em.close();
-    }
-    
-    return created;
-  }
-  
-  private boolean update(EntityManager em, Feed reusedFeedParams, Feed toCreate, Date dateCreated) {
-    
-    if(logger.isLoggable(Level.FINER, cls)) {
-      logger.entering(cls, "#update(EntityManager, Feed, Feed, Date)", null);
-    }
-    
-    boolean output = false;
-    
-    EntityTransaction t = null;
-    
-    try {
-        
-      if (!Util.isInDatabase(getFeedController(), reusedFeedParams, toCreate)) {
-          
-        t = em.getTransaction();
-        
-        t.begin();
-        
-        if(toCreate.getDatecreated() == null) {
-          toCreate.setDatecreated(dateCreated);
-        }
-        
-        em.persist(toCreate);
-        
-        if(logger.isLoggable(Level.FINER, cls)) {
-          logger.log(Level.FINER, "Persisted feed with ID: {0}", cls, toCreate.getFeedid());
-        }
-        
-        t.commit();
-        
-        output = true;
-      }
-    } catch (Exception e) {
-      logger.logSimple(Level.WARNING, cls, e);
-    } finally {
-      if ((t != null) && (t.isActive())) {
-        t.rollback();
-        output = false;
+      // Use a copy to prevent concurrent modification exception
+      //
+      Collection<Feed> toCreate = new ArrayList(feedsToCreate); 
+
+      FeedService feedService = new FeedService(jpaContext);
+
+      try {
+
+        failedToCreate = feedService.createIfNoneExistsWithMatchingData(toCreate);
+
+        logger.log(Level.FINE, "Created {0} records for task: {1}.", 
+        cls, toCreate.size() - failedToCreate.size(), name);
+
+      }catch (Exception e) {
+
+        failedToCreate = Collections.EMPTY_LIST;
+
+        logger.log(Level.WARNING, "Unexpected error updating feeds of type: " + name, cls, e);
       }
     }
-    return output;
-  }
-  
-  private String toString(Feed feed) {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Id: ").append(feed.getFeedid());
-    builder.append(", site: ").append(feed.getSiteid().getSite());
-    builder.append(", author: ").append(feed.getAuthor());
-    builder.append(", date: ").append(feed.getFeeddate());
-    builder.append(", link: ").append(feed.getUrl());
-//    builder.append(", imageUrl: ").append(feed.getImageurl());
-    return builder.toString();
-  }
-  
-  private EntityController<Feed, Integer> _fc;
-  private EntityController<Feed, Integer> getFeedController() {
-    if (this._fc == null) {
-      this._fc = IdiscApp.getInstance().getJpaContext().getEntityController(Feed.class, Integer.class);
-    }
-    return this._fc;
+    
+    return failedToCreate;
   }
 }

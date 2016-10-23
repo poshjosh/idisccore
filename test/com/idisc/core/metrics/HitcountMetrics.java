@@ -1,7 +1,7 @@
 package com.idisc.core.metrics;
 
 import com.idisc.core.IdiscApp;
-import com.idisc.core.comparator.BaseFeedComparator;
+import com.idisc.core.comparator.feed.BaseFeedComparator;
 import com.idisc.pu.SelectByDate;
 import com.idisc.core.IdiscTestBase;
 import com.idisc.html.FeedCellHtml;

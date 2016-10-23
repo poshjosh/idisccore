@@ -6,26 +6,13 @@ import java.util.Iterator;
 import java.util.Properties;
 import org.apache.commons.configuration.Configuration;
 
-
-
-
-
-
-
-
-
-
-
-
-
-public class FacebookOAuthProperties
-  extends AbstractOAuthProperties
-{
+public class FacebookOAuthProperties extends AbstractOAuthProperties {
+    
   public static final String PROPERTIES_NAME = "facebook";
   private Properties props;
   
-  public Properties getProperties()
-  {
+  @Override
+  public Properties getProperties() {
     if (this.props == null) {
       Configuration config = IdiscApp.getInstance().getConfiguration();
       Configuration subset = config.subset("facebook");

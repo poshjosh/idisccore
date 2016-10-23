@@ -1,19 +1,18 @@
 package com.idisc.core.rss;
 
-import com.bc.jpa.EntityController;
 import com.bc.jpa.JpaContext;
 import com.bc.jpa.fk.EnumReferences;
 import com.bc.task.AbstractStoppableTask;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
-import com.idisc.core.filters.ImagesFilter;
+import com.bc.webdatex.filter.ImagesFilter;
 import com.idisc.core.util.FeedCreator;
+import com.idisc.pu.FeedService;
 import com.idisc.pu.References;
-import com.idisc.pu.Sites;
+import com.idisc.pu.SiteService;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
-import com.scrapper.util.PageNodesImpl;
 import com.sun.syndication.feed.synd.SyndCategoryImpl;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -25,6 +24,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.htmlparser.NodeFilter;
@@ -49,7 +49,9 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
   private final long timeoutMillis;
     
   private final int maxFailsAllowed;
-    
+
+  private int added = 0;
+        
   private final Collection<Feed> resultBuffer;
     
   private int failedCount;
@@ -65,17 +67,16 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
     EnumReferences refs = jpaContext.getEnumReferences();
     Sitetype sitetype = ((Sitetype)refs.getEntity(References.sitetype.rss));
     this.resultBuffer = resultBuffer;
-    this.site = new Sites(jpaContext).from(feedName, sitetype, true);
+    this.site = new SiteService(jpaContext).from(feedName, sitetype, true);
     Objects.requireNonNull(this.site);
   }
 
-  @Override
   public long getTimeout() {
     return this.timeoutMillis;
   }
     
   public boolean shouldStop() {
-    boolean shouldStop = ((this.isRunning() && this.isTimedout()) || this.isFailed());
+    boolean shouldStop = ((this.isRunning() && this.isTimedout(this.timeoutMillis)) || this.isFailed());
     final Level level = shouldStop ? Level.FINE : Level.FINER;
     if(logger.isLoggable(level, cls)) {
       logger.log(level, "Should stop: {0}, timeout: {1}, timespent: {2}, max fails: {3}, current fails: "+this.getFailedCount(), 
@@ -93,7 +94,7 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
   }
     
     @Override
-    public Object doCall() {
+    protected Object doCall() {
         
       logger.entering(this.getClass(), "doRun()", url);
       
@@ -114,22 +115,26 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
         
         Parser parser = new Parser();
         
-        Feed reusedFeedParams = new Feed();
-        
         List entries = syndFeed.getEntries();
     
         StringBuilder catStrBuilder = new StringBuilder();
         
         StringBuilder contentStrBuilder = new StringBuilder();
         
-        int added = 0;
+        added = 0;
         
-        EntityController<Feed, Integer> feedCtrl = 
-                IdiscApp.getInstance().getJpaContext().getEntityController(
-                        Feed.class, Integer.class);
+        final Date NOW = new Date();
         
         final FeedCreator feedCreator = new FeedCreator(site, "news", imagesFilter, 0);
-
+        
+        com.bc.webdatex.converter.DateTimeConverter dateConverter =
+                new com.bc.webdatex.converter.DateTimeConverter(
+                        TimeZone.getDefault(), feedCreator.getOutputTimeZone());
+        
+        final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+        
+        final FeedService feeds = new FeedService(jpaContext);
+        
         for (Object obj : entries) {
             
           if (isStopRequested() || this.shouldStop()) {
@@ -215,14 +220,17 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
 
             feed.setDescription(feedCreator.format("description", description, true));
 
-            Date date = entry.getUpdatedDate() == null ? entry.getPublishedDate() : entry.getUpdatedDate();
-
-            feed.setFeeddate(date == null ? new Date() : date);
-
+            Date dateCreated = entry.getUpdatedDate() == null ? entry.getPublishedDate() : entry.getUpdatedDate();
+            feed.setFeeddate(dateCreated == null ? NOW : dateConverter.convert(dateCreated));
+            
+            Date lastModified = entry.getUpdatedDate();
+            feed.setTimemodified(dateConverter.convert(lastModified == null ? new Date() : lastModified));
+            
             NodeList nodes = this.getNodes(parser, content);
 
             if (nodes != null && !nodes.isEmpty()) {
-              String imageurl = feedCreator.getImageUrl(new PageNodesImpl(url, nodes));
+              
+              String imageurl = feedCreator.getFirstImageUrl(nodes);
               if (imageurl != null) {
                 feed.setImageurl(imageurl);
               }
@@ -234,7 +242,8 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
             
             feed.setUrl(entry.getLink());
 
-            boolean add = (this.acceptDuplicates) || (!com.idisc.core.util.Util.isInDatabase(feedCtrl, reusedFeedParams, feed));
+            boolean add = this.acceptDuplicates || !feeds.isExisting(feed);
+            
             if (add) {
 
               synchronized (resultBuffer) {
@@ -248,7 +257,8 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
             "Added: {0} RSS Feed. author: {1}, title: {2}\nURL: {3}", 
             cls, add, feed.getAuthor(), feed.getTitle(), feed.getUrl());
         }
-        logger.log(Level.FINER, "Added {0} Feed records for: {1} = {2}", cls, added, site.getSite(), url);
+        
+        logger.log(Level.FINE, "Added {0} Feed records for: {1} = {2}", cls, added, site.getSite(), url);
 
       } catch (IOException|FeedException e) {
         logger.logSimple(Level.WARNING, cls, e);
@@ -276,5 +286,9 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
       XLogger.getInstance().log(Level.WARNING, "{0}", this.getClass(), e.toString()); 
     }
     return null;
+  }
+
+  public int getAdded() {
+    return added;
   }
 }

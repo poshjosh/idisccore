@@ -29,7 +29,7 @@ public class FeedArchiver
   public int archiveFeeds(long maxAge, TimeUnit timeUnit, int batchSize)
   {
     Date before = new Date(convertAgeToTime(maxAge, timeUnit));
-    
+   
     return archiveFeeds(before, batchSize);
   }
 

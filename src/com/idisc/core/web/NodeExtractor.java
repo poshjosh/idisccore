@@ -1,50 +1,43 @@
 package com.idisc.core.web;
 
 import com.bc.util.XLogger;
-import com.bc.webdatex.filter.NodeVisitingFilterIx;
-import com.bc.webdatex.locator.TagLocator;
-import com.bc.webdatex.locator.TagLocatorIx;
-import com.idisc.core.IdiscApp;
-import com.scrapper.config.Config;
-import com.scrapper.config.ScrapperConfigFactory;
 import com.scrapper.context.CapturerContext;
 import com.scrapper.extractor.MultipleNodesExtractorIx;
-import com.scrapper.util.PageNodes;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
-import org.htmlparser.Tag;
 import org.htmlparser.tags.BodyTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
+import com.bc.webdatex.nodedata.Dom;
+import com.scrapper.context.CapturerSettings;
+import com.bc.webdatex.locator.TagLocator;
+import com.bc.webdatex.locator.impl.TagLocatorImpl;
+import com.bc.webdatex.locator.impl.TransverseNodeMatcherImpl;
+import com.bc.webdatex.nodefilter.NodeVisitingFilter;
 
 public class NodeExtractor {
     
-  private float tolerance;
-  private String sitename;
-  private String[] dp_accessViaGetter;
-  private CapturerContext cfg_accessViaGetter;
+  private final float tolerance;
+
+  private final CapturerContext capturerContext;
   
-  public NodeExtractor() {}
-  
-  public NodeExtractor(float tolerance, String sitename){
+  public NodeExtractor(float tolerance, CapturerContext context){
     this.tolerance = tolerance;
-    this.sitename = sitename;
+    this.capturerContext = Objects.requireNonNull(context);
   }
   
-  public Map<String, String> extract(PageNodes pageNodes) {
+  public Map<String, String> extract(Dom pageNodes) {
       
     Map<String, String> output = null;
-    
-    CapturerContext context = Objects.requireNonNull(getContext());
     
     final int MAX = 20;
     
     for (int i = 0; i < MAX; i++) {
         
-      final Object targetProps = context.getConfig().getObject(new Object[] { "targetNode" + i });
+      final Object targetProps = capturerContext.getConfig().getObject(new Object[] { "targetNode" + i });
       
       if (targetProps == null) {
           
@@ -62,87 +55,119 @@ public class NodeExtractor {
         break;
       }
       
-      Map.Entry<String, String> entry;
+      final String name = "targetNode" + i;
+      
+      final CapturerSettings settings = capturerContext.getSettings();
+
+      final boolean exists = output != null && output.containsKey(name);
+      
+      final boolean append = settings.isConcatenateMultipleExtracts(name, false);
+      
+      final boolean doExtract = !exists || exists && append;
+      
+      if(!doExtract) {
+        continue;
+      }
+      
+      String [] columns = settings.getColumns(name);
+      
+      String value;
+      
       try {
-          
-        entry = extract(pageNodes, i);
-        
+
+        final StringBuilder extract = extract(pageNodes, name);
+
+        value = extract == null ? null : extract.toString();
+
       } catch (ParserException e) {
-          
+
         XLogger.getInstance().log(Level.WARNING, "Parse failed", getClass(), e);
-        
+
         String content = this.getContent(pageNodes, null);
 
         if(content != null) {
-            
-            entry = newEntry("content", content);
 
-            i = MAX;
-            
+          columns = new String[]{"content"};
+
+          value = content;
+
+          i = MAX;
+
         }else{
-            
-            entry = null;
+
+          value = null;
         }
       }
       
       if (output == null) {
         output = new HashMap();
       }
-      
-      if(entry != null) {
-      output.put(entry.getKey(), entry.getValue());
+
+      if(value != null && !value.isEmpty()) {
+          
+        for(String column:columns) {
+            
+          if(append) {
+              
+            String prev = output.get(column);
+            
+            if(prev != null && !prev.isEmpty()) {
+              output.put(column, prev + settings.getPartSeparator() + value);  
+            }else{
+              output.put(column, value);    
+            }
+          }else{
+            output.put(column, value);  
+          }
+        }
       }
+      
     }
     
     return output;
   }
   
-  public String getContent(PageNodes pageNodes, String outputIfNone) {
+  public String getContent(Dom pageNodes, String outputIfNone) {
     String content;
     BodyTag bodyTag = pageNodes.getBody();
     if(bodyTag == null) {
-        NodeList nodes = pageNodes.getNodeList();
-        content = nodes == null ? null : nodes.toHtml();
+      NodeList nodes = pageNodes.getNodeList();
+      content = nodes == null ? null : nodes.toHtml();
     }else{
-        content = bodyTag.toHtml();
+      content = bodyTag.toHtml();
     }
     return content == null ? outputIfNone : content;
   }
   
-  public Map.Entry<String, String> extract(PageNodes pageNodes, int index)
-    throws ParserException {
+  public StringBuilder extract(Dom pageNodes, String name) throws ParserException {
       
-    CapturerContext context = getContext();
-    
-    final String name = "targetNode" + index;
-    
-    Object targetProps = context.getConfig().getObject(new Object[] { name });
+    Object targetProps = capturerContext.getConfig().getObject(new Object[] { name });
     
     if (targetProps == null) {
       throw new NullPointerException();
     }
     
-    MultipleNodesExtractorIx pageExtractor = context.getExtractor();
+    MultipleNodesExtractorIx pageExtractor = capturerContext.getExtractor();
     
-    com.bc.webdatex.extractor.NodeExtractor nodeExtractor = pageExtractor.getExtractor(name);
+    com.bc.webdatex.extractor.node.NodeExtractor nodeExtractor = pageExtractor.getExtractor(name);
     
-    TagLocator tagLocator = nodeExtractor.getFilter().getTagLocator();
+//    TagLocatorImpl tagLocator = nodeExtractor.getFilter().getTagLocator();
     
     NodeList nodeList = pageNodes.getNodeList();
     
-    nodeList.visitAllNodesWith(tagLocator);
+//    nodeList.visitAllNodesWith(tagLocator);
     
-    Tag targetNode = tagLocator.getTarget();
+//    Tag targetNode = tagLocator.getTarget();
     
-    if (targetNode != null) {
+//    if (targetNode != null) {
         
-      XLogger.getInstance().log(Level.FINER, "Found directly: {0} = {1}", getClass(), name, targetNode.toTagHtml());
+//      XLogger.getInstance().log(Level.FINER, "Found directly: {0} = {1}", getClass(), name, targetNode.toTagHtml());
+
+//      NodeList targetNodes = new NodeList();
+//      targetNodes.add(targetNode);
       
-      NodeList targetNodes = new NodeList();
-      targetNodes.add(targetNode);
-      
-      nodeList = targetNodes;
-    }
+//      nodeList = targetNodes;
+//    }
     
     nodeExtractor.setEnabled(true);
     
@@ -150,86 +175,31 @@ public class NodeExtractor {
     
     nodeList.visitAllNodesWith(nodeExtractor);
     
-    String key = context.getSettings().getColumns(name)[0];
-    String val = nodeExtractor.getExtract().toString();
+    StringBuilder extract = nodeExtractor.getExtract();
     
-//if("content".equals(key)) {
-//System.out.println("" + new Date() + '@' + this.getClass().getName()+"\n----------------------\n"+val+"\n----------------------");    
-//}    
-    XLogger.getInstance().log(Level.FINER, "Extracted: {0}={1}", getClass(), key, val);
-    
-    return newEntry(key, val);
+    return extract;
   }
   
-  private void updateTolerance(NodeVisitingFilterIx nodeVisitingFilter) {
-    TagLocatorIx tagLocator = nodeVisitingFilter.getTagLocator();
+  private void updateTolerance(NodeVisitingFilter nodeVisitingFilter) {
+    TagLocator tagLocator = nodeVisitingFilter.getTagLocator();
     if (tagLocator != null) {
-      tagLocator.setTolerance(this.tolerance);
+      tagLocator = new TagLocatorImpl(
+              tagLocator.getId(), 
+              tagLocator.getTransverse(), 
+              new TransverseNodeMatcherImpl(this.tolerance));
+      nodeVisitingFilter.setTagLocator(tagLocator);
     }
   }
   
-  private Map.Entry<String, String> newEntry(final String key, final String val) {
-    return new Map.Entry<String, String>()
-    {
-      @Override
-      public String getKey() {
-        return key;
-      }
-      
-      @Override
-      public String getValue() {
-        return val;
-      }
-      
-      @Override
-      public String setValue(String value) {
-        throw new UnsupportedOperationException("Not supported.");
-      }
-    };
+  public final CapturerContext getContext() {
+    return this.capturerContext;
   }
   
-  public String[] getDatePatterns()
-  {
-    if (this.dp_accessViaGetter == null) {
-      Object[] arr = getContext().getConfig().getArray(new Object[] { Config.Formatter.datePatterns });
-      if ((arr == null) || (arr.length == 0))
-      {
-
-        this.dp_accessViaGetter = new String[0];
-      } else {
-        this.dp_accessViaGetter = new String[arr.length];
-        System.arraycopy(arr, 0, this.dp_accessViaGetter, 0, arr.length);
-      }
-    }
-    return this.dp_accessViaGetter;
+  public final String getSitename() {
+    return this.capturerContext.getConfig().getName();
   }
   
-  public CapturerContext getContext()
-  {
-    if (this.sitename == null) {
-      return null;
-    }
-    if (this.cfg_accessViaGetter == null) {
-      ScrapperConfigFactory factory = IdiscApp.getInstance().getCapturerApp().getConfigFactory();
-      this.cfg_accessViaGetter = factory.getContext(this.sitename);
-    }
-    return this.cfg_accessViaGetter;
-  }
-  
-  public String getSitename() {
-    return this.sitename;
-  }
-  
-  public void setSitename(String sitename) {
-    this.sitename = sitename;
-    this.cfg_accessViaGetter = null;
-  }
-  
-  public float getTolerance() {
+  public final float getTolerance() {
     return this.tolerance;
-  }
-  
-  public void setTolerance(float tolerance) {
-    this.tolerance = tolerance;
   }
 }

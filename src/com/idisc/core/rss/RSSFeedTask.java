@@ -3,18 +3,16 @@ package com.idisc.core.rss;
 import com.bc.task.StoppableTask;
 import com.bc.util.XLogger;
 import com.idisc.core.ConcurrentTaskList;
+import com.idisc.core.comparator.site.IncrementableValues;
+import com.idisc.pu.entities.Feed;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
-public class RSSFeedTask extends ConcurrentTaskList {
+public class RSSFeedTask extends ConcurrentTaskList<Feed> {
     
-  private static int siteOffset;
-  
   private final boolean acceptDuplicates;
   
   private final long timeoutEach;
@@ -41,29 +39,25 @@ public class RSSFeedTask extends ConcurrentTaskList {
   }
   
   @Override
-  public List<String> distribute(List<String> values) {
-      
-    List<String> copy = new ArrayList(values);
-    
-    Collections.rotate(copy, siteOffset);
-    
-XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Input: {2}\nOutput: {3}", 
-        this.getClass(), values.size(), siteOffset, values, copy);
-    
-    siteOffset += this.getMaxConcurrent();
-
-    return copy;
-  }
-  
-  @Override
-  public StoppableTask createNewTask(String feedName) {
+  public StoppableTask createNewTask(final String feedName) {
       
     XLogger.getInstance().entering(this.getClass(), "createNewTask(String)", feedName);
     
     StoppableTask task = new RSSFeedDownloadTask(
             feedName, this.feedProperties.getProperty(feedName), 
             this.timeoutEach, this.timeunitEach, 
-            this.acceptDuplicates, this.getResult());
+            this.acceptDuplicates, this.getResult()){
+      @Override
+      protected Object doCall() {
+        try{
+          return super.doCall();
+        }finally{
+          try{
+            ((IncrementableValues<String>)getTasknameSorter()).incrementAndGet(feedName, this.getAdded());
+          }catch(ClassCastException ignored) { }
+        }
+      }
+    };
     
     return task;
   }

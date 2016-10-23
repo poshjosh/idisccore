@@ -16,14 +16,18 @@
 
 package com.idisc.core.util;
 
+import com.bc.util.XLogger;
 import com.idisc.core.ConfigNames;
 import com.idisc.core.IdiscApp;
-import com.idisc.pu.Sites;
+import com.idisc.pu.SiteService;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
+import com.idisc.pu.entities.Timezone;
 import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
+import java.util.logging.Level;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Aug 12, 2016 3:12:52 PM
@@ -32,6 +36,8 @@ public class BaseFeedCreator {
 
   private final String defaultCategories;
   private final Site site;
+  private final TimeZone inputTimeZone;
+  private final TimeZone outputTimeZone;
 
   public BaseFeedCreator(String defaultCategories){
     this(IdiscApp.getInstance().getConfiguration().getInteger(ConfigNames.DEFAULTSITE_ID, null), defaultCategories);
@@ -42,12 +48,21 @@ public class BaseFeedCreator {
   }
   
   public BaseFeedCreator(String sitename, Sitetype sitetype, String defaultCategories){
-    this(new Sites(IdiscApp.getInstance().getJpaContext()).from(sitename, sitetype, true), defaultCategories);
+    this(new SiteService(IdiscApp.getInstance().getJpaContext()).from(sitename, sitetype, true), defaultCategories);
   }
   
   public BaseFeedCreator(Site site, String defaultCategories){
     this.site = Objects.requireNonNull(site);
     this.defaultCategories = defaultCategories;
+    final Timezone timeZoneEntity = site.getTimezoneid();
+    final TimeZones timeZones = new TimeZones();
+    final String dbTimeZoneId = timeZones.getDatabaseTimeZoneId();
+    final String inputTimeZoneId = timeZoneEntity == null ? dbTimeZoneId : timeZoneEntity.getTimezonename();
+    inputTimeZone = TimeZone.getTimeZone(inputTimeZoneId);
+    outputTimeZone = TimeZone.getTimeZone(dbTimeZoneId);
+    XLogger.getInstance().log(Level.FINE, 
+        "Site: {0}, In TimeZone: {1}, Out TimeZone: {2}", 
+        this.getClass(), site.getSite(), inputTimeZone.getID(), outputTimeZone.getID());
   }  
 
   public void updateFeed(Feed feed, Integer feedid, String title, String contents) {
@@ -71,6 +86,14 @@ public class BaseFeedCreator {
       
     feed.setSiteid(site);
     feed.setTitle(title);
+  }
+  
+  public final TimeZone getOutputTimeZone() {
+    return outputTimeZone;
+  }
+
+  public final TimeZone getInputTimeZone() {
+    return inputTimeZone;
   }
   
   public final String getDefaultCategories() {

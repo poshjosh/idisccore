@@ -8,12 +8,12 @@
         "author":"Bella Naija",
         "categories":"blog,entertainment,news,events,music,movies,tv,style,careers,relationships"
     },
-    "imageUrl_unwantedRegex":"\/bn-favourites\/img\/heart.png",
+    "imageUrl_unwantedRegex":"\/bn-favourites\/img\/heart.png|BellaNaija.com_avatar_",
     "targetNode0":{
         "append":false,
         "attributes":{
-            "itemprop":"headline",
-            "class":"entry-title"
+            "class":"entry-title",
+            "itemprop":"headline"
         },
         "columns":["title"],
         "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<header class=\"entry-header\"> <h1 class=\"entry-title\" itemprop=\"headline\">"],
@@ -22,31 +22,31 @@
     "targetNode1":{
         "append":false,
         "attributesRegex":{
-            "title":".+?",
-            "class":"date time .+?"
+            "class":"date time .+?",
+            "title":".+?"
         },
+        "attributesToExtract":["title"],
         "columns":["feeddate"],
-        "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<p class=\"entry-meta\">","<span class=\"date time ${@regex(.+?)}\" title=\"${@regex(\\d{4}-\\{2}.+?)}\">"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["SPAN"],
+        "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<p class=\"entry-meta\">","<span class=\"date time ${@regex(.+?)}\" title=\"${@regex(\\d{4}-\\d{2}.+?)}\">"],
         "value":"SPAN"
     },
     "targetNode2":{
         "append":false,
         "attributesRegex":{
-            "title":".+?",
-            "class":"date time .+?"
+            "class":"date time .+?",
+            "title":".+?"
         },
         "columns":["feeddate"],
-        "attributesToExtract":["title"],
-        "nodeTypesToAccept":["tag"],
-        "nodesToRetainAttributes":["SPAN"],
-        "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<p class=\"entry-meta\">","<span class=\"date time ${@regex(.+?)}\" title=\"${@regex(\\d{4}-\\{2}.+?)}\">"],
+        "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<p class=\"entry-meta\">","<span class=\"date time ${@regex(.+?)}\" title=\"${@regex(\\d{4}-\\d{2}.+?)}\">"],
         "value":"SPAN"
     },
     "targetNode3":{
         "append":false,
         "attributes":{
-            "itemprop":"name",
-            "class":"entry-author-name"
+            "class":"entry-author-name",
+            "itemprop":"name"
         },
         "columns":["author"],
         "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<p class=\"entry-meta\">","<span class=\"entry-author\" itemprop=\"author\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/Person\">","<A>","<span class=\"entry-author-name\" itemprop=\"name\">"],
@@ -55,8 +55,8 @@
     "targetNode4":{
         "append":false,
         "attributes":{
-            "itemprop":"text",
-            "class":"entry-content"
+            "class":"entry-content",
+            "itemprop":"text"
         },
         "columns":["content"],
         "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<header class=\"entry-header\"> <h1 class=\"entry-title\" itemprop=\"headline\"> <p class=\"entry-meta\"> <div class=\"entry-content\" itemprop=\"text\">"],
@@ -65,41 +65,41 @@
     "targetNode5":{
         "append":false,
         "attributesRegex":{
-            "title":".+?",
-            "height":".+?",
-            "src-medium":".+?",
             "alt":".+?",
-            "width":".+?",
             "class":".+?",
-            "src-large":".+?",
-            "src":".+?",
-            "src-thumbnail":".+?"
-        },
-        "attributesToExtract":["src"],
-        "columns":["imageurl"],
-        "nodeTypesToAccept":["tag"],
-        "nodesToRetainAttributes":["IMG"],
-        "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<div class=\"entry-content\" itemprop=\"text\">","<p>","<A>","<IMG>"],
-        "value":"IMG"
-    },
-    "targetNode6":{
-        "append":false,
-        "attributesRegex":{
-            "title":".+?",
             "height":".+?",
-            "src-medium":".+?",
-            "alt":".+?",
-            "width":".+?",
-            "class":".+?",
-            "src-large":".+?",
             "src":".+?",
-            "src-thumbnail":".+?"
+            "src-large":".+?",
+            "src-medium":".+?",
+            "src-thumbnail":".+?",
+            "title":".+?",
+            "width":".+?"
         },
         "attributesToExtract":["src"],
         "columns":["imageurl"],
         "nodeTypesToAccept":["tag"],
         "nodesToRetainAttributes":["IMG"],
         "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<div class=\"entry-content\" itemprop=\"text\">","<p>","<A>","<IMG>"],
+        "value":"IMG"
+    },
+    "targetNode6":{
+        "append":false,
+        "attributesRegex":{
+            "alt":".+?",
+            "class":".+?",
+            "height":".+?",
+            "src":".+?",
+            "src-large":".+?",
+            "src-medium":".+?",
+            "src-thumbnail":".+?",
+            "title":".+?",
+            "width":".+?"
+        },
+        "attributesToExtract":["src"],
+        "columns":["imageurl"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["IMG"],
+        "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"${@regex(.+?)}\" itemscope=\"itemscope\" itemtype=\"http:\/\/schema.org\/BlogPosting\" itemprop=\"blogPost\">","<div class=\"entry-content\" itemprop=\"text\">","<p>","<A>","<IMG>"],
         "value":"IMG"
     },
     "url":{

@@ -9,6 +9,7 @@ import com.scrapper.CapturerApp;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +20,20 @@ import org.apache.commons.configuration.ConfigurationException;
  */
 public class IdiscTestBase {
     
+    private final SimpleDateFormat loggerDateFormat = new SimpleDateFormat("HH:mm:ss");
+    
+    String NAIJ = "naij";
+    String DAILY_TRUST = "dailytrust";
+    String PUNCH_NG = "punchng";
+    String CHANNELSTV_HEADLINES = "channelstv_headlines";
+    String BELLANAIJA = "bellanaija";
+    String LINDAIKEJI = "lindaikeji.blogspot";
+    String THISDAY = "thisday";
+    String NGRGUARDIANNEWS = "ngrguardiannews";
+    String THENATIONONLINENG = "thenationonlineng";
+    String VANGUARDNGR = "vanguardngr";
+    String THENEWSMINUTE = "thenewsminute";
+   
     private static IdiscApp idiscApp;
     
     private static CapturerApp capturerApp;
@@ -26,12 +41,14 @@ public class IdiscTestBase {
     public IdiscTestBase() 
             throws ConfigurationException, IOException, IllegalAccessException, 
             InterruptedException, InvocationTargetException{
-        this(Level.INFO);
+        this(Level.FINE);
     }
     
     public IdiscTestBase(Level logLevel) 
         throws ConfigurationException, IOException, IllegalAccessException, 
             InterruptedException, InvocationTargetException{
+        
+System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  Log level: "+logLevel);
         
         if(idiscApp == null) {
             
@@ -50,12 +67,12 @@ System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  JpaCont
 //            jpaContext.getQueryBuilder(Feed.class);
 
             capturerApp = idiscApp.getCapturerApp();
-
-    //        String [] toLoggers = {com.idisc.core.IdiscApp.class.getPackage().getName(), "com.bc.webdatex", "com.scrapper"};
+            
+            XLogger xlog = XLogger.getInstance();
             String [] toLoggers = {"com.idisc", "com.bc.webdatex", "com.scrapper"};
-            XLogger.getInstance().transferConsoleHandler("", toLoggers, true);
+//            xlog.transferConsoleHandler("", toLoggers, true);
             for(String toLogger:toLoggers) {
-                XLogger.getInstance().setLogLevel(toLogger, logLevel);
+                xlog.setLogLevel(toLogger, logLevel);
             }
         }
     }
@@ -123,14 +140,16 @@ System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  JpaCont
     public void log(Object msg) {
         log(true, msg);
     }
-    
+
     public void log(boolean title, Object msg) {
-        if(title) {
-System.out.print(new Date()+" "+this.getClass().getName()+" ");            
-        }
-System.out.println(msg);        
+        log(title?this.getClass():null, msg);
     }
 
+    public void log(Class title, Object msg) {
+System.out.print(loggerDateFormat.format(new Date()) +" "+(title==null?' ':title.getSimpleName())+' ');            
+System.out.println(msg);        
+    }
+    
     public IdiscApp getIdiscApp() {
         return idiscApp;
     }

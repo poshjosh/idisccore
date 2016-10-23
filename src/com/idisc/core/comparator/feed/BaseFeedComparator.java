@@ -1,5 +1,6 @@
-package com.idisc.core.comparator;
+package com.idisc.core.comparator.feed;
 
+import com.idisc.core.comparator.AbstractComparator;
 import com.idisc.pu.entities.Feed;
 import java.io.Serializable;
 import java.util.List;

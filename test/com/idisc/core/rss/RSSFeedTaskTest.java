@@ -42,7 +42,7 @@ log("run");
         XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
         XLogger.getInstance().setLogLevel(packageLoggerName, Level.FINER);
 
-        final RSSFeedTask instance = new RSSFeedTask(2, TimeUnit.MINUTES, 1, TimeUnit.MINUTES, 5, false);
+        final RSSFeedTask instance = new RSSFeedTask(4, TimeUnit.MINUTES, 2, TimeUnit.MINUTES, 5, false);
         
 //        instance.setFeedProperties(this.getLocalFeedProperties());
 

@@ -22,5 +22,6 @@
     "replaceNonBreakingSpace":false,
     "scrappLimit":50,
     "tables":["feed"],
-    "uploadParameters":{ }
+    "uploadParameters":{ },
+    "urlDatePatterns":["yyyy/MM/dd", "yyyy/MM", "dd/MM/yyyy", "MM/yyyy"]
 }

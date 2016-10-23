@@ -26,9 +26,11 @@ import java.util.Objects;
 import javax.persistence.EntityManager;
 
 /**
+ * @deprecated
  * @author Chinomso Bassey Ikwuagwu on Aug 12, 2016 1:38:23 PM
  */
-public class EntityMapBuilder_appVersionCode8orBelow extends EntityMapBuilder {
+@Deprecated
+public class EntityMapBuilder_appVersionCode8orBelow extends EntityMapBuilderDeprecated {
 
   private final Site defaultSite; 
           

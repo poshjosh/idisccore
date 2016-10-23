@@ -1,6 +1,14 @@
-Recently updated configs
-------------------------
-dailytrust
+By Adelanwa Bamgboye | Publish Date: Oct 4 2016 2:00AM , even after formatting to: am   : Oct 4 2016 2:00
+Wednesday, October 5, 2016 , even after formatting to: October 5, 2016
+10/05/2016 11:55:00 AM, even after formatting to: 10/05/2016
+By Habibu Umar Aminu, Katsina | Publish Date: Oct 5 2016 12:06PM , even after formatting to: mar Am,    :  5 2016 12:06
+
+
+Re-write NodeExtractor... ensure begin and finished parsing is called exactly once
+When a site is selected and user didn't enter query, error isn't properly propagated i.e as message for user
+Sort news on site by user locale too
+Add column installation.versionCode
+Add means of knowing if user has read comments
 
 FeedArchiver.archiveFeeds needs working on
 

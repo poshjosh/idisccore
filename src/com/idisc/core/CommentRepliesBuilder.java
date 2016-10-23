@@ -21,91 +21,113 @@ import com.bc.jpa.JpaContext;
 import com.idisc.pu.entities.Comment_;
 import com.idisc.pu.entities.Commentreplynotice;
 import com.bc.jpa.dao.BuilderForSelect;
+import com.idisc.core.util.TimeZones;
 
 public class CommentRepliesBuilder {
     
   public List<Map<String, Object>> build(
       Installation installation, boolean directRepliesOnly, int maxAgeDays, int maxNotifications) {
       
+    final XLogger logger = XLogger.getInstance();
+    final Class cls = this.getClass();
+    
     JpaContext cf = IdiscApp.getInstance().getJpaContext();
     
     EntityManager em = cf.getEntityManager(Comment.class);
     
+    List<Map<String, Object>> notices;
+      
     try {
         
       List<Comment> comments = getComments(em, installation, maxAgeDays);
       
-XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} days old or earlier", 
-        this.getClass(), installation, comments==null?null:comments.size(), maxAgeDays);
+      Level level = comments == null || comments.isEmpty() ? Level.FINER : Level.FINE;
+      logger.log(level, "Installation: {0}, has {1} comments {2} days old or earlier", 
+        cls, installation, comments==null?null:comments.size(), maxAgeDays);
 
-      if ((comments == null) || (comments.isEmpty())) {
-        return Collections.EMPTY_LIST;
-      }
-      
-      Map<Comment, List<Comment>> commentReplies = new HashMap<>();
-      
-      final Date NOW = new Date();
-      
-      EntityTransaction t = em.getTransaction();
-      
-      try {
+      if (comments == null || comments.isEmpty()) {
           
-        t.begin();
+        notices = Collections.EMPTY_LIST;
         
-        for (Comment comment : comments) {
-// commentreplynotice            
-          if ((maxNotifications < 1 || this.getNotificationCount(comment) < maxNotifications) && 
-                  !this.isReadByUser(comment)) {
+      }else{
+         
+        notices = new LinkedList();
 
-            List<Comment> replies = getReplies(comment, directRepliesOnly);
-            
-            XLogger.getInstance().log(Level.FINER, "Comment with ID: {0} has {1} replies", 
-            this.getClass(), comment.getCommentid(), replies == null ? null : replies.size());
-            
-            if ((replies != null) && (!replies.isEmpty())) {
+        Map<Comment, List<Comment>> commentReplies = new HashMap<>();
 
-              Commentreplynotice notification = new Commentreplynotice();
-              notification.setCommentid(comment);
-              notification.setDateusernotified(NOW);
+        final Date NOW_DB_TIMEZONE = new TimeZones().getCurrentTimeInDatabaseTimeZone();
 
-              em.persist(notification);
+        EntityTransaction t = em.getTransaction();
+
+        try {
+
+          t.begin();
+
+          for (Comment comment : comments) {
+  // commentreplynotice            
+            if (this.hasMoreNotifications(comment, maxNotifications) && !this.isReadByUser(comment)) {
+
+              List<Comment> replies = getReplies(comment, directRepliesOnly);
+
+              level = replies == null || replies.isEmpty() ? Level.FINER : Level.FINE;
+              logger.log(level, "Comment with ID: {0} has {1} replies", 
+                cls, comment.getCommentid(), replies == null ? null : replies.size());
+
+              if ((replies != null) && (!replies.isEmpty())) {
+
+                commentReplies.put(comment, replies);
+                  
+                Commentreplynotice notification = new Commentreplynotice();
+                notification.setCommentid(comment);
+                notification.setDateusernotified(NOW_DB_TIMEZONE);
+                notification.setInstallationid(installation);
+
+                em.persist(notification);
+              }
             }
           }
+
+          t.commit();
+
+        }finally {
+          if (t.isActive()) {
+            t.rollback();
+          }
         }
-        
-        t.commit();
-        
-      }finally {
-        if (t.isActive()) {
-          t.rollback();
+
+        Set<Comment> keys = ((Map)commentReplies).keySet();
+
+        for (Comment comment : keys) {
+
+          Map<String, Object> notice = new HashMap(3, 1.0f);
+
+          notice.put("feed", comment.getFeedid());
+
+          notice.put("comment", comment);
+
+          List<Comment> replies = (List<Comment>)commentReplies.get(comment);
+          notice.put("replies", replies);
+
+          notices.add(notice);
         }
       }
-      
-      List<Map<String, Object>> notices = new LinkedList();
-      
-      Set<Comment> keys = ((Map)commentReplies).keySet();
-      
-      for (Comment comment : keys) {
-          
-        Map<String, Object> notice = new HashMap(3, 1.0f);
-        
-        notice.put("feed", comment.getFeedid());
-        
-        notice.put("comment", comment);
-        
-        List<Comment> replies = (List<Comment>)commentReplies.get(comment);
-        notice.put("replies", replies);
-        
-        notices.add(notice);
-      }
-      
-      XLogger.getInstance().log(Level.FINE, "Returning: {0} notices", this.getClass(), notices.size());
-      
-      return notices;
-      
     } finally {
       em.close();
     }
+    
+    final Level level = notices.isEmpty() ? Level.FINER : Level.FINE;
+    logger.log(level, "Returning: {0} notices for screenname: {1} of {2}", 
+    cls, notices.size(), installation.getScreenname(), installation);
+
+    return notices;
+  }
+  
+  public boolean hasMoreNotifications(Comment comment, int maxNotifications) {
+    int notificationsCount = -1;
+    final boolean output = maxNotifications < 1 || (notificationsCount = this.getNotificationCount(comment)) < maxNotifications;
+    XLogger.getInstance().log(Level.FINER, "Has more notices: {0}, comment with id: {1}, max notices: {2}, notices count: {3}", 
+    this.getClass(), output, comment.getCommentid(), maxNotifications, notificationsCount);
+    return output;
   }
   
   public int getNotificationCount(Comment comment) {
@@ -119,11 +141,15 @@ XLogger.getInstance().log(Level.FINER, "Installation: {0}, has {1} comments {2} 
 
   public boolean isReadByUser(Comment comment) {
     List<Commentreplynotice> notifications = comment.getCommentreplynoticeList();
+    boolean output;
     if(notifications == null || notifications.isEmpty()) {
-      return false;    
+      output = false;    
     }else{
-      return notifications.get(0).getDateuserread() != null;
+      output = notifications.get(0).getDateuserread() != null;
     }
+    XLogger.getInstance().log(Level.FINER, "Is read by user: {0}, user: {1}, comment with id: {2}", 
+    this.getClass(), output, comment.getInstallationid().getInstallationid(), comment.getCommentid());
+    return output;
   }
   
   public boolean isUserAlreadyNotified(Comment comment) {

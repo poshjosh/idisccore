@@ -1,6 +1,6 @@
 package com.idisc.core;
 
-import com.idisc.core.comparator.FeedComparatorUserSiteHitcount;
+import com.idisc.core.comparator.feed.FeedComparatorUserSiteHitcount;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feedhit;
 import com.idisc.pu.entities.Installation;

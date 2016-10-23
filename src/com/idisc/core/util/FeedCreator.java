@@ -17,36 +17,36 @@
 package com.idisc.core.util;
 
 import com.bc.htmlparser.ParseJob;
-import com.bc.jpa.PersistenceMetaData;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
-import com.idisc.core.web.NodeExtractor;
-import com.idisc.pu.Sites;
+import com.idisc.pu.SiteService;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
 import com.scrapper.config.Config;
-import com.scrapper.util.PageNodes;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import org.htmlparser.Node;
 import org.htmlparser.NodeFilter;
 import org.htmlparser.tags.ImageTag;
-import org.htmlparser.tags.MetaTag;
 import org.htmlparser.tags.TitleTag;
 import org.htmlparser.util.NodeList;
+import com.bc.webdatex.nodedata.Dom;
+import com.bc.webdatex.extractor.Extractor;
+import com.bc.webdatex.extractor.date.DateExtractor;
+import com.bc.webdatex.extractor.TitleFromUrlExtractor;
+import com.bc.jpa.JpaMetaData;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Aug 3, 2016 11:05:58 AM
  */
 public class FeedCreator extends BaseFeedCreator {
+    
+  private final int lessDisplaySize = 2;
 
   private final boolean allowOpenEnded = false;
   private final int defaultSpaces = 1;
@@ -55,10 +55,11 @@ public class FeedCreator extends BaseFeedCreator {
   
   private final NodeFilter imagesFilter;
   private final ParseJob parseJob;
-  private final SimpleDateFormat simpleDateFormat;
 
-  private final NodeExtractor nodeExtractor;
-
+  private final Extractor<String> titleFromUrlExtractor;
+  
+  private final int [] columnDisplaySizes;
+  
   public FeedCreator(
           Integer siteId, String defaultCategories, 
           NodeFilter imagesFilter, float dataComparisonTolerance){
@@ -69,20 +70,22 @@ public class FeedCreator extends BaseFeedCreator {
   public FeedCreator(
           String sitename, Sitetype sitetype, String defaultCategories, 
           NodeFilter imagesFilter, float dataComparisonTolerance){
-    this(new Sites(IdiscApp.getInstance().getJpaContext()).from(sitename, sitetype, true), 
+    this(new SiteService(IdiscApp.getInstance().getJpaContext()).from(sitename, sitetype, true), 
             defaultCategories, imagesFilter, dataComparisonTolerance);
   }
   
   public FeedCreator(Site site, String defaultCategories, NodeFilter imagesFilter, float dataComparisonTolerance){
     super(site, defaultCategories);
-    this.simpleDateFormat = new SimpleDateFormat();
     this.parseJob = new ParseJob();
-    this.nodeExtractor = new NodeExtractor(dataComparisonTolerance, site.getSite());
     this.imagesFilter = imagesFilter;
     this.dataComparisonTolerance = dataComparisonTolerance;
+    this.titleFromUrlExtractor = new TitleFromUrlExtractor();
+    JpaMetaData metaData = IdiscApp.getInstance().getJpaContext().getMetaData();  
+    this.columnDisplaySizes = metaData.getColumnDisplaySizes(Feed.class);
   }
   
-  public Date getFeeddate(String dateStr) {
+  public Date getDate(String [] datePatterns, String dateStr, Date outputIfNone) {
+
 XLogger xlog = XLogger.getInstance();
 Level level = Level.FINER;
 Class cls = this.getClass();
@@ -91,98 +94,57 @@ Class cls = this.getClass();
         dateStr = getPlainText(dateStr.trim());
     }
 
-    Date feeddate = null;
+    Date feeddate = outputIfNone;
+    
     if(dateStr != null && !dateStr.isEmpty()) {
-
-        String [] datePatterns = nodeExtractor.getDatePatterns();
 
 if(xlog.isLoggable(level, cls))
 xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.toString(datePatterns));
 
         if(datePatterns != null && datePatterns.length != 0) {
-            for(String pattern:datePatterns) {
-                simpleDateFormat.applyPattern(pattern);
-                try{
+            
+            Extractor<Date> dateExtractor = 
+                    new DateExtractor(Arrays.asList(datePatterns),
+                    this.getInputTimeZone(), this.getOutputTimeZone());
 
-                    feeddate = simpleDateFormat.parse(dateStr);
-
-                    xlog.log(Level.FINER, "Parsed date: {0}", cls, feeddate);
-
-                    break;
-                }catch(ParseException ignored) { }
-            }
+            feeddate = dateExtractor.extract(dateStr, outputIfNone);
         }
-    }
-    if(feeddate == null){
-        feeddate = new Date(); // We need this for sorting
     }
     return feeddate;
   }
-
-  public String getTitle(PageNodes pageNodes) {
+  
+  public String getTitle(Dom pageNodes) {
     String title = null;
     if(pageNodes.getTitle() != null) {
         TitleTag titleTag = pageNodes.getTitle();
         if(titleTag != null) {
             title = titleTag.toPlainTextString();
-            title = title == null ? null : this.truncate(title, this.getColumnDisplaySize("title"));
+            title = title == null ? null : this.truncate(title, this.getRecommendedSize("title"));
         }
     }
     return title;
   }
     
-  public String getKeywords(PageNodes pageNodes) {
-    Objects.requireNonNull(pageNodes);
-    return this.getMetaContent(pageNodes.getKeywords(), "keywords");
-  }
-  
-  public String getDescription(PageNodes pageNodes) {
-    Objects.requireNonNull(pageNodes);
-    return this.getMetaContent(pageNodes.getDescription(), "description");
+  public int getRecommendedSize(String columnName) {
+    return this.getColumnDisplaySize(columnName) - this.lessDisplaySize;
   }
     
-  public String getMetaContent(MetaTag meta, String columnName) {
-    return meta == null ? null :
-            this.truncate(meta.getAttribute("content"), this.getColumnDisplaySize(columnName));
-  }
-  
-  public String getImageUrl(PageNodes pageNodes) {
-    Objects.requireNonNull(pageNodes);
-    String imageurl = this.getFirstImageUrl(pageNodes.getNodeList());
-//    if(imageurl == null) {
-//        imageurl = site.getIconurl();
-//        if(imageurl == null) {
-//            Link link = pageNodes.getIcon();
-//            if(link == null) {
-//                link = pageNodes.getIco();
-//            }
-//            imageurl = link == null ? null : link.getLink();
-//        }
-//    }
-    return imageurl;
-  }
-    
-  private int [] _fcds;
   public int getColumnDisplaySize(String columnName) {
-    PersistenceMetaData metaData = IdiscApp.getInstance().getJpaContext().getMetaData();  
-    if(_fcds == null) {
-      // Round trips to the database  
-      _fcds = metaData.getColumnDisplaySizes(Feed.class);
-    }
-    int displaySize = _fcds[metaData.getColumnIndex(Feed.class, columnName)];
+    final JpaMetaData metaData = IdiscApp.getInstance().getJpaContext().getMetaData();  
+    final int displaySize = this.columnDisplaySizes[metaData.getColumnIndex(Feed.class, columnName)];
     return displaySize;
   }  
   
     public String format(String col, String val, Map defaultValues, boolean plainTextOnly) {
         
-        int maxLen = this.getColumnDisplaySize(col);
+        int maxLen = this.getRecommendedSize(col);
         
         return format(val, (String)defaultValues.get(col), maxLen, plainTextOnly);
     }
 
     public String format(String col, String val, boolean plainTextOnly) {
         
-        int maxLen = this.getColumnDisplaySize(col);
+        int maxLen = this.getRecommendedSize(col);
         
         return format(val, null, maxLen, plainTextOnly);
     }
@@ -190,7 +152,7 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
     
     public String format(String col, String val, String defaultValue, boolean plainTextOnly) {
         
-        int maxLen = this.getColumnDisplaySize(col);
+        int maxLen = this.getRecommendedSize(col);
         
         return format(val, defaultValue, maxLen, plainTextOnly);
     }
@@ -205,10 +167,19 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
         if(val == null) {
             val = defaultValue;
         }
-        if(val != null && plainTextOnly) {
+        if(val != null && val.length() > 0 && plainTextOnly) {
             val = getPlainText(val);
         }
-        return truncate(val, maxLen-3);
+        
+        if(val != null && val.length() > 0) {
+            val = com.bc.util.Util.removeNonBasicMultilingualPlaneChars(val);
+        }
+        
+        if(val != null && val.length() > 0) {
+            val = com.bc.util.StringEscapeUtils.unescapeHtml(val);
+        }
+        
+        return truncate(val, maxLen - this.lessDisplaySize);
     }
 
   public String truncate(String s, int maxLen) {
@@ -232,29 +203,6 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
             output = null;
         }
         return output;
-    }
-    
-    public String extractTitleFromUrl(String url) {
-//   .../the-government-has-done-it-again.html            
-// we extract: the government has done it again            
-        url = url.trim();
-        if(url.endsWith("/")) {
-            url = url.substring(0, url.length()-1);
-        }
-        String title;
-        int a = url.lastIndexOf('/');
-        if(a != -1) {
-//            int b = url.lastIndexOf('.', a); // This counts backwards from a
-            int b = url.lastIndexOf('.');
-            if(b == -1 || b < a) {
-                b = url.length();
-            }
-            title = url.substring(a+1, b);
-            title = title.replaceAll("\\W", " "); //replace all non word chars
-        }else{
-            title = null;
-        }
-        return title;
     }
     
     public String getFirstImageUrl(NodeList nodeList) {
@@ -306,10 +254,10 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
     return bval == null ? Boolean.FALSE : bval;
   }
 
-  public final NodeExtractor getNodeExtractor() {
-    return nodeExtractor;
+  public final Extractor<String> getTitleFromUrlExtractor() {
+    return titleFromUrlExtractor;
   }
-    
+
   public final boolean isAllowOpenEnded() {
     return this.allowOpenEnded;
   }

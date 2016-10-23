@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.idisc.core.filters;
-
-import com.scrapper.context.CapturerContext;
+package com.idisc.core.comparator.site;
 
 /**
- * @author Chinomso Bassey Ikwuagwu on Aug 3, 2016 10:32:11 AM
+ * @author Chinomso Bassey Ikwuagwu on Sep 3, 2016 6:36:54 AM
  */
-public class CapturerContextImagesFilter extends ImagesFilter {
-    public CapturerContextImagesFilter(CapturerContext context) {
-        super(context.getConfig().getString(new Object[] { "url", "value" }),
-                context.getConfig().getString("imageUrl_requiredRegex"),
-                context.getConfig().getString("imageUrl_unwantedRegex"));
+public class SiteComparatorRandomHalves extends SiteComparatorRandomParts {
+
+    public SiteComparatorRandomHalves() {
+        super(0.5f);
     }
 }

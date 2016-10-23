@@ -6,11 +6,11 @@ import com.scrapper.CapturerApp;
 import com.scrapper.Crawler;
 import com.scrapper.config.ScrapperConfigFactory;
 import com.scrapper.context.CapturerContext;
-import com.scrapper.util.PageNodes;
 import java.util.Arrays;
 import java.util.logging.Level;
 import org.htmlparser.util.NodeList;
 import org.junit.Test;
+import com.bc.webdatex.nodedata.Dom;
 
 
 /**
@@ -68,12 +68,7 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
         JsonConfig config = ctx.getConfig();
 
-        Crawler c = new Crawler(ctx){
-            @Override
-            public boolean isResume() {
-                return false;
-            }
-        };
+        Crawler c = new Crawler(ctx, true, false);
 
 //        final TransverseFilterIx filter = new DefaultTransverseFilter(config, "targetNode0");
         
@@ -91,7 +86,7 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
         while(c.hasNext()) {
             
-            PageNodes pageNodes = c.next();
+            Dom pageNodes = c.next();
             
             if(pageNodes == null) {
                 continue;

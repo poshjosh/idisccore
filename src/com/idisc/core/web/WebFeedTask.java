@@ -4,18 +4,19 @@ import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
 import com.idisc.core.ConcurrentTaskList;
 import com.idisc.core.IdiscApp;
+import com.idisc.core.comparator.site.IncrementableValues;
+import com.idisc.pu.entities.Feed;
 import com.scrapper.CapturerApp;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-public class WebFeedTask extends ConcurrentTaskList {
+public class WebFeedTask extends ConcurrentTaskList<Feed> {
     
-  private static int siteOffset;
-  
   private final boolean acceptDuplicateUrls;
   
   private final long timeoutEach;
@@ -46,40 +47,28 @@ public class WebFeedTask extends ConcurrentTaskList {
   }
 
   @Override
-  public List<String> distribute(List<String> values) {
-      
-    List<String> copy = new ArrayList(values);
-    
-    Collections.rotate(copy, siteOffset);
-    
-XLogger.getInstance().log(Level.FINE, "Number of values: {0}, offset: {1}\n Input: {2}\nOutput: {3}", 
-        this.getClass(), values.size(), siteOffset, values, copy);
-    
-    siteOffset += this.getMaxConcurrent();
-
-    return copy;
-  }
-  
-  @Override
-  public NewsCrawler createNewTask(String site) {
+  public NewsCrawler createNewTask(final String site) {
       
     JsonConfig config = CapturerApp.getInstance().getConfigFactory().getContext(site).getConfig();
     
-    if(config == null) {
-        throw new NullPointerException(JsonConfig.class.getSimpleName()+" for site: "+site+" is null");
-    }
+    Objects.requireNonNull(config, JsonConfig.class.getSimpleName()+" for site: "+site+" is null");
     
     NewsCrawler crawler = new NewsCrawler(
-            config, this.timeoutEach, this.timeunitEach, this.maxFailsAllowed, getResult()) {
-                
+            config, this.timeoutEach, this.timeunitEach, this.maxFailsAllowed, 
+            getResult(), false, !WebFeedTask.this.acceptDuplicateUrls) {
+      @Override
+      protected Collection<Feed> doCall() {
+        try{
+          return super.doCall();
+        }finally{
+          try{
+            ((IncrementableValues<String>)getTasknameSorter()).incrementAndGet(site, this.getScrapped());
+          }catch(ClassCastException ignored) { }
+        }
+      }
       @Override
       public String getTaskName() {
-        return "Task to extract web feeds from " + getSitename();
-      }
-      
-      @Override
-      public boolean isResume() {
-        return !WebFeedTask.this.acceptDuplicateUrls;
+        return this.getClass().getSimpleName() + " for " + this.getContext().getConfig().getName();
       }
     };
 

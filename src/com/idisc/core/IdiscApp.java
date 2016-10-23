@@ -71,8 +71,7 @@ public class IdiscApp {
 
   private void init(URL defaultConfigFile, URL configFile)
     throws ConfigurationException, IOException, IllegalAccessException, 
-          InterruptedException, InvocationTargetException, UnsupportedOperationException
-  {
+          InterruptedException, InvocationTargetException, UnsupportedOperationException {
       
     if(this.isInitialized()) {
         throw new UnsupportedOperationException("App is already initialized!");

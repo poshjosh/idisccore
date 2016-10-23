@@ -3,23 +3,10 @@ package com.idisc.core.util;
 import java.io.StringWriter;
 import java.util.HashMap;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-public class StringUtil
-{
-  public static final String unescapeHtml3(String input)
-  {
+public class StringUtil {
+    
+  public static final String unescapeHtml3(String input) {
+      
     StringWriter writer = null;
     int len = input.length();
     int i = 1;
@@ -100,115 +87,8 @@ public class StringUtil
   }
   
   private static final String[][] ESCAPES = { { "\"", "quot" }, { "&", "amp" }, { "<", "lt" }, { ">", "gt" }, { " ", "nbsp" }, { "¡", "iexcl" }, { "¢", "cent" }, { "£", "pound" }, { "¤", "curren" }, { "¥", "yen" }, { "¦", "brvbar" }, { "§", "sect" }, { "¨", "uml" }, { "©", "copy" }, { "ª", "ordf" }, { "«", "laquo" }, { "¬", "not" }, { "­", "shy" }, { "®", "reg" }, { "¯", "macr" }, { "°", "deg" }, { "±", "plusmn" }, { "²", "sup2" }, { "³", "sup3" }, { "´", "acute" }, { "µ", "micro" }, { "¶", "para" }, { "·", "middot" }, { "¸", "cedil" }, { "¹", "sup1" }, { "º", "ordm" }, { "»", "raquo" }, { "¼", "frac14" }, { "½", "frac12" }, { "¾", "frac34" }, { "¿", "iquest" }, { "À", "Agrave" }, { "Á", "Aacute" }, { "Â", "Acirc" }, { "Ã", "Atilde" }, { "Ä", "Auml" }, { "Å", "Aring" }, { "Æ", "AElig" }, { "Ç", "Ccedil" }, { "È", "Egrave" }, { "É", "Eacute" }, { "Ê", "Ecirc" }, { "Ë", "Euml" }, { "Ì", "Igrave" }, { "Í", "Iacute" }, { "Î", "Icirc" }, { "Ï", "Iuml" }, { "Ð", "ETH" }, { "Ñ", "Ntilde" }, { "Ò", "Ograve" }, { "Ó", "Oacute" }, { "Ô", "Ocirc" }, { "Õ", "Otilde" }, { "Ö", "Ouml" }, { "×", "times" }, { "Ø", "Oslash" }, { "Ù", "Ugrave" }, { "Ú", "Uacute" }, { "Û", "Ucirc" }, { "Ü", "Uuml" }, { "Ý", "Yacute" }, { "Þ", "THORN" }, { "ß", "szlig" }, { "à", "agrave" }, { "á", "aacute" }, { "â", "acirc" }, { "ã", "atilde" }, { "ä", "auml" }, { "å", "aring" }, { "æ", "aelig" }, { "ç", "ccedil" }, { "è", "egrave" }, { "é", "eacute" }, { "ê", "ecirc" }, { "ë", "euml" }, { "ì", "igrave" }, { "í", "iacute" }, { "î", "icirc" }, { "ï", "iuml" }, { "ð", "eth" }, { "ñ", "ntilde" }, { "ò", "ograve" }, { "ó", "oacute" }, { "ô", "ocirc" }, { "õ", "otilde" }, { "ö", "ouml" }, { "÷", "divide" }, { "ø", "oslash" }, { "ù", "ugrave" }, { "ú", "uacute" }, { "û", "ucirc" }, { "ü", "uuml" }, { "ý", "yacute" }, { "þ", "thorn" }, { "ÿ", "yuml" } };
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   private static final int MIN_ESCAPE = 2;
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   private static final int MAX_ESCAPE = 6;
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   private static final HashMap<String, CharSequence> lookupMap = new HashMap();
   static { for (CharSequence[] seq : ESCAPES) {
       lookupMap.put(seq[1].toString(), seq[0]);

@@ -6,6 +6,7 @@ import com.idisc.pu.entities.Feed;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
 
@@ -21,27 +22,29 @@ public class NewsCrawlerTest extends IdiscTestBase {
     }
 
     /**
-     * Test of doCall method, of class NewsCrawler.
+     * Test of call method, of class NewsCrawler.
      */
     @Test
-    public void testRun() {
+    public void testCall() {
         
-        System.out.println("run");
+        System.out.println("call()");
         String site = "lindaikeji.blogspot";
 //        site = "dailytrust";
         site = "bellanaija";
         
-        NewsCrawler instance = new TestNewsCrawler(site, true);
+        NewsCrawler instance = new TestNewsCrawler(site, true, 2, TimeUnit.MINUTES, 20, true, false);
         
         instance.setCrawlLimit(200);
         instance.setParseLimit(60);
         
         final Collection<Feed> result = instance.call();
         
-System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Results: "+(result==null?null:result.size()));
+        final int resultSize = (result==null?null:result.size());
+                
+System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Results: "+resultSize);
 
-        final int updated = new FeedResultUpdater().process(instance.getTaskName(), result);
+        final Collection<Feed> failedToCreate = new FeedResultUpdater().process(instance.getTaskName(), result);
         
-System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Updated: "+updated);
+System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Updated: "+(resultSize-failedToCreate.size()));
     }
 }

@@ -1,4 +1,4 @@
-package com.idisc.core.comparator;
+package com.idisc.core.comparator.feed;
 
 import com.idisc.pu.entities.Feed;
 
