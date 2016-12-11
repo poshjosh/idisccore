@@ -1,11 +1,11 @@
 package com.idisc.core.web;
 
-import com.idisc.core.FeedResultUpdater;
+import com.bc.json.config.JsonConfig;
+import com.idisc.core.FeedHandler;
 import com.idisc.core.IdiscTestBase;
-import com.idisc.pu.entities.Feed;
+import com.idisc.core.InsertFeedToDatabase;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
@@ -32,19 +32,17 @@ public class NewsCrawlerTest extends IdiscTestBase {
 //        site = "dailytrust";
         site = "bellanaija";
         
-        NewsCrawler instance = new TestNewsCrawler(site, true, 2, TimeUnit.MINUTES, 20, true, false);
+        final JsonConfig config = this.getCapturerApp().getConfigFactory().getConfig(site);
+        
+        final FeedHandler feedHandler =  new InsertFeedToDatabase(this.getIdiscApp().getJpaContext());
+        
+        NewsCrawler instance = new TestNewsCrawler(true, config, 2, TimeUnit.MINUTES, 20, feedHandler, true, false);
         
         instance.setCrawlLimit(200);
         instance.setParseLimit(60);
         
-        final Collection<Feed> result = instance.call();
+        final Integer updateCount = instance.call();
         
-        final int resultSize = (result==null?null:result.size());
-                
-System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Results: "+resultSize);
-
-        final Collection<Feed> failedToCreate = new FeedResultUpdater().process(instance.getTaskName(), result);
-        
-System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Updated: "+(resultSize-failedToCreate.size()));
+System.out.println("= = = = = == ==== = ==  === = = = = = = = =  Update count: "+updateCount);
     }
 }

@@ -1,13 +1,12 @@
 package com.idisc.core;
 
+import com.bc.jpa.JpaContext;
+import com.idisc.pu.entities.Feed;
+import com.idisc.pu.entities.Feed_;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 import org.apache.commons.configuration.ConfigurationException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -20,24 +19,42 @@ public class FeedArchiverTest extends IdiscTestBase {
             InterruptedException, InvocationTargetException{ 
     }
     
-    @BeforeClass
-    public static void setUpClass() {}
-    @AfterClass
-    public static void tearDownClass() { }
-    @Before
-    public void setUp() { }
-    @After
-    public void tearDown() { }
-
     /**
      * Test of archiveFeeds_1 method, of class FeedArchiver.
      */
     @Test
     public void testArchiveFeeds() {
+        
         System.out.println(this.getClass().getName()+"#archiveFeeds");
-        long maxAge = 180;
-        TimeUnit timeUnit = TimeUnit.DAYS;
-        FeedArchiver instance = new FeedArchiver();
-        int result = instance.archiveFeeds(maxAge, timeUnit, 100);
+        
+        final JpaContext jpaContext = this.getIdiscApp().getJpaContext();
+        
+        final int limit = 100;
+        
+        List<Feed> feeds = jpaContext.getBuilderForSelect(Feed.class)
+                .ascOrder(Feed_.feeddate.getName())
+                .getResultsAndClose(0, limit);
+        
+        for(Feed feed : feeds) {
+//System.out.println();            
+//System.out.println("ID: "+feed.getFeedid()+", title: "+feed.getTitle());        
+//System.out.println("Feeddate: "+feed.getFeeddate()+", datecreated: "+feed.getDatecreated()+", ");
+        }
+        
+        Feed feed = feeds.get(feeds.size() - 1); 
+        
+        FeedArchiver instance = new FeedArchiver(this.getIdiscApp().getJpaContext());
+        
+long mb4 = this.freeMemory();
+long tb4 = System.currentTimeMillis();
+
+        final int archivedCount = instance.archiveFeedsBefore(feed.getFeeddate(), limit);
+     
+System.out.println("Archived count: "+archivedCount+", consumed. time: "+(System.currentTimeMillis()-tb4)+", memory: "+(mb4-this.freeMemory()));        
+    }
+    
+    private long freeMemory() {
+        Runtime r = Runtime.getRuntime();
+        return r.maxMemory() - r.totalMemory() + r.freeMemory();
     }
 }

@@ -124,6 +124,7 @@ public class ExtractionTestBase extends IdiscTestBase {
                 break;
             case "naij":
                 urls = new String[]{
+                    "https://www.naij.com/1054108-awww-officer-civilian-fall-love-photos.html",
                     "https://www.naij.com/812314-shocking-efcc-uncovers-12-9-billion-arms-deal-fraud.html",
                     "https://www.naij.com/460524-read-happened-men-trekked-atiku.html",
                     "https://www.naij.com/460495-live-ngr-vs-chad-afcon-qualifier.html",
@@ -156,20 +157,29 @@ public class ExtractionTestBase extends IdiscTestBase {
                     "http://saharareporters.com/2015/06/15/us-commits-5-billion-military-assistance-against-boko-haram"
                 };
                 break;
-            case "sunnewsonline_breaking":
+            case "sunnewsonline":
                 urls = new String[]{
-                    "http://sunnewsonline.com/new/?p=123586",
-                    "http://sunnewsonline.com/new/?p=123571",
-                    "http://sunnewsonline.com/new/?p=123565"
+                    "http://sunnewsonline.com/%e2%80%8ecbn-gov-emefiele-hails-buhari-security-agencies-over-wifes-release/",
+                    "http://sunnewsonline.com/trained-in-niger-delta-creeks-returned-to-kogi-set-up-robbery-gang/",
+                    "http://sunnewsonline.com/risaa-reads-riot-act-to-advertisers-orders-removal-of-illegal-structures/"
                 };
                 break;
-            case "sunnewsonline_national":
-                urls = new String[]{
-                    "http://sunnewsonline.com/new/?p=123586",
-                    "http://sunnewsonline.com/new/?p=123571",
-                    "http://sunnewsonline.com/new/?p=123565"
-                };
-                break;
+//            case "sunnewsonline_breaking":
+//                urls = new String[]{
+//                    "http://sunnewsonline.com/trained-in-niger-delta-creeks-returned-to-kogi-set-up-robbery-gang/",
+//                    "http://sunnewsonline.com/risaa-reads-riot-act-to-advertisers-orders-removal-of-illegal-structures/"
+//                    "http://sunnewsonline.com/new/?p=123586",
+//                    "http://sunnewsonline.com/new/?p=123571",
+//                    "http://sunnewsonline.com/new/?p=123565"
+//                };
+//                break;
+//            case "sunnewsonline_national":
+//                urls = new String[]{
+//                    "http://sunnewsonline.com/new/?p=123586",
+//                    "http://sunnewsonline.com/new/?p=123571",
+//                    "http://sunnewsonline.com/new/?p=123565"
+//                };
+//                break;
             case "thenationonlineng":    
                 urls = new String[]{
                     "http://thenationonlineng.net/new/first-lady-dont-pay-any-money-to-see-president/",

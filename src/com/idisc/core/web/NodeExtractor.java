@@ -1,6 +1,7 @@
 package com.idisc.core.web;
 
 import com.bc.util.XLogger;
+import com.bc.webdatex.extractor.node.NodeSelector;
 import com.scrapper.context.CapturerContext;
 import com.scrapper.extractor.MultipleNodesExtractorIx;
 import java.util.Collections;
@@ -11,25 +12,36 @@ import java.util.logging.Level;
 import org.htmlparser.tags.BodyTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
-import com.bc.webdatex.nodedata.Dom;
 import com.scrapper.context.CapturerSettings;
 import com.bc.webdatex.locator.TagLocator;
 import com.bc.webdatex.locator.impl.TagLocatorImpl;
 import com.bc.webdatex.locator.impl.TransverseNodeMatcherImpl;
 import com.bc.webdatex.nodefilter.NodeVisitingFilter;
+import java.util.List;
+import org.htmlparser.Node;
+import org.htmlparser.NodeFilter;
+import org.htmlparser.filters.NodeClassFilter;
+import org.htmlparser.filters.NotFilter;
+import org.htmlparser.filters.OrFilter;
+import org.htmlparser.tags.ScriptTag;
+import org.htmlparser.tags.StyleTag;
+import com.bc.dom.HtmlPageDom;
 
 public class NodeExtractor {
     
   private final float tolerance;
 
+  private final int bufferSize;
+  
   private final CapturerContext capturerContext;
   
-  public NodeExtractor(float tolerance, CapturerContext context){
+  public NodeExtractor(float tolerance, CapturerContext context, int bufferSize){
     this.tolerance = tolerance;
     this.capturerContext = Objects.requireNonNull(context);
+    this.bufferSize = bufferSize;
   }
   
-  public Map<String, String> extract(Dom pageNodes) {
+  public Map<String, String> extract(HtmlPageDom pageNodes) {
       
     Map<String, String> output = null;
     
@@ -37,31 +49,19 @@ public class NodeExtractor {
     
     for (int i = 0; i < MAX; i++) {
         
-      final Object targetProps = capturerContext.getConfig().getObject(new Object[] { "targetNode" + i });
+      final String ID = "targetNode" + i;
+      
+      final Object targetProps = capturerContext.getConfig().getObject(new Object[] { ID });
       
       if (targetProps == null) {
-          
-        if (i == 0) {
-            
-          final String content = this.getContent(pageNodes, null);
-        
-          if(content != null) {
-            output = Collections.singletonMap("content", content);
-          }else{
-            output = Collections.EMPTY_MAP;  
-          }
-        }
-        
-        break;
+        break;  
       }
-      
-      final String name = "targetNode" + i;
       
       final CapturerSettings settings = capturerContext.getSettings();
 
-      final boolean exists = output != null && output.containsKey(name);
+      final boolean exists = output != null && output.containsKey(ID);
       
-      final boolean append = settings.isConcatenateMultipleExtracts(name, false);
+      final boolean append = settings.isConcatenateMultipleExtracts(ID, false);
       
       final boolean doExtract = !exists || exists && append;
       
@@ -69,34 +69,22 @@ public class NodeExtractor {
         continue;
       }
       
-      String [] columns = settings.getColumns(name);
+      String [] columns = settings.getColumns(ID);
       
       String value;
       
       try {
 
-        final StringBuilder extract = extract(pageNodes, name);
+        final StringBuilder extract = extract(pageNodes, ID);
 
         value = extract == null ? null : extract.toString();
 
       } catch (ParserException e) {
 
-        XLogger.getInstance().log(Level.WARNING, "Parse failed", getClass(), e);
-
-        String content = this.getContent(pageNodes, null);
-
-        if(content != null) {
-
-          columns = new String[]{"content"};
-
-          value = content;
-
-          i = MAX;
-
-        }else{
-
-          value = null;
-        }
+        value = null;
+        
+        XLogger.getInstance().log(Level.WARNING, "Extraction failed for column: " + ID + 
+                " in nodes extracted from: "+pageNodes.getURL(), getClass(), e);
       }
       
       if (output == null) {
@@ -105,7 +93,7 @@ public class NodeExtractor {
 
       if(value != null && !value.isEmpty()) {
           
-        for(String column:columns) {
+        for(String column : columns) {
             
           if(append) {
               
@@ -121,25 +109,57 @@ public class NodeExtractor {
           }
         }
       }
+    }
+    
+    final boolean extractDefaultContent = (output == null || (output.get("content") == null && output.get("description") == null));
+    
+    if(extractDefaultContent) {
+        
+      final String defaultContent = this.getMainContent(pageNodes, null);
       
+      XLogger.getInstance().log(Level.FINE, "Extracted default content of length: {0}", 
+              this.getClass(), (defaultContent==null?null:defaultContent.length()));
+        
+      if(defaultContent != null) {
+      
+        if(output == null) {
+          output = Collections.singletonMap("content", defaultContent);
+        } else{
+          output.put("content", defaultContent);
+        } 
+      }
     }
     
     return output;
   }
   
-  public String getContent(Dom pageNodes, String outputIfNone) {
-    String content;
-    BodyTag bodyTag = pageNodes.getBody();
-    if(bodyTag == null) {
-      NodeList nodes = pageNodes.getNodeList();
-      content = nodes == null ? null : nodes.toHtml();
-    }else{
-      content = bodyTag.toHtml();
+  private String getMainContent(HtmlPageDom pageNodes, String outputIfNone) {
+    final BodyTag bodyTag = pageNodes.getBody();
+    final List<Node> nodes = bodyTag == null ? pageNodes.getElements() : bodyTag.getChildren();
+    try{
+      final int minSize = pageNodes.getTitle() == null ? 0 : pageNodes.getTitle().getTitle() == null ? 0 : pageNodes.getTitle().getTitle().length();
+      final Node mainNode = nodes == null ? null : this.getNodeWithLargestContent(nodes, minSize, null);
+      return mainNode == null ? outputIfNone : mainNode.toHtml();
+    }catch(ParserException e) {
+      return outputIfNone;
     }
-    return content == null ? outputIfNone : content;
   }
   
-  public StringBuilder extract(Dom pageNodes, String name) throws ParserException {
+  public Node getNodeWithLargestContent(List<Node> nodes, int minSize, Node outputIfNone) throws ParserException {
+        
+    NodeFilter filter = new NotFilter(
+            new OrFilter(
+                    new NodeClassFilter(ScriptTag.class), 
+                    new NodeClassFilter(StyleTag.class)
+            )
+    );
+      
+    NodeSelector nodeSelector = new NodeSelector(filter, bufferSize, minSize, 0);
+        
+    return nodeSelector.select(nodes, outputIfNone);
+  }
+    
+  public StringBuilder extract(HtmlPageDom pageNodes, String name) throws ParserException {
       
     Object targetProps = capturerContext.getConfig().getObject(new Object[] { name });
     
@@ -153,7 +173,7 @@ public class NodeExtractor {
     
 //    TagLocatorImpl tagLocator = nodeExtractor.getFilter().getTagLocator();
     
-    NodeList nodeList = pageNodes.getNodeList();
+    NodeList nodeList = pageNodes.getElements();
     
 //    nodeList.visitAllNodesWith(tagLocator);
     

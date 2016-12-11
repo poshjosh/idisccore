@@ -38,6 +38,8 @@ public class NodeExtractorTest extends ExtractionTestBase {
     public void test() {
         
         String [] sites = {NAIJ, PUNCH_NG, CHANNELSTV_HEADLINES};
+        sites = new String[]{"sunnewsonline"};
+        sites = new String[]{CHANNELSTV_HEADLINES};
         
         for(String site : sites) {
             

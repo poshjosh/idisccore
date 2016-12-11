@@ -1,11 +1,10 @@
 package com.idisc.core;
 
+import com.bc.json.config.JsonConfig;
 import com.idisc.core.web.NewsCrawler;
 import com.idisc.core.web.TestNewsCrawler;
 import com.idisc.pu.entities.Feed;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -32,7 +31,7 @@ public class CrawlSingleSiteTest extends ExtractionTestBase {
     @Test
     public void test() throws Exception {
         String site = this.getSite();
-        boolean updateDatabase = false;
+        boolean updateDatabase = true;
         boolean debug = true;
 //        boolean prelocateTarget = true;
 //        this.extractSingleNode(site, "targetNode0", prelocateTarget);
@@ -43,6 +42,7 @@ public class CrawlSingleSiteTest extends ExtractionTestBase {
     
     private String getSite() {
         String site;
+//        site = "sunnewsonline";
         site = "naij";
 //        site = "dailytrust";
 //        site = "punchng";
@@ -75,10 +75,36 @@ log("URL to extract: "+ sampleUrl);
     
     private void extract(
             String site, String sampleUrl, int crawlLimit, int parseLimit, 
-            boolean updateDatabase, boolean debug) throws Exception {
+            final boolean updateDatabase, boolean debug) throws Exception {
+        
+        final JsonConfig config = this.getCapturerApp().getConfigFactory().getConfig(site);
+        
+        final FeedHandler feedHandler =  new InsertFeedToDatabase(this.getIdiscApp().getJpaContext()){
+            @Override
+            public boolean process(Feed feed) {
+log(true, " = = = = = = = = = = = = PRINTING FEED = = = = = = = = = = = =  ");                
+//log(false, "ID: "+feed.getFeedid()); // value is null at this stage
+log(false, "Title: "+feed.getTitle());      
+
+log(false, "URL: "+feed.getUrl());
+log(false, "Author: "+feed.getAuthor());
+log(false, "Feeddate: "+feed.getFeeddate());
+log(false, "Image URL: "+feed.getImageurl());
+log(false, "Keywords: "+feed.getKeywords());      
+log(false, "Categories: "+feed.getCategories());    
+log(false, "Description: "+feed.getDescription());
+log(false, "Content length: "+(feed.getContent()==null?null:feed.getContent().length()));
+log(false, "Content: "+(feed.getContent()));
+                if(updateDatabase) {
+                    return super.process(feed);
+                }else{
+                    return true; 
+                }
+            }
+        };
         
         NewsCrawler crawler = new TestNewsCrawler(
-                site, debug, 5, TimeUnit.MINUTES, 9, true, false){
+                debug, config, 5, TimeUnit.MINUTES, 9, feedHandler, true, false){
 //            @Override
 //            public boolean isInDatabase(String link) {
 //                return false;
@@ -107,40 +133,8 @@ log("URL to extract: "+ sampleUrl);
         
 log("Begining extract");        
         
-        Collection<Feed> feeds = crawler.call();
+        Integer updateCount = crawler.call();
         
-log("Extracted "+(feeds==null?null:feeds.size())+" feeds");  
-
-        if(updateDatabase) {
-            
-            final FeedResultUpdater updater = new FeedResultUpdater();
-        
-            Collection<Feed> failedToCreate = updater.process("Web Feeds", feeds);
-        
-log("Failed to create: "+failedToCreate.size()+" feeds: "+failedToCreate);        
-        }
-        
-        Iterator<Feed> iter = feeds.iterator();
-        
-log(true, " = = = = = = = = = = = = PRINTING FEED(S) = = = = = = = = = = = =  ");            
-        while(iter.hasNext()) {
-        
-            Feed feed = iter.next();
-//log(false, "ID: "+feed.getFeedid()); // value is null at this stage
-log(false, "Title: "+feed.getTitle());      
-
-log(false, "URL: "+feed.getUrl());
-log(false, "Author: "+feed.getAuthor());
-log(false, "Feeddate: "+feed.getFeeddate());
-log(false, "Image URL: "+feed.getImageurl());
-log(false, "Keywords: "+feed.getKeywords());      
-log(false, "Categories: "+feed.getCategories());    
-log(false, "Description: "+feed.getDescription());
-log(false, "Content length: "+(feed.getContent()==null?null:feed.getContent().length()));
-        }
-        
-//        JpaContext jpaContext = this.getIdiscApp().getJpaContext();
-//        final int updateCount = jpaContext.getEntityController(Feed.class, Integer.class).create(new ArrayList(feeds));
-//log("Update count: "+updateCount);        
+log("Extracted "+updateCount+" feeds");  
     }
 }

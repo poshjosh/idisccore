@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import org.htmlparser.util.NodeList;
 import org.junit.Test;
-import com.bc.webdatex.nodedata.Dom;
+import com.bc.dom.HtmlPageDom;
 
 
 /**
@@ -86,15 +86,15 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
         while(c.hasNext()) {
             
-            Dom pageNodes = c.next();
+            HtmlPageDom pageNodes = c.next();
             
             if(pageNodes == null) {
                 continue;
             }
             
-            NodeList nodeList = pageNodes.getNodeList();
+            NodeList nodeList = pageNodes.getElements();
 
-System.out.println("Found "+(nodeList==null?null:nodeList.size())+" nodes in url: "+pageNodes.getFormattedURL());            
+System.out.println("Found "+(nodeList==null?null:nodeList.size())+" nodes in url: "+pageNodes.getURL());            
             
         }
     }

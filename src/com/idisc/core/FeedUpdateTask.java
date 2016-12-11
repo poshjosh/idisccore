@@ -1,10 +1,11 @@
 package com.idisc.core;
 
+import com.bc.jpa.JpaContext;
 import com.bc.util.XLogger;
 import com.idisc.core.rss.RSSFeedTask;
 import com.idisc.core.web.WebFeedTask;
-import com.idisc.pu.entities.Feed;
-import java.util.Collection;
+import com.scrapper.config.JsonConfigFactory;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.apache.commons.configuration.Configuration;
@@ -20,11 +21,9 @@ public class FeedUpdateTask  implements Runnable {
         
         this.downloadFeeds();
 
-        this.sleep();
+//        this.sleep();
 
-        this.archiveFeeds();
-
-        this.sleep();
+//        this.archiveFeeds();
 
     }catch(RuntimeException e) {
      
@@ -65,30 +64,32 @@ public class FeedUpdateTask  implements Runnable {
       
       XLogger.getInstance().log(Level.FINE, "Downloading feeds", getClass());
       
-      final FeedResultUpdater updater = new FeedResultUpdater();
-      
       final boolean acceptDuplicateLinks = false;
       final int maxConcurrent = (int)this.getLongProperty(ConfigNames.MAXCONCURRENT, 3);
       final int maxFailsAllowed = (int)this.getLongProperty(ConfigNames.MAX_FAILS_ALLOWED, 9);
       
       final long webTimeout = this.getLongProperty(ConfigNames.WEB_TIMEOUT_PER_TASK_SECONDS, 600);
       final long webTimeoutEach = this.getLongProperty(ConfigNames.WEB_TIMEOUT_PER_SITE_SECONDS, 180);
+      
+      final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+      
+      final JsonConfigFactory configFactory = IdiscApp.getInstance().getCapturerApp().getConfigFactory();
+      
       final WebFeedTask webFeedTask = new WebFeedTask(
+              jpaContext, configFactory,
               webTimeout, TimeUnit.SECONDS, 
               webTimeoutEach, TimeUnit.SECONDS, 
               maxConcurrent, maxFailsAllowed, acceptDuplicateLinks);
       
-      Collection<Feed> webFeeds = webFeedTask.call();
-      updater.process("Web Feeds", webFeeds);
+      final Map<String, Integer> webFeedsUpdateCount = webFeedTask.call();
       
       final long rssTimeout = this.getLongProperty(ConfigNames.RSS_TIMEOUT_PER_TASK_SECONDS, 300);
       final long rssTimeoutEach = this.getLongProperty(ConfigNames.RSS_TIMEOUT_PER_SITE_SECONDS, 90);
       final RSSFeedTask rssFeedTask = new RSSFeedTask(
-              rssTimeout, TimeUnit.SECONDS, 
+              jpaContext, rssTimeout, TimeUnit.SECONDS, 
               rssTimeoutEach, TimeUnit.SECONDS, maxConcurrent, acceptDuplicateLinks);
       
-      final Collection<Feed> rssFeeds = rssFeedTask.call();
-      updater.process("RSS Feeds", rssFeeds);
+      final Map<String, Integer> rssFeedsUpdateCount = rssFeedTask.call();
       
       XLogger.getInstance().log(Level.FINE, "Done downloading feeds", getClass());
 
@@ -112,7 +113,9 @@ public class FeedUpdateTask  implements Runnable {
       
       int batchSize = config.getInt("archiveBatchSize");
       
-      final int updateCount = new FeedArchiver().archiveFeeds(maxAge, TimeUnit.DAYS, batchSize);
+      final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+      
+      final int updateCount = new FeedArchiver(jpaContext).archiveFeedsBefore(maxAge, TimeUnit.DAYS, batchSize);
       
       XLogger.getInstance().log(Level.FINE, "Done archiving feeds", getClass());
 

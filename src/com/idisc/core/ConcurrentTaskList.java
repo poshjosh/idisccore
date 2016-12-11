@@ -6,7 +6,6 @@ import com.bc.util.Util;
 import com.bc.util.XLogger;
 import com.bc.util.concurrent.NamedThreadFactory;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +16,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import com.idisc.core.comparator.Sorter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import org.apache.commons.configuration.Configuration;
 
 public abstract class ConcurrentTaskList<E>
-  extends AbstractStoppableTask<Collection<E>>      
+  extends AbstractStoppableTask<Map<String, E>>      
   implements Serializable, Sorter<String> {
    
   private static Sorter<String> tasknameSorter;  
@@ -29,7 +30,7 @@ public abstract class ConcurrentTaskList<E>
   private final long timeout;
   private final TimeUnit timeoutUnit;
   private final int maxConcurrent;
-  private final Collection<E> result;
+  private final Map<String, E> result;
 
   private StoppableTask[] tasks;
   private Future[] futures;
@@ -38,7 +39,7 @@ public abstract class ConcurrentTaskList<E>
     this.timeout = timeout;
     this.timeoutUnit = timeUnit;
     this.maxConcurrent = maxConcurrent;
-    this.result = Collections.synchronizedCollection(new ArrayList());
+    this.result = Collections.synchronizedMap(new HashMap());
   }
   
   public abstract StoppableTask createNewTask(String paramString);
@@ -51,7 +52,7 @@ public abstract class ConcurrentTaskList<E>
   }
 
   @Override
-  protected Collection<E> doCall() {
+  protected Map<String, E> doCall() {
       
     ExecutorService es = Executors.newFixedThreadPool(this.maxConcurrent,
             new NamedThreadFactory(this.getClass().getName()+"_ThreadPool"));
@@ -100,7 +101,7 @@ XLogger.getInstance().log(Level.FINER, "Timeout: {0} {1}, Task count: {2}, max c
         
       output = sorter.sort(values);
       
-XLogger.getInstance().log(Level.INFO, "{0}\n Input: {1}\nOutput: {2}", 
+XLogger.getInstance().log(Level.FINE, "{0}\n Input: {1}\nOutput: {2}", 
         this.getClass(), sorter, values, output);
 
     }else{
@@ -166,7 +167,7 @@ XLogger.getInstance().log(Level.INFO, "{0}\n Input: {1}\nOutput: {2}",
     return timeoutUnit;
   }
 
-  protected final Collection<E> getResult() {
+  protected final Map<String, E> getResult() {
     return result;
   }
 }

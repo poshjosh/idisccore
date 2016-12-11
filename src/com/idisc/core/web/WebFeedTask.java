@@ -1,21 +1,22 @@
 package com.idisc.core.web;
 
+import com.bc.jpa.JpaContext;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
 import com.idisc.core.ConcurrentTaskList;
-import com.idisc.core.IdiscApp;
+import com.idisc.core.FeedHandler;
+import com.idisc.core.InsertFeedToDatabase;
 import com.idisc.core.comparator.site.IncrementableValues;
-import com.idisc.pu.entities.Feed;
-import com.scrapper.CapturerApp;
+import com.scrapper.config.JsonConfigFactory;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-public class WebFeedTask extends ConcurrentTaskList<Feed> {
+public class WebFeedTask extends ConcurrentTaskList<Integer> {
     
   private final boolean acceptDuplicateUrls;
   
@@ -25,13 +26,25 @@ public class WebFeedTask extends ConcurrentTaskList<Feed> {
   
   private final int maxFailsAllowed;
   
+  private final JpaContext jpaContext;
+  
+  private final JsonConfigFactory configFactory;
+  
+  private final List<String> taskNames;
+  
   public WebFeedTask(
+      JpaContext jpaContext, JsonConfigFactory configFactory,
       long timeout, TimeUnit timeUnit, 
       long timeoutEach, TimeUnit timeunitEach, 
       int maxConcurrent, int maxFailsAllowed, boolean acceptDuplicateUrls) {
       
     super(timeout, timeUnit, maxConcurrent);
-    
+   
+    this.jpaContext = jpaContext;
+    this.configFactory = configFactory;
+    List<String> _tn = new ArrayList(new HashSet(configFactory.getSitenames()));
+    _tn.remove(configFactory.getDefaultConfigName());
+    this.taskNames = Collections.unmodifiableList(_tn);
     this.acceptDuplicateUrls = acceptDuplicateUrls;
     this.timeoutEach = timeoutEach;
     this.timeunitEach = timeunitEach;
@@ -39,27 +52,32 @@ public class WebFeedTask extends ConcurrentTaskList<Feed> {
   }
   
   @Override
-  public List<String> getTaskNames() {
-    CapturerApp cap = IdiscApp.getInstance().getCapturerApp();
-    List<String> _tn = new ArrayList(new HashSet(cap.getConfigFactory().getSitenames()));
-    _tn.remove(cap.getDefaultConfigname());
-    return _tn;
+  public List<String> getTaskNames() { 
+    return this.taskNames;
   }
 
   @Override
   public NewsCrawler createNewTask(final String site) {
-      
-    JsonConfig config = CapturerApp.getInstance().getConfigFactory().getContext(site).getConfig();
+    
+    final JsonConfig config = this.configFactory.getConfig(site);
     
     Objects.requireNonNull(config, JsonConfig.class.getSimpleName()+" for site: "+site+" is null");
     
+    final FeedHandler feedHandler = new InsertFeedToDatabase(jpaContext);
+    
     NewsCrawler crawler = new NewsCrawler(
             config, this.timeoutEach, this.timeunitEach, this.maxFailsAllowed, 
-            getResult(), false, !WebFeedTask.this.acceptDuplicateUrls) {
+            feedHandler, false, !WebFeedTask.this.acceptDuplicateUrls) {
       @Override
-      protected Collection<Feed> doCall() {
+      protected Integer doCall() {
         try{
-          return super.doCall();
+            
+          final Integer result =  super.doCall();
+          
+          WebFeedTask.this.getResult().put(site, result);
+          
+          return result;
+          
         }finally{
           try{
             ((IncrementableValues<String>)getTasknameSorter()).incrementAndGet(site, this.getScrapped());

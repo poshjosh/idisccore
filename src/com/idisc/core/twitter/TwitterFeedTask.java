@@ -13,7 +13,7 @@ import com.bc.task.AbstractStoppableTask;
 import com.bc.util.XLogger;
 import com.bc.webdatex.converter.DateTimeConverter;
 import com.idisc.core.IdiscApp;
-import com.bc.webdatex.filter.ImagesFilter;
+import com.bc.webdatex.filter.ImageNodeFilter;
 import com.idisc.core.web.WebFeedCreator;
 import com.idisc.pu.References;
 import com.idisc.pu.SiteService;
@@ -21,7 +21,7 @@ import com.idisc.pu.entities.Feed_;
 import com.idisc.pu.entities.Site;
 import com.idisc.pu.entities.Sitetype;
 import com.scrapper.config.ScrapperConfigFactory;
-import com.bc.webdatex.nodedata.SimpleDom;
+import com.bc.dom.HtmlPageDomImpl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -46,8 +46,8 @@ import twitter4j.Trend;
 import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.User;
-import com.bc.webdatex.nodedata.Dom;
 import java.util.TimeZone;
+import com.bc.dom.HtmlPageDom;
 
 public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> implements Serializable {
     
@@ -173,7 +173,7 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
     
     Site site = new SiteService(jpaContext).from("twitter", this.timeline, true);
     
-    NodeFilter imagesFilter = new ImagesFilter((String)null);
+    NodeFilter imagesFilter = new ImageNodeFilter((String)null);
     
     WebFeedCreator webFeedCreator = new WebFeedCreator(site, imagesFilter, this.tolerance);
     
@@ -326,7 +326,7 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
       
       NodeList nodeList = parser.parse(link);
       
-      Dom pageNodes = new SimpleDom(link, nodeList);
+      HtmlPageDom pageNodes = new HtmlPageDomImpl(link, nodeList);
       
       webFeedCreator.updateFeed(feed, pageNodes, datecreated);
       

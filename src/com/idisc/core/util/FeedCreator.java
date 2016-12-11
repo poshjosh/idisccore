@@ -35,19 +35,17 @@ import org.htmlparser.NodeFilter;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.tags.TitleTag;
 import org.htmlparser.util.NodeList;
-import com.bc.webdatex.nodedata.Dom;
-import com.bc.webdatex.extractor.Extractor;
 import com.bc.webdatex.extractor.date.DateExtractor;
 import com.bc.webdatex.extractor.TitleFromUrlExtractor;
 import com.bc.jpa.JpaMetaData;
+import com.bc.webdatex.extractor.TextParser;
+import com.bc.dom.HtmlPageDom;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Aug 3, 2016 11:05:58 AM
  */
 public class FeedCreator extends BaseFeedCreator {
     
-  private final int lessDisplaySize = 2;
-
   private final boolean allowOpenEnded = false;
   private final int defaultSpaces = 1;
   
@@ -56,9 +54,11 @@ public class FeedCreator extends BaseFeedCreator {
   private final NodeFilter imagesFilter;
   private final ParseJob parseJob;
 
-  private final Extractor<String> titleFromUrlExtractor;
+  private final TextParser<String> titleFromUrlExtractor;
   
   private final int [] columnDisplaySizes;
+  
+  private final float allowForMultiByteChars = 0.01f;
   
   public FeedCreator(
           Integer siteId, String defaultCategories, 
@@ -103,7 +103,7 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
 
         if(datePatterns != null && datePatterns.length != 0) {
             
-            Extractor<Date> dateExtractor = 
+            TextParser<Date> dateExtractor = 
                     new DateExtractor(Arrays.asList(datePatterns),
                     this.getInputTimeZone(), this.getOutputTimeZone());
 
@@ -113,7 +113,7 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
     return feeddate;
   }
   
-  public String getTitle(Dom pageNodes) {
+  public String getTitle(HtmlPageDom pageNodes) {
     String title = null;
     if(pageNodes.getTitle() != null) {
         TitleTag titleTag = pageNodes.getTitle();
@@ -126,7 +126,8 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
   }
     
   public int getRecommendedSize(String columnName) {
-    return this.getColumnDisplaySize(columnName) - this.lessDisplaySize;
+    final int displaySize = getColumnDisplaySize(columnName);  
+    return (int)(displaySize - (displaySize * this.allowForMultiByteChars));
   }
     
   public int getColumnDisplaySize(String columnName) {
@@ -179,7 +180,7 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
             val = com.bc.util.StringEscapeUtils.unescapeHtml(val);
         }
         
-        return truncate(val, maxLen - this.lessDisplaySize);
+        return truncate(val, maxLen);
     }
 
   public String truncate(String s, int maxLen) {
@@ -254,7 +255,7 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
     return bval == null ? Boolean.FALSE : bval;
   }
 
-  public final Extractor<String> getTitleFromUrlExtractor() {
+  public final TextParser<String> getTitleFromUrlExtractor() {
     return titleFromUrlExtractor;
   }
 

@@ -37,6 +37,16 @@
     "targetNode3":{
         "append":false,
         "attributes":{
+            "itemprop":"articleBody",
+            "class":"a__content js-mediator-article cf"
+        },
+        "columns":["content"],
+        "transverse":["<HTML>","<BODY>","<article class=\"a\">","<div class=\"con\" itemscope itemtype=\"${@regex(.+?)}\">","<div class=\"a__wrapper\">","<div class=\"a__share--top\" data-block=\"${@regex(.+?)}\"> <div class=\"a__share--float\" data-block=\"${@regex(.+?)}\"> <div class=\"a__content js-mediator-article cf\" itemprop=\"${@regex(.+?)}\">"],
+        "value":"DIV"
+    },
+    "targetNode4":{
+        "append":false,
+        "attributes":{
             "class":"a__content cf",
             "itemprop":"articleBody"
         },
@@ -44,7 +54,7 @@
         "transverse":["<HTML>","<BODY>","<article class=\"a\">","<div class=\"con\" itemscope itemtype=\"${@regex(.+?)}\">","<div class=\"a__wrapper\">","<div class=\"a__share--top\" data-block=\"${@regex(.+?)}\"> <div class=\"a__share--float\" data-block=\"${@regex(.+?)}\"> <div class=\"a__content cf\" itemprop=\"${@regex(.+?)}\">"],
         "value":"DIV"
     },
-    "targetNode4":{
+    "targetNode5":{
         "append":false,
         "attributes":{
             "class":"a__tags",
@@ -54,7 +64,7 @@
         "transverse":["<HTML>","<BODY>","<article class=\"a\">","<div class=\"con\" itemscope itemtype=\"${@regex(.+?)}\">","<div class=\"a__wrapper\">","<div class=\"a__tags\">","<span itemprop=\"${@regex(.+?)}\" class=\"a__tags\">"],
         "value":"SPAN"
     },
-    "targetNode5":{
+    "targetNode6":{
         "append":false,
         "attributesRegex":{
             "src":".+?"
@@ -63,17 +73,17 @@
         "columns":["imageurl"],
         "nodeTypesToAccept":["tag"],
         "nodesToRetainAttributes":["IMG"],
-        "transverse":["<div itemprop=\"image\" itemscope itemtype=\"https://schema.org/ImageObject\">","<IMG>"],
+        "transverse":["<div itemprop=\"image\" itemscope itemtype=\"https:\/\/schema.org\/ImageObject\">","<IMG>"],
         "value":"IMG"
     },
-    "targetNode6":{
+    "targetNode7":{
         "append":false,
         "attributesRegex":{
-            "height":".+?",
             "alt":".+?",
-            "width":".+?",
             "class":".+?",
-            "src":".+?"
+            "height":".+?",
+            "src":".+?",
+            "width":".+?"
         },
         "attributesToExtract":["src"],
         "columns":["imageurl"],

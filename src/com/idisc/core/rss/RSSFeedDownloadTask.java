@@ -5,7 +5,8 @@ import com.bc.jpa.fk.EnumReferences;
 import com.bc.task.AbstractStoppableTask;
 import com.bc.util.XLogger;
 import com.idisc.core.IdiscApp;
-import com.bc.webdatex.filter.ImagesFilter;
+import com.bc.webdatex.filter.ImageNodeFilter;
+import com.idisc.core.FeedHandler;
 import com.idisc.core.util.FeedCreator;
 import com.idisc.pu.FeedService;
 import com.idisc.pu.References;
@@ -19,7 +20,6 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +34,7 @@ import org.htmlparser.util.NodeList;
 /**
  * @author poshjosh
  */
-public class RSSFeedDownloadTask extends AbstractStoppableTask {
+public class RSSFeedDownloadTask extends AbstractStoppableTask<Integer> {
     
   private transient static final Class cls = RSSFeedDownloadTask.class;
     
@@ -52,13 +52,13 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
 
   private int added = 0;
         
-  private final Collection<Feed> resultBuffer;
+  private final FeedHandler feedHandler;
     
   private int failedCount;
     
   public RSSFeedDownloadTask(String feedName, String url,
       long timeout, TimeUnit timeoutUnit, 
-      boolean acceptDuplicates, Collection<Feed> resultBuffer) { 
+      boolean acceptDuplicates, FeedHandler feedHandler) { 
     this.url = url;
     this.timeoutMillis = timeoutUnit.toMillis(timeout);
     this.maxFailsAllowed = 0;
@@ -66,7 +66,7 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
     JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
     EnumReferences refs = jpaContext.getEnumReferences();
     Sitetype sitetype = ((Sitetype)refs.getEntity(References.sitetype.rss));
-    this.resultBuffer = resultBuffer;
+    this.feedHandler = feedHandler;
     this.site = new SiteService(jpaContext).from(feedName, sitetype, true);
     Objects.requireNonNull(this.site);
   }
@@ -94,7 +94,7 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
   }
     
     @Override
-    protected Object doCall() {
+    protected Integer doCall() {
         
       logger.entering(this.getClass(), "doRun()", url);
       
@@ -111,7 +111,7 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
         logger.log(Level.FINER, "Successfully created SyndFeed for: {0}", cls, this.url);
         
         String baseUrl = com.bc.util.Util.getBaseURL(url);
-        NodeFilter imagesFilter = baseUrl == null ? null : new ImagesFilter(baseUrl);
+        NodeFilter imagesFilter = baseUrl == null ? null : new ImageNodeFilter(baseUrl);
         
         Parser parser = new Parser();
         
@@ -246,16 +246,21 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
             
             if (add) {
 
-              synchronized (resultBuffer) {
+              synchronized (feedHandler) {
 
-                resultBuffer.add(feed);
-
-                ++added;
+                logger.log(Level.FINER, 
+                "Adding: {0} RSS Feed. author: {1}, title: {2}\nURL: {3}", 
+                cls, add, feed.getAuthor(), feed.getTitle(), feed.getUrl());
+                  
+                final boolean created = feedHandler.process(feed);
+                
+                if(created) {
+                  ++added;  
+                }else {
+//                  this.getFailed().add(pageNodes.getURL());
+                }
               }
             }
-            logger.log(Level.FINER, 
-            "Added: {0} RSS Feed. author: {1}, title: {2}\nURL: {3}", 
-            cls, add, feed.getAuthor(), feed.getTitle(), feed.getUrl());
         }
         
         logger.log(Level.FINE, "Added {0} Feed records for: {1} = {2}", cls, added, site.getSite(), url);
@@ -266,10 +271,10 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask {
       } catch (RuntimeException e) {
         logger.log(Level.WARNING, "Error extracting RSS Feed from: "+this.url, cls, e);
       }finally{
-        logger.log(Level.FINE, "RSS: {0}, added {1} feeds", cls, url, this.resultBuffer == null ? null : this.resultBuffer.size());
+        logger.log(Level.FINE, "RSS: {0}, added {1} feeds", cls, url, added);
       }
       
-      return this;
+      return added;
     }
     
     @Override

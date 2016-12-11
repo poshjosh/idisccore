@@ -15,10 +15,10 @@
  */
 package com.idisc.core.web;
 
-import com.idisc.core.FeedResultUpdater;
+import com.bc.jpa.JpaContext;
 import com.idisc.core.IdiscTestBase;
-import com.idisc.pu.entities.Feed;
-import java.util.Collection;
+import com.scrapper.config.JsonConfigFactory;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.junit.After;
@@ -54,25 +54,25 @@ public class WebFeedTaskTest extends IdiscTestBase {
     @Test
     public void testGetTaskNames() {
         
-        final FeedResultUpdater updater = new FeedResultUpdater();
-
         final boolean acceptDuplicateLinks = false;
         final int maxConcurrent = 3;
         final int maxFailsAllowed = 9;
 
         final long webTimeoutSeconds = 600;
         final long webTimeoutEachSeconds = 180;
+        
+        final JpaContext jpaContext = this.getIdiscApp().getJpaContext();
+        
+        final JsonConfigFactory configFactory = this.getCapturerApp().getConfigFactory();
+        
         final WebFeedTask webFeedTask = new WebFeedTask(
+                jpaContext, configFactory,
                 webTimeoutSeconds, TimeUnit.SECONDS, 
                 webTimeoutEachSeconds, TimeUnit.SECONDS, 
                 maxConcurrent, maxFailsAllowed, acceptDuplicateLinks);
 
-        Collection<Feed> webFeeds = webFeedTask.call();
+        final Map<String, Integer> webFeedsUpdateCounts = webFeedTask.call();
         
-System.out.println("Downloaded " + (webFeeds==null?null:webFeeds.size()) + " feeds");
-
-        Collection<Feed> failedToCreate = updater.process("Web Feeds", webFeeds);
-        
-System.out.println("Failed to create " + (failedToCreate==null?null:failedToCreate.size()) + " feeds");        
+System.out.println("Downloaded " + (webFeedsUpdateCounts==null?null:webFeedsUpdateCounts.size()) + " feeds");
     }
 }

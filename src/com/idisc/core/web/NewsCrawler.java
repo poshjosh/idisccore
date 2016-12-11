@@ -18,19 +18,19 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.configuration.Configuration;
 import org.htmlparser.NodeFilter;
 import com.bc.jpa.JpaContext;
-import com.bc.webdatex.filter.ImagesFilter;
+import com.bc.webdatex.filter.ImageNodeFilter;
 import javax.persistence.NoResultException;
-import com.bc.webdatex.nodedata.Dom;
-import java.util.Collection;
+import com.idisc.pu.entities.Feed_;
+import com.bc.dom.HtmlPageDom;
+import com.idisc.core.FeedHandler;
 
-public class NewsCrawler extends Crawler<Collection<Feed>> {
+public class NewsCrawler extends Crawler<Integer> {
     
   private transient static final Class cls = NewsCrawler.class;
   private transient static final XLogger logger = XLogger.getInstance();
   
   private final float tolerance;
   private final Sitetype sitetype;
-  private final Collection<Feed> result;
   
   private final long timeoutMillis;
   private final int maxFailsAllowed;
@@ -38,45 +38,49 @@ public class NewsCrawler extends Crawler<Collection<Feed>> {
   private int scrapped = 0;
   
   private final int scrappLimit;
+  
+  private final FeedHandler feedHandler;
 
   private EntityManager entityManager;
 
   public NewsCrawler(
           JsonConfig config, long timeout, TimeUnit timeoutUnit, 
-          int maxFailsAllowed, Collection<Feed> resultsBuffer) {
+          int maxFailsAllowed, FeedHandler feedHandler) {
       
     this(
             IdiscApp.getInstance().getCapturerApp().getConfigFactory().getContext(config), 
-            timeout, timeoutUnit, maxFailsAllowed, resultsBuffer, false, true
+            timeout, timeoutUnit, maxFailsAllowed, feedHandler, false, true
     );
   }
   
   public NewsCrawler(
           JsonConfig config, long timeout, TimeUnit timeoutUnit, 
-          int maxFailsAllowed, Collection<Feed> resultsBuffer,
+          int maxFailsAllowed, FeedHandler feedHandler,
           boolean resumable, boolean toResume) {
       
     this(
             IdiscApp.getInstance().getCapturerApp().getConfigFactory().getContext(config), 
-            timeout, timeoutUnit, maxFailsAllowed, resultsBuffer, resumable, toResume
+            timeout, timeoutUnit, maxFailsAllowed, feedHandler, resumable, toResume
     );
   }
 
   public NewsCrawler(
           CapturerContext context, long timeout, TimeUnit timeoutUnit, 
-          int maxFailsAllowed, Collection<Feed> resultsBuffer) {
+          int maxFailsAllowed, FeedHandler feedHandler) {
    
-    this(context, timeout, timeoutUnit, maxFailsAllowed, resultsBuffer, false, true);
+    this(context, timeout, timeoutUnit, maxFailsAllowed, feedHandler, false, true);
   }
   
   public NewsCrawler(
           CapturerContext context, long timeout, TimeUnit timeoutUnit, 
-          int maxFailsAllowed, Collection<Feed> resultsBuffer, 
+          int maxFailsAllowed, FeedHandler feedHandler,
           boolean resumable, boolean toResume) {
       
     super(context, resumable, toResume);
     
     logger.log(Level.FINER, "Creating", cls);
+    
+    this.feedHandler = feedHandler;
     
     this.timeoutMillis = timeout < 1 || timeoutUnit == null ? 0 : timeoutUnit.toMillis(timeout);
     
@@ -88,8 +92,6 @@ public class NewsCrawler extends Crawler<Collection<Feed>> {
     
     logger.log(Level.FINER, "Tolerance: {0}", cls, this.tolerance);
     
-    this.result = resultsBuffer;
-
     setParseLimit(getLimit(Config.Extractor.parseLimit));
     setCrawlLimit(getLimit(Config.Extractor.crawlLimit));
     
@@ -141,10 +143,10 @@ public class NewsCrawler extends Crawler<Collection<Feed>> {
     }
     boolean found;
     try{
-      TypedQuery<String> query = this.entityManager.createQuery("SELECT f.url FROM Feed f WHERE f.url = :url", String.class);
-      query.setParameter("url", link);
-      query.setFirstResult(0);
-      query.setMaxResults(1);
+      final String col = Feed_.url.getName()   ;
+      TypedQuery<String> query = this.entityManager.createQuery("SELECT f."+col+" FROM "+Feed.class.getSimpleName()+" f WHERE f."+col+" = :"+col, String.class);
+      query.setParameter(col, link);
+      query.setFirstResult(0).setMaxResults(1);
       found = query.getSingleResult() != null;
     }catch(NoResultException ignored) {
         found = false;
@@ -171,7 +173,7 @@ public class NewsCrawler extends Crawler<Collection<Feed>> {
   }
   
   @Override
-  protected Collection<Feed> doCall() {
+  protected Integer doCall() {
       
     logger.log(Level.FINER, "Running task {0}", cls, this.getTaskName());
     
@@ -183,7 +185,7 @@ public class NewsCrawler extends Crawler<Collection<Feed>> {
         
         scrapped = 0;
 
-        NodeFilter imagesFilter = new ImagesFilter(
+        NodeFilter imagesFilter = new ImageNodeFilter(
 //                config.getString(new Object[] { "url", "value" }), // Images may not start with baseUrl
                 null,
                 config.getString("imageUrl_requiredRegex"),
@@ -200,47 +202,55 @@ public class NewsCrawler extends Crawler<Collection<Feed>> {
             break;
           }
 
-          Dom pageNodes = next();
+          HtmlPageDom pageDom = next();
 
-          logger.log(Level.FINER, "PageNodes: {0}", cls, pageNodes);
+          logger.log(Level.FINER, "PageNodes: {0}", cls, pageDom);
 
-          if (this.accept(pageNodes)){
+          if (this.accept(pageDom)){
 
-            Feed feed = feedCreator.createFeed(pageNodes, datecreated);
-            
-            synchronized (this.result) {
-              logger.log(Level.FINER, 
-                      "Adding Web Feed. Site {0}, author: {1}, title: {2}\nURL: {3}\nImage url: " + feed.getImageurl(), 
-                      getClass(), feed.getSiteid() == null ? null : feed.getSiteid().getSite(), 
-                      feed.getAuthor(), feed.getTitle(), feed.getUrl());
-              this.result.add(feed);
+            Feed feed = feedCreator.createFeed(pageDom, datecreated);
+
+            if(feed != null) {
+                
+              synchronized (feedHandler) {
+                
+                logger.log(Level.FINER, 
+                    "Adding Web Feed. Site {0}, author: {1}, title: {2}\nURL: {3}\nImage url: " + feed.getImageurl(), 
+                    cls, feed.getSiteid() == null ? null : feed.getSiteid().getSite(), 
+                    feed.getAuthor(), feed.getTitle(), feed.getUrl());
+              
+                final boolean created = feedHandler.process(feed);
+                
+                if(created) {
+                  ++scrapped;  
+                }else {
+                  this.getFailed().add(pageDom.getURL());
+                }
+              }
             }
-          
-            ++scrapped;
           }
         }
     }finally{
-        logger.log(Level.FINE, "Site: {0}, added: {1} feeds", cls,
-                siteName, this.result == null ? null : this.result.size());
+      logger.log(Level.FINE, "Site: {0}, added: {1} feeds", cls, siteName, this.scrapped);
     } 
 
-    return this.result;
+    return this.scrapped;
   }
   
-  public boolean accept(Dom pageNodes) {
+  public boolean accept(HtmlPageDom pageNodes) {
     return pageNodes != null && this.acceptBody(pageNodes) && 
         this.acceptTitle(pageNodes) && this.acceptUrl(pageNodes);
   }
   
-  private boolean acceptBody(Dom pageNodes) {
+  private boolean acceptBody(HtmlPageDom pageNodes) {
     return true;//pageNodes.getBody() != null;
   }
   
-  private boolean acceptTitle(Dom pageNodes) {
+  private boolean acceptTitle(HtmlPageDom pageNodes) {
     return pageNodes.getTitle() == null || !pageNodes.getTitle().toPlainTextString().toLowerCase().contains("400 bad request");  
   }
   
-  private boolean acceptUrl(Dom pageNodes) {
+  private boolean acceptUrl(HtmlPageDom pageNodes) {
     return !pageNodes.getURL().equals(getStartUrl());  
   }
   

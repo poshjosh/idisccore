@@ -42,9 +42,13 @@ log("run");
         XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
         XLogger.getInstance().setLogLevel(packageLoggerName, Level.FINER);
 
-        final RSSFeedTask instance = new RSSFeedTask(4, TimeUnit.MINUTES, 2, TimeUnit.MINUTES, 5, false);
-        
-//        instance.setFeedProperties(this.getLocalFeedProperties());
+        final RSSFeedTask instance;
+//        instance = new RSSFeedTask(
+//                this.getIdiscApp().getJpaContext(), this.getLocalFeedProperties(),
+//                4, TimeUnit.MINUTES, 2, TimeUnit.MINUTES, 5, false);
+        instance = new RSSFeedTask(
+                this.getIdiscApp().getJpaContext(), 
+                4, TimeUnit.MINUTES, 2, TimeUnit.MINUTES, 5, false);
 
         Properties props = instance.getFeedProperties();
         String name;

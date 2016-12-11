@@ -18,9 +18,7 @@ package com.idisc.core;
 import com.bc.task.AbstractStoppableTask;
 import com.bc.task.StoppableTask;
 import com.idisc.core.comparator.site.SiteComparatorScrappcount;
-import com.idisc.pu.entities.Feed;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +63,7 @@ public class ConcurrentTaskListTest {
     @Test
     public void testGetTaskNames() {
         System.out.println("getTaskNames");
-        ConcurrentTaskList instance = new ConcurrentTaskListImpl();
+        ConcurrentTaskList<Long> instance = new ConcurrentTaskListImpl();
         List<String> expResult = new ArrayList(tasks.keySet());
         List<String> result = instance.getTaskNames();
         assertEquals(expResult, result);
@@ -77,7 +75,7 @@ public class ConcurrentTaskListTest {
     @Test
     public void testGetMaxConcurrent() {
         System.out.println("getMaxConcurrent");
-        ConcurrentTaskList instance = new ConcurrentTaskListImpl();
+        ConcurrentTaskList<Long> instance = new ConcurrentTaskListImpl();
         int expResult = maxConcurrent;
         int result = instance.getMaxConcurrent();
         assertEquals(expResult, result);
@@ -89,8 +87,8 @@ public class ConcurrentTaskListTest {
     @Test
     public void testGetResult() {
         System.out.println("getResult");
-        ConcurrentTaskList instance = new ConcurrentTaskListImpl();
-        Collection<Feed> result = instance.getResult();
+        ConcurrentTaskList<Long> instance = new ConcurrentTaskListImpl();
+        Map<String, Long> result = instance.getResult();
         Assert.assertNotNull(result);
     }
 
@@ -100,7 +98,7 @@ public class ConcurrentTaskListTest {
     @Test
     public void testGetTimeout() {
         System.out.println("getTimeout");
-        ConcurrentTaskList instance = new ConcurrentTaskListImpl();
+        ConcurrentTaskList<Long> instance = new ConcurrentTaskListImpl();
         long expResult = timeout;
         long result = instance.getTimeout();
         assertEquals(expResult, result);
@@ -112,7 +110,7 @@ public class ConcurrentTaskListTest {
     @Test
     public void testGetTimeoutUnit() {
         System.out.println("getTimeoutUnit");
-        ConcurrentTaskList instance = new ConcurrentTaskListImpl();
+        ConcurrentTaskList<Long> instance = new ConcurrentTaskListImpl();
         TimeUnit expResult = timeoutUnit;
         TimeUnit result = instance.getTimeoutUnit();
         assertEquals(expResult, result);
@@ -127,15 +125,15 @@ public class ConcurrentTaskListTest {
 System.out.println("Tasks: "+tasks.size()+", max concurrent: "+maxConcurrent+", timeout: "+timeout+", time unit: "+timeoutUnit);        
         for(int i=0; i<5; i++) {
 System.out.println("============================= ("+i+") =============================");            
-            ConcurrentTaskList<String> instance = new ConcurrentTaskListImpl();
+            ConcurrentTaskList<Long> instance = new ConcurrentTaskListImpl();
 final long tb4 = System.currentTimeMillis();
-            Collection<String> result = instance.call();
+            Map<String, Long> result = instance.call();
 System.out.println("Task-group("+i+"), time spent: "+(System.currentTimeMillis()-tb4));            
 System.out.println("Results: "+result);
         }
     }
     
-    public static class ConcurrentTaskListImpl extends ConcurrentTaskList<String> {
+    public static class ConcurrentTaskListImpl extends ConcurrentTaskList<Long> {
         
         private static final SiteComparatorScrappcount sorter = new SiteComparatorScrappcount();
 
@@ -147,11 +145,12 @@ System.out.println("Results: "+result);
             super(timeout, timeUnit, maxConcurrent);
             final int sleeptimeSeconds = factor/5 > 0 ? factor/5 : 1;
             tasks.clear();
-            final Collection<String> result = this.getResult();
+            final Map<String, Long> result = this.getResult();
             for(final String taskName:taskNames) {
-                StoppableTask task = new AbstractStoppableTask<String>() {
+                StoppableTask task = new AbstractStoppableTask<Long>() {
                     @Override
-                    protected String doCall() throws Exception {
+                    protected Long doCall() throws Exception {
+                        final long startTime = System.currentTimeMillis(); 
                         final double duration = Math.random() * factor;
 System.out.println("Started: "+taskName+", to last "+ ((int)(duration*1000)) +" milliseconds");                        
                         double timeLeft = duration;
@@ -159,12 +158,11 @@ System.out.println("Started: "+taskName+", to last "+ ((int)(duration*1000)) +" 
                             Thread.sleep(sleeptimeSeconds * 1000);
                             timeLeft -= sleeptimeSeconds;
                             final int count = sorter.incrementAndGet(taskName, 1);
-                            synchronized(result) {
-                                result.add(taskName+'_'+count);
-                            }
                         }
 System.out.println("Concluded: "+taskName+", time spent: "+(System.currentTimeMillis()-this.getStartTime())+" milliseconds");
-                        return taskName;
+                        final Long output = System.currentTimeMillis() - startTime;
+                        result.put(taskName, output);
+                        return output;
                     }
                     @Override
                     public String getTaskName() {

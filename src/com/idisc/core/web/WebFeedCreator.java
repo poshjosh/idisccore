@@ -2,14 +2,13 @@ package com.idisc.core.web;
 
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
-import com.bc.webdatex.extractor.Extractor;
 import com.bc.webdatex.extractor.date.DateExtractor;
 import com.bc.webdatex.extractor.date.DateFromUrlExtractor;
 import com.bc.webdatex.extractor.date.DateStringFromUrlExtractor;
 import com.bc.webdatex.filter.Filter;
 import com.idisc.core.IdiscApp;
-import com.bc.webdatex.filter.ImagesFilter;
-import com.bc.webdatex.nodedata.BasicMetatagsData;
+import com.bc.webdatex.filter.ImageNodeFilter;
+import com.bc.dom.metatags.BasicMetadata;
 import com.idisc.core.util.FeedCreator;
 import com.idisc.pu.SiteService;
 import com.idisc.pu.entities.Feed;
@@ -20,15 +19,23 @@ import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import org.htmlparser.NodeFilter;
-import com.bc.webdatex.nodedata.Dom;
-import com.bc.webdatex.nodedata.MetatagsData;
-import com.bc.webdatex.nodedata.MetatagsDataBuilder;
-import com.bc.webdatex.nodedata.OpenGraph;
-import com.bc.webdatex.nodedata.SchemaArticle;
-import com.bc.webdatex.nodedata.TwitterCard;
+import com.bc.dom.metatags.MetadataChain;
+import com.bc.dom.metatags.OpenGraph;
+import com.bc.dom.metatags.SchemaArticle;
+import com.bc.dom.metatags.TwitterCard;
 import com.scrapper.context.CapturerContext;
-import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Set;
+import org.htmlparser.Node;
+import org.htmlparser.tags.ImageTag;
+import org.htmlparser.util.NodeList;
+import com.bc.webdatex.extractor.TextParser;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import com.bc.dom.metatags.Metadata;
+import com.bc.dom.HtmlPageDom;
 
 public class WebFeedCreator extends FeedCreator {
     
@@ -36,7 +43,11 @@ public class WebFeedCreator extends FeedCreator {
     
   private final NodeExtractor nodeExtractor;
   
-  private final Extractor<Date> dateFromUrlExtractor;
+  private final Comparator<String> imageSizeComparator;
+  
+  private final com.bc.webdatex.extractor.Extractor<String, Date> dateExtractor;
+  
+  private final com.bc.webdatex.extractor.Extractor<String, Date> dateFromUrlExtractor;
 
   public WebFeedCreator(String sitename, Sitetype sitetype, 
           NodeFilter imagesFilter, float dataComparisonTolerance){
@@ -50,17 +61,26 @@ public class WebFeedCreator extends FeedCreator {
     if(datePatterns == null || datePatterns.length == 0) {
         this.dateFromUrlExtractor = DateStringFromUrlExtractor.NO_INSTANCE;
     }else{
-        Extractor<Date> dateFromDateStringExtractor = new DateExtractor(
+        TextParser<Date> dateFromDateStringExtractor = new DateExtractor(
                     Arrays.asList(datePatterns), this.getInputTimeZone(), this.getOutputTimeZone()
         );
         this.dateFromUrlExtractor = new DateFromUrlExtractor(
                 new DateStringFromUrlExtractor(), dateFromDateStringExtractor 
         );
     }
-    this.nodeExtractor = new NodeExtractor(dataComparisonTolerance, context);
+    
+    final int recommendedSize = this.getRecommendedSize("content"); 
+    XLogger.getInstance().log(Level.FINE, "Recommended content length: {0}", this.getClass(), recommendedSize);
+    this.nodeExtractor = new NodeExtractor(dataComparisonTolerance, context, recommendedSize);
+    
+    this.imageSizeComparator = new DefaultImageSizeComparator();
+    
+    this.dateExtractor = new DateExtractor(
+                Arrays.asList("yyyy-MM-dd'T'HH:mm:ss"), 
+                this.getInputTimeZone(), this.getOutputTimeZone());
   }
   
-  public Feed createFeed(Dom pageNodes, Date dateCreatedIfNone){
+  public Feed createFeed(HtmlPageDom pageNodes, Date dateCreatedIfNone){
       
     Feed feed = new Feed();
     
@@ -69,7 +89,7 @@ public class WebFeedCreator extends FeedCreator {
     return feed;
   }
   
-    public void updateFeed(Feed feed, Dom dom, Date dateCreatedIfNone) {
+    public void updateFeed(Feed feed, HtmlPageDom dom, Date dateCreatedIfNone) {
         
 XLogger xlog = XLogger.getInstance();
 Level level = Level.FINER;
@@ -82,11 +102,9 @@ Class cls = this.getClass();
         
         Map<String, String> extract = nodeExtractor.extract(dom);
         
-//        MetatagsData metaData = new MetatagsDataImpl(dom, 
-//                Arrays.asList("yyyy-MM-dd'T'HH:mm:ss"), this.getInputTimeZone(), this.getOutputTimeZone());
-        MetatagsData metaData = new MetatagsDataBuilder().dom(dom)
-                .dateExtractor(Arrays.asList("yyyy-MM-dd'T'HH:mm:ss"), this.getInputTimeZone(), this.getOutputTimeZone())
-                .buildComposite(BasicMetatagsData.class, SchemaArticle.class, OpenGraph.class, TwitterCard.class);
+        Metadata metaData = new MetadataChain(
+                new BasicMetadata(dom), new SchemaArticle(dom),
+                new OpenGraph(dom), new TwitterCard(dom));
         
         final CapturerContext context = nodeExtractor.getContext();
         
@@ -119,26 +137,23 @@ Class cls = this.getClass();
         final String content = getValue(extract, "content", defaults, false);
         feed.setContent(content);
         
-if(xlog.isLoggable(level, cls)) {
-xlog.log(level, "Content length. initial: {0}, after format: {1}", cls,
-extract.get("content")==null?null:extract.get("content").length(), 
-content==null?null:content.length());
-}
+        final int contentLength = content == null ? 0 : content.length();
+        final int recommendedSize = this.getRecommendedSize("content");
+        if(contentLength > recommendedSize) {
+            xlog.log(Level.WARNING, "For site: {0}, found content length: {1} > recommended: {2}", 
+            cls, this.getSite()==null?null:this.getSite().getSite(), contentLength, recommendedSize);
+        }
         
 ////////////// Datecreated
         final String datecreatedStr = extract.get("datecreated");
         Date datecreated = datecreatedStr == null ? null : this.getDate(datecreatedStr, null);
         if(datecreated == null) {
-            try{
-                datecreated = metaData.getDateCreated();
-            }catch(ParseException e) {
-                XLogger.getInstance().log(Level.WARNING, "Error parse date from metatag", this.getClass(), e);
-            }
-            if(datecreated == null) {
-                datecreated = dateCreatedIfNone;
+            final String dateStr = metaData.getDateCreated();
+            if(dateStr != null && !dateStr.isEmpty()) {
+                datecreated = this.dateExtractor.extract(dateStr, null);
             }
         }
-        feed.setDatecreated(datecreated);
+        feed.setDatecreated(datecreated==null?dateCreatedIfNone:datecreated);
 
 ////////////// Description        
         String description = getValue(extract, "description", defaults, true);
@@ -165,9 +180,12 @@ xlog.log(level, "Description. {0} = {1}", cls, extract.get("description"), feed.
         final String feeddateStr = extract.get("feeddate");
         Date feeddate = feeddateStr == null ? null : this.getDate(feeddateStr, null);
         if(feeddate == null) {
-            feeddate = metaData.getDate();
+            final String dateStr = metaData.getDate();
+            if(dateStr != null && !dateStr.isEmpty()) {
+                feeddate = this.dateExtractor.extract(dateStr, null);
+            }
             if(feeddate == null) {
-                feeddate = this.dateFromUrlExtractor.extract(dom.getFormattedURL(), NO_DATE);
+                feeddate = this.dateFromUrlExtractor.extract(dom.getURL(), NO_DATE);
             }
         }
         if(feeddate == NO_DATE) {
@@ -184,7 +202,7 @@ xlog.log(Level.FINER, "Feeddate. {0} = {1}", cls, feeddateStr, feeddate);
 xlog.log(Level.FINER, "Extracted image url: {0}", cls, imageurl);        
 
         if(imageurl != null) {
-            Filter<String> filter = ((ImagesFilter)this.getImagesFilter()).getImageSrcFilter();
+            Filter<String> filter = ((ImageNodeFilter)this.getImagesFilter()).getImageSrcFilter();
             boolean accepted = filter.accept(imageurl);
 xlog.log(Level.FINER, "Extracted image url accepted: {0}", cls, accepted);        
             
@@ -193,9 +211,25 @@ xlog.log(Level.FINER, "Extracted image url accepted: {0}", cls, accepted);
             }
         }
         if(imageurl == null) {
-            imageurl = metaData.getImageUrlOfLargestImage();
+            final Set<String> imageUrls = metaData.getImageUrls();
+            if(imageUrls != null && !imageUrls.isEmpty()) {
+                imageurl = this.getImageUrlOfLargestImage(new ArrayList(imageUrls));
+            }
             if(imageurl == null) {
-                imageurl = this.getFirstImageUrl(dom.getNodeList());
+                final NodeList nodeList = dom.getElements();
+//                imageurl = this.getFirstImageUrl(nodeList);                
+                NodeFilter filter = this.getImagesFilter() != null ? this.getImagesFilter() :
+                        new org.htmlparser.filters.NodeClassFilter(ImageTag.class);
+                final NodeList imageNodes = nodeList.extractAllNodesThatMatch(filter, true);
+                if(imageNodes != null && !imageNodes.isEmpty()) {
+                    final List<String> imageSrcs = new ArrayList<>();
+                    for(Node node : imageNodes) {
+                        if(node instanceof ImageTag) {
+                            imageSrcs.add(((ImageTag)node).getImageURL());
+                        }
+                    }
+                    imageurl = this.getImageUrlOfLargestImage(imageSrcs);
+                }
             }
 xlog.log(Level.FINER, "Body content extracted image url: ", cls, imageurl);        
         }
@@ -210,7 +244,7 @@ xlog.log(Level.FINER, "Body content extracted image url: ", cls, imageurl);
         if(title == null) {
             Boolean titleIsInUrl = getBoolean(config, Config.Extractor.isTitleInUrl);
             if(titleIsInUrl) {
-                title = this.getTitleFromUrlExtractor().extract(dom.getFormattedURL(), null);
+                title = this.getTitleFromUrlExtractor().extract(dom.getURL(), null);
             }
             if(title == null) {
                 Boolean titleIsGeneric = getBoolean(config, Config.Extractor.isTitleGeneric);
@@ -274,8 +308,13 @@ xlog.log(Level.FINER, "Body content extracted image url: ", cls, imageurl);
         
         return val;
     }
+    
+  private String getImageUrlOfLargestImage(List<String> imageUrls) {
+    Collections.sort(imageUrls, imageSizeComparator);
+    return imageUrls.get(imageUrls.size() - 1);
+  }  
 
-  public final Extractor<Date> getDateFromUrlExtractor() {
+  public final com.bc.webdatex.extractor.Extractor<String, Date> getDateFromUrlExtractor() {
     return dateFromUrlExtractor;
   }
 

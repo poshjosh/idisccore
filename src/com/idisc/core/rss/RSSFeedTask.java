@@ -1,17 +1,19 @@
 package com.idisc.core.rss;
 
+import com.bc.jpa.JpaContext;
 import com.bc.task.StoppableTask;
 import com.bc.util.XLogger;
 import com.idisc.core.ConcurrentTaskList;
+import com.idisc.core.FeedHandler;
+import com.idisc.core.InsertFeedToDatabase;
 import com.idisc.core.comparator.site.IncrementableValues;
-import com.idisc.pu.entities.Feed;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class RSSFeedTask extends ConcurrentTaskList<Feed> {
+public class RSSFeedTask extends ConcurrentTaskList<Integer> {
     
   private final boolean acceptDuplicates;
   
@@ -19,23 +21,39 @@ public class RSSFeedTask extends ConcurrentTaskList<Feed> {
   
   private final TimeUnit timeunitEach;
   
-  private Properties feedProperties;
+  private final JpaContext jpaContext;
+  
+  private final Properties feedProperties;
+  
+  private final List<String> taskNames;
+
+  public RSSFeedTask(
+      JpaContext jpaContext, 
+      long timeout, TimeUnit timeUnit, 
+      long timeoutEach, TimeUnit timeunitEach, 
+      int maxConcurrent, boolean acceptDuplicates) {
+    this(jpaContext, new RSSMgr().getFeedNamesProperties(),
+            timeout, timeUnit, timeoutEach, timeunitEach,
+            maxConcurrent, acceptDuplicates);
+  }
   
   public RSSFeedTask(
+      JpaContext jpaContext, Properties feedProperties,
       long timeout, TimeUnit timeUnit, 
       long timeoutEach, TimeUnit timeunitEach, 
       int maxConcurrent, boolean acceptDuplicates) {
     super(timeout, timeUnit, maxConcurrent);
+    this.jpaContext = jpaContext;
     this.acceptDuplicates = acceptDuplicates;
     this.timeoutEach = timeoutEach;
     this.timeunitEach = timeunitEach;
-    this.feedProperties = new RSSMgr().getFeedNamesProperties();
+    this.feedProperties = feedProperties;
+    this.taskNames = Collections.unmodifiableList(new ArrayList(this.feedProperties.stringPropertyNames()));
   }
   
   @Override
   public List<String> getTaskNames() {
-    Set<String> feedNames = this.feedProperties.stringPropertyNames();
-    return new ArrayList(feedNames);
+    return this.taskNames;
   }
   
   @Override
@@ -43,14 +61,22 @@ public class RSSFeedTask extends ConcurrentTaskList<Feed> {
       
     XLogger.getInstance().entering(this.getClass(), "createNewTask(String)", feedName);
     
+    final FeedHandler feedHandler = new InsertFeedToDatabase(jpaContext);
+    
     StoppableTask task = new RSSFeedDownloadTask(
             feedName, this.feedProperties.getProperty(feedName), 
             this.timeoutEach, this.timeunitEach, 
-            this.acceptDuplicates, this.getResult()){
+            this.acceptDuplicates, feedHandler){
       @Override
-      protected Object doCall() {
+      protected Integer doCall() {
         try{
-          return super.doCall();
+            
+          final Integer updateCount = super.doCall();
+          
+          RSSFeedTask.this.getResult().put(feedName, updateCount);
+          
+          return updateCount;
+          
         }finally{
           try{
             ((IncrementableValues<String>)getTasknameSorter()).incrementAndGet(feedName, this.getAdded());
@@ -62,11 +88,7 @@ public class RSSFeedTask extends ConcurrentTaskList<Feed> {
     return task;
   }
 
-  public Properties getFeedProperties() {
+  public final Properties getFeedProperties() {
     return feedProperties;
-  }
-
-  public void setFeedProperties(Properties feedProperties) {
-    this.feedProperties = feedProperties;
   }
 }

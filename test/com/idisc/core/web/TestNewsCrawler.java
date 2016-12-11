@@ -1,13 +1,12 @@
 package com.idisc.core.web;
 
 import com.bc.json.config.JsonConfig;
-import com.scrapper.CapturerApp;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
-import com.bc.webdatex.nodedata.Dom;
-import com.idisc.pu.entities.Feed;
+import com.bc.dom.HtmlPageDom;
+import com.idisc.core.FeedHandler;
+import com.scrapper.context.CapturerContext;
 
 /**
  * @author Josh
@@ -15,21 +14,34 @@ import com.idisc.pu.entities.Feed;
 public class TestNewsCrawler extends NewsCrawler {
     
     private final boolean debug;
-    
-    public TestNewsCrawler(String site, boolean debug, 
-            long timeout, TimeUnit timeoutUnit, int maxFailsAllowed,
-            boolean resumable, boolean resume) {
-        
-        super(CapturerApp.getInstance().getConfigFactory().getContext(site).getConfig(),
-                timeout, timeoutUnit, maxFailsAllowed, new ArrayList<Feed>(),
-                resumable, resume);
-        
-        this.debug = debug;
-        
-        JsonConfig config = this.getContext().getConfig();
-        
-        String url = config.getString("url", "start");
 
+    public TestNewsCrawler(boolean debug, JsonConfig config, long timeout, TimeUnit timeoutUnit, int maxFailsAllowed, FeedHandler feedHandler) {
+        super(config, timeout, timeoutUnit, maxFailsAllowed, feedHandler);
+        this.debug = debug;
+        this.init();
+    }
+
+    public TestNewsCrawler(boolean debug, JsonConfig config, long timeout, TimeUnit timeoutUnit, int maxFailsAllowed, FeedHandler feedHandler, boolean resumable, boolean toResume) {
+        super(config, timeout, timeoutUnit, maxFailsAllowed, feedHandler, resumable, toResume);
+        this.debug = debug;
+        this.init();
+    }
+
+    public TestNewsCrawler(boolean debug, CapturerContext context, long timeout, TimeUnit timeoutUnit, int maxFailsAllowed, FeedHandler feedHandler) {
+        super(context, timeout, timeoutUnit, maxFailsAllowed, feedHandler);
+        this.debug = debug;
+        this.init();
+    }
+
+    public TestNewsCrawler(boolean debug, CapturerContext context, long timeout, TimeUnit timeoutUnit, int maxFailsAllowed, FeedHandler feedHandler, boolean resumable, boolean toResume) {
+        super(context, timeout, timeoutUnit, maxFailsAllowed, feedHandler, resumable, toResume);
+        this.debug = debug;
+        this.init();
+    }
+    
+    private void init() {
+        JsonConfig config = this.getContext().getConfig();
+        String url = config.getString("url", "start");
         this.setStartUrl(url);
     }
     
@@ -48,8 +60,8 @@ if(debug) System.out.println("Links left: "+this.getPageLinks().size()+", last p
     }
 
     @Override
-    public Dom next() {
-        Dom nodes = super.next();
+    public HtmlPageDom next() {
+        HtmlPageDom nodes = super.next();
         return nodes;
     }
 

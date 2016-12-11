@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +18,7 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
 import com.bc.jpa.dao.BuilderForSelect;
+import com.bc.json.config.JsonConfig;
 
 /**
  * @author Josh
@@ -56,16 +56,18 @@ public class CrawlDeficientSites extends IdiscTestBase {
         
         sites = list.toArray(new String[0]);
         
+        final String defaultConfigName = this.getCapturerApp().getDefaultConfigname();
+        
         for(String site:sites) {
           
-            if("default".equalsIgnoreCase(site)) {
+            if(defaultConfigName.equalsIgnoreCase(site)) {
                 continue;
             }
             
-            final boolean accept = this.acceptSpecific(site);
-            if(!accept) {
-                continue;
-            }
+//            final boolean accept = this.acceptSpecific(site);
+//            if(!accept) {
+//                continue;
+//            }
             
             final boolean deficient = this.isDeficient(site);
             
@@ -73,15 +75,9 @@ System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", deficient: "
             
             if(deficient) {
                 
-                Collection<Feed> result = this.crawlsite(site, this.crawlLimit, this.parseLimit);
+                Integer result = this.crawlsite(site, this.crawlLimit, this.parseLimit);
                 
-                final int resultSize = (result==null?0:result.size());
-                
-System.out.println("==== = ==  === = = = = = = = =  Results: "+resultSize);
-
-                final Collection<Feed> failedToCreate = new FeedResultUpdater().process(site, result);
-        
-System.out.println("==== = ==  === = = = = = = = =  Updated: "+(resultSize-failedToCreate.size()));
+System.out.println("==== = ==  === = = = = = = = =  Updated: "+result);
             }
         }
     }
@@ -122,10 +118,15 @@ System.out.println("==== = ==  === = = = = = = = =  Updated: "+(resultSize-faile
         }
     }
     
-    public Collection<Feed> crawlsite(String site, int crawlLimit, int parseLimit) {
+    public Integer crawlsite(String site, int crawlLimit, int parseLimit) {
         
-        NewsCrawler crawler = new TestNewsCrawler(site, debug, timeout, timeoutUnit, 
-                maxFailsAllowed, resumable, resume);
+        final JsonConfig config = this.getCapturerApp().getConfigFactory().getConfig(site);
+        
+        final FeedHandler feedHandler = new InsertFeedToDatabase(this.getIdiscApp().getJpaContext());
+        
+        NewsCrawler crawler = new TestNewsCrawler(
+                debug, config, timeout, timeoutUnit, 
+                maxFailsAllowed, feedHandler, resumable, resume);
         
         crawler.setCrawlLimit(crawlLimit);
         
