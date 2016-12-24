@@ -57,7 +57,7 @@ public class CrawlDeficientSites extends IdiscTestBase {
         sites = list.toArray(new String[0]);
         
         final String defaultConfigName = this.getCapturerApp().getDefaultConfigname();
-        
+     
         for(String site:sites) {
           
             if(defaultConfigName.equalsIgnoreCase(site)) {
