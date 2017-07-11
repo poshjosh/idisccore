@@ -16,7 +16,7 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder;
+import com.bc.util.MapBuilder;
 import com.idisc.pu.entities.Feed;
 
 /**
@@ -31,7 +31,7 @@ public class TransformerService_appVersionCode8orBelow extends TransformerServic
     }
 
     @Override
-    protected EntityMapBuilder.Transformer<Feed> getFeedTranformer(Class<Feed> type) {
+    protected MapBuilder.Transformer getFeedTranformer(Class<Feed> type) {
         return new FeedMapEntryTransformer_appVersionCode8orBelow();
     }
 }

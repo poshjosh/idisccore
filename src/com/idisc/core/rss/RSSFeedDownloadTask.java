@@ -8,7 +8,7 @@ import com.idisc.core.IdiscApp;
 import com.bc.webdatex.filter.ImageNodeFilter;
 import com.idisc.core.FeedHandler;
 import com.idisc.core.util.FeedCreator;
-import com.idisc.pu.FeedService;
+import com.idisc.pu.FeedSvc;
 import com.idisc.pu.References;
 import com.idisc.pu.SiteService;
 import com.idisc.pu.entities.Feed;
@@ -133,7 +133,7 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask<Integer> {
         
         final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
         
-        final FeedService feeds = new FeedService(jpaContext);
+        final FeedSvc feeds = new FeedSvc(jpaContext);
         
         for (Object obj : entries) {
             
@@ -221,6 +221,9 @@ public class RSSFeedDownloadTask extends AbstractStoppableTask<Integer> {
             feed.setDescription(feedCreator.format("description", description, true));
 
             Date dateCreated = entry.getUpdatedDate() == null ? entry.getPublishedDate() : entry.getUpdatedDate();
+            if(dateCreated != null && dateCreated.after(NOW)) {
+                dateCreated = NOW;
+            }
             feed.setFeeddate(dateCreated == null ? NOW : dateConverter.convert(dateCreated));
             
             Date lastModified = entry.getUpdatedDate();

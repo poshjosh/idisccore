@@ -16,8 +16,7 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder.Transformer;
-import com.idisc.pu.entities.Comment;
+import com.bc.util.MapBuilder.Transformer;
 import com.idisc.pu.entities.Comment_;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feeduser_;
@@ -25,12 +24,12 @@ import com.idisc.pu.entities.Feeduser_;
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 3:02:59 AM
  */
-public class CommentMapEntryTransformer implements Transformer<Comment> {
+public class CommentMapEntryTransformer implements Transformer {
 
     public CommentMapEntryTransformer() { }
 
     @Override
-    public String transformKey(Comment entity, String key) {
+    public String transformKey(Object entity, String key) {
         return key;
     }
     
@@ -43,7 +42,7 @@ public class CommentMapEntryTransformer implements Transformer<Comment> {
      * @return The transformed value
      */
     @Override
-    public Object transformValue(Comment entity, String oldKey, String newKey, Object value) {
+    public Object transformValue(Object entity, String oldKey, String newKey, Object value) {
 //System.out.println("= = = = = = = Old key: "+oldKey+", new key: "+newKey+", value: "+value);         
         if(value != null) {
             if(Comment_.feedid.getName().equals(oldKey)) {

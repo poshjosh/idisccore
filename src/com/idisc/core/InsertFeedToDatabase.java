@@ -18,7 +18,7 @@ package com.idisc.core;
 
 import com.bc.jpa.JpaContext;
 import com.bc.util.XLogger;
-import com.idisc.pu.FeedService;
+import com.idisc.pu.FeedSvc;
 import com.idisc.pu.entities.Feed;
 import java.util.Date;
 import java.util.logging.Level;
@@ -26,7 +26,7 @@ import java.util.logging.Level;
 /**
  * @author Chinomso Bassey Ikwuagwu on Nov 16, 2016 12:56:16 PM
  */
-public class InsertFeedToDatabase extends FeedService implements FeedHandler {
+public class InsertFeedToDatabase extends FeedSvc implements FeedHandler {
 
     private final Date defaultDatecreated;
     

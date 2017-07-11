@@ -49,7 +49,7 @@ public class FeedMapEntryTransformer_appVersionCode8orBelow extends FeedMapEntry
      * @return The transformed value
      */
     @Override
-    public Object transformValue(Feed entity, String oldKey, String newKey, Object value) {
+    public Object transformValue(Object entity, String oldKey, String newKey, Object value) {
         
         value = super.transformValue(entity, oldKey, newKey, value);
         
@@ -58,8 +58,9 @@ public class FeedMapEntryTransformer_appVersionCode8orBelow extends FeedMapEntry
             // Original Format:        com.idisc.pu.entities.Site[ siteid=4 ]
             // Format: News Minute [4]
             // The siteId (i.e 4) is extracted
-            Map map = new HashMap();
-            Site site = entity.getSiteid() == null ? defaultSite : entity.getSiteid();
+            final Map map = new HashMap();
+            final Feed feed = (Feed)entity;
+            Site site = feed.getSiteid() == null ? defaultSite : feed.getSiteid();
             final Integer siteId = site.getSiteid();
             final String siteName = site.getSite();
             final String siteText = siteName + " [" + siteId + ']';

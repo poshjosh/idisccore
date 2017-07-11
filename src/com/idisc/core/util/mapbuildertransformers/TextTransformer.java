@@ -26,7 +26,7 @@ import java.util.logging.Level;
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 12:45:25 PM
  */
-public class TextTransformer implements com.bc.jpa.util.EntityMapBuilder.Transformer {
+public class TextTransformer implements com.bc.util.MapBuilder.Transformer {
 
     private final boolean plainTextOnly;
   

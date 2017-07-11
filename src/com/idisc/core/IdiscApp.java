@@ -1,7 +1,6 @@
 package com.idisc.core;
 
 import com.bc.util.XLogger;
-import com.scrapper.AppProperties;
 import com.scrapper.CapturerApp;
 import java.io.File;
 import java.io.IOException;
@@ -16,19 +15,22 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import com.bc.jpa.JpaContext;
 import com.bc.sql.MySQLDateTimePatterns;
 import com.idisc.pu.IdiscJpaContext;
+import java.util.Objects;
 
 public class IdiscApp {
     
   private boolean initialized;
-  private String persistenceFilename;
+  private String propertiesFilename;
   private String scrapperPropertiesFilename;
+  private String persistenceFilename;
   private Configuration config;
   private static IdiscApp instance;
   private JpaContext jpaContext;
   
-  protected IdiscApp(){
-    this.persistenceFilename = "META-INF/persistence.xml";
+  public IdiscApp(){
+    this.propertiesFilename = "META-INF/properties/idisc.properties"; 
     this.scrapperPropertiesFilename = "META-INF/properties/idisccore_scrapper.properties";
+    this.persistenceFilename = "META-INF/persistence.xml";
   }
   
   public static IdiscApp getInstance() {
@@ -42,34 +44,32 @@ public class IdiscApp {
     instance = app;
   }
   
-  public void init()
+  public void init()     
+      throws ConfigurationException, IOException, IllegalAccessException, 
+      InterruptedException, InvocationTargetException {
+
+    ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    
+    URL propertiesFile = loader.getResource(this.propertiesFilename);
+    
+    this.init(propertiesFile, this.scrapperPropertiesFilename, this.persistenceFilename);  
+  }
+
+  public void init(URL propertiesFile, String scrapperPropertiesFilename, String persistenceFilename)
     throws ConfigurationException, IOException, IllegalAccessException, 
           InterruptedException, InvocationTargetException {
       
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
     
-    URL defaultFileLoc = loader.getResource("META-INF/properties/idiscdefaults.properties");
+    URL defaultPropertiesFile = loader.getResource("META-INF/properties/idiscdefaults.properties");
     
-    URL fileLoc = loader.getResource("META-INF/properties/idisc.properties");
-    
-    init(defaultFileLoc, fileLoc);
-    
-    this.initialized = true;
-  }
-  
-  public void init(URL propertiesFile)
-    throws ConfigurationException, IOException, IllegalAccessException, InterruptedException, InvocationTargetException
-  {
-    ClassLoader loader = Thread.currentThread().getContextClassLoader();
-    
-    URL defaultFileLoc = loader.getResource("META-INF/properties/idiscdefaults.properties");
-    
-    init(defaultFileLoc, propertiesFile);
+    init(defaultPropertiesFile, propertiesFile, scrapperPropertiesFilename, persistenceFilename);
     
     this.initialized = true;
   }
 
-  private void init(URL defaultConfigFile, URL configFile)
+  private void init(URL defaultPropertiesFilename, URL propertiesFilename,
+          String scrapperPropertiesFilename, String persistenceFilename)
     throws ConfigurationException, IOException, IllegalAccessException, 
           InterruptedException, InvocationTargetException, UnsupportedOperationException {
       
@@ -77,19 +77,21 @@ public class IdiscApp {
         throw new UnsupportedOperationException("App is already initialized!");
     }  
     
-    XLogger.getInstance().log(Level.INFO, "Initializing: {0}", getClass(), getClass().getName());
+    XLogger.getInstance().log(Level.FINE, "Initializing: {0}", getClass(), getClass().getName());
     
-    if (configFile == null) {
-      throw new NullPointerException();
-    }
-
-    this.config = loadConfig(defaultConfigFile, configFile, ',');
+    Objects.requireNonNull(propertiesFilename);
     
-    AppProperties.load(this.scrapperPropertiesFilename);
+    Objects.requireNonNull(scrapperPropertiesFilename);
+    
+    this.config = loadConfig(defaultPropertiesFilename, propertiesFilename, ',');
+    
+    this.persistenceFilename = persistenceFilename == null ? "META-INF/persistence.xml" : persistenceFilename;
     
     this.jpaContext = this.initJpaContext(persistenceFilename);
     
-    CapturerApp.getInstance().init(false);
+    this.scrapperPropertiesFilename = scrapperPropertiesFilename;
+    
+    CapturerApp.getInstance().init(false, this.scrapperPropertiesFilename);
     
     this.initialized = true;
     
@@ -97,7 +99,9 @@ public class IdiscApp {
   }
   
   public JpaContext initJpaContext(String persistenceFilename) throws IOException {
-      
+      if(persistenceFilename == null) {
+          persistenceFilename = "META-INF/persistence.xml";
+      }
       return new IdiscJpaContext(persistenceFilename, new MySQLDateTimePatterns());
   }
 
@@ -194,24 +198,54 @@ public class IdiscApp {
   public CapturerApp getCapturerApp() {
     return CapturerApp.getInstance();
   }
-  
-  public String getPersistenceFilename() {
-    return this.persistenceFilename;
-  }
-  
-  public void setPersistenceFilename(String persistenceFilename) {
-    if (persistenceFilename == null) {
-      throw new NullPointerException();
-    }
-    this.persistenceFilename = persistenceFilename;
-    this.jpaContext = null;
+
+  public String getPropertiesFilename() {
+    return propertiesFilename;
   }
   
   public String getScrapperPropertiesFilename() {
     return this.scrapperPropertiesFilename;
   }
   
-  public void setScrapperPropertiesFilename(String scrapperPropertiesFilename) {
-    this.scrapperPropertiesFilename = scrapperPropertiesFilename;
+  public String getPersistenceFilename() {
+    return this.persistenceFilename;
   }
 }
+/**
+ * 
+  public void init()
+    throws ConfigurationException, IOException, IllegalAccessException, 
+          InterruptedException, InvocationTargetException {
+    this.init("META-INF/properties/idisccore_scrapper.properties");  
+  }
+  
+  public void init(String scrapperPropertiesFilename)
+    throws ConfigurationException, IOException, IllegalAccessException, 
+          InterruptedException, InvocationTargetException {
+    this.init(scrapperPropertiesFilename, null);  
+  }
+  
+  public void init(String scrapperPropertiesFilename, String persistenceFilename)
+    throws ConfigurationException, IOException, IllegalAccessException, 
+          InterruptedException, InvocationTargetException {
+      
+    ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    
+    URL defaultFileLoc = loader.getResource("META-INF/properties/idiscdefaults.properties");
+    
+    URL fileLoc = loader.getResource("META-INF/properties/idisc.properties");
+    
+    init(defaultFileLoc, fileLoc, scrapperPropertiesFilename, persistenceFilename);
+    
+    this.initialized = true;
+  }
+
+  public void init(URL propertiesFile, String scrapperPropertiesFilename)     
+      throws ConfigurationException, IOException, IllegalAccessException, 
+      InterruptedException, InvocationTargetException {
+
+    this.init(propertiesFile, scrapperPropertiesFilename, null);
+  }
+  
+ * 
+ */

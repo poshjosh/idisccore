@@ -16,8 +16,7 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder.Transformer;
-import com.idisc.pu.entities.Feeduser;
+import com.bc.util.MapBuilder.Transformer;
 import com.idisc.pu.entities.Feeduser_;
 import com.idisc.pu.entities.Installation;
 import com.idisc.pu.entities.Installation_;
@@ -26,12 +25,12 @@ import java.util.List;
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 3:38:43 AM
  */
-public class FeeduserMapEntryTransformer implements Transformer<Feeduser> {
+public class FeeduserMapEntryTransformer implements Transformer {
 
     public FeeduserMapEntryTransformer() { }
     
     @Override
-    public String transformKey(Feeduser entity, String key) {
+    public String transformKey(Object entity, String key) {
         return Feeduser_.installationList.getName().equals(key)?
             Installation_.installationid.getName() : key;
     }
@@ -45,7 +44,7 @@ public class FeeduserMapEntryTransformer implements Transformer<Feeduser> {
      * @return The transformed value
      */
     @Override
-    public Object transformValue(Feeduser entity, String oldKey, String newKey, Object value) {
+    public Object transformValue(Object entity, String oldKey, String newKey, Object value) {
 //System.out.println("= = = = = = = Old key: "+oldKey+", new key: "+newKey+", value: "+value);                    
         if(value != null) {
 

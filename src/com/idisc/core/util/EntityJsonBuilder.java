@@ -1,6 +1,6 @@
 package com.idisc.core.util;
 
-import com.bc.jpa.util.EntityMapBuilder;
+import com.bc.util.MapBuilder;
 import com.bc.util.JsonBuilder;
 import com.bc.util.XLogger;
 import com.idisc.core.util.mapbuildertransformers.TransformerService;
@@ -23,7 +23,7 @@ import javax.persistence.Entity;
  */
 public class EntityJsonBuilder<E extends Appendable> extends JsonBuilder<E> {
     
-  private final EntityMapBuilder mapBuilder;
+  private final MapBuilder mapBuilder;
   
   private final TransformerService transformerService;
   
@@ -61,7 +61,7 @@ public class EntityJsonBuilder<E extends Appendable> extends JsonBuilder<E> {
   }
 
   public EntityJsonBuilder(boolean tidyOutput, boolean escapeOutput, 
-            String indent, EntityMapBuilder mapBuilder, TransformerService transformerService) {
+            String indent, MapBuilder mapBuilder, TransformerService transformerService) {
       
     super(tidyOutput, escapeOutput, indent);
     
@@ -90,7 +90,12 @@ XLogger.getInstance().log(Level.FINER, "#appendJSONString(Object, Appendable)", 
 XLogger.getInstance().log(Level.FINER, "Entity type: {0}, entity: {1}", 
         this.getClass(), entityType, value);
 
-      this.mapBuilder.build(entityType, value, this.reusedMap, transformerService.get(entityType));
+      this.mapBuilder
+              .sourceType(entityType)
+              .source(value)
+              .target(this.reusedMap)
+              .transformer(transformerService.get(entityType))
+              .build();
     
 XLogger.getInstance().log(Level.FINER, "Entity map: {0}", this.getClass(), this.reusedMap);
 
@@ -113,9 +118,8 @@ XLogger.getInstance().log(Level.FINER, "Entity map: {0}", this.getClass(), this.
     } else if ((value instanceof Country)) {
       output = Country.class;
     } else {
-      final Class valueType = value.getClass();
-      if(valueType.getAnnotation(Entity.class) != null) {
-        output = valueType;
+      if(value != null && value.getClass().getAnnotation(Entity.class) != null) {
+        output = value.getClass();
       }else{
         output = outputIfNone;
       }

@@ -40,6 +40,8 @@ import com.bc.dom.HtmlPageDom;
 public class WebFeedCreator extends FeedCreator {
     
   private final Date NO_DATE = new Date(0);
+  
+  private final Date NOW = new Date();
     
   private final NodeExtractor nodeExtractor;
   
@@ -94,6 +96,7 @@ public class WebFeedCreator extends FeedCreator {
 XLogger xlog = XLogger.getInstance();
 Level level = Level.FINER;
 Class cls = this.getClass();
+
         Site site = this.getSite();
 
         feed.setSiteid(site);
@@ -191,6 +194,10 @@ xlog.log(level, "Description. {0} = {1}", cls, extract.get("description"), feed.
         if(feeddate == NO_DATE) {
             xlog.log(level, "Feeddate could not be extracted for feed:: site: {0}, title: {1}, author: {2}", 
                     cls, sitename, feed.getTitle(), feed.getAuthor());
+        }else{
+            if(feeddate.after(NOW)) {
+                feeddate = NOW;
+            }
         }    
         feed.setFeeddate(feeddate);
 

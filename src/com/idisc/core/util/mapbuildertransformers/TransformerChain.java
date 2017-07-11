@@ -16,7 +16,7 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder.Transformer;
+import com.bc.util.MapBuilder.Transformer;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 1:13:28 PM

@@ -16,7 +16,7 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder.Transformer;
+import com.bc.util.MapBuilder.Transformer;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feed_;
 import java.util.Collection;
@@ -24,12 +24,12 @@ import java.util.Collection;
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 2:35:58 AM
  */
-public class FeedMapEntryTransformer implements Transformer<Feed> {
+public class FeedMapEntryTransformer implements Transformer {
 
     public FeedMapEntryTransformer( ) { }
 
     @Override
-    public String transformKey(Feed entity, String key) {
+    public String transformKey(Object entity, String key) {
         
         return Feed_.feedhitList.getName().equals(key) ? "hitcount" : key;
     }
@@ -43,7 +43,7 @@ public class FeedMapEntryTransformer implements Transformer<Feed> {
      * @return The transformed value
      */
     @Override
-    public Object transformValue(Feed entity, String oldKey, String newKey, Object value) {
+    public Object transformValue(Object entity, String oldKey, String newKey, Object value) {
         
 //System.out.println("= = = = = = = Old key: "+oldKey+", new key: "+newKey+", value: "+value); 
 

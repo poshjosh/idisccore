@@ -16,7 +16,9 @@
 
 package com.idisc.core.util;
 
-import com.bc.jpa.util.EntityMapBuilderImpl;
+import com.bc.jpa.util.MapBuilderForEntity;
+import com.bc.util.MapBuilder;
+import com.bc.util.MapBuilder.Transformer;
 import com.idisc.pu.entities.Feeduser;
 import com.idisc.pu.entities.Installation_;
 import com.idisc.pu.entities.Sitetype;
@@ -27,26 +29,31 @@ import java.util.Map;
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 3:43:20 AM
  */
-public class DefaultEntityMapBuilder extends EntityMapBuilderImpl {
+public class DefaultEntityMapBuilder extends MapBuilderForEntity {
 
     public DefaultEntityMapBuilder() {
-        super(false, 3, 0,  null, new HashSet(Arrays.asList(Sitetype.class)));
+            this.methodFilter(MapBuilder.MethodFilter.ACCEPT_ALL)
+            .nullsAllowed(false)
+            .maxDepth(3)
+            .maxCollectionSize(0)
+            .typesToIgnore(new HashSet(Arrays.asList(Sitetype.class)));
     }
-    
+
     @Override
-    public void build(Class entityType, Object entity, Map appendTo, 
-            com.bc.jpa.util.EntityMapBuilder.Transformer transformer) {
+    protected Map build(Class srcType, Object src, Transformer tx, int depth, Map tgt, boolean addToAlreadyBuilt) {
         
-        super.build(entityType, entity, appendTo, transformer);
+        tgt = super.build(srcType, src, tx, depth, tgt, addToAlreadyBuilt); 
         
-        if(entityType == Feeduser.class) {
+        if(srcType == Feeduser.class) {
             
-            Map installationMap = (Map)appendTo.get(Installation_.installationid.getName());
+            Map installationMap = (Map)tgt.get(Installation_.installationid.getName());
             
             if(installationMap != null) {
                 
-                appendTo.putAll(installationMap);
+                tgt.putAll(installationMap);
             }
         }
+        
+        return tgt;
     }
 }

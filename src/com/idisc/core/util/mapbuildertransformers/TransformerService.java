@@ -16,12 +16,12 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder;
+import com.bc.util.MapBuilder;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 2:12:04 PM
  */
 public interface TransformerService {
 
-    <E> EntityMapBuilder.Transformer<E> get(Class<E> entityType);
+    <E> MapBuilder.Transformer get(Class<E> entityType);
 }

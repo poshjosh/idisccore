@@ -264,8 +264,12 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
           }
 
           if (feed.getFeeddate() == null) {
-            feed.setFeeddate(status.getCreatedAt() == null ? NOW : 
-                    dateTimeZoneConverter.convert(status.getCreatedAt()));
+            Date createdAt = status.getCreatedAt();
+            if(createdAt != null && createdAt.after(NOW)) {
+              createdAt = NOW;
+            }
+            feed.setFeeddate(createdAt == null ? NOW : 
+                    dateTimeZoneConverter.convert(createdAt));
           }
 
           feed.setRawid("" + status.getId());

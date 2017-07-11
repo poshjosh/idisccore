@@ -16,7 +16,7 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.jpa.util.EntityMapBuilder.Transformer;
+import com.bc.util.MapBuilder.Transformer;
 import com.idisc.pu.entities.Comment;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feeduser;
@@ -69,7 +69,7 @@ public class TransformerServiceImpl implements TransformerService {
         return output;
     }
     
-    protected Transformer<Feed> getFeedTranformer(Class<Feed> type) {
+    protected Transformer getFeedTranformer(Class<Feed> type) {
         return new FeedMapEntryTransformer();
     }
 }
