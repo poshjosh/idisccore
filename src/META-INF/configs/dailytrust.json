@@ -1,6 +1,6 @@
 {
-    "captureUrlFilter_requiredRegex":"\/news\/.+?\/\\d{4,}",
-    "captureUrlFilter_requiredRegex_comment":"For Example: http:\/\/www.dailytrust.com.ng\/news\/general\/arms-deal-judge-orders-agf-to-produce-dasuki\/129904.html",
+    "scrappUrlFilter_requiredRegex":"\/news\/.+?\/\\d{4,}",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: http:\/\/www.dailytrust.com.ng\/news\/general\/arms-deal-judge-orders-agf-to-produce-dasuki\/129904.html",
     "datePatterns":["MMM dd yyyy h:mma"],
     "datePatterns_comment":"Example: Jan 20 2016 1:38PM",
     "defaultValues":{

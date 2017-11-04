@@ -16,7 +16,7 @@
 
 package com.idisc.core;
 
-import com.bc.webdatex.URLParser;
+import com.bc.webdatex.BaseCrawler;
 import java.util.logging.Level;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
@@ -78,7 +78,7 @@ System.out.println("------------------------ "+key+" ------------------------");
         
         com.bc.webdatex.extractor.node.NodeExtractor nodeExtractor = this.getNodeExtractor(site, key);
         
-        final URLParser urlParser = new URLParser();
+        final BaseCrawler urlParser = new BaseCrawler();
         
         NodeList nodes = urlParser.parse(url);
 

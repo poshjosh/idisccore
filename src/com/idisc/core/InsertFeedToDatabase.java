@@ -16,17 +16,19 @@
 
 package com.idisc.core;
 
-import com.bc.jpa.JpaContext;
-import com.bc.util.XLogger;
-import com.idisc.pu.FeedSvc;
+import com.bc.jpa.context.JpaContext;
+import com.idisc.pu.FeedService;
 import com.idisc.pu.entities.Feed;
 import java.util.Date;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Nov 16, 2016 12:56:16 PM
  */
-public class InsertFeedToDatabase extends FeedSvc implements FeedHandler {
+public class InsertFeedToDatabase extends FeedService implements FeedHandler {
+
+    private static final Logger logger = Logger.getLogger(InsertFeedToDatabase.class.getName());
 
     private final Date defaultDatecreated;
     
@@ -54,7 +56,7 @@ public class InsertFeedToDatabase extends FeedSvc implements FeedHandler {
 
             created = false;
 
-            XLogger.getInstance().log(Level.WARNING, "#doCall(). Caught exception: {0}", this.getClass(), e.toString());
+            logger.log(Level.WARNING, "Caught exception: {0}", e.toString());
         }
         
         return created;

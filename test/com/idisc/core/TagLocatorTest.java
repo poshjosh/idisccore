@@ -1,7 +1,7 @@
 package com.idisc.core;
 
 import com.bc.webdatex.locator.impl.TagLocatorImpl;
-import com.bc.webdatex.URLParser;
+import com.bc.webdatex.BaseCrawler;
 import java.util.logging.Level;
 import org.htmlparser.Tag;
 import org.htmlparser.util.NodeList;
@@ -42,7 +42,7 @@ public class TagLocatorTest extends ExtractionTestBase {
     
     public Tag testTagLocator(String site, String key, String url) throws ParserException {
         
-        URLParser parser = new URLParser();
+        BaseCrawler parser = new BaseCrawler();
         
         final String [] path = this.getPath(site, key);
         

@@ -1,7 +1,7 @@
 package com.idisc.core;
 
-import com.bc.jpa.EntityController;
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.controller.EntityController;
+import com.bc.jpa.context.JpaContext;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Archivedfeed;
 import com.idisc.pu.entities.Feed;
@@ -19,7 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.persistence.annotations.BatchFetchType;
 import org.eclipse.persistence.exceptions.DatabaseException;
-import com.bc.jpa.dao.BuilderForSelect;
+import com.bc.jpa.dao.Select;
 
 public class FeedArchiverDELETE_ME
 {
@@ -261,11 +261,11 @@ logger.log(Level.FINER, "Rolling back active transaction", this.getClass());
       
     final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
     
-    try(BuilderForSelect<Integer> qb = jpaContext.getBuilderForSelect(Feed.class, Integer.class)) {
+    try(Select<Integer> qb = jpaContext.getDaoForSelect(Feed.class, Integer.class)) {
         
         List<Integer> feedids = qb.from(Feed.class)
         .select("feedid")        
-        .where("feeddate", BuilderForSelect.LT, before)
+        .where("feeddate", Select.LT, before)
         .createQuery().getResultList();
         
         return feedids;

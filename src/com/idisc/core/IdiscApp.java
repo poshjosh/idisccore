@@ -12,8 +12,10 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.context.JpaContext;
 import com.bc.sql.MySQLDateTimePatterns;
+import com.idisc.core.extraction.ExtractionFactory;
+import com.idisc.core.extraction.ExtractionFactoryImpl;
 import com.idisc.pu.IdiscJpaContext;
 import java.util.Objects;
 
@@ -26,6 +28,8 @@ public class IdiscApp {
   private Configuration config;
   private static IdiscApp instance;
   private JpaContext jpaContext;
+  
+  private ExtractionFactory extractionFactory;
   
   public IdiscApp(){
     this.propertiesFilename = "META-INF/properties/idisc.properties"; 
@@ -92,6 +96,8 @@ public class IdiscApp {
     this.scrapperPropertiesFilename = scrapperPropertiesFilename;
     
     CapturerApp.getInstance().init(false, this.scrapperPropertiesFilename);
+    
+    this.extractionFactory = new ExtractionFactoryImpl(this);
     
     this.initialized = true;
     
@@ -177,6 +183,10 @@ public class IdiscApp {
     cfg.setURL(fileLocation);
     cfg.load();
     return cfg;
+  }
+
+  public ExtractionFactory getExtractionFactory() {
+    return extractionFactory;
   }
   
   public String getAbsolutePath(String relativePath) {

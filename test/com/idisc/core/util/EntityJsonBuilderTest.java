@@ -15,10 +15,16 @@
  */
 package com.idisc.core.util;
 
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.context.JpaContext;
 import com.idisc.core.IdiscTestBase;
+import com.idisc.pu.entities.Bookmarkfeed;
 import com.idisc.pu.entities.Comment;
+import com.idisc.pu.entities.Commentreplynotice;
+import com.idisc.pu.entities.Favoritefeed;
 import com.idisc.pu.entities.Feed;
+import com.idisc.pu.entities.Feeduser;
+import com.idisc.pu.entities.Installation;
+import com.idisc.pu.entities.Site;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +50,12 @@ public class EntityJsonBuilderTest  extends IdiscTestBase {
 
         this.appendJsonString(Feed.class, "feeds", 3);
         this.appendJsonString(Comment.class, "comments", 3);
+        this.appendJsonString(Feeduser.class, "feedusers", 3);
+        this.appendJsonString(Installation.class, "installs", 3);
+        this.appendJsonString(Site.class, "sites", 3);
+        this.appendJsonString(Bookmarkfeed.class, "bookmarks", 3);
+        this.appendJsonString(Commentreplynotice.class, "commentreplynotices", 3);
+        this.appendJsonString(Favoritefeed.class, "favorites", 3);
     }
 
     private <E> void appendJsonString(Class<E> entityType, String key, int limit) throws IOException {
@@ -54,7 +66,7 @@ public class EntityJsonBuilderTest  extends IdiscTestBase {
         
         final String idColumn = jpaContext.getMetaData().getIdColumnName(entityType);
         
-        final List<E> found = jpaContext.getBuilderForSelect(entityType)
+        final List<E> found = jpaContext.getDaoForSelect(entityType)
                 .descOrder(idColumn).getResultsAndClose(0, limit);
 System.out.println(key + ":\n"+found);         
         

@@ -1,6 +1,6 @@
 package com.idisc.core;
 
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.context.JpaContext;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Feed_;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class FeedArchiverTest extends IdiscTestBase {
         
         final int limit = 100;
         
-        List<Feed> feeds = jpaContext.getBuilderForSelect(Feed.class)
+        List<Feed> feeds = jpaContext.getDaoForSelect(Feed.class)
                 .ascOrder(Feed_.feeddate.getName())
                 .getResultsAndClose(0, limit);
         
@@ -45,16 +45,11 @@ public class FeedArchiverTest extends IdiscTestBase {
         
         FeedArchiver instance = new FeedArchiver(this.getIdiscApp().getJpaContext());
         
-long mb4 = this.freeMemory();
+long mb4 = com.bc.util.Util.availableMemory();
 long tb4 = System.currentTimeMillis();
 
         final int archivedCount = instance.archiveFeedsBefore(feed.getFeeddate(), limit);
      
-System.out.println("Archived count: "+archivedCount+", consumed. time: "+(System.currentTimeMillis()-tb4)+", memory: "+(mb4-this.freeMemory()));        
-    }
-    
-    private long freeMemory() {
-        Runtime r = Runtime.getRuntime();
-        return r.maxMemory() - r.totalMemory() + r.freeMemory();
+System.out.println("Archived count: "+archivedCount+", consumed. time: "+(System.currentTimeMillis()-tb4)+", memory: "+com.bc.util.Util.usedMemory(mb4));        
     }
 }

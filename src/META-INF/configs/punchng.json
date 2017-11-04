@@ -1,6 +1,6 @@
 {
-    "captureUrlFilter_requiredRegex":"\/\\w+?-",
-    "captureUrlFilter_requiredRegex_comment":"For Example: \/abc-party-wins-elections-in-nigeria\/",
+    "scrappUrlFilter_requiredRegex":"\/\\w+?-",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/abc-party-wins-elections-in-nigeria\/",
     "datePatterns":["yyyy-MM-dd'T'HH:mm:ss","MMMM dd, yyyy"],
     "datePatterns_comment":"Example: 2015-01-09T22:15:18+00:00, OR: October 10, 2015",
     "targetNode0":{

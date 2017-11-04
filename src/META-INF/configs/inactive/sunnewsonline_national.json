@@ -1,0 +1,37 @@
+{
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/new\/?p=1329",
+    "scrappUrlFilter_requiredRegex":"\/new\/\\?p=\\d{2,}",
+    "datePatterns_comment":"Example: 2015-01-08T01:03:50+00:00",
+    "datePatterns":["yyyy-MM-dd'T'HH:mm:ss"],
+    "defaultValues":{ 
+        "author":"Sunnews Online - National",
+        "categories":"news,nigeria"
+    },
+    "targetNode0":{
+        "append":false,
+        "attributes":{
+            "class":"post-content description ",
+            "itemprop":"articleBody"
+        },
+        "columns":["content"],
+        "value":"DIV"
+    },
+    "targetNode1":{
+        "append":false,
+        "attributesRegex":{
+            "itemprop":"datePublished",
+            "class":"value-datetime",
+            "datetime":".+?"
+        },
+        "attributesToExtract":["datetime"],
+        "columns":["feeddate"],
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["TIME"],
+        "transverse":["<HTML>","<BODY>","<div class=\"main-wrap\">","<div class=\"main wrap cf\">","<div class=\"row\">","<div class=\"col-8 main-content\">","<article id=\"post-${@regex(.+?)}\" class=\"post-${@regex(.+?)}\" itemscope itemtype=\"http:\/\/schema.org\/Article\">","<div class=\"post-meta\">","<span class=\"posted-on\">","<span class=\"dtreviewed\">","<time class=\"value-datetime\" datetime=\"${@regex(.+?)}\" itemprop=\"datePublished\">"],
+        "value":"TIME"
+    },
+    "url":{
+        "start":"http:\/\/sunnewsonline.com\/new\/?cat=3",
+        "value":"http:\/\/sunnewsonline.com"
+    }
+}

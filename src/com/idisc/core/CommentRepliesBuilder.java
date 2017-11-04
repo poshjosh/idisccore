@@ -17,11 +17,11 @@ import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.context.JpaContext;
 import com.idisc.pu.entities.Comment_;
 import com.idisc.pu.entities.Commentreplynotice;
-import com.bc.jpa.dao.BuilderForSelect;
 import com.idisc.core.util.TimeZones;
+import com.bc.jpa.dao.Select;
 
 public class CommentRepliesBuilder {
     
@@ -192,7 +192,7 @@ public class CommentRepliesBuilder {
     
     JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
     
-    BuilderForSelect<Comment> qb = jpaContext.getBuilderForSelect(Comment.class);
+    Select<Comment> qb = jpaContext.getDaoForSelect(Comment.class);
     
     qb.descOrder(Comment_.commentid.getName());
     
@@ -213,7 +213,7 @@ public class CommentRepliesBuilder {
       
     JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
 
-    BuilderForSelect<Integer> qb = jpaContext.getBuilderForSelect(Comment.class, Integer.class);
+    Select<Integer> qb = jpaContext.getDaoForSelect(Comment.class, Integer.class);
     
     qb.select(Comment_.feedid.getName());
     qb.descOrder(Comment_.feedid.getName());
@@ -233,9 +233,9 @@ public class CommentRepliesBuilder {
     return feedids;
   }
   
-  private void format(BuilderForSelect<?> select, Installation installation, Date date) {
+  private void format(Select<?> select, Installation installation, Date date) {
       
-    select.where(Comment_.installationid.getName(), BuilderForSelect.EQ, installation)
-    .and().where(Comment_.datecreated.getName(), BuilderForSelect.GTE, date);
+    select.where(Comment_.installationid.getName(), Select.EQ, installation)
+    .and().where(Comment_.datecreated.getName(), Select.GTE, date);
   }
 }

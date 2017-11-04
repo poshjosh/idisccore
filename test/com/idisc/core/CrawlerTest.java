@@ -3,14 +3,14 @@ package com.idisc.core;
 import com.bc.json.config.JsonConfig;
 import com.bc.util.XLogger;
 import com.scrapper.CapturerApp;
-import com.scrapper.Crawler;
+import com.scrapper.WebCrawler;
 import com.scrapper.config.ScrapperConfigFactory;
 import com.scrapper.context.CapturerContext;
 import java.util.Arrays;
 import java.util.logging.Level;
 import org.htmlparser.util.NodeList;
 import org.junit.Test;
-import com.bc.dom.HtmlPageDom;
+import com.bc.dom.HtmlDocument;
 
 
 /**
@@ -56,8 +56,6 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
         CapturerApp app = IdiscApp.getInstance().getCapturerApp();
         
-//        app.init(false);
-        
         String packageLoggerName = com.idisc.core.IdiscApp.class.getPackage().getName();
         XLogger.getInstance().transferConsoleHandler("", packageLoggerName, true);
         XLogger.getInstance().setLogLevel(packageLoggerName, logLevel);
@@ -68,7 +66,7 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
         JsonConfig config = ctx.getConfig();
 
-        Crawler c = new Crawler(ctx, true, false);
+        WebCrawler c = new WebCrawler(ctx, true, false);
 
 //        final TransverseFilterIx filter = new DefaultTransverseFilter(config, "targetNode0");
         
@@ -86,7 +84,7 @@ System.out.println(this.getClass().getName()+". Sites: "+(sites==null?null:Array
         
         while(c.hasNext()) {
             
-            HtmlPageDom pageNodes = c.next();
+            HtmlDocument pageNodes = c.next();
             
             if(pageNodes == null) {
                 continue;

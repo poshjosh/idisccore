@@ -2,7 +2,6 @@ package com.idisc.core.metrics;
 
 import com.idisc.core.IdiscApp;
 import com.idisc.core.comparator.feed.BaseFeedComparator;
-import com.idisc.pu.SelectByDate;
 import com.idisc.core.IdiscTestBase;
 import com.idisc.html.FeedCellHtml;
 import com.idisc.html.FeedListHtml;
@@ -15,7 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.configuration.ConfigurationException;
-import com.bc.jpa.dao.BuilderForSelect;
+import com.idisc.pu.SelectByDate;
+import com.bc.jpa.dao.Select;
 
 /**
  * @author poshjosh
@@ -45,7 +45,7 @@ public class HitcountMetrics extends IdiscTestBase {
             
             final int maxAgeDays = 7;
 
-            List<Feed> selected = feedSelector.getResultList(Feed_.feeddate.getName(), BuilderForSelect.GT, maxAgeDays, TimeUnit.DAYS, -1, 1000);
+            List<Feed> selected = feedSelector.getResultList(Feed_.feeddate.getName(), Select.GT, maxAgeDays, TimeUnit.DAYS, -1, 1000);
 log("Selected %s feeds", selected==null?null:selected.size());            
             
             List<Feed> outputList = feedSelector.sort(selected, new BaseFeedComparator(true), 10); 

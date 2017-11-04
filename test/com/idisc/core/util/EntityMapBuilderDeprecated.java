@@ -1,6 +1,8 @@
 package com.idisc.core.util;
 
 import com.bc.htmlparser.ParseJob;
+import com.bc.jpa.util.MapBuilderForEntity;
+import com.bc.util.MapBuilder;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Comment;
 import com.idisc.pu.entities.Feed;
@@ -28,7 +30,7 @@ public class EntityMapBuilderDeprecated {
   private final boolean plainTextOnly;
   private final int maxTextLength;
   
-  private final com.bc.jpa.util.EntityMapBuilder mapBuilder;
+  private final MapBuilder mapBuilder;
   
   private final Map<Class, Map> mapCache;
   
@@ -39,7 +41,9 @@ public class EntityMapBuilderDeprecated {
   public EntityMapBuilderDeprecated(boolean plainTextOnly, int maxTextLength) {  
     this.plainTextOnly = plainTextOnly;
     this.maxTextLength = maxTextLength;
-    mapBuilder = new com.bc.jpa.util.EntityMapBuilderImpl(false, 0, 100, null, null);
+    mapBuilder = new MapBuilderForEntity();
+    mapBuilder.methodFilter(MapBuilder.MethodFilter.ACCEPT_ALL)
+            .nullsAllowed(false).maxDepth(0).maxCollectionSize(100);
     mapCache = new HashMap<>();
   }
   
@@ -67,7 +71,7 @@ public class EntityMapBuilderDeprecated {
     
     Map feeduserMap = this.getMapFor(Feeduser.class);
     
-    this.mapBuilder.build(Feeduser.class, user, feeduserMap);
+    this.mapBuilder.sourceType(Feeduser.class).source(user).target(feeduserMap).build();
     
     feeduserMap.put("commentList", null);
     feeduserMap.put("feedhitList", null);
@@ -127,7 +131,7 @@ public class EntityMapBuilderDeprecated {
     
       feed.setFeedhitList(null);
     
-      this.mapBuilder.build(Feed.class, feed, feedMap);
+      this.mapBuilder.sourceType(Feed.class).source(feed).target(feedMap).build();
     
       Site site = feed.getSiteid();
     
@@ -153,7 +157,7 @@ public class EntityMapBuilderDeprecated {
     
     Map commentMap = this.getMapFor(Comment.class);
     
-    this.mapBuilder.build(Comment.class, comment, commentMap);
+    this.mapBuilder.sourceType(Comment.class).source(comment).target(commentMap).build();
 
     Map feedMap = java.util.Collections.singletonMap("feedid", feed.getFeedid());
     commentMap.put("feedid", feedMap);
@@ -180,7 +184,7 @@ public class EntityMapBuilderDeprecated {
       
     Map installationMap = this.getMapFor(Installation.class);
       
-    this.mapBuilder.build(Installation.class, installation, installationMap);
+    this.mapBuilder.sourceType(Installation.class).source(installation).target(installationMap).build();
     
     Country country = installation.getCountryid();
     
@@ -198,7 +202,7 @@ public class EntityMapBuilderDeprecated {
       
     Map siteMap = this.getMapFor(Site.class);
       
-    this.mapBuilder.build(Site.class, site, siteMap);
+    this.mapBuilder.sourceType(Site.class).source(site).target(siteMap).build();
       
     Country country = site.getCountryid();
     Map countryMap = country == null ? Collections.EMPTY_MAP : this.toMap(country);
@@ -216,7 +220,7 @@ public class EntityMapBuilderDeprecated {
       
     Map countryMap = this.getMapFor(Country.class);
     
-    this.mapBuilder.build(Country.class, country, countryMap);
+    this.mapBuilder.sourceType(Country.class).source(country).target(countryMap).build();
     
     return countryMap;
   }

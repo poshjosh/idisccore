@@ -1,6 +1,6 @@
 {
-    "captureUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/23\/the-president-is-available\/",
-    "captureUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}\/",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/23\/the-president-is-available\/",
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}\/",
     "datePatterns_comment":"Example: October 21, 2015",
     "datePatterns":["MMMM dd, yyyy"],
     "defaultValues":{ 

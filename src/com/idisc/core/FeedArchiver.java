@@ -16,8 +16,7 @@
 
 package com.idisc.core;
 
-import com.bc.jpa.JpaContext;
-import com.bc.jpa.dao.BuilderForSelect;
+import com.bc.jpa.context.JpaContext;
 import com.bc.util.XLogger;
 import com.idisc.pu.entities.Archivedfeed;
 import com.idisc.pu.entities.Feed;
@@ -30,6 +29,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import com.bc.jpa.dao.Select;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Nov 6, 2016 8:44:02 PM
@@ -62,11 +62,11 @@ public class FeedArchiver {
     
     for (;;) {
         
-      try(BuilderForSelect<Integer> dao = jpaContext.getBuilderForSelect(Feed.class, Integer.class)){
+      try(Select<Integer> dao = jpaContext.getDaoForSelect(Feed.class, Integer.class)){
         
         List<Integer> feedids = dao.from(Feed.class)
         .select(Feed_.feedid.getName())
-        .where(Feed_.feeddate.getName(), BuilderForSelect.LT, date)
+        .where(Feed_.feeddate.getName(), Select.LT, date)
         .createQuery().setFirstResult(offset).setMaxResults(batchSize)
         .getResultList();
           

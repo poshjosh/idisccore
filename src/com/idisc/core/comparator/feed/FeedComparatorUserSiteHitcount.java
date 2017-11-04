@@ -126,7 +126,7 @@ public class FeedComparatorUserSiteHitcount extends BaseFeedComparator implement
   private long getAddedValueForFeedhits(Feed feed) {
       
 long tb4 = System.currentTimeMillis();
-long mb4 = Runtime.getRuntime().freeMemory();
+long mb4 = com.bc.util.Util.availableMemory();
 
 // This consumes a lot of memory      
 //    Long feedhits = this.count(Feedhit.class, "feedid", feed, false);
@@ -201,7 +201,7 @@ this.logTimeAndMemoryConsumed("getAddedValueForFeedhits", tb4, mb4);
         throw new NullPointerException();
     }
 long tb4 = System.currentTimeMillis();
-long mb4 = Runtime.getRuntime().freeMemory();
+long mb4 = com.bc.util.Util.availableMemory();
     if(userSiteHitcountQuery == null) {
       String queryString;
       if(installationid != null) {
@@ -230,7 +230,7 @@ this.logTimeAndMemoryConsumed("countFeedHits", tb4, mb4);
   
   private Long count(Class entityClass, String key, Object value, boolean distinct) {
 //long tb4 = System.currentTimeMillis();
-//long mb4 = Runtime.getRuntime().freeMemory();
+//long mb4 = com.bc.util.Util.availableMemory();
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<Long> cq = cb.createQuery(Long.class);
     Root<Long> root = cq.from(entityClass); 
@@ -260,6 +260,6 @@ this.logTimeAndMemoryConsumed("countFeedHits", tb4, mb4);
       return;
     }
 System.out.println(key+". consumed time: "+
-(System.currentTimeMillis()-tb4)+", memory: "+(mb4-Runtime.getRuntime().freeMemory()));        
+(System.currentTimeMillis()-tb4)+", memory: "+(mb4-com.bc.util.Util.usedMemory(mb4)));        
   }
 }

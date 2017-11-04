@@ -25,6 +25,7 @@ import com.idisc.pu.entities.Sitetype;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 3:43:20 AM
@@ -40,9 +41,9 @@ public class DefaultEntityMapBuilder extends MapBuilderForEntity {
     }
 
     @Override
-    protected Map build(Class srcType, Object src, Transformer tx, int depth, Map tgt, boolean addToAlreadyBuilt) {
+    protected Map build(Class srcType, Object src, Transformer tx, int depth, Map tgt, Set<Class> alreadyBuilt, boolean addToAlreadyBuilt) {
         
-        tgt = super.build(srcType, src, tx, depth, tgt, addToAlreadyBuilt); 
+        tgt = super.build(srcType, src, tx, depth, tgt, alreadyBuilt, addToAlreadyBuilt); 
         
         if(srcType == Feeduser.class) {
             

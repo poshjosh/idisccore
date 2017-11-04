@@ -1,13 +1,14 @@
 package com.idisc.core;
 
 import com.bc.json.config.JsonConfig;
-import com.idisc.core.web.NewsCrawler;
-import com.idisc.core.web.TestNewsCrawler;
+import com.idisc.core.extraction.web.WebFeedCrawler;
+import com.idisc.core.extraction.web.TestNewsCrawler;
 import com.idisc.pu.entities.Feed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import org.htmlparser.util.NodeList;
 import org.junit.Test;
 
 /**
@@ -43,10 +44,10 @@ public class CrawlSingleSiteTest extends ExtractionTestBase {
     private String getSite() {
         String site;
 //        site = "sunnewsonline";
-        site = "naij";
+//        site = "naij";
 //        site = "dailytrust";
 //        site = "punchng";
-//        site = "channelstv_headlines";
+        site = "channelstv_headlines";
 //        site = "bellanaija";
 //        site = "lindaikeji.blogspot";
 //        site = "thisday";
@@ -94,7 +95,7 @@ log(false, "Keywords: "+feed.getKeywords());
 log(false, "Categories: "+feed.getCategories());    
 log(false, "Description: "+feed.getDescription());
 log(false, "Content length: "+(feed.getContent()==null?null:feed.getContent().length()));
-log(false, "Content: "+(feed.getContent()));
+//log(false, "Content: "+(feed.getContent()));
                 if(updateDatabase) {
                     return super.process(feed);
                 }else{
@@ -103,13 +104,25 @@ log(false, "Content: "+(feed.getContent()));
             }
         };
         
-        NewsCrawler crawler = new TestNewsCrawler(
+        WebFeedCrawler crawler = new TestNewsCrawler(
                 debug, config, 5, TimeUnit.MINUTES, 9, feedHandler, true, false){
+            @Override
+            public boolean isToBeCrawled(String link) {
+                return true || super.isToBeCrawled(link);
+            }
 //            @Override
 //            public boolean isInDatabase(String link) {
 //                return false;
 //            }
         };
+        
+//        if(true) {
+//            NodeList list = crawler.parse(sampleUrl);
+//            System.out.println("\n===========================\n===========================\n");
+//            System.out.println(list==null?"null":list.toHtml(false));
+//            System.out.println("\n===========================\n===========================\n");
+//            return;
+//        }
         
 //        com.bc.manager.Filter<String> urlFilter;
 //        urlFilter = crawler.getContext().getCaptureUrlFilter();

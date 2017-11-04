@@ -15,7 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.context.JpaContext;
 
 /**
  * @author poshjosh
@@ -54,7 +54,7 @@ public class FeedComparatorTest {
             em.close();
         }
 long tb4 = System.currentTimeMillis();
-long mb4 = Runtime.getRuntime().freeMemory();
+long mb4 = com.bc.util.Util.availableMemory();
         try (FeedComparatorUserSiteHitcount fc = new FeedComparatorUserSiteHitcount(installation)) {
             Collections.sort(feeds, fc);
         }
@@ -69,7 +69,7 @@ this.printFeedids(feeds);
 
     private void logTimeAndMemoryConsumed(long numberOfFeeds, long tb4, long mb4) {
 System.out.println("Compared: "+(numberOfFeeds)+" feeds, consumed time: "+
-(System.currentTimeMillis()-tb4)+", memory: "+(mb4-Runtime.getRuntime().freeMemory()));        
+(System.currentTimeMillis()-tb4)+", memory: "+(mb4-com.bc.util.Util.usedMemory(mb4)));        
     }
 
     private void printFeedids(Collection<Feed> feeds) {

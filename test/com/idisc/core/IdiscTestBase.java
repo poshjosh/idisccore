@@ -1,14 +1,12 @@
 package com.idisc.core;
 
-import com.bc.jpa.JpaContext;
+import com.bc.jpa.context.JpaContext;
 import com.bc.util.XLogger;
-import com.idisc.pu.IdiscJpaContext;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
 import com.scrapper.CapturerApp;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -55,10 +53,6 @@ System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  Log lev
 System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  Initializing IdiscApp");
 
             idiscApp = this.createIdiscApp();
-            IdiscApp.setInstance(idiscApp);
-            idiscApp.setScrapperPropertiesFilename("META-INF/properties/idisccore_scrapper_devmode.properties");
-
-            idiscApp.init();
             
             JpaContext jpaContext = idiscApp.getJpaContext();
             
@@ -105,15 +99,14 @@ System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  JpaCont
     
     private IdiscApp createIdiscApp() {
         try{
-            final URI uri = new URI("file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/test/META-INF/persistence.xml");
-            IdiscApp app = new IdiscApp(){
-                @Override
-                public JpaContext initJpaContext(String persistenceFilename) throws IOException {
-                    return new IdiscJpaContext(uri);
-                }
-            };
+            IdiscApp app = new IdiscAppImpl(
+                "C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/properties/idisc.properties",
+                "C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/properties/idisccore_scrapper_devmode.properties",
+                "C:/Users/Josh/Documents/NetBeansProjects/idiscpu/test/META-INF/persistence.xml", 
+                false);
             return app;
-        }catch(Exception e) {
+        }catch(ConfigurationException | IOException | IllegalAccessException | 
+                InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }

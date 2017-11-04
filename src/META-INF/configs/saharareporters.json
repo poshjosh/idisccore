@@ -1,6 +1,6 @@
 {
-    "captureUrlFilter_requiredRegex_comment":"For Example: \/2015\/01\/30\/we-will-make-nigeria-work-again-buhari-promises\/",
-    "captureUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}\/",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/2015\/01\/30\/we-will-make-nigeria-work-again-buhari-promises\/",
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}\/",
     "datePatterns_comment":"Example: Jan 31, 2015",
     "datePatterns":["MMM dd',' yyyy","MMM dd yyyy"],
     "targetNode0":{

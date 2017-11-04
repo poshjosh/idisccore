@@ -68,7 +68,7 @@ public class ExtractionTestBase extends IdiscTestBase {
         
         CapturerContext ctx = factory.getContext(site);
         
-        return ctx.getSettings().getTransverse(key);
+        return ctx.getNodeExtractorConfig().getTransverse(key);
     }
     
     public TagLocatorImpl getTagLocator(String site, String key) {
@@ -112,14 +112,16 @@ public class ExtractionTestBase extends IdiscTestBase {
                 break;
             case "lindaikeji.blogspot":
                 urls = new String []{
-                    "http://www.lindaikejisblog.com/2013/09/funke-akindele-denies-launching-jenifa.html",
-                    "http://www.lindaikejisblog.com/2016/05/okonjo-iweala-reacts-to-reports-that.html",
-                    "http://www.lindaikejisblog.com/2016/05/comedian-elenu-and-his-wife-jane-join.html",
-                    "http://www.lindaikejisblog.com/2016/04/manny-pacquiao-beefs-up-security-after.html",
-                    "http://www.lindaikejisblog.com/2016/04/former-nollywood-actress-anita-hogan.html",
-                    "http://www.lindaikejisblog.com/2015/06/dear-lib-readers-my-wife-complains-that.html",
-                    "http://www.lindaikejisblog.com/2015/06/photos-femi-otedolas-daughter-graduates.html",
-                    "http://www.lindaikejisblog.com/2015/06/former-miss-mississippis-boobs-rots.html"
+                    "https://www.lindaikejisblog.com/2017/9/dasuki-to-appear-as-olisa-metuhs-witness-in-alleged-n400m-fraud-case.html",
+                    "https://www.lindaikejisblog.com/2017/9/uk-government-demands-clarification-on-ipob-leader-nnamdi-kanus-where-about-from-fg.html",
+//                    "http://www.lindaikejisblog.com/2013/09/funke-akindele-denies-launching-jenifa.html",
+//                    "http://www.lindaikejisblog.com/2016/05/okonjo-iweala-reacts-to-reports-that.html",
+//                    "http://www.lindaikejisblog.com/2016/05/comedian-elenu-and-his-wife-jane-join.html",
+//                    "http://www.lindaikejisblog.com/2016/04/manny-pacquiao-beefs-up-security-after.html",
+//                    "http://www.lindaikejisblog.com/2016/04/former-nollywood-actress-anita-hogan.html",
+//                    "http://www.lindaikejisblog.com/2015/06/dear-lib-readers-my-wife-complains-that.html",
+//                    "http://www.lindaikejisblog.com/2015/06/photos-femi-otedolas-daughter-graduates.html",
+//                    "http://www.lindaikejisblog.com/2015/06/former-miss-mississippis-boobs-rots.html"
                 };
                 break;
             case "naij":
@@ -200,9 +202,10 @@ public class ExtractionTestBase extends IdiscTestBase {
                 break;
             case "channelstv_headlines":
                 urls = new String[]{
-                    "http://www.channelstv.com/2015/10/21/tribunal-adjourns-trial-of-bukola-saraki-till-november-5/",
-                    "http://www.channelstv.com/2015/10/21/reps-to-investigate-nnpc-joint-venture-operations/",
-                    "http://www.channelstv.com/2015/10/19/buhari-meets-with-service-chiefs-gets-assurance-of-peace-in-north-east/"
+                    "https://www.channelstv.com/2017/09/29/judge-orders-dss-to-produce-dasuki-in-court/"
+//                    "http://www.channelstv.com/2015/10/21/tribunal-adjourns-trial-of-bukola-saraki-till-november-5/",
+//                    "http://www.channelstv.com/2015/10/21/reps-to-investigate-nnpc-joint-venture-operations/",
+//                    "http://www.channelstv.com/2015/10/19/buhari-meets-with-service-chiefs-gets-assurance-of-peace-in-north-east/"
                 };
                 break;
             case "aitonline_news":

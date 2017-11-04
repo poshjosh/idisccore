@@ -15,11 +15,11 @@
  */
 package com.idisc.core.util;
 
-import com.bc.jpa.JpaContext;
-import com.bc.jpa.dao.BuilderForSelect;
-import com.bc.jpa.util.EntityMapBuilder.Transformer;
-import com.bc.jpa.util.EntityMapBuilderImpl;
+import com.bc.jpa.context.JpaContext;
+import com.bc.jpa.util.MapBuilderForEntity;
 import com.bc.util.JsonFormat;
+import com.bc.util.MapBuilder;
+import com.bc.util.MapBuilder.Transformer;
 import com.idisc.core.IdiscTestBase;
 import com.idisc.core.util.mapbuildertransformers.TransformerServiceImpl;
 import com.idisc.pu.entities.Comment;
@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import org.junit.Test;
+import com.bc.jpa.dao.Select;
 
 /**
  * @author Josh
@@ -62,8 +63,12 @@ public class EntityMapBuilderTest extends IdiscTestBase {
         
         List found = this.getEntities(entityClass, limit);
         
-        com.bc.jpa.util.EntityMapBuilder a = new EntityMapBuilderImpl(
-        false, 3, 0,  null, new HashSet(Arrays.asList(Sitetype.class)));
+        final MapBuilder a = new MapBuilderForEntity()
+                .methodFilter(MapBuilder.MethodFilter.ACCEPT_ALL)
+                .nullsAllowed(false)
+                .maxDepth(3)
+                .maxCollectionSize(0)
+                .typesToIgnore(new HashSet(Arrays.asList(Sitetype.class)));
         
         Transformer transformer = new TransformerServiceImpl(true, 20).get(entityClass);        
         
@@ -73,7 +78,7 @@ public class EntityMapBuilderTest extends IdiscTestBase {
 System.out.println('\n');            
 System.out.println("==============================="+entity);
 System.out.println("-------------------------------"+a.getClass().getName());            
-            Map map1 = a.build(entityClass, entity, transformer);
+            Map map1 = a.sourceType(entityClass).source(entity).transformer(transformer).build();
             String json1 = jsonFmt.toJSONString(new TreeMap(map1));
 System.out.println(json1);    
         }    
@@ -83,32 +88,34 @@ System.out.println(json1);
         
         List found = this.getEntities(entityClass, limit);
         
-        com.bc.jpa.util.EntityMapBuilder a = new EntityMapBuilderImpl(
-                false, 3, 0,  null, new HashSet(Arrays.asList(Sitetype.class)));
+        final MapBuilder a = new MapBuilderForEntity()
+                .methodFilter(MapBuilder.MethodFilter.ACCEPT_ALL)
+                .nullsAllowed(false)
+                .maxDepth(3)
+                .maxCollectionSize(0)
+                .typesToIgnore(new HashSet(Arrays.asList(Sitetype.class)));
                 
         Transformer transformer = new TransformerServiceImpl(true, 500).get(entityClass);        
         
         JsonFormat jsonFmt = new JsonFormat(true);
 
-Runtime runtime = Runtime.getRuntime();
-long mb4 = runtime.maxMemory() - runtime.totalMemory() - runtime.freeMemory();
+long mb4 = com.bc.util.Util.availableMemory();
 long tb4 = System.currentTimeMillis();
 
         for(Object entity : found) {
 System.out.println('\n');            
 
             Map map1 = new HashMap();
-            a.build(entityClass, entity, map1, transformer);
+            a.sourceType(entityClass).source(entity).target(map1).transformer(transformer).build();
             String json1 = jsonFmt.toJSONString(new TreeMap(map1));
 System.out.println(json1);            
         }
-long m = runtime.maxMemory() - runtime.totalMemory() - runtime.freeMemory();        
-System.out.println("Method 1. Consumed memory: "+(mb4-m)+", time: "+(System.currentTimeMillis()-tb4));
+System.out.println("Method 1. Consumed memory: "+(com.bc.util.Util.usedMemory(mb4))+", time: "+(System.currentTimeMillis()-tb4));
     }
     
     private List getEntities(Class entityClass, int limit) {
         JpaContext jpaContext = this.getIdiscApp().getJpaContext();
-        BuilderForSelect<Feed> dao = jpaContext.getBuilderForSelect(entityClass);
+        Select<Feed> dao = jpaContext.getDaoForSelect(entityClass);
         List found = dao.getResultsAndClose(0, limit);
         return found;
     }

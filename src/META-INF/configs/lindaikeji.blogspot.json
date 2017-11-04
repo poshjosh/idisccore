@@ -1,8 +1,8 @@
 {
-    "captureUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/",
-    "captureUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/the-president-is-available.html",
-    "datePatterns":["EEEE',' MMMM dd',' yyyy","EEEE, MMMM dd, yyyy"],
-    "datePatterns_comment":"Example: Thursday, February 5, 2015",
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/the-president-is-available.html",
+    "datePatterns":["dd/MM/yyyy HH:mm a", "EEEE',' MMMM dd',' yyyy","EEEE, MMMM dd, yyyy"],
+    "datePatterns_comment":"Example: 30/09/2017 10:13 AM or Thursday, February 5, 2015",
     "defaultValues":{
         "author":"Linda Ikeji",
         "categories":"blog,entertainment"
@@ -12,70 +12,61 @@
     "targetNode0":{
         "append":false,
         "attributes":{
-            "class":"post-title entry-title",
-            "itemprop":"name"
+            "class":"title"
         },
-        "attributesRegex":{
-            "border":".+?",
-            "height":".+?",
-            "src":".+?",
-            "width":".+?"
-        },
-        "attributesToExtract":["src"],
-        "columns":["imageurl"],
-        "nodeTypesToAccept":["tag"],
-        "nodesToRetainAttributes":["IMG"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-body entry-content' id='${@regex(.+?)}' itemprop='description articleBody'>","<div class=\"separator\" style=\"${@regex(.+?)}\">","<A>","<IMG>"],
-        "value":"IMG"
+        "transverse":["<h1 class=\"title\">"],
+        "columns":["description","title"],
+        "value":"H1"
     },
     "targetNode1":{
+        "nodeTypesToAccept":["tag","text"],
         "append":false,
-        "attributes":{
-            "class":"post-title entry-title",
-            "itemprop":"name"
-        },
-        "columns":["title"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' id='Blog2'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='image_url'\/> <meta content='${@regex(.+?)}' itemprop='blogId'\/> <meta content='${@regex(.+?)}' itemprop='postId'\/> <A> <h3 class='post-title entry-title' itemprop='name'>"],
-        "value":"H3"
+        "transverse":["<div class=\"${@regex(.+?)} main_board\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"${@regex(.+?)}\">","<h1 class=\"title\"> <br \/> <summary class=\"description\" style=\"${@regex(.+?)}\"> <br \/> <p style=\"${@regex(.+?)}\"> <div class=\"text-center\"> <p>"],
+        "columns":["description"],
+        "value":"P"
     },
     "targetNode2":{
-        "append":true,
+        "append":false,
         "attributes":{
-            "class":"post-title entry-title",
-            "itemprop":"name"
+            "style":"word-wrap: break-word;",
+            "class":"big_story"
         },
-        "columns":["description"],
-        "nodeTypesToAccept":["text"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <A> <h3 class='post-title entry-title' itemprop='name'>"],
-        "value":"H3"
+        "transverse":["<div class=\"${@regex(.+?)} main_board\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"${@regex(.+?)}\">"],
+        "columns":["content"],
+        "value":"ARTICLE"
     },
     "targetNode3":{
         "append":false,
-        "attributesRegex":{
-            "id":"post-body-(.+?)"
+        "attributes":{
+            "class":"post_age"
         },
-        "columns":["content"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <meta content='${@regex(.+?)}' itemprop='${@regex(.+?)}'\/> <A> <h3 class='post-title entry-title' itemprop='name'> <div class='post-header'> <div class='post-body entry-content' id='post-body-${@regex(.+?)}' itemprop='description articleBody'>"],
+        "transverse":["<div class=\"${@regex(.+?)} main_board\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"${@regex(.+?)}\">","<div class=\"meta\">","<A> <div class=\"post_age\">"],
+        "columns":["author"],
         "value":"DIV"
     },
     "targetNode4":{
         "append":false,
         "attributes":{
-            "itemprop":"name"
+            "class":"post_age"
         },
-        "columns":["author"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<div class=\"date-posts\">","<div class='post-outer'>","<div class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http:\/\/schema.org\/BlogPosting'>","<div class='post-footer'>","<div class='${@regex(.+?)}'>","<span class='post-author vcard'>","<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http:\/\/schema.org\/Person'>","<A>","<span itemprop='name'>"],
-        "value":"SPAN"
+        "transverse":["<div class=\"${@regex(.+?)} main_board\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"${@regex(.+?)}\">","<div class=\"meta\">","<A> <div class=\"post_age\">"],
+        "columns":["feeddate"],
+        "value":"DIV"
     },
     "targetNode5":{
+        "nodeTypesToAccept":["tag"],
+        "nodesToRetainAttributes":["IMG"],
         "append":false,
-        "attributes":{
-            "class":"date-header"
-        },
-        "columns":["feeddate"],
-        "nodeTypesToAccept":["text"],
-        "transverse":["<div class='main section' id='main'>","<div class='widget Blog' data-version='${@regex(.+?)}' id='${@regex(.+?)}'>","<div class='blog-posts hfeed'>","<div class=\"date-outer\">","<h2 class='date-header'>"],
-        "value":"H2"
+        "attributesToExtract":["src"],
+        "transverse":["<div class=\"${@regex(.+?)} main_board\">","<div class=\"row\">","<div class=\"col-md-12\">","<p style=\"${@regex(.+?)}\">","<IMG>"],
+        "columns":["imageurl"],
+        "value":"IMG",
+        "attributesRegex":{
+            "src":".+?",
+            "alt":".*?",
+            "style":".+?",
+            "class":"img-responsive text-center"
+        }
     },
     "url":{
         "_note":"http:\/\/lindaikeji.blogspot.com\/ redirects to http:\/\/www.lindaikejisblog.com\/",

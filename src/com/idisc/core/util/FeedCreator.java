@@ -37,9 +37,9 @@ import org.htmlparser.tags.TitleTag;
 import org.htmlparser.util.NodeList;
 import com.bc.webdatex.extractor.date.DateExtractor;
 import com.bc.webdatex.extractor.TitleFromUrlExtractor;
-import com.bc.jpa.JpaMetaData;
+import com.bc.jpa.metadata.JpaMetaData;
 import com.bc.webdatex.extractor.TextParser;
-import com.bc.dom.HtmlPageDom;
+import com.bc.dom.HtmlDocument;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Aug 3, 2016 11:05:58 AM
@@ -113,7 +113,7 @@ xlog.log(level, "Date patterns: {0}", cls, datePatterns == null ? null : Arrays.
     return feeddate;
   }
   
-  public String getTitle(HtmlPageDom pageNodes) {
+  public String getTitle(HtmlDocument pageNodes) {
     String title = null;
     if(pageNodes.getTitle() != null) {
         TitleTag titleTag = pageNodes.getTitle();

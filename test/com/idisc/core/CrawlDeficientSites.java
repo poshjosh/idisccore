@@ -1,12 +1,9 @@
 package com.idisc.core;
 
-import com.bc.jpa.JpaContext;
-import com.idisc.core.web.NewsCrawler;
-import com.idisc.core.web.TestNewsCrawler;
+import com.bc.jpa.context.JpaContext;
+import com.idisc.core.extraction.web.WebFeedCrawler;
+import com.idisc.core.extraction.web.TestNewsCrawler;
 import com.idisc.pu.entities.Feed;
-import com.idisc.pu.entities.Feed_;
-import com.idisc.pu.entities.Site;
-import com.idisc.pu.entities.Site_;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -14,11 +11,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.persistence.TypedQuery;
 import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
-import com.bc.jpa.dao.BuilderForSelect;
 import com.bc.json.config.JsonConfig;
+import com.idisc.pu.FeedService;
 
 /**
  * @author Josh
@@ -68,12 +64,23 @@ public class CrawlDeficientSites extends IdiscTestBase {
 //            if(!accept) {
 //                continue;
 //            }
+
             
-            final boolean deficient = this.isDeficient(site);
             
-System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", deficient: "+deficient);
+            final boolean toBeUpdated;
+            final String key;
             
-            if(deficient) {
+            if(false) {
+                toBeUpdated = this.isDeficient(site);
+                key = "deficient";
+            }else{
+                toBeUpdated = this.isAged(site);
+                key = "aged";
+            }
+            
+System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", " + key + ':' + toBeUpdated);
+            
+            if(toBeUpdated) {
                 
                 Integer result = this.crawlsite(site, this.crawlLimit, this.parseLimit);
                 
@@ -94,37 +101,13 @@ System.out.println("==== = ==  === = = = = = = = =  Updated: "+result);
         return accept;
     }
     
-    public boolean isDeficient(String site) {
-        
-        JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
-        
-        final Integer siteId;
-        try(BuilderForSelect<Integer> qb = jpaContext.getBuilderForSelect(Site.class, Integer.class)) {
-            siteId = qb.select(Site.class, Site_.siteid.getName())
-            .where(Site_.site.getName(), site).createQuery().getSingleResult();
-        }catch(javax.persistence.NoResultException e) {
-            throw e;
-        }
-        
-        try(BuilderForSelect<Number> qb = jpaContext.getBuilderForSelect(Feed.class, Number.class)) {
-            TypedQuery<Number> tq = qb.count(Feed.class, Feed_.feedid.getName())
-              .where(Feed_.siteid.getName(), siteId)
-              .and().where(Feed_.datecreated.getName(), BuilderForSelect.GT, maxAge).createQuery();
-            Number count = tq.getSingleResult();
-//System.out.println("==== = ==  === = = = = = = = =  Site: "+site+", has "+count+" feeds younger than "+maxAgeHours+" hours ago");            
-            return count == null || count.intValue() < max;
-        }catch(javax.persistence.NoResultException e) {
-            return true;
-        }
-    }
-    
     public Integer crawlsite(String site, int crawlLimit, int parseLimit) {
         
         final JsonConfig config = this.getCapturerApp().getConfigFactory().getConfig(site);
         
         final FeedHandler feedHandler = new InsertFeedToDatabase(this.getIdiscApp().getJpaContext());
         
-        NewsCrawler crawler = new TestNewsCrawler(
+        WebFeedCrawler crawler = new TestNewsCrawler(
                 debug, config, timeout, timeoutUnit, 
                 maxFailsAllowed, feedHandler, resumable, resume);
         
@@ -134,5 +117,26 @@ System.out.println("==== = ==  === = = = = = = = =  Updated: "+result);
         
         return crawler.call();
     }
+
+    public boolean isDeficient(String site) {
+        
+        final JpaContext jpaContext = IdiscApp.getInstance().getJpaContext();
+        
+        final Integer count = new FeedService(jpaContext).getNumberOfFeedsAfter(site, maxAge);
+        
+        return count == null || count < max;
+    }
     
+    public boolean isAged(String site) {
+        
+        Feed mostRecent = new FeedService(this.getIdiscApp().getJpaContext()).getMostRecentForSite(site).orElse(null);
+        
+        if(mostRecent == null) {
+            return true;
+        }else{
+            Date feeddate = mostRecent.getFeeddate();
+System.out.println("==== = ==  === = = = = = = = =  For site: "+site+", most recent has feeddate: "+feeddate);            
+            return feeddate.before(maxAge);
+        }
+    }
 }

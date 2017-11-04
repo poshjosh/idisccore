@@ -1,6 +1,6 @@
 {
-    "captureUrlFilter_requiredRegex_comment":"For Example: \/post-the_president_is_available\/",
-    "captureUrlFilter_requiredRegex":"\/post-",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/post-the_president_is_available\/",
+    "scrappUrlFilter_requiredRegex":"\/post-",
     "datePatterns_comment":"Example: 22nd October 2015",
     "datePatterns":["dd'st' MMMM yyyy", "dd'nd' MMMM yyyy", "dd'rd' MMMM yyyy", "dd'th' MMMM yyyy"],
     "defaultValues":{ 
