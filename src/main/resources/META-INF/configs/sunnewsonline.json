@@ -1,0 +1,37 @@
+{
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/new\/the-president-has-arrived\/",
+    "scrappUrlFilter_requiredRegex":"\/.+?-.+?",
+    "datePatterns_comment":"Example: 2015-01-23T01:03:50+00:00",
+    "datePatterns":["yyyy-MM-dd'T'HH:mm:ss", "dd'st' MMMM yyyy", "d'st' MMMM yyyy", "dd'nd' MMMM yyyy", "d'nd' MMMM yyyy", "dd'rd' MMMM yyyy", "d'rd' MMMM yyyy", "dd'th' MMMM yyyy", "d'th' MMMM yyyy"],
+    "defaultValues":{ 
+        "author":"Sunnews Online",
+        "categories":"news,sunnews"
+    },
+    "selectorConfigList":[
+        {
+            "append":false,
+            "transverse":["<HTML>", "<BODY>", "<div class=\"${startsWith(post-content description)}\" itemprop=\"articleBody\""],
+            "ids":["content"]
+        },
+        {
+            "append":false,
+            "attributesToExtract":["datetime"],
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-wrap\">","<div class=\"main wrap cf\">","<div class=\"row\">","<div class=\"col-8 main-content\">","<article id=\"#matches(post-.+?)\" class=\"#matches(post-.+?)\" itemscope itemtype=\"http:\/\/schema.org\/Article\">","<div class=\"post-meta\">","<span class=\"posted-on\">","<span class=\"dtreviewed\">","<time class=\"value-datetime\" datetime=\"#matches(.+?)\" itemprop=\"datePublished\">"]
+        },
+        {
+            "append":false,
+            "attributesToExtract":["datetime"],
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-wrap\">","<div class=\"main wrap cf\">","<div class=\"row\">","<div class=\"col-8 main-content\">","<article id=\"#matches(post-.+?)\" class=\"#matches(post-.+?)\" itemscope itemtype=\"http:\/\/schema.org\/Article\">","<div class=\"post-meta\">","<span class=\"posted-on\">","<span class=\"dtreviewed\">","<time class=\"value-datetime\" datetime=\"#matches(.+?)\" itemprop=\"datePublished\">"]
+        }
+    ],
+    "url":{
+        "start":"http:\/\/sunnewsonline.com\/",
+        "start_breaking":"http:\/\/sunnewsonline.com\/new\/?cat=626",
+        "start_national":"http:\/\/sunnewsonline.com\/new\/?cat=3",
+        "value":"http:\/\/sunnewsonline.com"
+    }
+}

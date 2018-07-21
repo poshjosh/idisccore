@@ -28,3 +28,25 @@ Jun 17, 2016 7:36:29 PM com.scrapper.CapturerApp
 INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
 Jun 17, 2016 7:36:29 PM com.scrapper.CapturerApp 
 INFO: Initialization complete.
+Aug 16, 2016 8:08:34 PM com.scrapper.CapturerApp 
+INFO: configsDir = file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/
+Aug 16, 2016 8:08:34 PM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Aug 16, 2016 8:08:34 PM com.scrapper.CapturerApp 
+INFO: configsDir = file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/
+Aug 16, 2016 8:08:34 PM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Aug 16, 2016 8:08:34 PM com.scrapper.CapturerApp 
+INFO: Initialization complete.
+Jun 24, 2017 11:47:34 AM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Jun 24, 2017 11:47:34 AM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Jun 24, 2017 11:47:34 AM com.scrapper.CapturerApp 
+INFO: Initialization complete.
+Jul 20, 2017 12:02:55 AM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Jul 20, 2017 12:02:55 AM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Jul 20, 2017 12:02:55 AM com.scrapper.CapturerApp 
+INFO: Initialization complete.

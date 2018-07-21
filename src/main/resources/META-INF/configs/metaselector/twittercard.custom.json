@@ -1,0 +1,21 @@
+{
+    "!--WARNING":"DO NOT EDIT ANY OF THE KEYS they are reserved and used within the metaselector api",
+    "!--reservedWords":[
+        {"extends":"Indicates that this Object extends the specified object."},
+        {"include":"Indicates that te specified Object's properties be included in this Object's"}
+    ],
+    "!--notes":[
+        "To specify a regex attribute value, enclose the regex value in regex() e.g one or more digits = regex(\\d+?)",
+        "The value of 'extends' or 'include' may specify a URL or File. Use # to reference another javascript Object by name"
+    ],
+    "custom":{
+        "properties": {
+            "title":[{"name":"title"}],
+            "author":[{"name":"twitter:creator"}, {"name":"twitter:creator:id"}],
+            "publisher":[{"name":"twitter:site"}, {"name":"twitter:site:id"}],
+            "type":[{"name":"twitter:card"}],
+            "description":[{"name":"twitter:description"}],
+            "imageLinkSet":[{"name":"twitter:image"}]
+        }
+    }
+}

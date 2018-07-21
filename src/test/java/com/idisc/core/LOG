@@ -1,0 +1,32 @@
+Jul 21, 2018 2:11:41 PM com.idisc.core.extraction.web.WebFeedTask run
+FINE: WebFeedTask@307148861{context=ngrguardiannews
+crawler=com.bc.webcrawler.CrawlerImpl@1753607449{
+Time spent: 3660. URLs:: attempted: 1, failed: 0, remaining: 0
+}
+Scrapp attempted=1, scrapped=0, inserted into database=0}
+
+Jul 21, 2018 2:17:44 PM com.idisc.core.extraction.web.WebFeedTask run
+FINE: WebFeedTask@1186663391{context=dailytrust
+crawler=com.bc.webcrawler.CrawlerImpl@1444912530{
+Time spent: 362641. URLs:: attempted: 1, failed: 0, remaining: 9
+}
+Scrapp attempted=1, scrapped=0, inserted into database=0}
+
+Jul 21, 2018 2:17:48 PM com.idisc.core.extraction.web.WebFeedTask run
+FINE: WebFeedTask@1990419108{context=naij
+crawler=com.bc.webcrawler.CrawlerImpl@1641677843{
+Time spent: 3829. URLs:: attempted: 1, failed: 0, remaining: 0
+}
+Scrapp attempted=1, scrapped=0, inserted into database=0}
+
+Jul 21, 2018 2:17:49 PM com.idisc.core.extraction.web.WebFeedTask run
+FINE: WebFeedTask@1605299030{context=thisday
+crawler=com.bc.webcrawler.CrawlerImpl@1402400433{
+Time spent: 371859. URLs:: attempted: 1, failed: 0, remaining: 0
+}
+Scrapp attempted=1, scrapped=0, inserted into database=0}
+
+
+
+
+

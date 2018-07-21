@@ -1,0 +1,41 @@
+{
+    "scrappUrlFilter_requiredRegex":"\/\\w+?-",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/abc-party-wins-elections-in-nigeria\/",
+    "datePatterns":["MMMM dd, yyyy H:mm a","EEEE, dd MMMM yyyy HH:mm","EEEE, dd MMMM, yyyy HH:mm"],
+    "datePatterns_comment0":"Example: October 10, 2015 5:03 am",
+    "datePatterns_comment1":"Example: Saturday, 31 January 2015 04:23",
+    "defaultValues":{
+        "author":"Nigerian Guardian",
+        "categories":"news,nigeria"
+    },
+    "isTitleInUrl":true,
+    "selectorConfigList":[
+        {
+            "append":false,
+            "ids":["content"],
+            "transverse":["<HTML>","<head>","<div class=\"main-single\">","<div class=\"content-single\">","<div class=\"singlepage-title\"> <div class=\"meta_author\"> <div class=\"cotent-text\">"]
+        },
+        {
+            "append":false,
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<head>","<div class=\"main-single\">","<div class=\"content-single\">","<div class=\"singlepage-title\"> <div class=\"meta_author\">"]
+        },
+        {
+            "append":false,
+            "ids":["author"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<head>","<div class=\"main-single\">","<div class=\"content-single\">","<div class=\"singlepage-title\"> <div class=\"meta_author\">"]
+        },
+        {
+            "append":false,
+            "ids":["title"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<head>","<div class=\"main-single\">","<div class=\"content-single\">","<div class=\"singlepage-title\">"]
+        }
+    ],
+    "url":{
+        "start":"http:\/\/ngrguardiannews.com\/",
+        "value":"http:\/\/ngrguardiannews.com"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "append":false,
+    "datePatterns":["dd MMM yyyy"],
+    "defaultValues":{ 
+        "categories":"news",
+        "title":"News Minute - Get Informed!"
+    },
+    "imageUrl_requiredRegex":null,
+    "imageUrl_unwantedRegex":".cloudfront.",
+    "maxBreaktagsBetween":2,
+    "nodeTypesToAccept":["tag","text"],
+    "nodesToAccept":["A","APPLET","ARTICLE","BASE","BODY","COL","COLGROUP","UL","OL","LI","DL","DD","DT","DIV","FIELDSET","FORM","FONT","FRAMESET","FRAME","HEAD","H1","H2","H3","H4","H5","H6","HTML","INS","IMG","ISINDEX","KBD","LABEL","MAP","OBJECT","P","SPAN","STRONG","TBODY","TFOOT","TD","TH","THEAD","TR","TABLE","TEXTAREA","TITLE"],
+    "partSeparator":"<BR itemtype=\"extractorProperty\" propertyname=\"partSeparator\"\/>",
+    "replaceNonBreakingSpace":false,
+    "urlDatePatterns":["yyyy/MM/dd", "yyyy/MM", "dd/MM/yyyy", "MM/yyyy"]
+}

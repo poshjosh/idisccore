@@ -18,3 +18,9 @@ Jun 13, 2016 11:56:13 AM com.scrapper.CapturerApp
 INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
 Jun 13, 2016 11:56:13 AM com.scrapper.CapturerApp 
 INFO: Initialization complete.
+Jul 20, 2017 12:31:55 AM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Jul 20, 2017 12:31:55 AM com.scrapper.CapturerApp 
+INFO: Creating config factory:: Remote: false, configs dir: file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/META-INF/configs/, defaultFilename: default
+Jul 20, 2017 12:31:55 AM com.scrapper.CapturerApp 
+INFO: Initialization complete.

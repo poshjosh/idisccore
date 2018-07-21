@@ -1,0 +1,68 @@
+{
+  "append":false,
+  "datePatterns":["dd'st' MMMM yyyy","dd'nd' MMMM yyyy","dd'rd' MMMM yyyy","dd'th' MMMM yyyy"],
+  "datePatterns_comment":"Example: 22nd October 2015",
+  "defaultValues":{ },
+  "keys":{ },
+  "maxBreaktagsBetween":2,
+  "maxExpressions":20,
+  "maxFiltersPerKey":20,
+  "minDataToAccept":2,
+  "nodeTypesToAccept":["tag","text"],
+  "nodesToAccept":["A","APPLET","ARTICLE","BASE","BODY","COL","COLGROUP","UL","OL","LI","DL","DD","DT","DIV","FIELDSET","FORM","FONT","FRAMESET","FRAME","HEAD","H1","H2","H3","H4","H5","H6","HTML","INS","IMG","ISINDEX","KBD","LABEL","MAP","OBJECT","P","SPAN","STRONG","TBODY","TFOOT","TD","TH","THEAD","TR","TABLE","TEXTAREA","TITLE"],
+  "partSeparator":"<BR itemtype=\"extractorProperty\" propertyname=\"partSeparator\"\/>",
+  "replaceNonBreakingSpace":false,
+  "scrappUrlFilter_requiredRegex":"\/post-",
+  "scrappUrlFilter_requiredRegex_comment":"For Example: \/post-the_president_is_available\/",
+  "tables":["feed"],
+  "selectorConfigList":[
+    {
+      "append":false,
+      "ids":["title"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<h3 class=\"single_title\">"]
+    },
+    {
+      "append":false,
+      "attributesToExtract":["href"],
+      "ids":["author"],
+      "nodeTypesToAccept":["tag"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class=\"meta mb\">","<A>"]
+    },
+    {
+      "append":true,
+      "attributesToExtract":["href"],
+      "ids":["categories"],
+      "nodeTypesToAccept":["tag"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class=\"meta mb\">","<A>"]
+    },
+    {
+      "append":true,
+      "attributesToExtract":["href"],
+      "ids":["categories"],
+      "nodeTypesToAccept":["tag"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class=\"meta mb\">","<A> <A> <A class=\"a\" href=\"#matches(.+?)\">"]
+    },
+    {
+      "append":false,
+      "ids":["content"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<h3 class=\"single_title\"> <div class=\"right\"> <div class=\"meta mb\"> <div class=\"clear\"> <div class='main_image'> <div class=\"legible\">"]
+    },
+    {
+      "append":false,
+      "attributesToExtract":["src"],
+      "ids":["imageurl"],
+      "nodeTypesToAccept":["tag"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<div class='main_image'>","<IMG src=\"#matches(.+?)\">"]
+    },
+    {
+      "append":false,
+      "ids":["feeddate"],
+      "transverse":["<HTML>","<BODY>","<div id=\"layout\" class=\"boxed\">","<div class=\"page-content\">","<div class=\"row clearfix\">","<div class=\"grid_9 alpha\">","<div class=\"grid_11 alpha posts alt_links\">","<h3 class=\"single_title\"> <div class=\"right\"> <div class=\"meta mb\"> <div class=\"clear\"> <div class='main_image'> <div class=\"legible\"> <div class=\"align_right mini greytext\">"]
+    }
+  ],
+  "url":{
+    "start":"http:\/\/www.aitonline.tv\/",
+    "value":"http:\/\/www.aitonline.tv\/"
+  },
+  "urlDatePatterns":["yyyy\/MM\/dd","yyyy\/MM","dd\/MM\/yyyy","MM\/yyyy"]
+}

@@ -1,0 +1,18 @@
+https://jsoup.org/cookbook/extracting-data/selector-syntax
+
+["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">",
+"<div class=\"content-sidebar-wrap\">","<div class=\"entry-content\" itemprop=\"text\">","<p>","<A>","<IMG>"]
+
+div.site-container div.site-inner div.content-sidebar-wrap div[class=entry-content][itemprop=text] p a img
+
+
+a > b = direct child
+a b = child
+a + b = immediate sibling
+a ~ b = sibling
+[attr^=value], [attr$=value], [attr*=value]: elements with attributes that start with, end with, or contain the value
+[attr~=regex]: elements with attribute values that match the regular expression; e.g. img[src~=(?i)\.(png|jpe?g)]
+
+Multiple Attributes
+AND = div[width=100%][align=center]:contains(def) = <div width="100%" align="center">abcdefghij</div>
+OR = div[width=100%],table[align=center] = width=100% OR align=center

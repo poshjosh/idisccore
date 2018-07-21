@@ -1,0 +1,51 @@
+{
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/the-president-is-available.html",
+    "datePatterns":["dd/MM/yyyy HH:mm a", "EEEE',' MMMM dd',' yyyy","EEEE, MMMM dd, yyyy"],
+    "datePatterns_comment":"Example: 30/09/2017 10:13 AM or Thursday, February 5, 2015",
+    "defaultValues":{
+        "author":"Linda Ikeji",
+        "categories":"blog,entertainment"
+    },
+    "isTitleInUrl":true,
+    "selectorConfigList":[
+        {
+            "append":false,
+            "transverse":["<h1 class=\"title\">"],
+            "ids":["description","title"]
+        },
+        {
+            "nodeTypesToAccept":["tag","text"],
+            "append":false,
+            "transverse":["<div class=\"#matches(.+?main_board)\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"#matches(.+?)\">","<h1 class=\"title\"> <br \/> <summary class=\"description\" style=\"#matches(.+?)\"> <br \/> <p style=\"#matches(.+?)\"> <div class=\"text-center\"> <p>"],
+            "ids":["description"]
+        },
+        {
+            "append":false,
+            "transverse":["<div class=\"#matches(.+?main_board)\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"#matches(.+?)\">"],
+            "ids":["content"]
+        },
+        {
+            "append":false,
+            "transverse":["<div class=\"#matches(.+?main_board)\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"#matches(.+?)\">","<div class=\"meta\">","<A> <div class=\"post_age\">"],
+            "ids":["author"]
+        },
+        {
+            "append":false,
+            "transverse":["<div class=\"#matches(.+?main_board)\">","<div class=\"row\">","<div class=\"col-md-12\">","<article class=\"big_story\" style=\"#matches(.+?)\">","<div class=\"meta\">","<A> <div class=\"post_age\">"],
+            "ids":["feeddate"]
+        },
+        {
+            "nodeTypesToAccept":["tag"],
+            "append":false,
+            "attributesToExtract":["src"],
+            "transverse":["<div class=\"#matches(.+?main_board)\">","<div class=\"row\">","<div class=\"col-md-12\">","<p style=\"#matches(.+?)\">","<IMG src=\"#matches(.+?)\" alt=\"#matches(.+?)\" style=\"#matches(.+?)\" class=\"#matches(.+?)\">"],
+            "ids":["imageurl"]
+        }
+    ],
+    "url":{
+        "_note":"http:\/\/lindaikeji.blogspot.com\/ redirects to http:\/\/www.lindaikejisblog.com\/",
+        "start":"http:\/\/www.lindaikejisblog.com\/",
+        "value":"http:\/\/www.lindaikejisblog.com\/"
+    }
+}

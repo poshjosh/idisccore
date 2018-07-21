@@ -1,0 +1,46 @@
+{
+    "scrappUrlFilter_requiredRegex":"\/\\w+?-",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/abc-party-wins-elections-in-nigeria\/",
+    "datePatterns":["yyyy-MM-dd'T'HH:mm:ss","MMMM dd, yyyy"],
+    "datePatterns_comment":"Example: 2015-01-09T22:15:18+00:00, OR: October 10, 2015",
+    "selectorConfigList":[
+        {
+            "append":false,
+            "ids":["content"],
+            "transverse":["<HTML>","<BODY>","<div id=\"wrap\">","<div id=\"inner\">","<div id=\"content-sidebar-wrap\">","<div id=\"content\" class=\"hfeed\">","<div class=\"#matches(.+?)\">","<h1 class=\"entry-title\"> <div class=\"post-info\"> <span class='st_facebook_buttons' st_title='#matches(.+?)' st_url='#matches(.+?)' displayText='share'> <span class='st_twitter_buttons' st_title='#matches(.+?)' st_url='#matches(.+?)' displayText='share'> <span class='st_email_buttons' st_title='#matches(.+?)' st_url='#matches(.+?)' displayText='share'> <span class='st_fblike_buttons' st_title='#matches(.+?)' st_url='#matches(.+?)' displayText='share'> <span class='st_plusone_buttons' st_title='#matches(.+?)' st_url='#matches(.+?)' displayText='plusone'> <p style=\"#matches(.+?)\" id=\"print-page-link\"> <br \/> <br \/> <div class=\"entry-content\">"]
+        },
+        {
+            "append":false,
+            "attributesToExtract":["title"],
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<HTML>","<BODY>","<div id=\"wrap\">","<div id=\"inner\">","<div id=\"content-sidebar-wrap\">","<div id=\"content\" class=\"hfeed\">","<div class=\"#matches(.+?)\">","<div class=\"post-info\">","<span class=\"date published time\" title=\"#matches(.+?)\">"]
+        },
+        {
+            "append":false,
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<BODY>","<div id=\"wrap\">","<div id=\"inner\">","<div id=\"content-sidebar-wrap\">","<div id=\"content\" class=\"hfeed\">","<div class=\"#matches(.+?)\">","<div class=\"post-info\">","<span class=\"date published time\" title=\"#matches(.+?)\">"]
+        },
+        {
+            "append":false,
+            "ids":["author"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<BODY>","<div id=\"wrap\">","<div id=\"inner\">","<div id=\"content-sidebar-wrap\">","<div id=\"content\" class=\"hfeed\">","<div class=\"#matches(.+?)\">","<div class=\"post-info\">","<span class=\"date published time\" title=\"#matches(.+?)\">"]
+        },
+        {
+            "append":false,
+            "ids":["title"],
+            "transverse":["<HTML>","<BODY>","<div id=\"wrap\">","<div id=\"inner\">","<div id=\"content-sidebar-wrap\">","<div id=\"content\" class=\"hfeed\">","<div class=\"#matches(.+?)\">","<h1 class=\"entry-title\">"]
+        },
+        {
+            "append":false,
+            "ids":["content"],
+            "transverse":["<HTML>","<BODY>","<div id=\"wrap\">","<div id=\"inner\">","<div id=\"content-sidebar-wrap\">","<div class=\"breadcrumb\"> <div id=\"content\" class=\"hfeed\">"]
+        }
+    ],
+    "url":{
+        "start":"http:\/\/www.punchng.com\/",
+        "value":"http:\/\/www.punchng.com\/"
+    }
+}

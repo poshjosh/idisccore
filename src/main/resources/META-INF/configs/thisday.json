@@ -1,0 +1,41 @@
+{
+    "scrappUrlFilter_required":["\/index.php\/"],
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}",
+    "datePatterns":["MMM dd, yyyy", "dd MMM yyyy","dd-MM-yyyy"],
+    "datePatterns_comment":"Example: Jan 07, 2015",
+    "selectorConfigList":[
+        {
+            "append":false,
+            "ids":["content"],
+            "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_container\">","<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">"]
+        },
+        {
+            "append":false,
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_container\">","<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">","<div id=\"page_content_Content9_oModuleContent_2_div_InfoAlt\" class=\"info-top\">","<div id=\"page_content_Content9_oModuleContent_2_div_InfoAltLeft\" class=\"info-top-left\">","<p class=\"date\">"]
+        },
+        {
+            "append":false,
+            "ids":["title"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_container\">","<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">","<h2 id=\"page_content_Content9_oModuleContent_2_h2_TitleAlt\">"]
+        },
+        {
+            "append":false,
+            "ids":["feeddate"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<HTML>","<BODY>","<FORM>","<div id=\"page_content_Content9_oModuleContent_2_latestnews_div_Container\" class=\"module-content moduletitle-latest-news\">","<div id=\"page_content_Content9_oModuleContent_2_latestnews_pnlList\" class=\"list article\">","<ul id=\"page_content_Content9_oModuleContent_2_latestnews_ul_Contents\">","<li class=\"index-0\">","<div class=\"info\">","<p class=\"date\">"]
+        },
+        {
+            "append":false,
+            "ids":["author"],
+            "nodeTypesToAccept":["text"],
+            "transverse":["<div id=\"body_container\">","<div id=\"page_content_container\">","<div id=\"page_content_Content9\" class=\"onecol\">","<div class=\"layout-spacer\">","<div id=\"page_content_Content9_oModuleContent_2_div_Container\" class=\"module-content\">","<div id=\"page_content_Content9_oModuleContent_2_pnlDetail\" class=\"detail article\">","<div class=\"main-content-panel\">","<div id=\"page_content_Content9_oModuleContent_2_div_Body\" class=\"body\">","<p style=\"text-align: justify;\"> <p style=\"text-align: justify;\"> <p style=\"text-align: justify;\">"]
+        }
+    ],
+    "url":{
+        "start":"http:\/\/www.thisdaylive.com\/",
+        "value":"http:\/\/www.thisdaylive.com"
+    }
+}

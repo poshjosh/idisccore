@@ -1,0 +1,24 @@
+{
+    "!--WARNING":"DO NOT EDIT ANY OF THE KEYS they are reserved and used within the metaselector api",
+    "!--reservedWords":[
+        {"extends":"Indicates that this Object extends the specified object."},
+        {"include":"Indicates that te specified Object's properties be included in this Object's"}
+    ],
+    "!--notes":[
+        "To specify a regex attribute value, enclose the regex value in regex() e.g one or more digits = regex(\\d+?)",
+        "The value of 'extends' or 'include' may specify a URL or File. Use # to reference another javascript Object by name"
+    ],
+    "CreativeWork":{
+        "extends":"META-INF/bcmetaselector/configs/schema.Thing.json",
+        "properties":{
+            "title":[{"itemprop":"headline"}, {"itemprop":"name"}],
+            "imageLinkSet":[{"itemprop":"image"}, {"itemprop":"thumbnailUrl"}],
+            "dateCreated":[{"itemprop":"dateCreated"}],
+            "datePublished":[{"itemprop":"datePublished"}],
+            "dateModified":[{"itemprop":"dateModified"}],
+            "keywords":[{"itemprop":"keywords"}],
+            "author":[{"itemprop":"author"}, {"itemprop":"creator"}],
+            "publisher":[{"itemprop":"publisher"}, {"itemprop":"sourceOrganization"}, {"itemprop":"producer"}]
+        }
+    }
+}

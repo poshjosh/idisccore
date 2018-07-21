@@ -1,0 +1,73 @@
+{
+    "scrappUrlFilter_requiredRegex":"\/article\/.+?-\\d{5,}",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/article\/the-president-is-available-32109",
+    "datePatterns":["MMMM dd, yyyy"],
+    "datePatterns_comment":"Example: September 24, 2016",
+    "defaultValues":{
+        "author":"The News Minute",
+        "categories":"news"
+    },
+    "imageUrl_unwantedRegex":".cloudfront.|\/default\/files\/logo_0|\/newsminute\/img\/search_2|\/newsminute\/img\/fb_2",
+    "selectorConfigList":[
+        {
+            "append":false,
+            "ids":["title"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"article-detail\">","<div class=\"page-title\">"]
+        },
+        {
+            "append":true,
+            "ids":["description"],
+            "nodeTypesToAccept":["tag","text"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"article-detail\">","<div class=\"page-title\"> <div class=\"views-field views-field-field-blurb-news\">"]
+        },
+        {
+            "append":false,
+            "ids":["feeddate"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"article-detail\">","<div id=\"#matches(node-.+?)\" class=\"node node-news clearfix\" about=\"#matches(article.+?)\" typeof=\"#matches(.+?)\">","<div class = \"createddate\">"]
+        },
+        {
+            "append":false,
+            "ids":["author"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"article-detail\">","<div id=\"#matches(node-.+?)\" class=\"node node-news clearfix\" about=\"#matches(article.+?)\" typeof=\"#matches(.+?)\">","<div class=\"body-content\">","<p>","<strong>"]
+        },
+        {
+            "append":false,
+            "ids":["content"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"article-detail\">","<div id=\"#matches(node-.+?)\" class=\"node node-news clearfix\" about=\"#matches(article.+?)\" typeof=\"#matches(.+?)\">","<div class = \"createddate\"> <div class = \"author-follow\"> <div class = \"createddate\"> <div class=\"main-image\"> <div class=\"share-links-wrapper\"> <div class=\"body-content\">"]
+        },
+        {
+            "append":false,
+            "attributes":{
+                "class":"region region-content"
+            },
+            "ids":["content"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">"],
+            "tagName":"DIV"
+        },
+        {
+            "append":false,
+            "attributesRegex":{
+                "src":".+?"
+            },
+            "attributesToExtract":["src"],
+            "ids":["imageurl"],
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"#matches(view view-single-article-page.+?)\">","<div class=\"view-content\">","<div class=\"views-row views-row-1\">","<div class=\"#matches(views-field views-field-php-\\d{1})\">","<span class=\"field-content singe-article-image\">","<div class=\"single-article-page-image\">","<IMG>"],
+            "transverse_original":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"view view-single-article-page view-id-single_article_page view-display-id-block_1 view-dom-id-747be2a2056b4b4915a111938567b24b\">","<div class=\"view-content\">","<div class=\"views-row views-row-1\">","<div class=\"views-field views-field-php-4\">","<span class=\"field-content singe-article-image\">","<div class=\"single-article-page-image\">","<IMG>"]
+        },
+        {
+            "append":false,
+            "attributesRegex":{
+                "src":".+?"
+            },
+            "attributesToExtract":["src"],
+            "ids":["imageurl"],
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<HTML>","<BODY>","<div class=\"main-block-content header-top-space\">","<div class=\"container\">","<div class=\"region region-content\">","<div class=\"article-detail\">","<div id=\"#matches(node-.+?)\" class=\"node node-news clearfix\" about=\"#matches(article.+?)\" typeof=\"#matches(.+?)\">","<div class=\"main-image\">","<IMG>"]
+        }
+    ],
+    "url":{
+        "start":"http:\/\/www.thenewsminute.com\/",
+        "value":"http:\/\/www.thenewsminute.com\/"
+    }
+}

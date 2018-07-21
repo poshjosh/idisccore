@@ -1,0 +1,53 @@
+{
+    "scrappUrlFilter_requiredRegex":"\/.+?\/\\d{4,}",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: http:\/\/www.dailytrust.com.ng\/arms-deal-judge-orders-agf-to-produce-dasuki\/129904.html",
+    "datePatterns":["MMM dd yyyy h:mma"],
+    "datePatterns_comment":"Example: Jan 20 2016 1:38PM",
+    "defaultValues":{
+        "author":"Daily Trust",
+        "categories":"news"
+    },
+    "isTitleInUrl":false,
+    "selectorConfigList":[
+        {
+            "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"#matches(.+?)\" class=\"fleft\">","<span class=\"fullstory\">"],
+            "append":false,
+            "ids":["content"]
+        },
+        {
+            "nodeTypesToAccept":["text"],
+            "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"#matches(.+?)\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <div class=\"#matches(.+?)\"> <h1>"],
+            "append":false,
+            "ids":["title"]
+        },
+        {
+            "nodeTypesToAccept":["text"],
+            "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"#matches(.+?)\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <div class=\"#matches(.+?)\"> <h1> <span class=\"fleft storydate\">"],
+            "append":false,
+            "ids":["author"]
+        },
+        {
+            "nodeTypesToAccept":["text"],
+            "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"#matches(.+?)\" class=\"story\">","<div class=\"cathead\"> <span class=\"deck\"> <div class=\"#matches(.+?)\"> <h1> <span class=\"fleft storydate\">"],
+            "append":false,
+            "ids":["feeddate"]
+        },
+        {
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"#matches(.+?)\" class=\"story\">","<span class=\"fleft storypic\">","<div style=\"#matches(.+?)\">","<IMG title=\"#matches(.+?)\" alt=\"#matches(.+?)\" src=\"#matches(.+?)\">"],
+            "append":false,
+            "ids":["imageurl"],
+            "attributesToExtract":["src"]
+        },
+        {
+            "nodeTypesToAccept":["text"],
+            "transverse":["<div id=\"wrapper\">","<div class=\"container\">","<div class=\"full-width\">","<div class=\"left-sidebar\">","<div id=\"#matches(.+?)\" class=\"fleft\">","<span class=\"fullstory\">","<p style=\"#matches(.+?)\">"],
+            "append":true,
+            "ids":["description"]
+        }
+    ],
+    "url":{
+        "start":"http:\/\/www.dailytrust.com.ng",
+        "value":"http:\/\/www.dailytrust.com.ng"
+    }
+}

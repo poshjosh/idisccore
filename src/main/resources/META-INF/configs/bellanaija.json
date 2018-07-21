@@ -1,0 +1,47 @@
+{
+    "datePatterns":["yyyy-MM-dd'T'HH:mm:ss","dd.MM.yyyy"],
+    "datePatterns_comment0":"Example: 2016-03-15T15:22:48+0100",
+    "datePatterns_comment1":"Example: 15.06.2015",
+    "defaultValues":{
+        "author":"Bella Naija",
+        "categories":"blog,entertainment,news,events,music,movies,tv,style,careers,relationships"
+    },
+    "imageUrl_unwantedRegex":".cloudfront.|\/bn-favourites\/img\/heart.png|BellaNaija.com_avatar_",
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/the-president-is-available\/",
+    "selectorConfigList":[
+        {
+            "append":false,
+            "attributesToExtract":["src"],
+            "ids":["imageurl"],
+            "nodeTypesToAccept":["tag"],
+            "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<div class=\"entry-content\" itemprop=\"text\">","<p>","<A>","<IMG alt=\"#matches(.+?)\" class=\"#matches(.+?)\" height=\"#matches(.+?)\" src=\"#matches(.+?)\" src-large=\"#matches(.+?)\" src-medium=\"#matches(.+?)\" src-thumbnail=\"#matches(.+?)\" title=\"#matches(.+?)\" width=\"#matches(.+?)\">"]
+        },
+        {
+            "append":false,
+            "ids":["feeddate"],
+            "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"#matches(.+?)\" itemscope itemtype=\"#matches(.+?)\">", "<p class=\"entry-meta\">", "<span class=\"#matches(.+?)\" title=\"#matches(.+?)\">"]   
+        },
+        {
+            "append":false,
+            "ids":["author"],
+            "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"#matches(.+?)\" itemscope itemtype=\"#matches(.+?)\">", "<p class=\"entry-meta\">", "<span class=\"#matches(.+?)\" itemprop=\"author\" itemscope itemtype=\"#matches(.+?)\">", "<A>", "<span class=\"#matches(.+?)\" itemprop=\"name\">"]
+        },
+        {
+            "append":false,
+            "ids":["imageurl"],
+            "nodeTypesToAccept":["tag"],
+            "attributesToExtract":["src", "src-medium"],
+            "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"#matches(.+?)\" itemscope itemtype=\"#matches(.+?)\">", "<div class=\"entry-content\" itemprop=\"text\">", "<p>", "<IMG src-large=\"#matches(.+?)\" src=\"#matches(.+?)\" alt=\"#matches(.+?)\" width=\"#matches(.+?)\" src-thumbnail=\"#matches(.+?)\" src-medium=\"#matches(.+?)\" title=\"#matches(.+?)\" class=\"#matches(.+?)\" height=\"#matches(.+?)\">"]
+        },
+        {
+            "append":false,
+            "ids":["content"],
+            "transverse":["<HTML>","<BODY>","<div class=\"site-container\">","<div class=\"site-inner\">","<div class=\"content-sidebar-wrap\">","<article class=\"#matches(.+?)\" itemscope itemtype=\"#matches(.+?)\">", "<header class=\"#matches(.+?)\"> <h1 class=\"#matches(.+?)\" itemprop=\"headline\"> <p class=\"#matches(.+?)\"> <div class=\"#matches(.+?)\" itemprop=\"text\">"]
+        }
+    ],
+    "url":{
+        "start":"https:\/\/www.bellanaija.com\/",
+        "value":"https:\/\/www.bellanaija.com"
+    }
+}

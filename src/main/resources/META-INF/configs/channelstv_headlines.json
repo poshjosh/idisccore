@@ -1,0 +1,62 @@
+{
+    "datePatterns":["MMMM dd, yyyy"],
+    "datePatterns_comment":"Example: October 21, 2015",
+    "defaultValues":{
+        "categories":"headlines,news"
+    },
+    "scrappUrlFilter_requiredRegex":"\/\\d{4}\/\\d{1,2}\/\\d{1,2}\/",
+    "scrappUrlFilter_requiredRegex_comment":"For Example: \/2015\/02\/23\/the-president-is-available\/",
+    "selectorConfigList":[
+        {
+            "ids":["feeddate"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"post-attribute\">","<div class=\"row\">","<div class=\"col-sm-6 col-md-8 col-lg-5\">","<div class=\"post-attrib\">","<div class=\"post-attribute-author\">","<strong> <span>"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"post-attribute\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"post-attribute-author\">","<strong> <span>"],
+            "append":false,
+            "nodeTypesToAccept":["text"]
+        },
+        {
+            "ids":["feeddate"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"post-attribute\">","<div class=\"row\">","<div class=\"col-sm-6 col-md-8 col-lg-5\">","<div class=\"post-attrib\">","<div class=\"post-attribute-author\">"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"post-attribute\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"post-attribute-author\">"],
+            "append":false,
+            "nodeTypesToAccept":["text"]
+        },
+        {
+            "ids":["author"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"post-attribute\">","<div class=\"row\">","<div class=\"col-sm-6 col-md-8 col-lg-5\">","<div class=\"post-attrib\">","<div class=\"post-attribute-author\">","<strong>"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"post-attribute\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"post-attribute-author\">","<strong>"],
+            "append":false
+        },
+        {
+            "ids":["imageurl"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div id=\"africa\" class=\"pnl-section\">","<div class=\"panel-group inner\">","<div class=\"col-xs-12 col-sm-12 col-md-7 col-lg-7\">","<div class=\"row\">","<div class=\"col-lg-12\">","<figure id=\"attachment_278207\" style=\"max-width: 650px\" class=\"wp-caption alignnone\"> <IMG>"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div id=\"#matches(.+?)\" class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<figure id=\"#matches(.+?)\" style=\"#matches(.+?)\" class=\"#matches(.+?)\"> <IMG sizes=\"#matches(.+?)\" src=\"#matches(.+?)\" data-lazy-srcset=\"#matches(.+?)\" alt=\"#matches(.+?)\" width=\"#matches(.+?)\" data-lazy-src=\"#matches(.+?)\" class=\"#matches(.+?)\" height=\"#matches(.+?)\">"],
+            "nodeTypesToAccept":["tag"],
+            "attributesToExtract":["data-lazy-src"],
+            "append":false
+        },
+        {
+            "ids":["description"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div id=\"africa\" class=\"pnl-section\">","<div class=\"panel-group inner\">","<div class=\"col-xs-12 col-sm-12 col-md-7 col-lg-7\">","<div class=\"row\">","<div class=\"col-lg-12\">","<p>","<strong>"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div id=\"#matches(.+?)\" class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<p>","<strong>"],
+            "nodeTypesToAccept":["tag","text"],
+            "append":true
+        },
+        {
+            "ids":["content"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div id=\"africa\" class=\"pnl-section\">","<div class=\"panel-group inner\">","<div class=\"col-xs-12 col-sm-12 col-md-7 col-lg-7\">","<div class=\"row\">","<div class=\"col-lg-12\">"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div id=\"#matches(.+?)\" class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<div class=\"col-lg-12\">"],
+            "append":false
+        },
+        {
+            "ids":["title"],
+            "transverse_raw":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"panel-group\">","<div class=\"row\">","<h2 class=\"pg-headline\" itemprop=\"headline name\">"],
+            "transverse":["<HTML>","<BODY>","<div role=\"main\">","<div class=\"grid_panel\">","<div class=\"container-wrapper\">","<div class=\"container\">","<div class=\"#matches(.+?)\">","<div class=\"#matches(.+?)\">","<h2 class=\"#matches(.+?)\" itemprop=\"headline name\">"],
+            "append":false
+        }
+    ],
+    "url":{
+        "start":"http:\/\/www.channelstv.com\/category\/headlines\/",
+        "value":"http:\/\/www.channelstv.com\/"
+    }
+}
