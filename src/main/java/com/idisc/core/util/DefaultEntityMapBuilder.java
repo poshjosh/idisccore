@@ -23,14 +23,18 @@ import com.idisc.pu.entities.Feeduser;
 import com.idisc.pu.entities.Installation_;
 import com.idisc.pu.entities.Sitetype;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 3:43:20 AM
  */
 public class DefaultEntityMapBuilder extends MapBuilderForEntity {
+
+    private transient static final Logger LOG = Logger.getLogger(DefaultEntityMapBuilder.class.getName());
 
     public DefaultEntityMapBuilder() {
             this.methodFilter(MapBuilder.MethodFilter.ACCEPT_ALL)
@@ -47,14 +51,32 @@ public class DefaultEntityMapBuilder extends MapBuilderForEntity {
         
         if(srcType == Feeduser.class) {
             
-            Map installationMap = (Map)tgt.get(Installation_.installationid.getName());
+            final String name = Installation_.installationid.getName();
             
-            if(installationMap != null) {
+            final Object installation = tgt.get(name);
+            
+            if(installation != null) {
                 
-                tgt.putAll(installationMap);
+                final Map map = this.toMap(name, installation, Number.class, Collections.EMPTY_MAP);
+                
+                tgt.putAll(map);
             }
         }
         
         return tgt;
+    }
+    
+    public Map toMap(String name, Object value, Class idType, Map outputIfNone) {
+        final Map map;
+        if(value instanceof Map) {
+            map = (Map)value;
+        }else if(idType.isAssignableFrom(value.getClass())){
+            map = Collections.singletonMap(name, value);
+        }else{
+            map = outputIfNone;
+            LOG.warning(() -> "Expected: java.util.Map or "+idType.getName()+", found: " + 
+                    value.getClass().getName() + ' ' + value);
+        }
+        return map;
     }
 }

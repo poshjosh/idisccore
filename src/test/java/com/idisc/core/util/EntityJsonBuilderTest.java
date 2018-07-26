@@ -16,6 +16,8 @@
 package com.idisc.core.util;
 
 import com.bc.jpa.context.JpaContext;
+import com.bc.util.StringEscapeUtils;
+import com.bc.util.Util;
 import com.idisc.core.IdiscTestBase;
 import com.idisc.pu.entities.Bookmarkfeed;
 import com.idisc.pu.entities.Comment;
@@ -36,6 +38,8 @@ import org.junit.Test;
  */
 public class EntityJsonBuilderTest  extends IdiscTestBase {
     
+    private final boolean unescapeHtml = true;
+    
     public EntityJsonBuilderTest(){ }
 
     /**
@@ -45,7 +49,19 @@ public class EntityJsonBuilderTest  extends IdiscTestBase {
     @Test
     public void testAppendJSONString() throws IOException {
 
-        this.appendJsonString(Feed.class, "feeds", 3);
+        final long tb4 = System.currentTimeMillis();
+        final long mb4 = Util.availableMemory();
+        
+        this.appendJsonString(Feed.class, "feeds", 50);
+        
+        System.out.println("Done. Consumed. Memory: " + Util.usedMemory(mb4) +
+                ", time: " + (System.currentTimeMillis() - tb4));
+//Done. Consumed. Memory: 27467048, time: 310421 - unescapeHtml = false   
+//Done. Consumed. Memory: 62002312, time: 267039 - unescapeHtml = true
+        if(true) {
+            return;
+        }
+        
         this.appendJsonString(Comment.class, "comments", 3);
         this.appendJsonString(Feeduser.class, "feedusers", 3);
         this.appendJsonString(Installation.class, "installs", 3);
@@ -59,7 +75,7 @@ public class EntityJsonBuilderTest  extends IdiscTestBase {
         
         System.out.println("appendJSONString");
         
-        final JpaContext jpaContext = this.getIdiscApp().getJpaContext();
+        final JpaContext jpaContext = this.createJpaContext();
         
         final String idColumn = jpaContext.getMetaData().getIdColumnName(entityType);
         
@@ -71,10 +87,18 @@ System.out.println(key + ":\n"+found);
         
         final StringBuilder appendTo = new StringBuilder();
         
-        final EntityJsonBuilder instance = new EntityJsonBuilder(true, false,  20);
+        final EntityJsonBuilder instance = new EntityJsonBuilder(true, false,  20){
+            @Override
+            public void escape(CharSequence s, Appendable appendTo) throws IOException {
+                if(unescapeHtml) {
+                    s = StringEscapeUtils.unescapeHtml(s.toString());
+                }
+                super.escape(s, appendTo);
+            }
+        };
         
         instance.appendJSONString(toAppend, appendTo);
         
-System.out.println(key + " Json:\n"+appendTo);        
+System.out.println(appendTo);        
     }
 }

@@ -134,9 +134,9 @@ System.out.println();
 log(cls, "Site: " + site + ", key: " + key + ", columns: " + 
         Arrays.toString(this.getNodeExtractorConfig(site).getColumns(key)));        
         
-        final Path<String> transverse = this.getNodeExtractorConfig(site).getTransverse(key);
+        final Path<String> transverse = this.getNodeExtractorConfig(site).getPath(key);
 //this.log(this.getClass(), "Path: " + transverse);        
-        final List<String> pathFlattened = this.getNodeExtractorConfig(site).getPathFlattened(key);
+        final List<String> pathFlattened = this.getNodeExtractorConfig(site).getPathFlattened(key).toList();
         
         final NodeLocator nodeLocator = this.getNodeLocator(key, pathFlattened, "", false);
         

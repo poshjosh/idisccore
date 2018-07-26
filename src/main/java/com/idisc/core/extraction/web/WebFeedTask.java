@@ -100,7 +100,7 @@ public class WebFeedTask implements Runnable {
             this.saved = 0;
 
             final Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_YEAR, -2);
+            cal.add(Calendar.DAY_OF_YEAR, -7);
             
             final Date daysAgo = cal.getTime();
 
@@ -144,7 +144,7 @@ public class WebFeedTask implements Runnable {
                 ++scrapped;
                 
                 if(date.before(daysAgo)) {
-                    LOG.fine(() -> "Contains expired data, doc: {0}" + doc + 
+                    LOG.finer(() -> "Contains expired data, doc: {0}" + doc + 
                             "\nFeed: " + feedCreator.toString(feed));
                     continue;
                 }
@@ -165,7 +165,7 @@ public class WebFeedTask implements Runnable {
         }catch(RuntimeException e) {
             LOG.log(Level.WARNING, "Unexpected Runtime Exception", e);
         }finally{
-            LOG.fine(() -> this.toString());
+            LOG.fine(() -> "DONE:: " + this.toString());
         }
     }
 
