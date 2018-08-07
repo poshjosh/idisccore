@@ -16,45 +16,35 @@
 package com.idisc.core.extraction.web;
 
 import com.bc.jpa.context.JpaContext;
-import com.bc.jpa.fk.EnumReferences;
-import com.bc.meta.Metadata;
-import com.bc.nodelocator.ConfigName;
 import com.bc.util.Util;
-import com.bc.webdatex.context.CapturerContext;
-import com.bc.webdatex.nodefilters.ImageNodeFilter;
 import com.idisc.core.ExtractionTestBase;
 import com.idisc.core.SiteNames;
-import com.idisc.pu.References;
-import com.idisc.pu.SiteDao;
 import com.idisc.pu.entities.Feed;
-import com.idisc.pu.entities.Site;
-import com.idisc.pu.entities.Sitetype;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.htmlparser.NodeFilter;
 import org.htmlparser.dom.HtmlDocument;
 import org.junit.Test;
-import com.bc.webdatex.context.CapturerContextFactory;
+import com.bc.webdatex.context.ExtractionContext;
+import com.idisc.core.extraction.FeedCreationContext;
+import com.bc.webdatex.context.ExtractionContextFactory;
+import com.idisc.core.extraction.ScrapContext;
 
 /**
  * @author Josh
  */
 public class WebFeedCreatorTest extends ExtractionTestBase {
     
-    private static CapturerContextFactory contextFactory;
+    private static ExtractionContextFactory contextFactory;
     private static JpaContext jpa;
     private static float tolerance;
-    private static Sitetype sitetype;
 
     public WebFeedCreatorTest() {  
         if(contextFactory == null) {
             try{
-                contextFactory = this.getContextFactory();
+                contextFactory = this.getExtractionContextFactory();
                 jpa = this.createJpaContext();
                 tolerance = 0.0f;
-                final EnumReferences refs = jpa.getEnumReferences();
-                sitetype = ((Sitetype)refs.getEntity(References.sitetype.web));
             }catch(IOException e) {
                 throw new RuntimeException(e);
             }
@@ -76,7 +66,7 @@ public class WebFeedCreatorTest extends ExtractionTestBase {
      * Test of updateFeed method, of class WebFeedCreator.
      */
 //    @Test
-    public void testUpdateFeed_4args() {
+    public void testUpdateFeed() {
         this.testUpdateFeed(
                 SiteNames.AITONLINE_NEWS, SiteNames.THISDAY, SiteNames.NGRGUARDIANNEWS, 
                 SiteNames.DAILY_TRUST, SiteNames.NAIJ, SiteNames.PUNCH_NG);
@@ -85,21 +75,27 @@ public class WebFeedCreatorTest extends ExtractionTestBase {
     
     public void testCreateFeed(String... sites) {
         for(String site : sites) {
+            Runtime.getRuntime().gc();
+            try{ Thread.sleep(2000); }catch(InterruptedException e) { e.printStackTrace(); }
             this.test(site, "createFeed");
         }
     }
     
     public void testUpdateFeed(String... sites) {
         for(String site : sites) {
+            Runtime.getRuntime().gc();
+            try{ Thread.sleep(2000); }catch(InterruptedException e) { e.printStackTrace(); }
             this.test(site, "updateFeed");
         }
     }
     
     public void test(String site, String type) {
-        System.out.println(type);
-        Runtime.getRuntime().gc();
-        try{ Thread.sleep(2000); }catch(InterruptedException e) { e.printStackTrace(); }
         final String [] urls = this.getUrls(site, new String[0]);
+        this.test(site, type, urls);
+    }
+    
+    public void test(String site, String type, String [] urls) {
+        System.out.println(type);
         final long tb4 = System.currentTimeMillis();
         final long mb4 = Util.availableMemory();
         final List<Feed> feeds = new ArrayList();
@@ -134,20 +130,15 @@ public class WebFeedCreatorTest extends ExtractionTestBase {
                 ", consumed. time: " + (System.currentTimeMillis()-tb4) +
                 ", memory: " + Util.usedMemory(mb4));
         
-        feeds.forEach((feed) -> System.out.println(instance.toString(feed)));
+        
+        feeds.forEach((feed) -> System.out.println(instance.getContext().toString(feed)));
     }
 
     public WebFeedCreator getInstance(String siteName) {
-        final Site site = new SiteDao(jpa).from(siteName, sitetype, false);
-        final CapturerContext context = contextFactory.getContext(siteName);
-        final String baseUrl = context.getConfig().getString(ConfigName.url, "value");
-        final NodeFilter nodeFilter = new ImageNodeFilter(baseUrl);
-        return new WebFeedCreator(contextFactory.getContext(siteName), 
-                jpa, site, nodeFilter, tolerance){
-            @Override
-            public boolean hasEnoughData(Metadata metadata) {
-                return super.hasEnoughData(metadata);
-            }
-        };
+        final ExtractionContext extractionContext = contextFactory.getContext(siteName);
+        final FeedCreationContext creationContext = FeedCreationContext.builder()
+                .with(jpa, ScrapContext.TYPE_WEB, extractionContext.getExtractionConfig())
+                .build();
+        return new WebFeedCreator(extractionContext, creationContext, tolerance);
     }
 }

@@ -1,25 +1,16 @@
 package com.idisc.core.extraction.web;
 
-import com.bc.jpa.context.JpaContext;
 import com.bc.json.config.JsonConfig;
 import com.bc.meta.Metadata;
 import java.util.logging.Logger;
-import com.bc.webdatex.extractors.date.DateExtractor;
-import com.bc.webdatex.extractors.date.DateFromUrlExtractor;
-import com.bc.webdatex.extractors.date.DateStringFromUrlExtractor;
 import com.bc.webdatex.filters.Filter;
-import com.idisc.core.IdiscApp;
 import com.bc.webdatex.nodefilters.ImageNodeFilter;
-import com.idisc.core.util.FeedCreator;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
-import com.idisc.pu.entities.Sitetype;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import org.htmlparser.NodeFilter;
-import com.bc.webdatex.context.CapturerContext;
-import java.util.Arrays;
 import java.util.Set;
 import org.htmlparser.Node;
 import org.htmlparser.tags.ImageTag;
@@ -27,108 +18,63 @@ import org.htmlparser.util.NodeList;
 import com.bc.webdatex.extractors.TextParser;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import org.htmlparser.dom.HtmlDocument;
-import com.idisc.pu.SiteDao;
 import java.util.Collection;
 import com.bc.meta.ArticleMetaNames;
 import com.bc.meta.impl.MetadataImpl;
 import com.bc.meta.selector.Selector;
 import com.bc.nodelocator.ConfigName;
 import com.idisc.core.CreateMetaTagSelector;
+import com.idisc.core.extraction.FeedCreationContext;
+import com.idisc.core.extraction.FeedCreatorFromContext;
 import com.idisc.pu.entities.Feed_;
-import java.text.MessageFormat;
 import java.util.LinkedHashMap;
+import com.bc.webdatex.context.ExtractionContext;
+import java.util.Objects;
 
-public class WebFeedCreator extends FeedCreator {
+public class WebFeedCreator implements FeedCreatorFromContext<HtmlDocument> {
   
-  private transient static final Logger LOG = Logger.getLogger(WebFeedCreator.class.getName());
+    private transient static final Logger LOG = Logger.getLogger(WebFeedCreator.class.getName());
     
-  private final Date NOW = new Date();
+    private final Date NOW = new Date();
     
-  private final String [] dateNames = new String[]{ArticleMetaNames.DATE_CREATED, 
-      ArticleMetaNames.DATE_PUBLISHED, ArticleMetaNames.DATE_MODIFIED};
+    private final String [] dateNames = new String[]{ArticleMetaNames.DATE_CREATED, 
+            ArticleMetaNames.DATE_PUBLISHED, ArticleMetaNames.DATE_MODIFIED};
   
-  private final WebFeedDataExtractor nodeExtractor;
+    private final WebFeedDataExtractor nodeExtractor;
   
-  private final Comparator<String> imageSizeComparator;
+    private final Selector<Node> metaTagSelector;
   
-  private final com.bc.webdatex.extractors.Extractor<String, Date> dateExtractor;
+    private final Map<String, Object> reusedMap = new LinkedHashMap();
   
-  private final com.bc.webdatex.extractors.Extractor<String, Date> dateFromUrlExtractor;
+    private final com.bc.meta.selector.impl.Collectors.CollectIntoMap reusedCollector =
+            new com.bc.meta.selector.impl.Collectors.CollectIntoMap(reusedMap);
+   
+    private final FeedCreationContext feedCreationContext;
+  
+    public WebFeedCreator(
+            ExtractionContext extractionContext, 
+            FeedCreationContext creationContext,
+            float dataComparisonTolerance){
+        
+        this.feedCreationContext = Objects.requireNonNull(creationContext);
 
-  private final Map defaults;
-  
-  private final Selector<Node> metaTagSelector;
-  
-  private final Map<String, Object> reusedMap = new LinkedHashMap();
-  
-  private final com.bc.meta.selector.impl.Collectors.CollectIntoMap reusedCollector =
-          new com.bc.meta.selector.impl.Collectors.CollectIntoMap(reusedMap);
-  
-  public WebFeedCreator(String sitename, Sitetype sitetype, 
-          NodeFilter imagesFilter, float dataComparisonTolerance){
-    this(new SiteDao(IdiscApp.getInstance().getJpaContext()).from(sitename, sitetype, true), imagesFilter, dataComparisonTolerance);
-  }
-  
-  public WebFeedCreator(Site site, NodeFilter imagesFilter, float dataComparisonTolerance){
-      this(IdiscApp.getInstance().getScrapperContextFactory().getContext(site.getSite()), 
-              IdiscApp.getInstance().getJpaContext(),
-              site, 
-              imagesFilter, 
-              dataComparisonTolerance);
-  }
+        final int recommendedSize = this.feedCreationContext.getRecommendedSize("content"); 
+        if(LOG.isLoggable(Level.FINE)){
+            LOG.log(Level.FINE, "Recommended content length: {0}", recommendedSize);
+        }
+        this.nodeExtractor = new WebFeedDataExtractor(dataComparisonTolerance, extractionContext, recommendedSize);
 
-  public WebFeedCreator(
-          CapturerContext context, 
-          JpaContext jpa,
-          Site site, 
-          NodeFilter imagesFilter, 
-          float dataComparisonTolerance){
-    super(jpa, site, "news", imagesFilter, dataComparisonTolerance);
-    final String [] datePatterns = context.getNodeExtractorConfig().getUrlDatePatterns();
-    if(datePatterns == null || datePatterns.length == 0) {
-        this.dateFromUrlExtractor = DateStringFromUrlExtractor.NO_INSTANCE;
-    }else{
-        TextParser<Date> dateFromDateStringExtractor = new DateExtractor(
-                    Arrays.asList(datePatterns), this.getInputTimeZone(), this.getOutputTimeZone()
-        );
-        this.dateFromUrlExtractor = new DateFromUrlExtractor(
-                new DateStringFromUrlExtractor(), dateFromDateStringExtractor 
-        );
+        this.metaTagSelector = new CreateMetaTagSelector().get();
     }
-    
-    final int recommendedSize = this.getRecommendedSize("content"); 
-    if(LOG.isLoggable(Level.FINE)){
-      LOG.log(Level.FINE, "Recommended content length: {0}", recommendedSize);
+
+    @Override
+    public void updateFeed(Feed feed, HtmlDocument dom) {
+        final Metadata metaData = this.parseMetadata(dom);
+        this.updateFeed(feed, dom, metaData);
     }
-    this.nodeExtractor = new WebFeedDataExtractor(dataComparisonTolerance, context, recommendedSize);
-    
-    this.imageSizeComparator = new DefaultImageSizeComparator();
-    
-    this.dateExtractor = new DateExtractor(
-                Arrays.asList("yyyy-MM-dd'T'HH:mm:ss"), 
-                this.getInputTimeZone(), this.getOutputTimeZone());
 
-    final Map m = context.getNodeExtractorConfig().getDefaults();
-    this.defaults = m == null ? Collections.EMPTY_MAP : context.getNodeExtractorConfig().getDefaults();
-
-    this.metaTagSelector = new CreateMetaTagSelector().get();
-  }
-  
-  public Feed createFeed(HtmlDocument doc){
-
-//    Feed feed = this.parseMetadata(pageNodes, this.collectIntoFeed, null);
-//    if(feed == null) {
-//        feed = new Feed();
-//    }
-//    this.updateFeed(feed, pageNodes, dateCreatedIfNone, ArticleMetaNames.EMPTY);
-    Feed feed = new Feed();
-    this.updateFeed(feed, doc);
-    return feed;
-  }
-  
     public Metadata parseMetadata(HtmlDocument dom) {
         final Map map = this.parseMetatags(dom);
         final Metadata metaData = map.isEmpty() ? Metadata.EMPTY : new MetadataImpl(map);
@@ -140,6 +86,7 @@ public class WebFeedCreator extends FeedCreator {
         reusedMap.clear();
         if(!metaTags.isEmpty()) {
             metaTagSelector.select(metaTags.iterator(), ArticleMetaNames.values(), reusedCollector);
+            LOG.finer(() -> "Extracted meta tags: " + reusedMap + ", from link: " + dom.getURL());
         }
         return reusedMap;
     }
@@ -157,17 +104,12 @@ public class WebFeedCreator extends FeedCreator {
         }
         return result == null ? outputIfNone : result;
     }
-
-    public void updateFeed(Feed feed, HtmlDocument dom) {
-        final Metadata metaData = this.parseMetadata(dom);
-        this.updateFeed(feed, dom, metaData);
-    }
     
     public void updateFeed(Feed feed, HtmlDocument dom, Metadata metaData) {
         
         this.updateFeedWithMetaData(feed, dom, metaData);
         
-        if(!this.hasEnoughData(feed)) {
+        if(!feedCreationContext.hasEnoughData(feed)) {
 
             final Map<String, String> extract = nodeExtractor.extract(dom);
             
@@ -184,27 +126,16 @@ public class WebFeedCreator extends FeedCreator {
         }
     }
 
-    public boolean hasEnoughData(Feed feed) {
-        return (feed.getFeeddate() != null || feed.getDatecreated() != null || feed.getTimemodified() != null) &&
-                this.isAnyNotNullOrEmpty(feed.getDescription(), feed.getContent(), feed.getTitle());
-    }
-    
     public boolean hasEnoughData(Metadata metadata) {
-        return !this.isNullOrEmpty(metadata.getValue(dateNames, null)) && 
+        final boolean output = !this.isNullOrEmpty(metadata.getValue(dateNames, null)) && 
                 (!this.isNullOrEmpty(metadata.getValue(ArticleMetaNames.DESCRIPTION, null)) || 
                 !this.isNullOrEmpty(metadata.getValue(ArticleMetaNames.CONTENT, null)) ||
                 !this.isNullOrEmpty(metadata.getValue(ArticleMetaNames.TITLE, null))); 
+        final Level level = output ? Level.FINEST : Level.FINER;
+        LOG.log(level, () -> "Metadata doesn't have enough data: " + metadata.toMap());
+        return output;
     }
     
-    public boolean isAnyNotNullOrEmpty(Object... values) {
-        for(Object value : values) {
-            if(!this.isNullOrEmpty((String)value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public int updateFeedWithMetaData(Feed feed, HtmlDocument dom, Metadata metaData) {
         return this.updateFeed(feed, dom, metaData, Collections.EMPTY_MAP);
     }
@@ -220,7 +151,7 @@ public class WebFeedCreator extends FeedCreator {
         
         final Level level = Level.FINER;
 
-        final Site site = this.getSite();
+        final Site site = feedCreationContext.getConfig().getSite();
         feed.setSiteid(site);
         
         if(this.updateAuthor(dom, Feed_.author.getName(), feed, metaData, extract)) {
@@ -228,11 +159,11 @@ public class WebFeedCreator extends FeedCreator {
         }
         
 ////////////// Categories 
-        String categories = getValue(Feed_.categories.getName(), true, 
+        String categories = feedCreationContext.getValue(Feed_.categories.getName(), true, 
                 metaData.combineValues(ArticleMetaNames.CATEGORY_SET, null),
                 extract.get(Feed_.categories.getName()));
         if(this.isNullOrEmpty(categories)) {
-            categories = this.getDefaultCategories();
+            categories = feedCreationContext.getConfig().getDefaultCategories();
         }
         if(!this.isNullOrEmpty(categories)){
             ++updateCount;
@@ -240,7 +171,7 @@ public class WebFeedCreator extends FeedCreator {
         }
         
 ////////////// Content        
-        final String content = getValue(Feed_.content.getName(), false,
+        final String content = feedCreationContext.getValue(Feed_.content.getName(), false,
                 metaData.getValue(ArticleMetaNames.CONTENT, null),
                 extract.get(Feed_.content.getName()));
         
@@ -250,19 +181,19 @@ public class WebFeedCreator extends FeedCreator {
         }
         
         final int contentLength = content == null ? 0 : content.length();
-        final int recommendedSize = this.getRecommendedSize("content");
+        final int recommendedSize = feedCreationContext.getRecommendedSize("content");
         if(contentLength > recommendedSize) {
             LOG.log(Level.WARNING, "For site: {0}, found content length: {1} > recommended: {2}", 
-            new Object[]{this.getSite()==null?null:this.getSite().getSite(), contentLength, recommendedSize});
+            new Object[]{site==null?null:site.getSite(), contentLength, recommendedSize});
         }
         
 ////////////// Datecreated
-        final String datecreatedStr = extract.get("datecreated");
-        Date datecreated = this.isNullOrEmpty(datecreatedStr) ? null : this.getDate(datecreatedStr, null);
+        final String datecreatedStr = extract.get(Feed_.datecreated.getName());
+        Date datecreated = this.isNullOrEmpty(datecreatedStr) ? null : this.feedCreationContext.getDate(datecreatedStr, null);
         if(datecreated == null) {
             final String dateStr = metaData.getValue(ArticleMetaNames.DATE_CREATED, null);
             if(!this.isNullOrEmpty(dateStr)) {
-                datecreated = this.dateExtractor.extract(dateStr, null);
+                datecreated = this.feedCreationContext.getDate(dateStr, null);
             }
         }
         if(datecreated != null) {
@@ -271,7 +202,7 @@ public class WebFeedCreator extends FeedCreator {
         feed.setDatecreated(datecreated);
 
 ////////////// Description        
-        final String description = getValue(Feed_.description.getName(), true,
+        final String description = feedCreationContext.getValue(Feed_.description.getName(), true,
                 metaData.getValue(ArticleMetaNames.DESCRIPTION, null),
                 extract.get(Feed_.description.getName()));
         
@@ -289,21 +220,22 @@ public class WebFeedCreator extends FeedCreator {
         }
         
 ////////////// Feeddate
-        final String feeddateStr = extract.get("feeddate");
-        Date feeddate = this.isNullOrEmpty(feeddateStr) ? null : this.getDate(feeddateStr, null);
+        final String feeddateStr = extract.get(Feed_.feeddate.getName());
+        Date feeddate = this.isNullOrEmpty(feeddateStr) ? null : this.feedCreationContext.getDate(feeddateStr, null);
         if(feeddate == null) {
             final String dateStr = metaData.getValue(dateNames, null);
             if(!this.isNullOrEmpty(dateStr)) {
-                feeddate = this.dateExtractor.extract(dateStr, null);
+                feeddate = this.feedCreationContext.getDate(dateStr, null);
             }
             if(feeddate == null) {
-                feeddate = this.dateFromUrlExtractor.extract(dom.getURL(), null);
+                feeddate = this.feedCreationContext.getDateFromUrlExtractor().extract(dom.getURL(), null);
             }
         }
         if(feeddate == null) {
             if(LOG.isLoggable(level)) {
                 LOG.log(level, "Feeddate could not be extracted for feed:: site: {0}, title: {1}, author: {2}", 
-                        new Object[]{this.getSite().getSite(), feed.getTitle(), feed.getAuthor()});
+                        new Object[]{feedCreationContext.getConfig().getSite().getSite(), 
+                            feed.getTitle(), feed.getAuthor()});
             }
         }else{
             if(feeddate.after(NOW)) {
@@ -313,6 +245,7 @@ public class WebFeedCreator extends FeedCreator {
         if(feeddate != null) {
             ++updateCount;
         }
+
         feed.setFeeddate(feeddate);
 
         if(LOG.isLoggable(Level.FINER)) {        
@@ -340,7 +273,7 @@ public class WebFeedCreator extends FeedCreator {
                     }
                 }
             }
-            Filter<String> filter = ((ImageNodeFilter)this.getImagesFilter()).getImageSrcFilter();
+            Filter<String> filter = ((ImageNodeFilter)feedCreationContext.getImagesFilter()).getImageSrcFilter();
             boolean accepted = filter.test(imageurl);
             LOG.log(Level.FINER, "Extracted image url accepted: {0}", accepted);        
             
@@ -357,7 +290,7 @@ public class WebFeedCreator extends FeedCreator {
             if(this.isNullOrEmpty(imageurl)) {
                 final NodeList nodeList = dom.getElements();
 //                imageurl = this.getFirstImageUrl(nodeList);                
-                NodeFilter filter = this.getImagesFilter() != null ? this.getImagesFilter() : null;
+                NodeFilter filter = feedCreationContext.getImagesFilter();
                 final NodeList imageNodes = filter == null ? null : nodeList.extractAllNodesThatMatch(filter, true);
                 if(imageNodes != null && !imageNodes.isEmpty()) {
                     final List<String> imageSrcs = new ArrayList<>();
@@ -377,10 +310,10 @@ public class WebFeedCreator extends FeedCreator {
         }
 
 ////////////// Keywords
-        String keywords = getValue(Feed_.keywords.getName(), true, 
+        String keywords = feedCreationContext.getValue(Feed_.keywords.getName(), true, 
                 metaData.getValue(ArticleMetaNames.KEYWORDS, null), 
                 metaData.getAsSingle(ArticleMetaNames.TAG_SET, null),
-                this.getKeywords(dom),
+                dom.getKeywordsText(null),
                 extract.get(Feed_.keywords.getName()));
         if(!this.isNullOrEmpty(keywords)) {
             ++updateCount;
@@ -418,7 +351,7 @@ public class WebFeedCreator extends FeedCreator {
             Metadata metaData, Map<String, String> extract) {
         
 ////////////// Author        
-        String author = getValue(col, true, 
+        String author = feedCreationContext.getValue(col, true, 
                 metaData.getValue(ArticleMetaNames.AUTHOR, null), 
                 metaData.getValue(ArticleMetaNames.PUBLISHER, null),
                 extract.get(col));
@@ -430,7 +363,7 @@ public class WebFeedCreator extends FeedCreator {
             author = "Leaderhship Newspaper";
         }
         if(this.isNullOrEmpty(author)) {
-            author = this.getSite().getSite();
+            author = feedCreationContext.getConfig().getSite().getSite();
         }
         LOG.log(Level.FINER, "Author. {0} = {1}", new Object[]{extract.get("author"), author});
         if(!this.isNullOrEmpty(author)) {
@@ -446,26 +379,26 @@ public class WebFeedCreator extends FeedCreator {
         return this.updateTitle(dom, col, feed, 
                 new String[]{
                     metadata.getValue(ArticleMetaNames.TITLE, null),
-                    this.getTitle(dom),
+                    dom.getTitleText(null),
                     extract.get(col),
                     description, content});
     }
     
     public boolean updateTitle(HtmlDocument dom, String col, Feed feed, String... values) {
         
-        String title = getValue(col, true, values);
+        String title = feedCreationContext.getValue(col, true, values);
         
         final JsonConfig config = this.getConfig();
         
         if(this.isNullOrEmpty(title)) {
             Boolean titleIsInUrl = getBoolean(config, ConfigName.isTitleInUrl);
             if(titleIsInUrl != null && titleIsInUrl) {
-                final TextParser<String> textParser = this.getTitleFromUrlExtractor();
+                final TextParser<String> textParser = feedCreationContext.getTitleFromUrlExtractor();
                 title = textParser == null ? null : textParser.extract(dom.getURL(), null);
             }
         }
         if(this.isNullOrEmpty(title)) {
-            title = (String)defaults.get(col);
+            title = (String)feedCreationContext.getConfig().getDefaultValue(col);
         }
         if(!this.isNullOrEmpty(title)) {
             feed.setTitle(title);
@@ -475,50 +408,25 @@ public class WebFeedCreator extends FeedCreator {
         }
     }
     
-  public Date getDate(String dateStr, Date defaultIfNone) {
-
-    String [] datePatterns = nodeExtractor.getContext().getNodeExtractorConfig().getDatePatterns();
-    
-    return this.getDate(datePatterns, dateStr, defaultIfNone);
-  }
-    
-    private String getValue(String col, boolean plainTextOnly, String... values) {
-        
-        String val = null;
-        
-        if(values != null) {
-            for(String option : values) {
-                if(!this.isNullOrEmpty(option)) {
-                    val = option;
-                    break;
-                }
-            }
-        }
-        
-        if(!this.isNullOrEmpty(val)) {
-            
-            val = format(col, val, plainTextOnly);
-            
-        }else{
-            
-            val = (String)defaults.get(col);
-        }
-        
-        return val;
-    }
-    
     private final List<String> sort = new ArrayList();
     private String getImageUrlOfLargestImage(Collection<String> imageUrls) {
-      sort.clear();
-      sort.addAll(imageUrls);
-      Collections.sort(sort, imageSizeComparator);
-      final String output = sort.get(sort.size() - 1);
-      sort.clear();
-      return output;
+        synchronized(sort) {
+            sort.clear();
+            sort.addAll(imageUrls);
+            Collections.sort(sort, this.feedCreationContext.getImageSizeComparator());
+            final String output = sort.get(sort.size() - 1);
+            sort.clear();
+            return output;
+        }
     }  
 
+    public Boolean getBoolean(JsonConfig config, ConfigName key) {
+        Boolean bval = config.getBoolean(key);
+        return bval == null ? Boolean.FALSE : bval;
+    }
+
     public JsonConfig getConfig() {
-        final CapturerContext context = nodeExtractor.getContext();
+        final ExtractionContext context = nodeExtractor.getContext();
         final JsonConfig config = context.getConfig();
         return config;
     }
@@ -531,25 +439,12 @@ public class WebFeedCreator extends FeedCreator {
         return sval == null || sval.isEmpty();
     }
 
-    public final com.bc.webdatex.extractors.Extractor<String, Date> getDateFromUrlExtractor() {
-        return dateFromUrlExtractor;
-    }
-
     public final WebFeedDataExtractor getNodeExtractor() {
         return nodeExtractor;
     }
-  
-    public Date getDate(Feed feed) {
-        return feed.getFeeddate() != null ? feed.getFeeddate() :
-                feed.getTimemodified() != null ? feed.getTimemodified() :
-                feed.getDatecreated() != null ? feed.getDatecreated() : null;
-                
-    }
 
-    public String toString(Feed feed) {
-        return MessageFormat.format(
-            "Site {0}, author: {1}, title: {2}\nURL: {3}\nImage url: {4}", 
-            feed.getSiteid() == null ? null : feed.getSiteid().getSite(), 
-            feed.getAuthor(), feed.getTitle(), feed.getUrl(), feed.getImageurl());
+    @Override
+    public FeedCreationContext getContext() {
+        return this.feedCreationContext;
     }
 }

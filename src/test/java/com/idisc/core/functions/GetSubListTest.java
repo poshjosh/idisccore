@@ -17,10 +17,6 @@ package com.idisc.core.functions;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -29,24 +25,9 @@ import org.junit.Test;
  */
 public class GetSubListTest {
     
-    public GetSubListTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+    private final List<String> list = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8");
+        
+    public GetSubListTest() { }
 
     /**
      * Test of apply method, of class GetSubList.
@@ -56,11 +37,22 @@ public class GetSubListTest {
         
         System.out.println("apply");
         
+        this.testApply(0);
+
+        this.testApply(1);
+
+        this.testApply(5);
+
+        this.testApply(list.size());
+
+        this.testApply(15);
+    }
+
+    public void testApply(int limit) {
+        
+        System.out.println("apply");
+        
         final GetSubList instance = new GetSubList();
-        
-        final int limit = 5;
-        
-        final List<String> list = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8");
         
         System.out.println(" All names: " + list);
         

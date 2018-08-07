@@ -200,7 +200,7 @@ public class CommentRepliesBuilder {
     
     Select<Comment> qb = jpaContext.getDaoForSelect(Comment.class);
     
-    qb.descOrder(Comment_.commentid.getName());
+    qb.from(Comment.class).descOrder(Comment_.commentid.getName());
     
     this.format(qb, installation, cal.getTime());
     

@@ -1,0 +1,1486 @@
+cd C:\Users\Josh\Documents\NetBeansProjects\idisccore; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.8.0_144" cmd /c "\"\"C:\\Program Files\\NetBeans 8.1\\java\\maven\\bin\\mvn.bat\" -Dtest=com.idisc.core.extraction.web.WebFeedTaskTest -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar;C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-cos.jar\" -Dfile.encoding=UTF-8 surefire:test\""
+Running NetBeans Compile On Save execution. Phase execution is skipped and output directories of dependency projects (with Compile on Save turned on) will be used instead of their jar artifacts.
+Scanning for projects...
+                                                                        
+------------------------------------------------------------------------
+Building idisccore 1.0-SNAPSHOT
+------------------------------------------------------------------------
+
+--- maven-surefire-plugin:2.19.1:test (default-cli) @ idisccore ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.idisc.core.extraction.web.WebFeedTaskTest
+Reading configuration from: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/test-classes/META-INF/logging.properties
+Max age: Mon Aug 06 06:20:19 WAT 2018
+com.idisc.core.extraction.web.WebFeedTaskTest= = = = = = = = = = = = =  Initializing IdiscApp
+Aug 06, 2018 12:20:20 PM com.idisc.core.IdiscApp init
+FINE: Initializing: com.idisc.core.IdiscAppImpl
+Aug 06, 2018 12:20:20 PM com.idisc.core.IdiscApp loadConfig
+INFO: Loading properties configuration. List delimiter: ,
+Default file: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/properties/idiscdefaults.properties
+File: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisc.properties
+Aug 06, 2018 12:20:20 PM com.bc.jpa.util.PersistenceURISelector selectURI
+FINE: Selecting persistence files for name: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:20:20 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Created URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, from filename: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:20:20 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Selected persistence file: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:20:21 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:20:21 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 12:20:21 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: ClassLoader to replace. Type: sun.misc.Launcher$AppClassLoader, instance: sun.misc.Launcher$AppClassLoader@6bc7c054
+Aug 06, 2018 12:20:21 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: Using classloader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader to load persistence '.xml' file
+Aug 06, 2018 12:20:21 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri apply
+INFO: 	URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+	ClassLoader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@13969fbe
+Aug 06, 2018 12:20:21 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:20:21 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 12:20:21 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 06, 2018 12:20:22 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@5f2050f6}
+Aug 06, 2018 12:20:22 PM com.bc.jpa.EntityManagerFactoryCreatorImpl newInstance
+INFO: --------------------------------------------------
+Creating EntityManagerFactory for persistence unit: idiscpu
+Properties: []
+Aug 06, 2018 12:20:22 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@13969fbe
+Aug 06, 2018 12:20:22 PM com.bc.jpa.classloaders.AlternativeResourceContext getResources
+FINE: For resource: META-INF/persistence.xml, returning: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:20:24 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: sun.misc.Launcher$AppClassLoader@6bc7c054
+[EL Info]: 2018-08-06 12:20:25.04--ServerSession(844264574)--EclipseLink, version: Eclipse Persistence Services - 2.7.1.v20171221-bd47e8f
+[EL Warning]: metadata: 2018-08-06 12:21:38.208--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Archivedfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.21--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [gender] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.211--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [howDidYouFindUs] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.211--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [localaddressid] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.211--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [country] for the entity class [class com.idisc.pu.entities.Localaddress] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.212--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Feed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.213--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.213--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.214--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.214--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.214--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.215--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [repliedto] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.215--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.215--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.216--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feeduserid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.216--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [sitetypeid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.217--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [timezoneid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.217--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.217--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Applaunchlog] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.218--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.218--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.218--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [emailstatus] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.219--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.219--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [commentid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 12:21:38.219--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Info]: connection: 2018-08-06 12:21:38.372--ServerSession(844264574)--/file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/_idiscpu login successful
+Aug 06, 2018 12:21:39 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 06, 2018 12:21:51 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 06, 2018 12:22:02 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 06, 2018 12:22:35 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 06, 2018 12:22:52 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 06, 2018 12:22:57 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 06, 2018 12:23:00 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 06, 2018 12:23:05 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 06, 2018 12:23:10 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 06, 2018 12:23:14 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 06, 2018 12:23:18 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 06, 2018 12:23:22 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 06, 2018 12:23:27 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 06, 2018 12:23:32 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 06, 2018 12:23:35 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 06, 2018 12:23:38 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 06, 2018 12:23:41 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 06, 2018 12:23:44 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 06, 2018 12:23:46 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 06, 2018 12:23:50 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 06, 2018 12:23:54 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 06, 2018 12:23:58 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 06, 2018 12:24:03 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 06, 2018 12:24:07 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:24:07 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 12:24:07 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 06, 2018 12:24:07 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@5809fa26}
+Aug 06, 2018 12:24:08 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 06, 2018 12:24:15 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 06, 2018 12:24:21 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 06, 2018 12:24:50 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 06, 2018 12:24:53 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 06, 2018 12:24:57 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 06, 2018 12:25:02 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 06, 2018 12:25:06 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 06, 2018 12:25:37 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 06, 2018 12:25:41 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 06, 2018 12:25:43 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 06, 2018 12:25:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 06, 2018 12:25:54 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 06, 2018 12:25:57 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 06, 2018 12:26:07 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 06, 2018 12:26:10 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 06, 2018 12:26:14 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 06, 2018 12:26:19 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 06, 2018 12:26:24 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 06, 2018 12:26:27 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 06, 2018 12:26:31 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 06, 2018 12:26:50 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 06, 2018 12:26:54 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 06, 2018 12:26:59 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 12:26:59 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 12:26:59 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$sitetype, enum constants: [rss, web, timeline, trend]
+Aug 06, 2018 12:27:01 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$gender, enum constants: [Male, Female, Other]
+Aug 06, 2018 12:27:01 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$country, enum constants: []
+Aug 06, 2018 12:27:01 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$howdidyoufindus, enum constants: [Throughafriendorcolleague, Fromtheweb, Magazinesorotherprintmedia, Tvorotherelectronicmedia, Throughouragent]
+Aug 06, 2018 12:27:03 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$emailstatus, enum constants: [unverified, verified, bounced, disabled_or_discontinued, unable_to_relay, does_not_exist, could_not_be_delivered_to, black_listed, verification_attempted_but_status_unknown, user_opted_out_of_mailinglist, registered_user, automated_system_email, restricted, invalid_format]
+Aug 06, 2018 12:27:19 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: #validate(), enum types: [class com.idisc.pu.References$sitetype, class com.idisc.pu.References$gender, class com.idisc.pu.References$country, class com.idisc.pu.References$howdidyoufindus, class com.idisc.pu.References$emailstatus]
+Aug 06, 2018 12:27:20 PM com.bc.config.SimpleConfigService <init>
+INFO:   Defaults: null
+Properties: [C:\Users\Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties]
+Aug 06, 2018 12:27:20 PM com.bc.config.SimpleConfigService load
+CONFIG: Loading: C:\Users\Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties over null
+Aug 06, 2018 12:27:21 PM com.bc.config.PropertiesConfigService load
+INFO:   From: C:\Users\Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties
+Loaded: [defaultConfigName, ftpDir, ftpRetrialInterval, ftpPass, ftpHost, ftpPort, ftpMaxretrials, configsDir, ftpUser]
+Aug 06, 2018 12:27:21 PM com.idisc.core.IdiscApp getConfigsDir
+FINE: configsDir = file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/configs/
+Aug 06, 2018 12:27:21 PM com.idisc.core.IdiscApp init
+INFO: Done initializing app
+com.idisc.pu.IdiscJpaContext
+  All names: [aitonline_news, thisday, ngrguardiannews, dailytrust, naij, punchng]
+Aug 06, 2018 12:27:21 PM com.idisc.core.functions.GetSubList apply
+FINE: All sites: [aitonline_news, thisday, ngrguardiannews, dailytrust, naij, punchng]
+From offset: 0, sites: [aitonline_news]
+Aug 06, 2018 12:27:21 PM com.idisc.core.SubmitTasks doCall
+INFO: Timeout: 360 seconds, Max concurrent: 1, Tasks: [aitonline_news]
+Aug 06, 2018 12:27:22 PM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_aitonline_news.javaobject (The system cannot find the file specified)
+Aug 06, 2018 12:27:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Seeding Crawler with 1 URLs
+Aug 06, 2018 12:27:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: 
+ Base URL: http://www.aitonline.tv
+Start URL: http://www.aitonline.tv/
+Aug 06, 2018 12:27:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Size: 878, of queue for com.bc.webcrawler.CrawlerImpl-LinkCollectionThreadPool ExecutorService
+Aug 06, 2018 12:27:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Done creating: com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 0/360000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 06, 2018 12:27:24 PM com.idisc.core.extraction.web.WebFeedTaskProvider apply
+FINE: Created task com.bc.webcrawler.CrawlerImpl for aitonline_news
+Aug 06, 2018 12:27:25 PM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Aug 06, 2018 12:27:26 PM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: aitonline_news, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Aug 06, 2018 12:27:27 PM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Aug 06, 2018 12:27:27 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Aug 06, 2018 12:27:27 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Aug 06, 2018 12:27:27 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Aug 06, 2018 12:27:28 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Aug 06, 2018 12:27:28 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Aug 06, 2018 12:27:28 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+Aug 06, 2018 12:27:28 PM com.idisc.core.extraction.ScrapSiteTaskImpl <init>
+FINE: Done creating: com.idisc.core.extraction.ScrapSiteTaskImpl@340cb97f{Started=false, stopInitiated=false, stopped=false}
+{Description: ScrapSiteTaskImpl[aitonline_news]
+com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 0/360000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 0, rejected: 0, Succeeded: 0/50, Failed: 0/9}
+Aug 06, 2018 12:27:28 PM com.idisc.core.SubmitTasks doCall
+FINE: Submitting task: com.idisc.core.extraction.ScrapSiteTaskImpl
+Aug 06, 2018 12:27:28 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/
+Aug 06, 2018 12:27:30 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:27:33 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/program-nickelodeon
+Aug 06, 2018 12:27:35 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:27:38 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/programs?cat=soap_opera___series
+Aug 06, 2018 12:27:42 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:27:43 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/post-mrs__osinbajo_advocates_active_participation_of_women_in_politics
+Aug 06, 2018 12:27:44 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:27:44 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-mrs__osinbajo_advocates_active_participation_of_women_in_politics
+Aug 06, 2018 12:27:44 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Mrs. Osinbajo Advocates Active Participation Of Women In Politics
+URL: http://www.aitonline.tv/post-mrs__osinbajo_advocates_active_participation_of_women_in_politics
+Image url: http://aitonline.tv/pix/NewsImages/22534.png
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-european_centre_for_electoral_support_reus_lacuna_in_nigeria___s_electoral_laws_">
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:27:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22534.png'/>
+Aug 06, 2018 12:27:45 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-mrs__osinbajo_advocates_active_participation_of_women_in_politics, Elements=2267}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Mrs. Osinbajo Advocates Active Participation Of Women In Politics</H3> 
+URL: http://www.aitonline.tv/post-mrs__osinbajo_advocates_active_participation_of_women_in_politics
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:27:55 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/programs?cat=musicals
+Aug 06, 2018 12:27:56 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:27:56 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/program-the_teju_babyface_show
+Aug 06, 2018 12:28:01 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:01 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/posts?cat=health
+Aug 06, 2018 12:28:03 PM com.bc.webcrawler.CrawlerImpl parseNext
+WARNING: Parse failed for: http://www.aitonline.tv/posts?cat=health. Reason: java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=health (http://www.aitonline.tv/posts?cat=health).
+Aug 06, 2018 12:28:03 PM com.bc.webcrawler.Crawler next
+WARNING: null
+java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=health (http://www.aitonline.tv/posts?cat=health).
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:52)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:33)
+	at com.bc.webcrawler.CrawlerImpl.parse(CrawlerImpl.java:346)
+	at com.bc.webcrawler.CrawlerImpl.parseNext(CrawlerImpl.java:255)
+	at com.bc.webcrawler.Crawler.next(Crawler.java:58)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:167)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:39)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=health (http://www.aitonline.tv/posts?cat=health).
+	at org.htmlparser.lexer.Page.setConnection(Page.java:609)
+	at org.htmlparser.lexer.Page.<init>(Page.java:137)
+	at org.htmlparser.lexer.Lexer.<init>(Lexer.java:190)
+	at org.htmlparser.Parser.setConnection(Parser.java:423)
+	at org.htmlparser.Parser.setURL(Parser.java:452)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:108)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:103)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:49)
+	... 13 more
+
+Aug 06, 2018 12:28:03 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/news?cat=education
+Aug 06, 2018 12:28:05 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:05 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/post-germany_urges_teamwork_by_nigerian_leaders__citizens
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:06 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-germany_urges_teamwork_by_nigerian_leaders__citizens
+Aug 06, 2018 12:28:06 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Germany Urges Teamwork By Nigerian Leaders, Citizens
+URL: http://www.aitonline.tv/post-germany_urges_teamwork_by_nigerian_leaders__citizens
+Image url: http://aitonline.tv/pix/NewsImages/22529.png
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-trump_ex_campaign_chief_disguised_income">
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:28:06 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22529.png'/>
+Aug 06, 2018 12:28:06 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-germany_urges_teamwork_by_nigerian_leaders__citizens, Elements=2255}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Germany Urges Teamwork By Nigerian Leaders, Citizens</H3> 
+URL: http://www.aitonline.tv/post-germany_urges_teamwork_by_nigerian_leaders__citizens
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:13 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/post-pdp_alleges_attempt_to_remove_saraki_
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:15 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-pdp_alleges_attempt_to_remove_saraki_
+Aug 06, 2018 12:28:15 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: PDP Alleges Attempt To Remove Saraki.   
+URL: http://www.aitonline.tv/post-pdp_alleges_attempt_to_remove_saraki_
+Image url: http://aitonline.tv/pix/NewsImages/22523.jpg
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-kogi_inaugurates_sustainable_drugs_supply_system__sdss_">
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:28:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22523.jpg'/>
+Aug 06, 2018 12:28:15 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-pdp_alleges_attempt_to_remove_saraki_, Elements=2241}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> PDP Alleges Attempt To Remove Saraki.   </H3> 
+URL: http://www.aitonline.tv/post-pdp_alleges_attempt_to_remove_saraki_
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:15 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-nine_corps_members_drown_in_river_mayo_selbe
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:17 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-nine_corps_members_drown_in_river_mayo_selbe
+Aug 06, 2018 12:28:17 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Nine Corps Members Drown In River Mayo-Selbe
+URL: http://www.aitonline.tv/post-nine_corps_members_drown_in_river_mayo_selbe
+Image url: http://aitonline.tv/pix/NewsImages/22555.png
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class=" righter tar relative" href="post-kaduna_apc_insists_on_sen__sani___s_suspension">
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-right">
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:28:17 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22555.png'/>
+Aug 06, 2018 12:28:17 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-nine_corps_members_drown_in_river_mayo_selbe, Elements=2235}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Nine Corps Members Drown In River Mayo-Selbe</H3> 
+URL: http://www.aitonline.tv/post-nine_corps_members_drown_in_river_mayo_selbe
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:17 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/program-super_story
+Aug 06, 2018 12:28:18 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:23 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/post-buhari_arrives_in_london_for_10_day_vacation
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:27 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-buhari_arrives_in_london_for_10_day_vacation
+Aug 06, 2018 12:28:27 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Buhari Arrives in London for 10-day Vacation
+URL: http://www.aitonline.tv/post-buhari_arrives_in_london_for_10_day_vacation
+Image url: http://aitonline.tv/pix/NewsImages/22518.jpg
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-operation_diran_mikiya_records_success">
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:28:27 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22518.jpg'/>
+Aug 06, 2018 12:28:27 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-buhari_arrives_in_london_for_10_day_vacation, Elements=2253}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Buhari Arrives in London for 10-day Vacation</H3> 
+URL: http://www.aitonline.tv/post-buhari_arrives_in_london_for_10_day_vacation
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:28 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/contact
+Aug 06, 2018 12:28:29 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:37 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/page-timeline
+Aug 06, 2018 12:28:38 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:38 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-violence_trails_zimbabwe_elections
+Aug 06, 2018 12:28:40 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:40 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-violence_trails_zimbabwe_elections
+Aug 06, 2018 12:28:40 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Violence Trails Zimbabwe Elections
+URL: http://www.aitonline.tv/post-violence_trails_zimbabwe_elections
+Image url: http://aitonline.tv/pix/NewsImages/22482.png
+Aug 06, 2018 12:28:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a href='news?cat=politics' class='a'>
+Aug 06, 2018 12:28:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22482.png'/>
+Aug 06, 2018 12:28:40 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-violence_trails_zimbabwe_elections, Elements=2285}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Violence Trails Zimbabwe Elections</H3> 
+URL: http://www.aitonline.tv/post-violence_trails_zimbabwe_elections
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:40 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/program-straight_talk
+Aug 06, 2018 12:28:43 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:44 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/post-166_stranded_nigerians_return_from_libya
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:45 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-166_stranded_nigerians_return_from_libya
+Aug 06, 2018 12:28:45 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: 166 Stranded Nigerians Return From Libya
+URL: http://www.aitonline.tv/post-166_stranded_nigerians_return_from_libya
+Image url: http://aitonline.tv/pix/NewsImages/22547.jpg
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-noa_assures_of_peaceful_2019_elections">
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:28:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22547.jpg'/>
+Aug 06, 2018 12:28:45 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-166_stranded_nigerians_return_from_libya, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> 166 Stranded Nigerians Return From Libya</H3> 
+URL: http://www.aitonline.tv/post-166_stranded_nigerians_return_from_libya
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:45 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?cat=health
+Aug 06, 2018 12:28:48 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:53 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-kwara_pdp_says_its_ready_to_work_with_saraki__other_defectors
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:57 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-kwara_pdp_says_its_ready_to_work_with_saraki__other_defectors
+Aug 06, 2018 12:28:57 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Kwara PDP Says Its Ready To Work With Saraki, Other Defectors
+URL: http://www.aitonline.tv/post-kwara_pdp_says_its_ready_to_work_with_saraki__other_defectors
+Image url: http://aitonline.tv/pix/NewsImages/22546.jpg
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-166_stranded_nigerians_return_from_libya">
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:28:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22546.jpg'/>
+Aug 06, 2018 12:28:57 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-kwara_pdp_says_its_ready_to_work_with_saraki__other_defectors, Elements=2253}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Kwara PDP Says Its Ready To Work With Saraki, Other Defectors</H3> 
+URL: http://www.aitonline.tv/post-kwara_pdp_says_its_ready_to_work_with_saraki__other_defectors
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:28:57 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?cat=politics
+Aug 06, 2018 12:28:58 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:58 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?cat=oddities
+Aug 06, 2018 12:28:59 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:28:59 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/news?search=PDP
+Aug 06, 2018 12:29:01 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:01 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/post-kaduna_apc_insists_on_sen__sani___s_suspension
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:02 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-kaduna_apc_insists_on_sen__sani___s_suspension
+Aug 06, 2018 12:29:02 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Kaduna APC Insists On Sen. Sani’s Suspension
+URL: http://www.aitonline.tv/post-kaduna_apc_insists_on_sen__sani___s_suspension
+Image url: http://aitonline.tv/pix/NewsImages/22554.png
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-nine_corps_members_drown_in_river_mayo_selbe">
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22554.png'/>
+Aug 06, 2018 12:29:02 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-kaduna_apc_insists_on_sen__sani___s_suspension, Elements=2263}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Kaduna APC Insists On Sen. Sani’s Suspension</H3> 
+URL: http://www.aitonline.tv/post-kaduna_apc_insists_on_sen__sani___s_suspension
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:08 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?search=ECES
+Aug 06, 2018 12:29:10 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:10 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-gov__dickson_sets_august_15_deadline_for_aspiring_political_appointees_to_resign
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:12 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-gov__dickson_sets_august_15_deadline_for_aspiring_political_appointees_to_resign
+Aug 06, 2018 12:29:12 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Gov. Dickson Sets August 15 Deadline For Aspiring Political Appointees To Resign
+URL: http://www.aitonline.tv/post-gov__dickson_sets_august_15_deadline_for_aspiring_political_appointees_to_resign
+Image url: http://aitonline.tv/pix/NewsImages/22527.png
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-18_killed_in_russia_helicopter_crash">
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22527.png'/>
+Aug 06, 2018 12:29:12 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-gov__dickson_sets_august_15_deadline_for_aspiring_political_appointees_to_resign, Elements=2257}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Gov. Dickson Sets August 15 Deadline For Aspiring Political Appointees To Resign</H3> 
+URL: http://www.aitonline.tv/post-gov__dickson_sets_august_15_deadline_for_aspiring_political_appointees_to_resign
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:12 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-adamawa_pdp_accuses_government_of_sabotaging_can_protest
+Aug 06, 2018 12:29:15 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:15 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-adamawa_pdp_accuses_government_of_sabotaging_can_protest
+Aug 06, 2018 12:29:15 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Adamawa PDP Accuses Government Of Sabotaging CAN Protest
+URL: http://www.aitonline.tv/post-adamawa_pdp_accuses_government_of_sabotaging_can_protest
+Image url: http://aitonline.tv/pix/NewsImages/22521.jpg
+Aug 06, 2018 12:29:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a href='news?cat=politics' class='a'>
+Aug 06, 2018 12:29:15 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22521.jpg'/>
+Aug 06, 2018 12:29:15 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-adamawa_pdp_accuses_government_of_sabotaging_can_protest, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Adamawa PDP Accuses Government Of Sabotaging CAN Protest</H3> 
+URL: http://www.aitonline.tv/post-adamawa_pdp_accuses_government_of_sabotaging_can_protest
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:15 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?cat=sports
+Aug 06, 2018 12:29:18 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:18 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-gombe_gov__dankwambo_declares_presidential_ambition
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:22 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-gombe_gov__dankwambo_declares_presidential_ambition
+Aug 06, 2018 12:29:22 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Gombe Gov. Dankwambo Declares Presidential Ambition
+URL: http://www.aitonline.tv/post-gombe_gov__dankwambo_declares_presidential_ambition
+Image url: http://aitonline.tv/pix/NewsImages/22551.png
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-nigerian_legion_wants_security_beef_up_for_national_infrastructure">
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:22 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22551.png'/>
+Aug 06, 2018 12:29:22 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-gombe_gov__dankwambo_declares_presidential_ambition, Elements=2255}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Gombe Gov. Dankwambo Declares Presidential Ambition</H3> 
+URL: http://www.aitonline.tv/post-gombe_gov__dankwambo_declares_presidential_ambition
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:27 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, parsing: http://www.aitonline.tv/post-get_your_pvc_concert_kick_starts_in_abuja
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:28 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-get_your_pvc_concert_kick_starts_in_abuja
+Aug 06, 2018 12:29:28 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Get Your PVC Concert Kick Starts In Abuja
+URL: http://www.aitonline.tv/post-get_your_pvc_concert_kick_starts_in_abuja
+Image url: http://aitonline.tv/pix/NewsImages/22536.jpg
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-new_political_alignments_shaping_2019_politics">
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:28 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22536.jpg'/>
+Aug 06, 2018 12:29:28 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-get_your_pvc_concert_kick_starts_in_abuja, Elements=2249}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Get Your PVC Concert Kick Starts In Abuja</H3> 
+URL: http://www.aitonline.tv/post-get_your_pvc_concert_kick_starts_in_abuja
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:28 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/programs?cat=children
+Aug 06, 2018 12:29:30 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:30 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/news?cat=transport
+Aug 06, 2018 12:29:31 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:31 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/management.php
+Aug 06, 2018 12:29:34 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:34 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-un_scribe_guteres_lauds_ecowas_eccas_joint_summit
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:35 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-un_scribe_guteres_lauds_ecowas_eccas_joint_summit
+Aug 06, 2018 12:29:35 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: UN Scribe Guteres Lauds ECOWAS-ECCAS Joint Summit
+URL: http://www.aitonline.tv/post-un_scribe_guteres_lauds_ecowas_eccas_joint_summit
+Image url: http://aitonline.tv/pix/NewsImages/22553.jpg
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-kaduna_apc_insists_on_sen__sani___s_suspension">
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:35 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22553.jpg'/>
+Aug 06, 2018 12:29:35 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-un_scribe_guteres_lauds_ecowas_eccas_joint_summit, Elements=2249}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> UN Scribe Guteres Lauds ECOWAS-ECCAS Joint Summit</H3> 
+URL: http://www.aitonline.tv/post-un_scribe_guteres_lauds_ecowas_eccas_joint_summit
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:40 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, parsing: http://www.aitonline.tv/post-fg_approves_education_bank__students_loan_scheme
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:41 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-fg_approves_education_bank__students_loan_scheme
+Aug 06, 2018 12:29:41 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: FG Approves Education Bank, Students Loan Scheme
+URL: http://www.aitonline.tv/post-fg_approves_education_bank__students_loan_scheme
+Image url: http://aitonline.tv/pix/NewsImages/22515.png
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-cross_river_government_raises_concern_over_health_of_cameroon_refugees">
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22515.png'/>
+Aug 06, 2018 12:29:41 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-fg_approves_education_bank__students_loan_scheme, Elements=2253}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> FG Approves Education Bank, Students Loan Scheme</H3> 
+URL: http://www.aitonline.tv/post-fg_approves_education_bank__students_loan_scheme
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:41 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-un_says_north_korea_is_building_new_nuclear_missiles
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:45 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-un_says_north_korea_is_building_new_nuclear_missiles
+Aug 06, 2018 12:29:45 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: UN Says North Korea Is Building New Nuclear Missiles
+URL: http://www.aitonline.tv/post-un_says_north_korea_is_building_new_nuclear_missiles
+Image url: http://aitonline.tv/pix/NewsImages/22526.png
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-gov__dickson_sets_august_15_deadline_for_aspiring_political_appointees_to_resign">
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:45 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22526.png'/>
+Aug 06, 2018 12:29:45 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-un_says_north_korea_is_building_new_nuclear_missiles, Elements=2269}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> UN Says North Korea Is Building New Nuclear Missiles</H3> 
+URL: http://www.aitonline.tv/post-un_says_north_korea_is_building_new_nuclear_missiles
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:45 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, parsing: http://www.aitonline.tv/post-bauchi_apc_faithful_confident_of_party___s_2019_chances
+Aug 06, 2018 12:29:46 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:46 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-bauchi_apc_faithful_confident_of_party___s_2019_chances
+Aug 06, 2018 12:29:46 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Bauchi APC Faithful Confident Of Party’s 2019 Chances
+URL: http://www.aitonline.tv/post-bauchi_apc_faithful_confident_of_party___s_2019_chances
+Image url: http://aitonline.tv/pix/NewsImages/22514.jpg
+Aug 06, 2018 12:29:46 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:46 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:47 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-fg_approves_education_bank__students_loan_scheme">
+Aug 06, 2018 12:29:47 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:47 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:47 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:47 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22514.jpg'/>
+Aug 06, 2018 12:29:47 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-bauchi_apc_faithful_confident_of_party___s_2019_chances, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Bauchi APC Faithful Confident Of Party’s 2019 Chances</H3> 
+URL: http://www.aitonline.tv/post-bauchi_apc_faithful_confident_of_party___s_2019_chances
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:47 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, parsing: http://www.aitonline.tv/post-russia_defends_employment_of_north_korea_labourers_
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:48 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-russia_defends_employment_of_north_korea_labourers_
+Aug 06, 2018 12:29:48 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Russia Defends Employment Of North Korea Labourers.
+URL: http://www.aitonline.tv/post-russia_defends_employment_of_north_korea_labourers_
+Image url: http://aitonline.tv/pix/NewsImages/22542.jpg
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-middle_belt_forum_raises_alarm_over_state_of_emergency_plot_in_benue">
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:29:48 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22542.jpg'/>
+Aug 06, 2018 12:29:48 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-russia_defends_employment_of_north_korea_labourers_, Elements=2241}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Russia Defends Employment Of North Korea Labourers.</H3> 
+URL: http://www.aitonline.tv/post-russia_defends_employment_of_north_korea_labourers_
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:29:48 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, parsing: http://www.aitonline.tv/news?cat=nation
+Aug 06, 2018 12:29:49 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:54 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/schedule
+Aug 06, 2018 12:29:59 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:29:59 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/contact.html
+Aug 06, 2018 12:30:01 PM com.bc.webcrawler.CrawlerImpl parseNext
+WARNING: Parse failed for: http://www.aitonline.tv/contact.html. Reason: java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/contact.html (http://www.aitonline.tv/contact.html).
+Aug 06, 2018 12:30:01 PM com.bc.webcrawler.Crawler next
+WARNING: null
+java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/contact.html (http://www.aitonline.tv/contact.html).
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:52)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:33)
+	at com.bc.webcrawler.CrawlerImpl.parse(CrawlerImpl.java:346)
+	at com.bc.webcrawler.CrawlerImpl.parseNext(CrawlerImpl.java:255)
+	at com.bc.webcrawler.Crawler.next(Crawler.java:58)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:167)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:39)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/contact.html (http://www.aitonline.tv/contact.html).
+	at org.htmlparser.lexer.Page.setConnection(Page.java:609)
+	at org.htmlparser.lexer.Page.<init>(Page.java:137)
+	at org.htmlparser.lexer.Lexer.<init>(Lexer.java:190)
+	at org.htmlparser.Parser.setConnection(Parser.java:423)
+	at org.htmlparser.Parser.setURL(Parser.java:452)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:108)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:103)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:49)
+	... 13 more
+
+Aug 06, 2018 12:30:01 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/page-advertisement
+Aug 06, 2018 12:30:02 PM com.bc.webcrawler.CrawlerImpl collectLinks
+FINE: No links to collect from: http://www.aitonline.tv/page-advertisement
+Aug 06, 2018 12:30:02 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/news?search=Dolapo Osinbajo
+Aug 06, 2018 12:30:04 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:04 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/location
+Aug 06, 2018 12:30:05 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:10 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-nigerian_legion_wants_security_beef_up_for_national_infrastructure
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:12 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-nigerian_legion_wants_security_beef_up_for_national_infrastructure
+Aug 06, 2018 12:30:12 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Nigerian Legion Wants Security Beef Up For National Infrastructure
+URL: http://www.aitonline.tv/post-nigerian_legion_wants_security_beef_up_for_national_infrastructure
+Image url: http://aitonline.tv/pix/NewsImages/22552.jpg
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-un_scribe_guteres_lauds_ecowas_eccas_joint_summit">
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:30:12 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22552.jpg'/>
+Aug 06, 2018 12:30:12 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-nigerian_legion_wants_security_beef_up_for_national_infrastructure, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Nigerian Legion Wants Security Beef Up For National Infrastructure</H3> 
+URL: http://www.aitonline.tv/post-nigerian_legion_wants_security_beef_up_for_national_infrastructure
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:30:12 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/news?cat=arts_and_culture
+Aug 06, 2018 12:30:14 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:14 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/news?cat=religion
+Aug 06, 2018 12:30:15 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:15 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/news?cat=security
+Aug 06, 2018 12:30:17 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:17 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/updates-buy_naija_to_grow_the_naira_campaign__challenges_and_prospects
+Aug 06, 2018 12:30:18 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:23 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/page-advertisements
+Aug 06, 2018 12:30:26 PM com.bc.webcrawler.CrawlerImpl collectLinks
+FINE: No links to collect from: http://www.aitonline.tv/page-advertisements
+Aug 06, 2018 12:30:26 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/updates-boko_haram__the_beginning_of_the_end_and_the_end_of_the_beginning
+Aug 06, 2018 12:30:29 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:29 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/posts?cat=entertainment
+Aug 06, 2018 12:30:31 PM com.bc.webcrawler.CrawlerImpl parseNext
+WARNING: Parse failed for: http://www.aitonline.tv/posts?cat=entertainment. Reason: java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=entertainment (http://www.aitonline.tv/posts?cat=entertainment).
+Aug 06, 2018 12:30:31 PM com.bc.webcrawler.Crawler next
+WARNING: null
+java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=entertainment (http://www.aitonline.tv/posts?cat=entertainment).
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:52)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:33)
+	at com.bc.webcrawler.CrawlerImpl.parse(CrawlerImpl.java:346)
+	at com.bc.webcrawler.CrawlerImpl.parseNext(CrawlerImpl.java:255)
+	at com.bc.webcrawler.Crawler.next(Crawler.java:58)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:167)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:39)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=entertainment (http://www.aitonline.tv/posts?cat=entertainment).
+	at org.htmlparser.lexer.Page.setConnection(Page.java:609)
+	at org.htmlparser.lexer.Page.<init>(Page.java:137)
+	at org.htmlparser.lexer.Lexer.<init>(Lexer.java:190)
+	at org.htmlparser.Parser.setConnection(Parser.java:423)
+	at org.htmlparser.Parser.setURL(Parser.java:452)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:108)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:103)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:49)
+	... 13 more
+
+Aug 06, 2018 12:30:31 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?search=2019 General Elections
+Aug 06, 2018 12:30:32 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:32 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/programs?cat=culture_and_tourism
+Aug 06, 2018 12:30:33 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:38 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/post-unicef_mobilises_journalists_against_polio_in_adamawa_
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:40 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-unicef_mobilises_journalists_against_polio_in_adamawa_
+Aug 06, 2018 12:30:40 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: UNICEF Mobilises Journalists Against Polio In Adamawa.
+URL: http://www.aitonline.tv/post-unicef_mobilises_journalists_against_polio_in_adamawa_
+Image url: http://aitonline.tv/pix/NewsImages/22550.jpg
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-gombe_gov__dankwambo_declares_presidential_ambition">
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:30:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22550.jpg'/>
+Aug 06, 2018 12:30:40 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-unicef_mobilises_journalists_against_polio_in_adamawa_, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> UNICEF Mobilises Journalists Against Polio In Adamawa.</H3> 
+URL: http://www.aitonline.tv/post-unicef_mobilises_journalists_against_polio_in_adamawa_
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:30:40 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-refugee_commission_regrets_death_of_asylum_seekers
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:41 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-refugee_commission_regrets_death_of_asylum_seekers
+Aug 06, 2018 12:30:41 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Refugee Commission Regrets Death Of Asylum Seekers
+URL: http://www.aitonline.tv/post-refugee_commission_regrets_death_of_asylum_seekers
+Image url: http://aitonline.tv/pix/NewsImages/22532.png
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-pdp_alleges_attempt_to_remove_saraki">
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:30:41 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22532.png'/>
+Aug 06, 2018 12:30:41 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-refugee_commission_regrets_death_of_asylum_seekers, Elements=2255}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Refugee Commission Regrets Death Of Asylum Seekers</H3> 
+URL: http://www.aitonline.tv/post-refugee_commission_regrets_death_of_asylum_seekers
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:30:41 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/program-tax_matters
+Aug 06, 2018 12:30:43 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:43 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/program-sunday_homily
+Aug 06, 2018 12:30:44 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:44 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.aitonline.tv/news?search=SON
+Aug 06, 2018 12:30:47 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:52 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/page-about_ait
+Aug 06, 2018 12:30:54 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:54 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/post-gov__ayade_raises_alarm_over_maritime_insecurity
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:55 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-gov__ayade_raises_alarm_over_maritime_insecurity
+Aug 06, 2018 12:30:55 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Gov. Ayade Raises Alarm Over Maritime Insecurity
+URL: http://www.aitonline.tv/post-gov__ayade_raises_alarm_over_maritime_insecurity
+Image url: http://aitonline.tv/pix/NewsImages/22540.jpg
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-buhari_felicitates_with_ray_ekpu_at_70">
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:30:55 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22540.jpg'/>
+Aug 06, 2018 12:30:55 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-gov__ayade_raises_alarm_over_maritime_insecurity, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Gov. Ayade Raises Alarm Over Maritime Insecurity</H3> 
+URL: http://www.aitonline.tv/post-gov__ayade_raises_alarm_over_maritime_insecurity
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:30:55 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-103_passengers_survive_plane_crash_in_mexico
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:57 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-103_passengers_survive_plane_crash_in_mexico
+Aug 06, 2018 12:30:57 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: 103 Passengers Survive Plane Crash In Mexico
+URL: http://www.aitonline.tv/post-103_passengers_survive_plane_crash_in_mexico
+Image url: http://aitonline.tv/pix/NewsImages/22462.png
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-23_kwara_house_of_assembly_members_defect_to_pdp">
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:30:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22462.png'/>
+Aug 06, 2018 12:30:57 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-103_passengers_survive_plane_crash_in_mexico, Elements=2257}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> 103 Passengers Survive Plane Crash In Mexico</H3> 
+URL: http://www.aitonline.tv/post-103_passengers_survive_plane_crash_in_mexico
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:30:57 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/post-ayade_denies_defection_rumors
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:30:58 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-ayade_denies_defection_rumors
+Aug 06, 2018 12:30:58 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Ayade Denies Defection Rumors
+URL: http://www.aitonline.tv/post-ayade_denies_defection_rumors
+Image url: http://aitonline.tv/pix/NewsImages/22522.jpg
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-pdp_alleges_attempt_to_remove_saraki_">
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:30:58 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22522.jpg'/>
+Aug 06, 2018 12:30:58 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-ayade_denies_defection_rumors, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Ayade Denies Defection Rumors</H3> 
+URL: http://www.aitonline.tv/post-ayade_denies_defection_rumors
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:30:58 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/updates-the_message_and_the_messenger
+Aug 06, 2018 12:31:00 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:05 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/programs?cat=drama
+Aug 06, 2018 12:31:06 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:06 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/program-spirit_of_praise
+Aug 06, 2018 12:31:08 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:08 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/program-secrets_and_scandals
+Aug 06, 2018 12:31:09 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:09 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/programs?cat=religion
+Aug 06, 2018 12:31:10 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:10 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?cat=environment
+Aug 06, 2018 12:31:11 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:16 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/post-kogi_lawmakers_cry_out_over_intimidation
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:20 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-kogi_lawmakers_cry_out_over_intimidation
+Aug 06, 2018 12:31:20 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Kogi Lawmakers Cry Out Over Intimidation
+URL: http://www.aitonline.tv/post-kogi_lawmakers_cry_out_over_intimidation
+Image url: http://aitonline.tv/pix/NewsImages/22544.jpg
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-almakura_says_nasarawa_apc_remains_intact">
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:31:20 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22544.jpg'/>
+Aug 06, 2018 12:31:20 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-kogi_lawmakers_cry_out_over_intimidation, Elements=2245}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Kogi Lawmakers Cry Out Over Intimidation</H3> 
+URL: http://www.aitonline.tv/post-kogi_lawmakers_cry_out_over_intimidation
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:31:20 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-minister_harps_on_accurate_patients_database_for_hiv_aids_control
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:21 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-minister_harps_on_accurate_patients_database_for_hiv_aids_control
+Aug 06, 2018 12:31:21 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Minister harps on accurate patients database for HIV/AIDS control
+URL: http://www.aitonline.tv/post-minister_harps_on_accurate_patients_database_for_hiv_aids_control
+Image url: http://aitonline.tv/pix/NewsImages/22531.png
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-nema_charges_its_officials_on_fitness">
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:31:21 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22531.png'/>
+Aug 06, 2018 12:31:21 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-minister_harps_on_accurate_patients_database_for_hiv_aids_control, Elements=2269}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Minister harps on accurate patients database for HIV/AIDS control</H3> 
+URL: http://www.aitonline.tv/post-minister_harps_on_accurate_patients_database_for_hiv_aids_control
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:31:21 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/programs?cat=current_affairs
+Aug 06, 2018 12:31:22 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:22 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/tv
+Aug 06, 2018 12:31:27 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:27 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/post-tension_as_zimbabwe_awaits_election_results
+Aug 06, 2018 12:31:29 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:29 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-tension_as_zimbabwe_awaits_election_results
+Aug 06, 2018 12:31:29 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Tension As Zimbabwe Awaits Election Results
+URL: http://www.aitonline.tv/post-tension_as_zimbabwe_awaits_election_results
+Image url: http://aitonline.tv/pix/NewsImages/22495.png
+Aug 06, 2018 12:31:29 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:29 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:29 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a href='news?cat=politics' class='a'>
+Aug 06, 2018 12:31:29 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22495.png'/>
+Aug 06, 2018 12:31:29 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-tension_as_zimbabwe_awaits_election_results, Elements=2303}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Tension As Zimbabwe Awaits Election Results</H3> 
+URL: http://www.aitonline.tv/post-tension_as_zimbabwe_awaits_election_results
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:31:34 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, parsing: http://www.aitonline.tv/programs?cat=public_enlightenment
+Aug 06, 2018 12:31:35 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:35 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/programs?cat=business
+Aug 06, 2018 12:31:39 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:39 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-cross_river_government_raises_concern_over_health_of_cameroon_refugees
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:40 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-cross_river_government_raises_concern_over_health_of_cameroon_refugees
+Aug 06, 2018 12:31:40 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Cross River Government Raises Concern Over Health Of Cameroon Refugees
+URL: http://www.aitonline.tv/post-cross_river_government_raises_concern_over_health_of_cameroon_refugees
+Image url: http://aitonline.tv/pix/NewsImages/22516.png
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-afghan_mosque_attack_kills_25">
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:31:40 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22516.png'/>
+Aug 06, 2018 12:31:40 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-cross_river_government_raises_concern_over_health_of_cameroon_refugees, Elements=2253}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Cross River Government Raises Concern Over Health Of Cameroon Refugees</H3> 
+URL: http://www.aitonline.tv/post-cross_river_government_raises_concern_over_health_of_cameroon_refugees
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:31:40 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/videos
+Aug 06, 2018 12:31:41 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:41 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, parsing: http://www.aitonline.tv/news?search=State PDP Chairman Barrat Shehu
+Aug 06, 2018 12:31:46 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:51 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/presenters
+Aug 06, 2018 12:31:52 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:52 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/posts?cat=education
+Aug 06, 2018 12:31:56 PM com.bc.webcrawler.CrawlerImpl parseNext
+WARNING: Parse failed for: http://www.aitonline.tv/posts?cat=education. Reason: java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=education (http://www.aitonline.tv/posts?cat=education).
+Aug 06, 2018 12:31:56 PM com.bc.webcrawler.Crawler next
+WARNING: null
+java.io.IOException: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=education (http://www.aitonline.tv/posts?cat=education).
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:52)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:33)
+	at com.bc.webcrawler.CrawlerImpl.parse(CrawlerImpl.java:346)
+	at com.bc.webcrawler.CrawlerImpl.parseNext(CrawlerImpl.java:255)
+	at com.bc.webcrawler.Crawler.next(Crawler.java:58)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:167)
+	at com.idisc.core.extraction.ScrapSiteTaskImpl.doCall(ScrapSiteTaskImpl.java:39)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.htmlparser.util.ParserException: Exception getting input stream from http://www.aitonline.tv/posts?cat=education (http://www.aitonline.tv/posts?cat=education).
+	at org.htmlparser.lexer.Page.setConnection(Page.java:609)
+	at org.htmlparser.lexer.Page.<init>(Page.java:137)
+	at org.htmlparser.lexer.Lexer.<init>(Lexer.java:190)
+	at org.htmlparser.Parser.setConnection(Parser.java:423)
+	at org.htmlparser.Parser.setURL(Parser.java:452)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:108)
+	at com.bc.webdatex.ParserImpl.parse(ParserImpl.java:103)
+	at com.idisc.core.extraction.UrlParserImpl.parse(UrlParserImpl.java:49)
+	... 13 more
+
+Aug 06, 2018 12:31:56 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-commonwealth_election_observers_condemn_zimbabwe_army___s_use_of_force_on_protesters
+Aug 06, 2018 12:31:57 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:31:57 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-commonwealth_election_observers_condemn_zimbabwe_army___s_use_of_force_on_protesters
+Aug 06, 2018 12:31:57 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Commonwealth Election Observers Condemn Zimbabwe Army’s Use Of Force On Protesters
+URL: http://www.aitonline.tv/post-commonwealth_election_observers_condemn_zimbabwe_army___s_use_of_force_on_protesters
+Image url: http://aitonline.tv/pix/NewsImages/22494.png
+Aug 06, 2018 12:31:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:31:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a href='news?cat=politics' class='a'>
+Aug 06, 2018 12:31:57 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22494.png'/>
+Aug 06, 2018 12:31:57 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Contains expired data: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=http://www.aitonline.tv/post-commonwealth_election_observers_condemn_zimbabwe_army___s_use_of_force_on_protesters, Elements=2261}
+Feed: Site aitonline_news, author: aitonline_news, title: <h3 class="single_title"> Commonwealth Election Observers Condemn Zimbabwe Army’s Use Of Force On Protesters</H3> 
+URL: http://www.aitonline.tv/post-commonwealth_election_observers_condemn_zimbabwe_army___s_use_of_force_on_protesters
+Image url: http://c.statcounter.com/9162053/0/ce93259b/1/
+Aug 06, 2018 12:31:57 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, parsing: http://www.aitonline.tv/news
+Aug 06, 2018 12:32:01 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:32:01 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, parsing: http://www.aitonline.tv/post-kogi_to_pay_outstanding_salaries_in_nine_days
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.ParserImpl applyBugfix991895
+FINE: PARSER CRASHED! Applying bug fix #991895 for: org.htmlparser.util.EncodingChangeException: character mismatch (new: ? [0xfeff] != old:  [0xefï]) for encoding change from ISO-8859-1 to UTF-8 at character offset 0
+Aug 06, 2018 12:32:02 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: [description, imageLinkSet, type, title, keywords], from link: http://www.aitonline.tv/post-kogi_to_pay_outstanding_salaries_in_nine_days
+Aug 06, 2018 12:32:02 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site aitonline_news, author: aitonline_news, title: Kogi To Pay Outstanding Salaries In Nine Days
+URL: http://www.aitonline.tv/post-kogi_to_pay_outstanding_salaries_in_nine_days
+Image url: http://aitonline.tv/pix/NewsImages/22513.png
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a>
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <a class="grid_6 lefter relative" href="post-bauchi_apc_faithful_confident_of_party___s_2019_chances">
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <i class="icon-chevron-left">
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <small>
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <span>
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.node.NodeExtractorImpl visitTag
+FINE: Extracted attributes: [] from tag: <img src='pix/NewsImages/22513.png'/>
+Aug 06, 2018 12:32:02 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 12:32. From: 8/3/18 12:00 AM to 8/3/18 12:32 PM
+Aug 06, 2018 12:34:41 PM com.idisc.pu.FeedDao create
+FINE: Saved aitonline_news feed titled: <h3 class="single_title"> Kogi To Pay Outstanding Salaries In Nine Days</H3> 
+Aug 06, 2018 12:34:41 PM com.bc.webcrawler.CrawlerImpl hasNext
+FINE: HasNext: false
+Aug 06, 2018 12:34:41 PM com.idisc.core.timespent.TimeSpentListenerImpl finish
+INFO: Completed.
+com.idisc.core.extraction.ScrapSiteTaskImpl@340cb97f{Started=true, startTime=1533554848214, stopInitiated=false, stopped=false}
+{Description: ScrapSiteTaskImpl[aitonline_news]
+com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 433720/360000. URLs:: attempted: 84, failed: 4, remaining: 4
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 84, rejected: 79, Succeeded: 1/50, Failed: 4/9}
+com.bc.timespent.TimeSpentImpl@65070125{Start-time: 1533554848214, total-time: 433611 milliseconds, TimeSpentArray(millis)=[1437]}
+Aug 06, 2018 12:34:41 PM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_aitonline_news.javaobject (The system cannot find the file specified)
+Aug 06, 2018 12:34:41 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl updateTimeSpent
+FINE: Saving: com.bc.timespent.TimeSpentImpl@65070125{Start-time: 1533554848214, total-time: 433611 milliseconds, TimeSpentArray(millis)=[1437]}
+Aug 06, 2018 12:34:41 PM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_aitonline_news.javaobject (The system cannot find the file specified)
+Aug 06, 2018 12:34:41 PM com.bc.webcrawler.CrawlerImpl shutdown
+FINE: SHUTTING DOWN com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 433736/360000. URLs:: attempted: 84, failed: 4, remaining: 4
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 06, 2018 12:34:41 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: DONE:: com.idisc.core.extraction.ScrapSiteTaskImpl@340cb97f{Started=true, startTime=1533554848214, stopInitiated=false, stopped=false}
+{Description: ScrapSiteTaskImpl[aitonline_news]
+com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 433736/360000. URLs:: attempted: 0, failed: 0, remaining: 4
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 84, rejected: 79, Succeeded: 1/50, Failed: 4/9}
+Completed tasks: 
+--------------------------------------
+Consumed time: 440165, memory: 19045056
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 862.142 sec - in com.idisc.core.extraction.web.WebFeedTaskTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time: 14:26.065s
+Finished at: Mon Aug 06 12:34:42 WAT 2018
+Final Memory: 6M/77M
+------------------------------------------------------------------------
+

@@ -47,7 +47,7 @@ public class SubmitTasksTest {
 System.out.println("Tasks: "+tasks.size()+", max concurrent: "+maxConcurrent+", timeout: "+timeout+", time unit: "+timeoutUnit);        
         for(int i=0; i<5; i++) {
 System.out.println("============================= ("+i+") =============================");            
-            SubmitTasks instance = new SubmitTasksImpl();
+            SubmitTasks<Object, Integer> instance = new SubmitTasksImpl();
 final long tb4 = System.currentTimeMillis();
             final Integer result = instance.call();
 System.out.println("Task-group("+i+"), time spent: "+(System.currentTimeMillis()-tb4));            

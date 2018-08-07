@@ -32,15 +32,19 @@ import org.htmlparser.util.ParserException;
  */
 public class UrlParserImpl implements UrlParser<HtmlDocument> {
 
-    private static final Logger logger = Logger.getLogger(UrlParserImpl.class.getName());
+    private static final Logger LOG = Logger.getLogger(UrlParserImpl.class.getName());
 
     private final ParserImpl parser;
-    
+
     public UrlParserImpl() {
+        this(30_000, 90_000, false);
+    }
+    
+    public UrlParserImpl(int connectTimeout, int readTimeout, boolean processCookies) {
         this.parser = new ParserImpl();
-        this.parser.setProcessCookies(false);
-        this.parser.setReadTimeout(15_000);
-        this.parser.setConnectTimeout(45_000);
+        this.parser.setConnectTimeout(connectTimeout);
+        this.parser.setReadTimeout(readTimeout);
+        this.parser.setProcessCookies(processCookies);
     }
 
     @Override
@@ -66,7 +70,7 @@ public class UrlParserImpl implements UrlParser<HtmlDocument> {
                 if(parts.length == 2) {
                     output.put(parts[0], parts[1]);
                 }else{
-                    logger.warning(() -> "Failed to parse into NAME-VALUE pair, cookie: " + cookie);
+                    LOG.warning(() -> "Failed to parse into NAME-VALUE pair, cookie: " + cookie);
                 }
             }
         }

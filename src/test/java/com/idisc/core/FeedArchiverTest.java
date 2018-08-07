@@ -32,6 +32,7 @@ public class FeedArchiverTest extends IdiscTestBase {
         final int limit = 100;
         
         List<Feed> feeds = jpaContext.getDaoForSelect(Feed.class)
+                .from(Feed.class)
                 .ascOrder(Feed_.feeddate.getName())
                 .getResultsAndClose(0, limit);
         

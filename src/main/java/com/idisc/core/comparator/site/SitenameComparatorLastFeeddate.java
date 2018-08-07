@@ -16,7 +16,7 @@
 
 package com.idisc.core.comparator.site;
 
-import com.bc.jpa.context.JpaContext;
+import com.bc.jpa.context.PersistenceUnitContext;
 import com.idisc.pu.FeedDao;
 import com.idisc.pu.entities.Feed;
 import java.text.MessageFormat;
@@ -45,7 +45,7 @@ public class SitenameComparatorLastFeeddate implements Comparator<String> {
     
     private final Feed FEED_PLACE_HOLDER;
     
-    public SitenameComparatorLastFeeddate(JpaContext jpaContext) {
+    public SitenameComparatorLastFeeddate(PersistenceUnitContext jpaContext) {
         this.feedService = new FeedDao(Objects.requireNonNull(jpaContext));
         this.getFeedDate = (feed) -> feed.getFeeddate() == null ? feed.getDatecreated() : feed.getFeeddate();
         this.noDate = new Date(0);

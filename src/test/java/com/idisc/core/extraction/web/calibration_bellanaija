@@ -1,0 +1,469 @@
+cd C:\Users\Josh\Documents\NetBeansProjects\idisccore; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.8.0_144" cmd /c "\"\"C:\\Program Files\\NetBeans 8.1\\java\\maven\\bin\\mvn.bat\" -Dtest=com.idisc.core.extraction.web.WebFeedCalibrationTest -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar;C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-cos.jar\" -Dfile.encoding=UTF-8 surefire:test\""
+Running NetBeans Compile On Save execution. Phase execution is skipped and output directories of dependency projects (with Compile on Save turned on) will be used instead of their jar artifacts.
+Scanning for projects...
+                                                                        
+------------------------------------------------------------------------
+Building idisccore 1.0-SNAPSHOT
+------------------------------------------------------------------------
+
+--- maven-surefire-plugin:2.19.1:test (default-cli) @ idisccore ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.idisc.core.extraction.web.WebFeedCalibrationTest
+Reading configuration from: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/test-classes/META-INF/logging.properties
+Jul 31, 2018 9:20:25 PM com.idisc.core.IdiscApp loadConfig
+INFO: Loading properties configuration. List delimiter: ,
+Default file: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/properties/idiscdefaults.properties
+File: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisc.properties
+Jul 31, 2018 9:20:25 PM com.bc.jpa.util.PersistenceURISelector selectURI
+FINE: Selecting persistence files for name: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:20:25 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Created URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, from filename: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:20:25 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Selected persistence file: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:20:26 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:20:26 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Jul 31, 2018 9:20:26 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: ClassLoader to replace. Type: sun.misc.Launcher$AppClassLoader, instance: sun.misc.Launcher$AppClassLoader@6bc7c054
+Jul 31, 2018 9:20:26 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: Using classloader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader to load persistence '.xml' file
+Jul 31, 2018 9:20:26 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri apply
+INFO: 	URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+	ClassLoader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@3498ed
+Jul 31, 2018 9:20:26 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:20:26 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Jul 31, 2018 9:20:26 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Jul 31, 2018 9:20:26 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@64616ca2}
+Jul 31, 2018 9:20:26 PM com.bc.jpa.EntityManagerFactoryCreatorImpl newInstance
+INFO: --------------------------------------------------
+Creating EntityManagerFactory for persistence unit: idiscpu
+Properties: []
+Jul 31, 2018 9:20:26 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@3498ed
+Jul 31, 2018 9:20:26 PM com.bc.jpa.classloaders.AlternativeResourceContext getResources
+FINE: For resource: META-INF/persistence.xml, returning: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:20:27 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: sun.misc.Launcher$AppClassLoader@6bc7c054
+[EL Info]: 2018-07-31 21:20:28.467--ServerSession(769195805)--EclipseLink, version: Eclipse Persistence Services - 2.7.1.v20171221-bd47e8f
+[EL Warning]: metadata: 2018-07-31 21:21:30.866--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [sitetypeid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.866--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [timezoneid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.866--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.882--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Archivedfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.883--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.883--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.884--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.884--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feeduserid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.886--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [emailstatus] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.887--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.888--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [country] for the entity class [class com.idisc.pu.entities.Localaddress] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.889--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Applaunchlog] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.89--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Feed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.891--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [commentid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.892--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [gender] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [howDidYouFindUs] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [localaddressid] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [repliedto] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-07-31 21:21:30.893--ServerSession(769195805)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Info]: connection: 2018-07-31 21:21:31.065--ServerSession(769195805)--/file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/_idiscpu login successful
+Jul 31, 2018 9:21:32 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Jul 31, 2018 9:21:41 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Jul 31, 2018 9:21:50 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Jul 31, 2018 9:22:19 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Jul 31, 2018 9:22:24 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Jul 31, 2018 9:22:28 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Jul 31, 2018 9:22:34 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Jul 31, 2018 9:22:39 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Jul 31, 2018 9:22:43 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Jul 31, 2018 9:22:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Jul 31, 2018 9:22:53 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Jul 31, 2018 9:22:57 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Jul 31, 2018 9:23:01 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Jul 31, 2018 9:23:06 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Jul 31, 2018 9:23:10 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Jul 31, 2018 9:23:15 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Jul 31, 2018 9:23:20 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Jul 31, 2018 9:23:25 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Jul 31, 2018 9:23:29 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Jul 31, 2018 9:23:34 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Jul 31, 2018 9:23:39 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Jul 31, 2018 9:23:44 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Jul 31, 2018 9:23:49 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Jul 31, 2018 9:23:53 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:23:53 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Jul 31, 2018 9:23:53 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Jul 31, 2018 9:23:53 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@23468512}
+Jul 31, 2018 9:23:54 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Jul 31, 2018 9:24:04 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Jul 31, 2018 9:24:13 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Jul 31, 2018 9:24:43 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Jul 31, 2018 9:24:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Jul 31, 2018 9:24:53 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Jul 31, 2018 9:24:58 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Jul 31, 2018 9:25:02 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Jul 31, 2018 9:25:06 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Jul 31, 2018 9:25:10 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Jul 31, 2018 9:25:15 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Jul 31, 2018 9:25:19 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Jul 31, 2018 9:25:24 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Jul 31, 2018 9:25:28 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Jul 31, 2018 9:25:33 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Jul 31, 2018 9:25:37 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Jul 31, 2018 9:25:41 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Jul 31, 2018 9:25:45 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Jul 31, 2018 9:25:49 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Jul 31, 2018 9:25:53 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Jul 31, 2018 9:25:58 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Jul 31, 2018 9:26:03 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Jul 31, 2018 9:26:08 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Jul 31, 2018 9:26:12 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Jul 31, 2018 9:26:12 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Jul 31, 2018 9:26:12 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$sitetype, enum constants: [rss, web, timeline, trend]
+Jul 31, 2018 9:26:14 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$gender, enum constants: [Male, Female, Other]
+Jul 31, 2018 9:26:15 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$country, enum constants: []
+Jul 31, 2018 9:26:15 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$howdidyoufindus, enum constants: [Throughafriendorcolleague, Fromtheweb, Magazinesorotherprintmedia, Tvorotherelectronicmedia, Throughouragent]
+Jul 31, 2018 9:26:16 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$emailstatus, enum constants: [unverified, verified, bounced, disabled_or_discontinued, unable_to_relay, does_not_exist, could_not_be_delivered_to, black_listed, verification_attempted_but_status_unknown, user_opted_out_of_mailinglist, registered_user, automated_system_email, restricted, invalid_format]
+Jul 31, 2018 9:26:21 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: #validate(), enum types: [class com.idisc.pu.References$sitetype, class com.idisc.pu.References$gender, class com.idisc.pu.References$country, class com.idisc.pu.References$howdidyoufindus, class com.idisc.pu.References$emailstatus]
+21:26:22 WebFeedCalibrationTest ContextFactory URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/configs
+run
+Names: [vanguardngr, naij, ngrguardiannews, sunnewsonline, bellanaija, dailytrust, thisday, punchng, saharareporters, channelstv_headlines, aitonline_news, lindaikeji.blogspot, thenewsminute]
+Selected Names: [bellanaija]
+Jul 31, 2018 9:26:22 PM com.idisc.core.SubmitTasks doCall
+FINE: Timeout: 300 SECONDS, Max concurrent: 1, Tasks: [bellanaija]
+Jul 31, 2018 9:26:23 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl get
+FINE: Average time spent by subunits = 10944, for: com.bc.timespent.TimeSpent_web_bellanaija.javaobject
+Jul 31, 2018 9:26:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Seeding Crawler with 1 URLs
+Jul 31, 2018 9:26:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: 
+ Base URL: https://www.bellanaija.com
+Start URL: https://www.bellanaija.com/
+Jul 31, 2018 9:26:24 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Done creating: com.bc.webcrawler.CrawlerImpl@51ff3c4b{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@1472208d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Jul 31, 2018 9:26:24 PM com.idisc.core.extraction.web.WebFeedTaskProvider apply
+FINE: Created task com.bc.webcrawler.CrawlerImpl for bellanaija
+Jul 31, 2018 9:26:25 PM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Jul 31, 2018 9:26:28 PM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: bellanaija, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Jul 31, 2018 9:26:29 PM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Jul 31, 2018 9:26:29 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\schema.Article.json, input stream: java.io.BufferedInputStream@3af10d0b
+Jul 31, 2018 9:26:29 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.CreativeWork.json, input stream: java.io.BufferedInputStream@1e76afeb
+Jul 31, 2018 9:26:29 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.Thing.json, input stream: java.io.BufferedInputStream@447fa959
+Jul 31, 2018 9:26:29 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Jul 31, 2018 9:26:29 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Jul 31, 2018 9:26:29 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Jul 31, 2018 9:26:29 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\opengraph.custom.json, input stream: java.io.BufferedInputStream@1eca3ea7
+Jul 31, 2018 9:26:29 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Jul 31, 2018 9:26:29 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\twittercard.custom.json, input stream: java.io.BufferedInputStream@73a6cc79
+Jul 31, 2018 9:26:29 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Jul 31, 2018 9:26:29 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\basic.basic.json, input stream: java.io.BufferedInputStream@5a4d4f9c
+Jul 31, 2018 9:26:29 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+Jul 31, 2018 9:26:29 PM com.idisc.core.extraction.FeedScrapTaskImpl <init>
+FINE: Done creating: com.idisc.core.extraction.FeedScrapTaskImpl@299b9851{Started=false, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@51ff3c4b{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@1472208d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 10 seconds, attempted: 0, Succeeded: 0/50, Failed: 0/9}
+Jul 31, 2018 9:26:29 PM com.idisc.core.SubmitTasks doCall
+FINE: Submitting task: com.idisc.core.extraction.FeedScrapTaskImpl
+Jul 31, 2018 9:26:29 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/
+Jul 31, 2018 9:26:33 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/, Elements=6102}
+Jul 31, 2018 9:26:33 PM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Jul 31, 2018 9:26:35 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1196996&nonce=f03d753d61
+Jul 31, 2018 9:26:39 PM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Jul 31, 2018 9:26:39 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Oghogho Osayimwen: The Tale of a Lagos Babe In Abuja - BellaNaija
+URL: https://www.bellanaija.com/2018/07/oghogho-osayimwen-chronicles-lagos-babe-abuja/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/dreamstime_l_5409591-399x600-1-399x600.jpg
+Jul 31, 2018 9:26:39 PM com.idisc.core.InsertFeedToDatabase process
+WARNING: Caught exception: java.lang.IllegalArgumentException: No [EntityType] was found for the key class [java.lang.Integer] in the Metamodel - please verify that the [Entity] class was referenced in persistence.xml using a specific <class>java.lang.Integer</class> property or a global <exclude-unlisted-classes>false</exclude-unlisted-classes> element.
+Jul 31, 2018 9:26:39 PM com.idisc.core.InsertFeedToDatabase process
+FINE: Stacktrace printed for debugging purposes
+java.lang.IllegalArgumentException: No [EntityType] was found for the key class [java.lang.Integer] in the Metamodel - please verify that the [Entity] class was referenced in persistence.xml using a specific <class>java.lang.Integer</class> property or a global <exclude-unlisted-classes>false</exclude-unlisted-classes> element.
+	at org.eclipse.persistence.internal.jpa.metamodel.MetamodelImpl.entityEmbeddableManagedTypeNotFound(MetamodelImpl.java:178)
+	at org.eclipse.persistence.internal.jpa.metamodel.MetamodelImpl.entity(MetamodelImpl.java:200)
+	at org.eclipse.persistence.internal.jpa.querydef.CommonAbstractCriteriaImpl.internalFrom(CommonAbstractCriteriaImpl.java:117)
+	at org.eclipse.persistence.internal.jpa.querydef.AbstractQueryImpl.from(AbstractQueryImpl.java:272)
+	at com.bc.jpa.dao.SelectImpl.doFrom(SelectImpl.java:154)
+	at com.bc.jpa.dao.BuilderForCriteriaDao.from(BuilderForCriteriaDao.java:583)
+	at com.bc.jpa.dao.BuilderForCriteriaDao.from(BuilderForCriteriaDao.java:557)
+	at com.bc.jpa.context.JpaContextImpl.getDaoForSelect(JpaContextImpl.java:132)
+	at com.bc.jpa.context.JpaContextImpl.getDaoForSelect(JpaContextImpl.java:127)
+	at com.idisc.pu.FeedDao.create(FeedDao.java:162)
+	at com.idisc.core.InsertFeedToDatabase.process(InsertFeedToDatabase.java:61)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:203)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:38)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Jul 31, 2018 9:26:39 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Failed to add Web Feed. Site bellanaija, author: @bellanaija, title: Oghogho Osayimwen: The Tale of a Lagos Babe In Abuja - BellaNaija
+URL: https://www.bellanaija.com/2018/07/oghogho-osayimwen-chronicles-lagos-babe-abuja/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/dreamstime_l_5409591-399x600-1-399x600.jpg
+Jul 31, 2018 9:26:58 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Stop requested: false, timedout: true, exceeded limit: false, exceeded fail limit: false
+Jul 31, 2018 9:26:58 PM com.bc.webcrawler.CrawlerImpl shutdown
+FINE: SHUTTING DOWN com.bc.webcrawler.CrawlerImpl@51ff3c4b{
+Time: 28307/720000. URLs:: attempted: 2, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@1472208d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Jul 31, 2018 9:27:02 PM com.idisc.core.timespent.TimeSpentListenerImpl finish
+FINE: Completed. com.bc.timespent.TimeSpentImpl@69d5c00f{Start-time: 1533068789772, total-time: 32614 milliseconds, TimeSpentArray(millis)=[9911]}
+Jul 31, 2018 9:27:02 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl cummulate
+FINE: LHS: com.bc.timespent.TimeSpentImpl@adf11bce{Start-time: 1533061051863, total-time: 1533061419668 milliseconds, TimeSpentArray(millis)=[6194, 9986, 68819, 2467, 12271, 92755, 16654, 1766, 2845, 2965, 6803, 4421, 3727, 11451, 28870, 1695, 3984, 6507, 1721, 1796, 5065, 7044, 2584, 11887, 1543, 15744, 2718, 2435, 2968, 2622, 6420, 1484]}
+RHS: com.bc.timespent.TimeSpentImpl@69d5c00f{Start-time: 1533068789772, total-time: 32614 milliseconds, TimeSpentArray(millis)=[9911]}
+SUM: com.bc.timespent.TimeSpentImpl@db7b633d{Start-time: 1533068789772, total-time: 766530726141 milliseconds, TimeSpentArray(millis)=[8052]}
+Jul 31, 2018 9:27:02 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl updateTimeSpent
+FINE: Saving: com.bc.timespent.TimeSpentImpl@db7b633d{Start-time: 1533068789772, total-time: 766530726141 milliseconds, TimeSpentArray(millis)=[8052]}
+Jul 31, 2018 9:27:02 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: DONE:: com.idisc.core.extraction.FeedScrapTaskImpl@299b9851{Started=true, startTime=1533068789772, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@51ff3c4b{
+Time: 32674/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@1472208d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 10 seconds, attempted: 2, Succeeded: 0/50, Failed: 0/9}
+Completed calibration tasks: [bellanaija]
+--------------------------------------
+Consumed time: 39778, memory: 12426016
+Jul 31, 2018 9:27:02 PM com.idisc.core.SubmitTasks doCall
+FINE: Timeout: 300 SECONDS, Max concurrent: 1, Tasks: [bellanaija]
+Jul 31, 2018 9:27:02 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl get
+FINE: Average time spent by subunits = 8052, for: com.bc.timespent.TimeSpent_web_bellanaija.javaobject
+Jul 31, 2018 9:27:02 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Seeding Crawler with 1 URLs
+Jul 31, 2018 9:27:02 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: 
+ Base URL: https://www.bellanaija.com
+Start URL: https://www.bellanaija.com/
+Jul 31, 2018 9:27:02 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Done creating: com.bc.webcrawler.CrawlerImpl@2c6c302f{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@2478b629{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Jul 31, 2018 9:27:02 PM com.idisc.core.extraction.web.WebFeedTaskProvider apply
+FINE: Created task com.bc.webcrawler.CrawlerImpl for bellanaija
+Jul 31, 2018 9:27:02 PM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Jul 31, 2018 9:27:03 PM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: bellanaija, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Jul 31, 2018 9:27:03 PM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Jul 31, 2018 9:27:03 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\schema.Article.json, input stream: java.io.BufferedInputStream@492be039
+Jul 31, 2018 9:27:03 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.CreativeWork.json, input stream: java.io.BufferedInputStream@1cd2143b
+Jul 31, 2018 9:27:03 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.Thing.json, input stream: java.io.BufferedInputStream@1118d539
+Jul 31, 2018 9:27:03 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Jul 31, 2018 9:27:03 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Jul 31, 2018 9:27:03 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Jul 31, 2018 9:27:03 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\opengraph.custom.json, input stream: java.io.BufferedInputStream@601d6622
+Jul 31, 2018 9:27:03 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Jul 31, 2018 9:27:03 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\twittercard.custom.json, input stream: java.io.BufferedInputStream@76216830
+Jul 31, 2018 9:27:03 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Jul 31, 2018 9:27:03 PM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\basic.basic.json, input stream: java.io.BufferedInputStream@7aded903
+Jul 31, 2018 9:27:03 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+Jul 31, 2018 9:27:03 PM com.idisc.core.extraction.FeedScrapTaskImpl <init>
+FINE: Done creating: com.idisc.core.extraction.FeedScrapTaskImpl@2db86a7c{Started=false, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@2c6c302f{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@2478b629{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 8 seconds, attempted: 0, Succeeded: 0/50, Failed: 0/9}
+Jul 31, 2018 9:27:03 PM com.idisc.core.SubmitTasks doCall
+FINE: Submitting task: com.idisc.core.extraction.FeedScrapTaskImpl
+Jul 31, 2018 9:27:03 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/
+Jul 31, 2018 9:27:05 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/, Elements=6102}
+Jul 31, 2018 9:27:06 PM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Jul 31, 2018 9:27:08 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1196996&nonce=f03d753d61
+Jul 31, 2018 9:27:11 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Oghogho Osayimwen: The Tale of a Lagos Babe In Abuja - BellaNaija
+URL: https://www.bellanaija.com/2018/07/oghogho-osayimwen-chronicles-lagos-babe-abuja/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/dreamstime_l_5409591-399x600-1-399x600.jpg
+Jul 31, 2018 9:27:11 PM com.idisc.core.InsertFeedToDatabase process
+WARNING: Caught exception: java.lang.IllegalArgumentException: No [EntityType] was found for the key class [java.lang.Integer] in the Metamodel - please verify that the [Entity] class was referenced in persistence.xml using a specific <class>java.lang.Integer</class> property or a global <exclude-unlisted-classes>false</exclude-unlisted-classes> element.
+Jul 31, 2018 9:27:11 PM com.idisc.core.InsertFeedToDatabase process
+FINE: Stacktrace printed for debugging purposes
+java.lang.IllegalArgumentException: No [EntityType] was found for the key class [java.lang.Integer] in the Metamodel - please verify that the [Entity] class was referenced in persistence.xml using a specific <class>java.lang.Integer</class> property or a global <exclude-unlisted-classes>false</exclude-unlisted-classes> element.
+	at org.eclipse.persistence.internal.jpa.metamodel.MetamodelImpl.entityEmbeddableManagedTypeNotFound(MetamodelImpl.java:178)
+	at org.eclipse.persistence.internal.jpa.metamodel.MetamodelImpl.entity(MetamodelImpl.java:200)
+	at org.eclipse.persistence.internal.jpa.querydef.CommonAbstractCriteriaImpl.internalFrom(CommonAbstractCriteriaImpl.java:117)
+	at org.eclipse.persistence.internal.jpa.querydef.AbstractQueryImpl.from(AbstractQueryImpl.java:272)
+	at com.bc.jpa.dao.SelectImpl.doFrom(SelectImpl.java:154)
+	at com.bc.jpa.dao.BuilderForCriteriaDao.from(BuilderForCriteriaDao.java:583)
+	at com.bc.jpa.dao.BuilderForCriteriaDao.from(BuilderForCriteriaDao.java:557)
+	at com.bc.jpa.context.JpaContextImpl.getDaoForSelect(JpaContextImpl.java:132)
+	at com.bc.jpa.context.JpaContextImpl.getDaoForSelect(JpaContextImpl.java:127)
+	at com.idisc.pu.FeedDao.create(FeedDao.java:162)
+	at com.idisc.core.InsertFeedToDatabase.process(InsertFeedToDatabase.java:61)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:203)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:38)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Jul 31, 2018 9:27:11 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Failed to add Web Feed. Site bellanaija, author: @bellanaija, title: Oghogho Osayimwen: The Tale of a Lagos Babe In Abuja - BellaNaija
+URL: https://www.bellanaija.com/2018/07/oghogho-osayimwen-chronicles-lagos-babe-abuja/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/dreamstime_l_5409591-399x600-1-399x600.jpg
+Jul 31, 2018 9:27:11 PM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Jul 31, 2018 9:27:28 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Stop requested: false, timedout: true, exceeded limit: false, exceeded fail limit: false
+Jul 31, 2018 9:27:28 PM com.bc.webcrawler.CrawlerImpl shutdown
+FINE: SHUTTING DOWN com.bc.webcrawler.CrawlerImpl@2c6c302f{
+Time: 25765/720000. URLs:: attempted: 2, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@2478b629{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Jul 31, 2018 9:27:33 PM com.idisc.core.timespent.TimeSpentListenerImpl finish
+FINE: Completed. com.bc.timespent.TimeSpentImpl@746e67c2{Start-time: 1533068823226, total-time: 29878 milliseconds, TimeSpentArray(millis)=[8260]}
+Jul 31, 2018 9:27:33 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl cummulate
+FINE: LHS: com.bc.timespent.TimeSpentImpl@db7b633d{Start-time: 1533068789772, total-time: 766530726141 milliseconds, TimeSpentArray(millis)=[8052]}
+RHS: com.bc.timespent.TimeSpentImpl@746e67c2{Start-time: 1533068823226, total-time: 29878 milliseconds, TimeSpentArray(millis)=[8260]}
+SUM: com.bc.timespent.TimeSpentImpl@ad42c1f4{Start-time: 1533068823226, total-time: 383265378009 milliseconds, TimeSpentArray(millis)=[8156]}
+Jul 31, 2018 9:27:33 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl updateTimeSpent
+FINE: Saving: com.bc.timespent.TimeSpentImpl@ad42c1f4{Start-time: 1533068823226, total-time: 383265378009 milliseconds, TimeSpentArray(millis)=[8156]}
+Jul 31, 2018 9:27:33 PM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: DONE:: com.idisc.core.extraction.FeedScrapTaskImpl@2db86a7c{Started=true, startTime=1533068823226, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@2c6c302f{
+Time: 29883/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@2478b629{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 8 seconds, attempted: 2, Succeeded: 0/50, Failed: 0/9}
+Completed calibration tasks: [bellanaija]
+--------------------------------------
+Consumed time: 30658, memory: -44674952
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 427.959 sec - in com.idisc.core.extraction.web.WebFeedCalibrationTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time: 7:10.878s
+Finished at: Tue Jul 31 21:27:33 WAT 2018
+Final Memory: 6M/77M
+------------------------------------------------------------------------
+

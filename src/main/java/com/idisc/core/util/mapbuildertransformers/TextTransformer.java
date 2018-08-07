@@ -16,26 +16,22 @@
 
 package com.idisc.core.util.mapbuildertransformers;
 
-import com.bc.htmlparser.ParseJob;
+import com.idisc.core.functions.GetPlainText;
 import java.util.logging.Logger;
 import com.idisc.pu.entities.Feed_;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2016 12:45:25 PM
  */
 public class TextTransformer implements com.bc.util.MapBuilder.Transformer {
+    
     private transient static final Logger LOG = Logger.getLogger(TextTransformer.class.getName());
 
     private final boolean plainTextOnly;
   
     private final int maxTextLength;
     
-    private final Lock htmlParserLock = new ReentrantLock();
-    
-    private ParseJob htmlParser;
+    private GetPlainText getPlainText;
     
     public TextTransformer(boolean plainTextOnly, int maxTextLength) {
         this.plainTextOnly = plainTextOnly;
@@ -83,34 +79,10 @@ public class TextTransformer implements com.bc.util.MapBuilder.Transformer {
 
     private String getPlainText(String s) {
         
-        if (s == null || s.isEmpty()) {
-            return s;
-        }
+        final String output = s == null || s.isEmpty() ? s : this.getPlainText.apply(s, s);
         
-        if (this.htmlParser == null) {
-            this.htmlParser = new ParseJob();
-        }
+        LOG.finer(() -> "Input: " + s + ", output: " + output);
         
-        String output;
-        try {
-            
-            this.htmlParserLock.lock();
-            
-            this.htmlParser.reset();
-            
-            output = this.htmlParser.separator("\n\n").maxSeparators(1).comments(false).plainText(true).parse(s).toString();
-            
-        } catch (java.io.IOException e) {
-            
-            LOG.log(Level.WARNING, "Error extracting plain text from: " + 
-                    (s.length() <= 100 ? s : s.substring(0, 100)), e);
-            
-            output = s;
-            
-        }finally{
-            
-            this.htmlParserLock.unlock();
-        }
         return output;
     }
   

@@ -1,0 +1,645 @@
+cd C:\Users\Josh\Documents\NetBeansProjects\idisccore; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.8.0_144" cmd /c "\"\"C:\\Program Files\\NetBeans 8.1\\java\\maven\\bin\\mvn.bat\" -Dtest=com.idisc.core.extraction.web.WebFeedCalibrationTest -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar;C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-cos.jar\" -Dfile.encoding=UTF-8 surefire:test\""
+Running NetBeans Compile On Save execution. Phase execution is skipped and output directories of dependency projects (with Compile on Save turned on) will be used instead of their jar artifacts.
+Scanning for projects...
+                                                                        
+------------------------------------------------------------------------
+Building idisccore 1.0-SNAPSHOT
+------------------------------------------------------------------------
+
+--- maven-surefire-plugin:2.19.1:test (default-cli) @ idisccore ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.idisc.core.extraction.web.WebFeedCalibrationTest
+Reading configuration from: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/test-classes/META-INF/logging.properties
+Aug 01, 2018 9:03:29 AM com.idisc.core.IdiscApp loadConfig
+INFO: Loading properties configuration. List delimiter: ,
+Default file: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/properties/idiscdefaults.properties
+File: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisc.properties
+Aug 01, 2018 9:03:29 AM com.bc.jpa.util.PersistenceURISelector selectURI
+FINE: Selecting persistence files for name: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:03:29 AM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Created URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, from filename: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:03:29 AM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Selected persistence file: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:03:29 AM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:03:29 AM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 01, 2018 9:03:29 AM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: ClassLoader to replace. Type: sun.misc.Launcher$AppClassLoader, instance: sun.misc.Launcher$AppClassLoader@6bc7c054
+Aug 01, 2018 9:03:29 AM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: Using classloader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader to load persistence '.xml' file
+Aug 01, 2018 9:03:29 AM com.bc.jpa.functions.GetClassLoaderForPersistenceUri apply
+INFO: 	URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+	ClassLoader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@21bcffb5
+Aug 01, 2018 9:03:29 AM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:03:29 AM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 01, 2018 9:03:29 AM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 01, 2018 9:03:29 AM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@17550481}
+Aug 01, 2018 9:03:29 AM com.bc.jpa.EntityManagerFactoryCreatorImpl newInstance
+INFO: --------------------------------------------------
+Creating EntityManagerFactory for persistence unit: idiscpu
+Properties: []
+Aug 01, 2018 9:03:29 AM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@21bcffb5
+Aug 01, 2018 9:03:29 AM com.bc.jpa.classloaders.AlternativeResourceContext getResources
+FINE: For resource: META-INF/persistence.xml, returning: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:03:30 AM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: sun.misc.Launcher$AppClassLoader@6bc7c054
+[EL Info]: 2018-08-01 09:03:31.673--ServerSession(737852016)--EclipseLink, version: Eclipse Persistence Services - 2.7.1.v20171221-bd47e8f
+[EL Warning]: metadata: 2018-08-01 09:05:09.429--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [gender] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.429--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [howDidYouFindUs] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.43--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [localaddressid] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.431--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.431--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.432--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.432--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feeduserid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.432--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.432--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [repliedto] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.432--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [emailstatus] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Archivedfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Feed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.436--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [country] for the entity class [class com.idisc.pu.entities.Localaddress] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.443--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [commentid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.443--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.443--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Applaunchlog] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.444--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.445--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.445--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [sitetypeid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.445--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [timezoneid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-01 09:05:09.446--ServerSession(737852016)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Info]: connection: 2018-08-01 09:05:09.6--ServerSession(737852016)--/file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/_idiscpu login successful
+Aug 01, 2018 9:05:23 AM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 01, 2018 9:06:14 AM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 01, 2018 9:06:59 AM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 01, 2018 9:08:13 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 01, 2018 9:08:24 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 01, 2018 9:08:35 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 01, 2018 9:08:46 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 01, 2018 9:08:57 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 01, 2018 9:09:06 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 01, 2018 9:09:17 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 01, 2018 9:09:27 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 01, 2018 9:09:38 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 01, 2018 9:09:49 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 01, 2018 9:09:59 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 01, 2018 9:10:10 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 01, 2018 9:10:18 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 01, 2018 9:10:27 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 01, 2018 9:10:36 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 01, 2018 9:10:45 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 01, 2018 9:10:54 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 01, 2018 9:11:03 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 01, 2018 9:11:12 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 01, 2018 9:11:23 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 01, 2018 9:11:33 AM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:11:33 AM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 01, 2018 9:11:33 AM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 01, 2018 9:11:33 AM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@3caafa67}
+Aug 01, 2018 9:11:35 AM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 01, 2018 9:11:53 AM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 01, 2018 9:12:09 AM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 01, 2018 9:13:07 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 01, 2018 9:13:17 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 01, 2018 9:13:28 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 01, 2018 9:13:38 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 01, 2018 9:13:49 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 01, 2018 9:13:59 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 01, 2018 9:14:10 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 01, 2018 9:14:17 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 01, 2018 9:14:26 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 01, 2018 9:14:37 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 01, 2018 9:14:47 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 01, 2018 9:14:57 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 01, 2018 9:15:05 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 01, 2018 9:15:14 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 01, 2018 9:15:23 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 01, 2018 9:15:32 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 01, 2018 9:15:42 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 01, 2018 9:15:52 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 01, 2018 9:15:56 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 01, 2018 9:16:00 AM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 01, 2018 9:16:05 AM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 01, 2018 9:16:05 AM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 01, 2018 9:16:05 AM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$sitetype, enum constants: [rss, web, timeline, trend]
+Aug 01, 2018 9:16:06 AM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$gender, enum constants: [Male, Female, Other]
+Aug 01, 2018 9:16:07 AM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$country, enum constants: []
+Aug 01, 2018 9:16:07 AM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$howdidyoufindus, enum constants: [Throughafriendorcolleague, Fromtheweb, Magazinesorotherprintmedia, Tvorotherelectronicmedia, Throughouragent]
+Aug 01, 2018 9:16:09 AM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$emailstatus, enum constants: [unverified, verified, bounced, disabled_or_discontinued, unable_to_relay, does_not_exist, could_not_be_delivered_to, black_listed, verification_attempted_but_status_unknown, user_opted_out_of_mailinglist, registered_user, automated_system_email, restricted, invalid_format]
+Aug 01, 2018 9:16:14 AM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: #validate(), enum types: [class com.idisc.pu.References$sitetype, class com.idisc.pu.References$gender, class com.idisc.pu.References$country, class com.idisc.pu.References$howdidyoufindus, class com.idisc.pu.References$emailstatus]
+09:16:16 WebFeedCalibrationTest ContextFactory URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/configs
+run
+Names: [vanguardngr, naij, ngrguardiannews, sunnewsonline, bellanaija, dailytrust, thisday, punchng, saharareporters, channelstv_headlines, aitonline_news, lindaikeji.blogspot, thenewsminute]
+Selected Names: [bellanaija]
+Aug 01, 2018 9:16:16 AM com.idisc.core.SubmitTasks doCall
+FINE: Timeout: 300 SECONDS, Max concurrent: 1, Tasks: [bellanaija]
+Aug 01, 2018 9:16:16 AM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_bellanaija.javaobject (The system cannot find the file specified)
+Aug 01, 2018 9:16:18 AM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Seeding Crawler with 1 URLs
+Aug 01, 2018 9:16:18 AM com.bc.webcrawler.CrawlerImpl <init>
+FINE: 
+ Base URL: https://www.bellanaija.com
+Start URL: https://www.bellanaija.com/
+Aug 01, 2018 9:16:18 AM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Done creating: com.bc.webcrawler.CrawlerImpl@7e52a26b{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@2e56b4d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 01, 2018 9:16:18 AM com.idisc.core.extraction.web.WebFeedTaskProvider apply
+FINE: Created task com.bc.webcrawler.CrawlerImpl for bellanaija
+Aug 01, 2018 9:16:19 AM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Aug 01, 2018 9:16:21 AM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: bellanaija, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Aug 01, 2018 9:16:21 AM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Aug 01, 2018 9:16:22 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\schema.Article.json, input stream: java.io.BufferedInputStream@395f52ed
+Aug 01, 2018 9:16:22 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.CreativeWork.json, input stream: java.io.BufferedInputStream@38e83838
+Aug 01, 2018 9:16:22 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.Thing.json, input stream: java.io.BufferedInputStream@39832280
+Aug 01, 2018 9:16:22 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Aug 01, 2018 9:16:22 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Aug 01, 2018 9:16:22 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Aug 01, 2018 9:16:22 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\opengraph.custom.json, input stream: java.io.BufferedInputStream@5a05dd30
+Aug 01, 2018 9:16:22 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Aug 01, 2018 9:16:22 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\twittercard.custom.json, input stream: java.io.BufferedInputStream@dbed7fd
+Aug 01, 2018 9:16:22 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Aug 01, 2018 9:16:22 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\basic.basic.json, input stream: java.io.BufferedInputStream@250d440
+Aug 01, 2018 9:16:22 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+Aug 01, 2018 9:16:22 AM com.idisc.core.extraction.FeedScrapTaskImpl <init>
+FINE: Done creating: com.idisc.core.extraction.FeedScrapTaskImpl@5a4dda2{Started=false, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@7e52a26b{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@2e56b4d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 0, Succeeded: 0/50, Failed: 0/9}
+Aug 01, 2018 9:16:22 AM com.idisc.core.SubmitTasks doCall
+FINE: Submitting task: com.idisc.core.extraction.FeedScrapTaskImpl
+Aug 01, 2018 9:16:22 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/
+Aug 01, 2018 9:16:40 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/, Elements=3872}
+Aug 01, 2018 9:16:40 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:16:41 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1197168&nonce=c00a4f4b71
+Aug 01, 2018 9:16:52 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:16:52 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Italian Athlete wounded in Alleged Racist Attack - BellaNaija
+URL: https://www.bellanaija.com/2018/07/italian-athlete-wounded-alleged-racist-attack/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/Daisy-1-480x600.jpg
+Aug 01, 2018 9:17:25 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Italian Athlete wounded in Alleged Racist Attack - BellaNaija
+Aug 01, 2018 9:17:44 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/career/
+Aug 01, 2018 9:17:57 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/career/, Elements=4096}
+Aug 01, 2018 9:17:57 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:18:56 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/features/
+Aug 01, 2018 9:18:58 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/features/, Elements=4280}
+Aug 01, 2018 9:18:58 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:19:04 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, crawling: https://www.bellanaija.com/2018/07/homeless-man-gets-multiple-job-offers-photo-handing-resume-highway-went-viral/
+Aug 01, 2018 9:19:05 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Homeless Man Gets Multiple Job Offers after Photo of him Handing out his Résumè on a Highway Went Viral - BellaNaija
+URL: https://www.bellanaija.com/2018/07/homeless-man-gets-multiple-job-offers-photo-handing-resume-highway-went-viral/
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/IMG_20180729_172615-450x600.jpg
+Aug 01, 2018 9:19:07 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Homeless Man Gets Multiple Job Offers after Photo of him Handing out his Résumè on a Highway Went Viral - BellaNaija
+Aug 01, 2018 9:19:07 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1193986&nonce=c00a4f4b71
+Aug 01, 2018 9:19:13 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+URL: https://www.bellanaija.com/2018/07/atokes-awkward-banter-lets-try-parenting-thing-20-years/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/OP11803-400x600-400x600.jpg
+Aug 01, 2018 9:19:14 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+Aug 01, 2018 9:19:14 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 2, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1193986&nonce=c00a4f4b71
+Aug 01, 2018 9:19:17 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+URL: https://www.bellanaija.com/2018/07/atokes-awkward-banter-lets-try-parenting-thing-20-years/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/OP11803-400x600-400x600.jpg
+Aug 01, 2018 9:19:18 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+Aug 01, 2018 9:19:18 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1193986&nonce=c00a4f4b71
+Aug 01, 2018 9:19:20 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+URL: https://www.bellanaija.com/2018/07/atokes-awkward-banter-lets-try-parenting-thing-20-years/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/OP11803-400x600-400x600.jpg
+Aug 01, 2018 9:19:22 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+Aug 01, 2018 9:19:22 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1193986&nonce=c00a4f4b71
+Aug 01, 2018 9:19:30 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+URL: https://www.bellanaija.com/2018/07/atokes-awkward-banter-lets-try-parenting-thing-20-years/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/OP11803-400x600-400x600.jpg
+Aug 01, 2018 9:19:32 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Atoke's Awkward Banter: Let's Try This Parenting Thing Again After 20 Years - BellaNaija
+Aug 01, 2018 9:19:37 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 3, crawling: https://www.bellanaija.com/living/
+Aug 01, 2018 9:19:39 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/living/, Elements=4096}
+Aug 01, 2018 9:19:39 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, crawling: https://www.bellanaija.com/living/
+Aug 01, 2018 9:19:50 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/living/, Elements=4096}
+Aug 01, 2018 9:19:50 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 6, crawling: https://www.bellanaija.com/2018/07/interview-lagos-fashion-illustrator-artist-claire-idera/
+Aug 01, 2018 9:19:52 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @ndemv, title: "I Try To Tell a Story Through Fashion & the Woman" Claire Idera Talks to BN About Life as a Fashion Illustrator in Modern Nigeria - BellaNaija
+URL: https://www.bellanaija.com/2018/07/interview-lagos-fashion-illustrator-artist-claire-idera/
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/Screen-Shot-2018-06-06-at-15.17.43-600x459.jpg
+Aug 01, 2018 9:19:54 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: "I Try To Tell a Story Through Fashion & the Woman" Claire Idera Talks to BN About Life as a Fashion Illustrator in Modern Nigeria - BellaNaija
+Aug 01, 2018 9:19:54 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 6, crawling: https://www.bellanaija.com/2018/07/bnshareyourhustle-vol-10-bellanaijarians-nominate-fave-sme-free-post-bellanaija/
+Aug 01, 2018 9:19:55 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: #BNShareYourHustle Vol 10: BellaNaijarians Nominate Your Fave SME for a FREE Post on BellaNaija - BellaNaija
+URL: https://www.bellanaija.com/2018/07/bnshareyourhustle-vol-10-bellanaijarians-nominate-fave-sme-free-post-bellanaija/
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/06/Nominate-Share-Your-Hustle-1-600x600.jpeg
+Aug 01, 2018 9:19:56 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: #BNShareYourHustle Vol 10: BellaNaijarians Nominate Your Fave SME for a FREE Post on BellaNaija - BellaNaija
+Aug 01, 2018 9:19:56 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 5, crawling: https://www.bellanaija.com/living/
+Aug 01, 2018 9:19:58 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/living/, Elements=4096}
+Aug 01, 2018 9:20:03 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, crawling: https://www.bellanaija.com/living/
+Aug 01, 2018 9:20:15 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/living/, Elements=4096}
+Aug 01, 2018 9:20:15 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 4, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1197091&nonce=c00a4f4b71
+Aug 01, 2018 9:20:17 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Ask Shade: How Do I Plan For My Unborn Children? - BellaNaija
+URL: https://www.bellanaija.com/2018/07/ask-shade-plan-unborn-children/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/600x400-600x400-600x400.jpg
+Aug 01, 2018 9:20:19 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Ask Shade: How Do I Plan For My Unborn Children? - BellaNaija
+Aug 01, 2018 9:20:19 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 5, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1197091&nonce=c00a4f4b71
+Aug 01, 2018 9:20:21 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Ask Shade: How Do I Plan For My Unborn Children? - BellaNaija
+URL: https://www.bellanaija.com/2018/07/ask-shade-plan-unborn-children/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/600x400-600x400-600x400.jpg
+Aug 01, 2018 9:20:22 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Ask Shade: How Do I Plan For My Unborn Children? - BellaNaija
+Aug 01, 2018 9:20:22 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 6, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1197091&nonce=c00a4f4b71
+Aug 01, 2018 9:20:25 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Ask Shade: How Do I Plan For My Unborn Children? - BellaNaija
+URL: https://www.bellanaija.com/2018/07/ask-shade-plan-unborn-children/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/600x400-600x400-600x400.jpg
+Aug 01, 2018 9:20:26 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Ask Shade: How Do I Plan For My Unborn Children? - BellaNaija
+Aug 01, 2018 9:20:26 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 5, crawling: https://www.bellanaija.com/features/page/2/
+Aug 01, 2018 9:20:28 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/features/page/2/, Elements=4249}
+Aug 01, 2018 9:20:33 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 8, crawling: https://www.bellanaija.com/2018/07/bnmoviefeature-odunlade-adekola-special-watch-jide-kosoko-bimbo-oshin-moji-afolayan-mufu-olosha-oko/
+Aug 01, 2018 9:20:42 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Contains expired data, doc: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/2018/07/bnmoviefeature-odunlade-adekola-special-watch-jide-kosoko-bimbo-oshin-moji-afolayan-mufu-olosha-oko/, Elements=1821}
+Feed: Site bellanaija, author: @bellanaija, title: #BNMovieFeature Odunlade Adekola Special: WATCH Jide Kosoko, Bimbo Oshin, Moji Afolayan in 'Mufu Olosha Oko' - BellaNaija
+URL: https://www.bellanaija.com/2018/07/bnmoviefeature-odunlade-adekola-special-watch-jide-kosoko-bimbo-oshin-moji-afolayan-mufu-olosha-oko/
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/maxresdefault-18-600x338.jpg
+Aug 01, 2018 9:20:42 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 8, crawling: https://www.bellanaija.com/2018/07/nigeria-needs-pay-attention-representation-inclusion-disabled-people/
+Aug 01, 2018 9:20:44 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Nigeria Needs to Pay Attention to Representation For & Inclusion Of Disabled People - BellaNaija
+URL: https://www.bellanaija.com/2018/07/nigeria-needs-pay-attention-representation-inclusion-disabled-people/
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/dreamstime_m_30853643-600x491-600x491.jpg
+Aug 01, 2018 9:20:45 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Nigeria Needs to Pay Attention to Representation For & Inclusion Of Disabled People - BellaNaija
+Aug 01, 2018 9:20:45 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 9, crawling: https://www.bellanaija.com/2018/07/ifedayo-durosinmi-etti-ags-enterprise-challenge/
+Aug 01, 2018 9:20:58 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Contains expired data, doc: {0}org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/2018/07/ifedayo-durosinmi-etti-ags-enterprise-challenge/, Elements=1794}
+Feed: Site bellanaija, author: @bellanaija, title: Ifedayo Durosinmi-Etti launches AGS Enterprise Challenge for women
+URL: https://www.bellanaija.com/2018/07/ifedayo-durosinmi-etti-ags-enterprise-challenge/
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/image1_1-600x600.jpeg
+Aug 01, 2018 9:20:58 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 11, crawling: https://www.bellanaija.com/features/page/2/
+Aug 01, 2018 9:21:00 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/features/page/2/, Elements=4249}
+Aug 01, 2018 9:21:00 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 11, crawling: https://www.bellanaija.com/about/
+Aug 01, 2018 9:21:02 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/about/, Elements=1147}
+Aug 01, 2018 9:21:07 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 12, crawling: https://www.bellanaija.com/about/
+Aug 01, 2018 9:21:17 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/about/, Elements=1147}
+Aug 01, 2018 9:21:17 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 11, crawling: https://www.bellanaija.com/tag/bn-cuisine
+Aug 01, 2018 9:21:19 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/tag/bn-cuisine/, Elements=3362}
+Aug 01, 2018 9:21:19 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 10, crawling: https://www.bellanaija.com/tag/talking-law-with-ivie-omoregie
+Aug 01, 2018 9:21:21 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/tag/talking-law-with-ivie-omoregie/, Elements=3362}
+Aug 01, 2018 9:21:21 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 10, crawling: https://www.bellanaija.com/tag/talking-law-with-ivie-omoregie
+Aug 01, 2018 9:21:24 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/tag/talking-law-with-ivie-omoregie/, Elements=3362}
+Aug 01, 2018 9:21:24 AM com.bc.webcrawler.CrawlerImpl waitForFirstLinkOrDefault
+WARNING: null
+java.lang.InterruptedException
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireInterruptibly(AbstractQueuedSynchronizer.java:1220)
+	at java.util.concurrent.locks.ReentrantLock.lockInterruptibly(ReentrantLock.java:335)
+	at com.bc.webcrawler.MultiList.first(MultiList.java:45)
+	at com.bc.webcrawler.CrawlerImpl.waitForFirstLinkOrDefault(CrawlerImpl.java:526)
+	at com.bc.webcrawler.CrawlerImpl.isLinksEmpty(CrawlerImpl.java:511)
+	at com.bc.webcrawler.CrawlerImpl.mayParseNext(CrawlerImpl.java:296)
+	at com.bc.webcrawler.CrawlerImpl.hasNext(CrawlerImpl.java:170)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:138)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:38)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Aug 01, 2018 9:21:24 AM com.bc.webcrawler.CrawlerImpl hasNext
+FINE: HasNext: false
+Aug 01, 2018 9:21:24 AM com.bc.webcrawler.CrawlerImpl shutdown
+FINE: SHUTTING DOWN com.bc.webcrawler.CrawlerImpl@7e52a26b{
+Time: 301590/720000. URLs:: attempted: 17, failed: 0, remaining: 10
+com.bc.webcrawler.CrawlerContextBuilderImpl@2e56b4d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:26 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:30 AM com.idisc.core.timespent.TimeSpentListenerImpl finish
+FINE: Completed. com.bc.timespent.TimeSpentImpl@ec08dda8{Start-time: 1533111382426, total-time: 307627 milliseconds, TimeSpentArray(millis)=[30133, 100338, 5860, 2832, 2260, 8528, 20319, 1443, 21051, 2474, 2762, 17400]}
+Aug 01, 2018 9:21:30 AM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_bellanaija.javaobject (The system cannot find the file specified)
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl cummulate
+FINE: 
+LHS: null
+RHS: com.bc.timespent.TimeSpentImpl@ec08dda8{Start-time: 1533111382426, total-time: 307627 milliseconds, TimeSpentArray(millis)=[30133, 100338, 5860, 2832, 2260, 8528, 20319, 1443, 21051, 2474, 2762, 17400]}
+AVE: com.bc.timespent.TimeSpentImpl@ec08dda8{Start-time: 1533111382426, total-time: 307627 milliseconds, TimeSpentArray(millis)=[30133, 100338, 5860, 2832, 2260, 8528, 20319, 1443, 21051, 2474, 2762, 17400]}
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl updateTimeSpent
+FINE: Saving: com.bc.timespent.TimeSpentImpl@ec08dda8{Start-time: 1533111382426, total-time: 307627 milliseconds, TimeSpentArray(millis)=[30133, 100338, 5860, 2832, 2260, 8528, 20319, 1443, 21051, 2474, 2762, 17400]}
+Aug 01, 2018 9:21:30 AM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_bellanaija.javaobject (The system cannot find the file specified)
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: DONE:: com.idisc.core.extraction.FeedScrapTaskImpl@5a4dda2{Started=true, startTime=1533111382426, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@7e52a26b{
+Time: 307703/720000. URLs:: attempted: 0, failed: 0, remaining: 11
+com.bc.webcrawler.CrawlerContextBuilderImpl@2e56b4d{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 28, Succeeded: 12/50, Failed: 0/9}
+Completed calibration tasks: [bellanaija]
+--------------------------------------
+Consumed time: 313801, memory: 12917392
+Aug 01, 2018 9:21:30 AM com.idisc.core.SubmitTasks doCall
+FINE: Timeout: 300 SECONDS, Max concurrent: 1, Tasks: [bellanaija]
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl get
+FINE: Average time spent by subunits = 17950, for: com.bc.timespent.TimeSpent_web_bellanaija.javaobject
+Aug 01, 2018 9:21:30 AM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Seeding Crawler with 1 URLs
+Aug 01, 2018 9:21:30 AM com.bc.webcrawler.CrawlerImpl <init>
+FINE: 
+ Base URL: https://www.bellanaija.com
+Start URL: https://www.bellanaija.com/
+Aug 01, 2018 9:21:30 AM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Done creating: com.bc.webcrawler.CrawlerImpl@1d289d3f{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@10f405ff{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.web.WebFeedTaskProvider apply
+FINE: Created task com.bc.webcrawler.CrawlerImpl for bellanaija
+Aug 01, 2018 9:21:30 AM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: bellanaija, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Aug 01, 2018 9:21:30 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\schema.Article.json, input stream: java.io.BufferedInputStream@de579ff
+Aug 01, 2018 9:21:30 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.CreativeWork.json, input stream: java.io.BufferedInputStream@7971c2a9
+Aug 01, 2018 9:21:30 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF/bcmetaselector/configs/schema.Thing.json, input stream: java.io.BufferedInputStream@2fd39436
+Aug 01, 2018 9:21:30 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Aug 01, 2018 9:21:30 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Aug 01, 2018 9:21:30 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Aug 01, 2018 9:21:30 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\opengraph.custom.json, input stream: java.io.BufferedInputStream@60b5e80d
+Aug 01, 2018 9:21:30 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Aug 01, 2018 9:21:30 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\twittercard.custom.json, input stream: java.io.BufferedInputStream@46394f65
+Aug 01, 2018 9:21:30 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Aug 01, 2018 9:21:30 AM com.idisc.core.CreateMetaTagSelector$StreamProvider apply
+FINE: ClassLoader: sun.misc.Launcher$AppClassLoader@6bc7c054, location: META-INF\bcmetaselector\configs\basic.basic.json, input stream: java.io.BufferedInputStream@31aab981
+Aug 01, 2018 9:21:30 AM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+Aug 01, 2018 9:21:30 AM com.idisc.core.extraction.FeedScrapTaskImpl <init>
+FINE: Done creating: com.idisc.core.extraction.FeedScrapTaskImpl@26be9a6{Started=false, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@1d289d3f{
+Time: 0/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@10f405ff{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 17 seconds, attempted: 0, Succeeded: 0/50, Failed: 0/9}
+Aug 01, 2018 9:21:30 AM com.idisc.core.SubmitTasks doCall
+FINE: Submitting task: com.idisc.core.extraction.FeedScrapTaskImpl
+Aug 01, 2018 9:21:30 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/
+Aug 01, 2018 9:21:44 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Not qualified for scrapp, doc: org.htmlparser.dom.HtmlDocumentImpl{URL=https://www.bellanaija.com/, Elements=3872}
+Aug 01, 2018 9:21:44 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:45 AM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 1, crawling: https://www.bellanaija.com/wp-admin/admin-ajax.php?action=bn_love_this&post_id=1197168&nonce=c00a4f4b71
+Aug 01, 2018 9:21:58 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Inserting into database: Site bellanaija, author: @bellanaija, title: Italian Athlete wounded in Alleged Racist Attack - BellaNaija
+URL: https://www.bellanaija.com/2018/07/italian-athlete-wounded-alleged-racist-attack/?bnlove=noajax#bn-love-box
+Image url: https://www.bellanaija.com/wp-content/uploads/2018/07/Daisy-1-480x600.jpg
+Aug 01, 2018 9:21:58 AM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 01, 2018 9:21:59 AM com.idisc.pu.FeedDao create
+FINE: Saved bellanaija feed titled: Italian Athlete wounded in Alleged Racist Attack - BellaNaija
+Aug 01, 2018 9:23:01 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: Stop requested: false, timedout: true, exceeded limit: false, exceeded fail limit: false
+Aug 01, 2018 9:23:01 AM com.bc.webcrawler.CrawlerImpl shutdown
+FINE: SHUTTING DOWN com.bc.webcrawler.CrawlerImpl@1d289d3f{
+Time: 91223/720000. URLs:: attempted: 2, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@10f405ff{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 01, 2018 9:23:07 AM com.idisc.core.timespent.TimeSpentListenerImpl finish
+FINE: Completed. com.bc.timespent.TimeSpentImpl@6e891545{Start-time: 1533111690689, total-time: 97246 milliseconds, TimeSpentArray(millis)=[27395]}
+Aug 01, 2018 9:23:07 AM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl cummulate
+FINE: 
+LHS: com.bc.timespent.TimeSpentImpl@ec08dda8{Start-time: 1533111382426, total-time: 307627 milliseconds, TimeSpentArray(millis)=[30133, 100338, 5860, 2832, 2260, 8528, 20319, 1443, 21051, 2474, 2762, 17400]}
+RHS: com.bc.timespent.TimeSpentImpl@6e891545{Start-time: 1533111690689, total-time: 97246 milliseconds, TimeSpentArray(millis)=[27395]}
+AVE: com.bc.timespent.TimeSpentImpl@6efe4634{Start-time: 1533111690689, total-time: 202436 milliseconds, TimeSpentArray(millis)=[28764]}
+Aug 01, 2018 9:23:07 AM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl updateTimeSpent
+FINE: Saving: com.bc.timespent.TimeSpentImpl@6efe4634{Start-time: 1533111690689, total-time: 202436 milliseconds, TimeSpentArray(millis)=[28764]}
+Aug 01, 2018 9:23:07 AM com.idisc.core.extraction.FeedScrapTaskImpl doCall
+FINE: DONE:: com.idisc.core.extraction.FeedScrapTaskImpl@26be9a6{Started=true, startTime=1533111690689, stopInitiated=false, stopped=false}
+{Description: FeedScrapTaskImpl[bellanaija]
+com.bc.webcrawler.CrawlerImpl@1d289d3f{
+Time: 97290/720000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@10f405ff{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=720000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 17 seconds, attempted: 2, Succeeded: 1/50, Failed: 0/9}
+Completed calibration tasks: [bellanaija]
+--------------------------------------
+Consumed time: 97836, memory: 28040704
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1,178.993 sec - in com.idisc.core.extraction.web.WebFeedCalibrationTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time: 19:44.268s
+Finished at: Wed Aug 01 09:23:08 WAT 2018
+Final Memory: 5M/77M
+------------------------------------------------------------------------
+

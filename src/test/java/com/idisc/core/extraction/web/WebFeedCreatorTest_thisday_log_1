@@ -1,0 +1,247 @@
+cd C:\Users\Josh\Documents\NetBeansProjects\idisccore; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.8.0_144" cmd /c "\"\"C:\\Program Files\\NetBeans 8.1\\java\\maven\\bin\\mvn.bat\" -Dtest=com.idisc.core.extraction.web.WebFeedCreatorTest -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar;C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-cos.jar\" -Dfile.encoding=UTF-8 surefire:test\""
+Running NetBeans Compile On Save execution. Phase execution is skipped and output directories of dependency projects (with Compile on Save turned on) will be used instead of their jar artifacts.
+Scanning for projects...
+                                                                        
+------------------------------------------------------------------------
+Building idisccore 1.0-SNAPSHOT
+------------------------------------------------------------------------
+
+--- maven-surefire-plugin:2.19.1:test (default-cli) @ idisccore ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.idisc.core.extraction.web.WebFeedCreatorTest
+Reading configuration from: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/test-classes/META-INF/logging.properties
+15:57:34 WebFeedCreatorTest ContextFactory URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/configs
+Aug 06, 2018 3:57:34 PM com.bc.jpa.util.PersistenceURISelector selectURI
+FINE: Selecting persistence files for name: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 3:57:34 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Created URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, from filename: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 3:57:34 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Selected persistence file: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 3:57:34 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 3:57:34 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 3:57:34 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: ClassLoader to replace. Type: sun.misc.Launcher$AppClassLoader, instance: sun.misc.Launcher$AppClassLoader@6bc7c054
+Aug 06, 2018 3:57:34 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: Using classloader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader to load persistence '.xml' file
+Aug 06, 2018 3:57:34 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri apply
+INFO: 	URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+	ClassLoader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@2aafb23c
+Aug 06, 2018 3:57:34 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 3:57:34 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 3:57:34 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 06, 2018 3:57:34 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@2a18f23c}
+Aug 06, 2018 3:57:34 PM com.bc.jpa.EntityManagerFactoryCreatorImpl newInstance
+INFO: --------------------------------------------------
+Creating EntityManagerFactory for persistence unit: idiscpu
+Properties: []
+Aug 06, 2018 3:57:34 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@2aafb23c
+Aug 06, 2018 3:57:34 PM com.bc.jpa.classloaders.AlternativeResourceContext getResources
+FINE: For resource: META-INF/persistence.xml, returning: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 3:57:35 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: sun.misc.Launcher$AppClassLoader@6bc7c054
+[EL Info]: 2018-08-06 15:57:36.504--ServerSession(1112560756)--EclipseLink, version: Eclipse Persistence Services - 2.7.1.v20171221-bd47e8f
+[EL Warning]: metadata: 2018-08-06 15:58:38.304--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.304--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.305--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Archivedfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.305--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.305--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.306--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [emailstatus] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.306--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.306--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [sitetypeid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.307--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [timezoneid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.307--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.307--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [gender] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.308--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [howDidYouFindUs] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.308--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [localaddressid] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.308--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.309--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feeduserid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.309--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Applaunchlog] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.31--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [commentid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.31--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.311--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [country] for the entity class [class com.idisc.pu.entities.Localaddress] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.311--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.311--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [repliedto] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.312--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.312--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.313--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 15:58:38.313--ServerSession(1112560756)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Feed] since weaving was not enabled or did not occur.
+[EL Info]: connection: 2018-08-06 15:58:38.479--ServerSession(1112560756)--/file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/_idiscpu login successful
+Aug 06, 2018 3:58:39 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 06, 2018 3:58:48 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 06, 2018 3:58:55 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 06, 2018 3:59:20 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 06, 2018 3:59:23 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 06, 2018 3:59:27 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 06, 2018 3:59:32 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 06, 2018 3:59:38 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 06, 2018 3:59:41 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 06, 2018 3:59:45 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 06, 2018 3:59:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 06, 2018 3:59:52 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 06, 2018 3:59:56 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 06, 2018 4:00:00 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 06, 2018 4:00:05 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 06, 2018 4:00:08 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 06, 2018 4:00:11 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 06, 2018 4:00:14 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 06, 2018 4:00:18 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 06, 2018 4:00:21 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 06, 2018 4:00:41 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 06, 2018 4:00:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 06, 2018 4:00:50 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 06, 2018 4:00:55 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 4:00:55 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 4:00:55 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 06, 2018 4:00:55 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@58fd1214}
+Aug 06, 2018 4:00:55 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 06, 2018 4:01:06 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 06, 2018 4:01:14 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 06, 2018 4:01:37 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 06, 2018 4:01:40 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 06, 2018 4:01:43 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 06, 2018 4:01:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 06, 2018 4:01:51 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 06, 2018 4:01:55 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 06, 2018 4:02:00 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 06, 2018 4:02:03 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 06, 2018 4:02:06 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 06, 2018 4:02:09 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 06, 2018 4:02:12 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 06, 2018 4:02:15 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 06, 2018 4:02:19 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 06, 2018 4:02:23 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 06, 2018 4:02:26 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 06, 2018 4:02:29 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 06, 2018 4:02:34 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 06, 2018 4:02:39 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 06, 2018 4:02:42 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 06, 2018 4:02:45 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 06, 2018 4:02:48 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 4:02:48 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 4:02:48 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$sitetype, enum constants: [rss, web, timeline, trend]
+Aug 06, 2018 4:02:50 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$gender, enum constants: [Male, Female, Other]
+Aug 06, 2018 4:02:50 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$country, enum constants: []
+Aug 06, 2018 4:02:50 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$howdidyoufindus, enum constants: [Throughafriendorcolleague, Fromtheweb, Magazinesorotherprintmedia, Tvorotherelectronicmedia, Throughouragent]
+Aug 06, 2018 4:02:52 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$emailstatus, enum constants: [unverified, verified, bounced, disabled_or_discontinued, unable_to_relay, does_not_exist, could_not_be_delivered_to, black_listed, verification_attempted_but_status_unknown, user_opted_out_of_mailinglist, registered_user, automated_system_email, restricted, invalid_format]
+Aug 06, 2018 4:02:55 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: #validate(), enum types: [class com.idisc.pu.References$sitetype, class com.idisc.pu.References$gender, class com.idisc.pu.References$country, class com.idisc.pu.References$howdidyoufindus, class com.idisc.pu.References$emailstatus]
+createFeed
+Aug 06, 2018 4:02:57 PM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Aug 06, 2018 4:02:59 PM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: thisday, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Aug 06, 2018 4:03:00 PM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Aug 06, 2018 4:03:00 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Aug 06, 2018 4:03:00 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Aug 06, 2018 4:03:00 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Aug 06, 2018 4:03:00 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Aug 06, 2018 4:03:00 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Aug 06, 2018 4:03:00 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+2018-08-06T16:03:07.385. WebFeedCreatorTest--- Nodes found: 2883
+Aug 06, 2018 4:03:07 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/14012348/Sergio-Kun-Aguero.jpg?fit=800%2C600&ssl=1, https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/14012348/Sergio-Kun-Aguero.jpg?fit=800%2C600&#038;ssl=1], locale=en_US, type=article, title=Aguero’s Brace Wins Community Shield for City - THISDAYLIVE, description=Sergio Aguero scored both Manchester City goals as the Premier League champions beat Chelsea to win the Community Shield on a sweltering Sunday afternoon at Wembley. Aguero&#8217;s first &#8211; his 200th goal for the club &#8211; came after 13 minutes, when he collected the ball on the edge of the area after Phil Foden surged forward, and &hellip;, publisher=THISDAYLIVE, categorySet=[Sport], datePublished=2018-08-06T00:37:41+00:00, dateModified=2018-08-05T22:40:02+00:00, author=@thisdaylive}, from link: https://www.thisdaylive.com/index.php/2018/08/06/agueros-brace-wins-community-shield-for-city/
+======================com.idisc.core.functions.GetPlainText. Input: @thisdaylive, output: null
+======================com.idisc.core.functions.GetPlainText. Input: Sport, output: null
+======================com.idisc.core.functions.GetPlainText. Input: Sergio Aguero scored both Manchester City goals as the Premier League champions beat Chelsea to win the Community Shield on a sweltering Sunday afternoon at Wembley. Aguero&#8217;s first &#8211; his 200th goal for the club &#8211; came after 13 minutes, when he collected the ball on the edge of the area after Phil Foden surged forward, and &hellip;, output: null
+======================com.idisc.core.functions.GetPlainText. Input: 2018-08-06T00:37:41+00:00, output: null
+Aug 06, 2018 4:03:07 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Input: 2018-08-06T00:37:41+00:00, date: Mon Feb 08 00:00:00 WAT 12
+Aug 06, 2018 4:03:07 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 16:3. From: 2/8/12 12:00 AM to 2/8/12 4:03 PM
+Aug 06, 2018 4:03:07 PM com.bc.webdatex.extractors.date.DateExtractor extract
+FINE: Input: 2018-08-06T00:37:41+00:00, output: 2/8/12 3:03 PM
+Aug 06, 2018 4:03:07 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-06T00:37:41+00:00, output: Mon Feb 08 15:03:07 WAT 12
+======================com.idisc.core.functions.GetPlainText. Input: Aguero’s Brace Wins Community Shield for City - THISDAYLIVE, output: null
+Done creating 1 feeds for site: thisday, consumed. time: 10748, memory: -26700464
+Site thisday, author: @thisdaylive, title: Aguero’s Brace Wins Community Shield for City - THISDAYLIVE
+URL: https://www.thisdaylive.com/index.php/2018/08/06/agueros-brace-wins-community-shield-for-city/
+Image url: https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/14012348/Sergio-Kun-Aguero.jpg?fit=800%2C600&#038;ssl=1
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 333.49 sec - in com.idisc.core.extraction.web.WebFeedCreatorTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time: 5:36.333s
+Finished at: Mon Aug 06 16:03:08 WAT 2018
+Final Memory: 8M/109M
+------------------------------------------------------------------------
+

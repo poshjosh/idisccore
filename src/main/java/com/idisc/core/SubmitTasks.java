@@ -5,7 +5,6 @@ import com.bc.util.Util;
 import com.bc.util.concurrent.NamedThreadFactory;
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,11 +12,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import com.idisc.core.extraction.ScrapContext;
+import com.idisc.core.extraction.ScrapSiteTask;
 
-public class SubmitTasks
+public class SubmitTasks<SOURCE_DATA_TYPE, TASK_RESULT_TYPE>
   extends AbstractStoppableTask<Integer> implements Serializable {
 
-  private static final Logger logger = Logger.getLogger(SubmitTasks.class.getName());
+  private transient static final Logger LOG = Logger.getLogger(SubmitTasks.class.getName());
   
   private final long timeout;
 
@@ -27,16 +28,24 @@ public class SubmitTasks
   
   private final Collection<String> tasknames;
   
-  private final Function<String, Runnable> taskProvider;
+  private final Function<String, ScrapSiteTask<SOURCE_DATA_TYPE, TASK_RESULT_TYPE>> taskProvider;
+
+  public SubmitTasks(ScrapContext<SOURCE_DATA_TYPE, TASK_RESULT_TYPE> scrapContext) {
+      this(scrapContext.getNextNames(),
+              scrapContext.getTaskProvider(),
+              scrapContext.getConfig().getTimeout(),
+              scrapContext.getConfig().getTimeUnit(),
+              scrapContext.getConfig().getMaxConcurrentUnits());
+  }
   
   public SubmitTasks(
           Collection<String> tasknames,
-          Function<String, Runnable> taskProvider,
+          Function<String, ScrapSiteTask<SOURCE_DATA_TYPE, TASK_RESULT_TYPE>> taskProvider,
           long timeout, TimeUnit timeUnit, int maxConcurrent) {
     this.tasknames = Objects.requireNonNull(tasknames);
     this.taskProvider = Objects.requireNonNull(taskProvider);
     this.timeout = timeout;
-    this.timeoutUnit = timeUnit;
+    this.timeoutUnit = Objects.requireNonNull(timeUnit);
     this.maxConcurrent = maxConcurrent;
   }
   
@@ -53,9 +62,9 @@ public class SubmitTasks
     final ExecutorService es = Executors.newFixedThreadPool(threadCount,
             new NamedThreadFactory("Extract_" + tasknames + "_ThreadFactory"));
     
-    logger.fine(() -> MessageFormat.format(
+    LOG.info(() -> MessageFormat.format(
             "Timeout: {0} {1}, Max concurrent: {2}, Tasks: {3}", 
-            timeout, timeoutUnit, threadCount, tasknames));
+            timeout, timeoutUnit.name().toLowerCase(), threadCount, tasknames));
     
     int submitted = 0;
     
@@ -63,13 +72,13 @@ public class SubmitTasks
         
       for (String taskname : tasknames) {
           
-        if(this.isStopRequested()) {
+        if(this.isTimedout(timeoutUnit.toMillis(timeout)) || this.isStopRequested()) {
             break;
         }  
           
         final Runnable task = taskProvider.apply(taskname);
         
-        logger.fine(() -> LocalDateTime.now() + ", Submitting task: " + task.getClass().getName());
+        LOG.fine(() -> "Submitting task: " + task.getClass().getName());
         
         es.submit(task);
        

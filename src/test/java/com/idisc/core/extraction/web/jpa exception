@@ -1,0 +1,28 @@
+WARNING: Caught exception: java.lang.NullPointerException
+Jul 31, 2018 7:23:22 PM com.idisc.core.InsertFeedToDatabase process
+FINE: null
+java.lang.NullPointerException
+	at java.util.Objects.requireNonNull(Objects.java:203)
+	at com.bc.jpa.context.PersistenceUnitContextImpl.<init>(PersistenceUnitContextImpl.java:72)
+	at com.bc.jpa.context.PersistenceContextImpl.createPersistenceUnitContext(PersistenceContextImpl.java:229)
+	at com.bc.jpa.context.PersistenceContextImpl.getContext(PersistenceContextImpl.java:213)
+	at com.bc.jpa.context.PersistenceContextImpl.getEntityManagerFactory(PersistenceContextImpl.java:202)
+	at com.bc.jpa.context.PersistenceContextImpl.getEntityManagerFactory(PersistenceContextImpl.java:189)
+	at com.bc.jpa.context.JpaContextImpl.getEntityManagerFactory(JpaContextImpl.java:230)
+	at com.bc.jpa.context.JpaContextImpl.getEntityManagerFactory(JpaContextImpl.java:123)
+	at com.bc.jpa.context.JpaContextImpl.getEntityManager(JpaContextImpl.java:114)
+	at com.bc.jpa.context.JpaContextImpl.getDao(JpaContextImpl.java:109)
+	at com.bc.jpa.context.JpaContextImpl.getDaoForSelect(JpaContextImpl.java:133)
+	at com.bc.jpa.context.JpaContextImpl.getDaoForSelect(JpaContextImpl.java:128)
+	at com.idisc.pu.FeedDao.create(FeedDao.java:162)
+	at com.idisc.core.InsertFeedToDatabase.process(InsertFeedToDatabase.java:63)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:203)
+	at com.idisc.core.extraction.FeedScrapTaskImpl.doCall(FeedScrapTaskImpl.java:38)
+	at com.bc.task.AbstractStoppableTask.call(AbstractStoppableTask.java:133)
+	at com.bc.task.AbstractStoppableTask.run(AbstractStoppableTask.java:93)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+

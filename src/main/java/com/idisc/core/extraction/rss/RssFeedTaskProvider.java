@@ -17,70 +17,92 @@
 package com.idisc.core.extraction.rss;
 
 import com.bc.jpa.context.JpaContext;
-import com.bc.task.StoppableTask;
 import java.util.logging.Logger;
-import com.idisc.core.ConfigNames;
 import com.idisc.core.FeedHandler;
-import com.idisc.core.IdiscApp;
 import com.idisc.core.InsertFeedToDatabase;
+import com.idisc.core.extraction.FeedCreationContext;
+import com.idisc.core.extraction.FeedCreatorFromContext;
+import com.idisc.core.extraction.ScrapSiteTaskImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import org.apache.commons.configuration.Configuration;
+import java.util.function.Predicate;
+import javax.persistence.EntityManager;
+import com.bc.webdatex.context.ExtractionContext;
+import com.bc.webdatex.context.ExtractionConfig;
+import com.bc.webdatex.context.ExtractionContextFactory;
+import com.idisc.core.extraction.ScrapContext;
+import com.idisc.core.extraction.TaskLifeCycleListenerImpl;
+import com.idisc.core.extraction.scrapconfig.ScrapConfig;
+import com.idisc.core.extraction.scrapconfig.ScrapConfigFactory;
+import com.bc.timespent.TimeSpent;
+import com.idisc.core.timespent.TimeSpentListenerImpl;
+import java.util.function.Consumer;
+import com.idisc.core.extraction.ScrapSiteTask;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Sep 30, 2017 7:46:17 PM
  */
-public class RssFeedTaskProvider implements Function<String, Runnable> {
+public class RssFeedTaskProvider implements Function<String, ScrapSiteTask<SyndEntry, Integer>> {
     
-  private transient static final Logger LOG = Logger.getLogger(RssFeedTaskProvider.class.getName());
+    private transient static final Logger LOG = Logger.getLogger(RssFeedTaskProvider.class.getName());
     
-  private final boolean acceptDuplicateUrls;
+    private final JpaContext jpaContext;
   
-  private final long timeout;
+    private final ExtractionContextFactory extractionContextFactory;
+    
+    private final ScrapConfigFactory scrapConfigFactory;
   
-  private final TimeUnit timeunit;
-  
-  private final JpaContext jpaContext;
-  
-  private final Properties feedProperties;
+    private final Properties feedProperties;
 
-    public RssFeedTaskProvider(IdiscApp app) {
-      this(app.getJpaContext(), app.getConfiguration());
-    }
-  
     public RssFeedTaskProvider(
-      JpaContext jpaContext, Configuration config) {
-      this(
-              jpaContext, 
-              new RssMgr().getFeedNamesProperties(), 
-              config.getLong(ConfigNames.RSS_TIMEOUT_PER_SITE_SECONDS, 90), 
-              TimeUnit.SECONDS, 
-              config.getBoolean(ConfigNames.WEB_ACCEPT_DUPLICATE_LINKS, false));  
-    }
-  
-    public RssFeedTaskProvider(
-      JpaContext jpaContext, Properties feedProperties,
-      long timeout, TimeUnit timeunit, boolean acceptDuplicateUrls) {
+            JpaContext jpaContext, ExtractionContextFactory contextFactory,
+            ScrapConfigFactory scrapConfigFactory, Properties feedProperties) {
         this.jpaContext = Objects.requireNonNull(jpaContext);
+        this.extractionContextFactory = Objects.requireNonNull(contextFactory);
         this.feedProperties = Objects.requireNonNull(feedProperties);
-        this.timeout = timeout;
-        this.timeunit = Objects.requireNonNull(timeunit);
-        this.acceptDuplicateUrls = acceptDuplicateUrls;
+        this.scrapConfigFactory = Objects.requireNonNull(scrapConfigFactory);
     }
   
     @Override
-    public StoppableTask apply(final String feedName) {
+    public ScrapSiteTask<SyndEntry, Integer> apply(final String feedName) {
     
         LOG.entering(this.getClass().getName(), "createNewTask(String)", feedName);
 
-        final FeedHandler feedHandler = new InsertFeedToDatabase(jpaContext);
+        final String url = this.feedProperties.getProperty(feedName);
+        
+        final Iterator<SyndEntry> iter = new RssDataSupplier().apply(url).iterator();
+        
+        final EntityManager entityManager = jpaContext.getEntityManager();
+        
+        final ScrapConfig scrapConfig = this.scrapConfigFactory.get(ScrapConfig.TYPE_RSS, feedName);
+        
+        final Predicate<SyndEntry> scrapTest = scrapConfig.isAcceptDuplicateLinks() ? (entry) -> true : new RssScrapTest(entityManager);
+        
+        final ExtractionContext extractionContext = this.extractionContextFactory.getContext(feedName);
+        final ExtractionConfig nodeExtractorConfig = extractionContext.getExtractionConfig();
+        final FeedCreationContext feedCreationContext = FeedCreationContext.builder()
+                .with(jpaContext, ScrapContext.TYPE_RSS, nodeExtractorConfig)
+                .imagesFilter(url)
+                .build();
+        
+        final FeedCreatorFromContext<SyndEntry> feedCreator = 
+                new RssFeedCreator(extractionContext, feedCreationContext);
 
-        final StoppableTask task = new RssFeedDownloadTask(
-                feedName, this.feedProperties.getProperty(feedName), 
-                this.timeout, this.timeunit, 
-                this.acceptDuplicateUrls, feedHandler);
+        final FeedHandler feedHandler = new InsertFeedToDatabase(jpaContext);
+        
+        final ScrapSiteTask<SyndEntry, Integer> task = new ScrapSiteTaskImpl<>(
+                iter, scrapTest, feedCreator, feedHandler, scrapConfig
+        );
+        
+        task.addLifeCycleListener(new TaskLifeCycleListenerImpl((arg) -> {}, (arg) -> entityManager.close()));
+        
+        final Consumer<TimeSpent> timeSpentConsumer =
+                (timeSpent) -> scrapConfigFactory.updateTimeSpent(ScrapConfig.TYPE_RSS, feedName, timeSpent);
+        
+        task.addLifeCycleListener(new TimeSpentListenerImpl(timeSpentConsumer));
 
         return task;
     }

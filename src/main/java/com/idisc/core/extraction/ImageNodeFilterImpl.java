@@ -18,8 +18,8 @@ package com.idisc.core.extraction;
 
 import com.bc.json.config.JsonConfig;
 import com.bc.nodelocator.ConfigName;
-import com.bc.webdatex.context.NodeExtractorConfig;
 import com.bc.webdatex.nodefilters.ImageNodeFilter;
+import com.bc.webdatex.context.ExtractionConfig;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Jun 23, 2018 12:12:55 PM
@@ -33,7 +33,7 @@ public class ImageNodeFilterImpl extends ImageNodeFilter {
                 config.getString(ConfigName.imageUrl_unwantedRegex));
     }
 
-    public ImageNodeFilterImpl(NodeExtractorConfig config) {
+    public ImageNodeFilterImpl(ExtractionConfig config) {
         super(
                 null, //config.getString(new Object[] { "url", "value" }), // Images may not start with baseUrl
                 config.getImageUrlRequiredRegex(),

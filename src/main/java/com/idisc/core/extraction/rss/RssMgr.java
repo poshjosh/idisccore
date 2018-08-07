@@ -2,7 +2,6 @@ package com.idisc.core.extraction.rss;
 
 import com.bc.net.impl.RequestBuilderImpl;
 import java.util.logging.Logger;
-import com.idisc.core.IdiscApp;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
@@ -21,11 +20,8 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
-import org.apache.commons.configuration.Configuration;
 import com.bc.net.RequestBuilder;
 import com.bc.xml.XmlUtil;
 import com.rometools.rome.feed.WireFeed;
@@ -33,28 +29,23 @@ import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.WireFeedInput;
 import java.net.URLConnection;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.function.UnaryOperator;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-public class RssMgr
-  implements Serializable
-{
+public class RssMgr implements Serializable {
+    
   private transient static final Logger LOG = Logger.getLogger(RssMgr.class.getName());
-  private transient Properties feednamesProps;
   
-  public Properties getFeedNamesProperties()
-  {
-    if (this.feednamesProps == null) {
-      Configuration config = IdiscApp.getInstance().getConfiguration();
-      Configuration subset = config.subset("nigerian_newsmedia");
-      this.feednamesProps = new Properties();
-      Iterator<String> keys = subset.getKeys();
-      while (keys.hasNext()) {
-        String key = (String)keys.next();
-        this.feednamesProps.put(key, subset.getString(key));
-      }
-    }
-    return this.feednamesProps;
+  private final UnaryOperator<String> absolutePathProvider;
+
+  public RssMgr() { 
+      this((path) -> path);
+  }    
+  
+  public RssMgr(UnaryOperator<String> absolutePathProvider) {
+    this.absolutePathProvider = Objects.requireNonNull(absolutePathProvider);
   }
   
   public List<SyndFeed> getSyndFeeds(Collection<String> localFeedFilePaths)
@@ -153,7 +144,7 @@ public class RssMgr
        LOG.warning(() -> e.toString());
     }catch (MalformedURLException e){
       if (path.startsWith("/")) {
-        path = IdiscApp.getInstance().getAbsolutePath(path);
+        path = this.absolutePathProvider.apply(path);
       }
       final File file = new File(path);
       try {
@@ -229,7 +220,7 @@ public class RssMgr
     try
     {
       if (path.startsWith("/")) {
-        IdiscApp.getInstance().getAbsolutePath(path);
+        this.absolutePathProvider.apply(path);
       }
       
       if(LOG.isLoggable(Level.FINER)){

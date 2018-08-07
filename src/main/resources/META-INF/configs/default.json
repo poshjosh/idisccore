@@ -1,6 +1,6 @@
 {
     "append":false,
-    "datePatterns":["dd MMM yyyy"],
+    "datePatterns":["dd MMM yyyy", "yyyy-MM-dd'T'HH:mm:ssX", "yyyy-MM-dd'T'HH:mm:ss", "MMMM dd',' yyyy", "EEEE',' MMMM dd',' yyyy", "EEEE',' d MMMM yyyy", "MM/dd/yyyy KK:mm:ss a"],
     "defaultValues":{ 
         "categories":"news",
         "title":"News Minute - Get Informed!"

@@ -1,0 +1,446 @@
+cd C:\Users\Josh\Documents\NetBeansProjects\idisccore; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.8.0_144" cmd /c "\"\"C:\\Program Files\\NetBeans 8.1\\java\\maven\\bin\\mvn.bat\" -Dtest=com.idisc.core.extraction.web.WebFeedTaskTest -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar;C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-cos.jar\" -Dfile.encoding=UTF-8 surefire:test\""
+Running NetBeans Compile On Save execution. Phase execution is skipped and output directories of dependency projects (with Compile on Save turned on) will be used instead of their jar artifacts.
+Scanning for projects...
+                                                                        
+------------------------------------------------------------------------
+Building idisccore 1.0-SNAPSHOT
+------------------------------------------------------------------------
+
+--- maven-surefire-plugin:2.19.1:test (default-cli) @ idisccore ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.idisc.core.extraction.web.WebFeedTaskTest
+Reading configuration from: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/test-classes/META-INF/logging.properties
+Max age: Mon Aug 06 15:14:32 WAT 2018
+com.idisc.core.extraction.web.WebFeedTaskTest= = = = = = = = = = = = =  Initializing IdiscApp
+Aug 06, 2018 9:14:33 PM com.idisc.core.IdiscApp init
+FINE: Initializing: com.idisc.core.IdiscAppImpl
+Aug 06, 2018 9:14:33 PM com.idisc.core.IdiscApp loadConfig
+INFO: Loading properties configuration. List delimiter: ,
+Default file: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/target/classes/META-INF/properties/idiscdefaults.properties
+File: file:/C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisc.properties
+Aug 06, 2018 9:14:33 PM com.bc.jpa.util.PersistenceURISelector selectURI
+FINE: Selecting persistence files for name: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:14:33 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Created URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, from filename: C:\Users\Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:14:33 PM com.bc.jpa.util.PersistenceURISelector selectURI
+INFO: Selected persistence file: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:14:36 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:14:36 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 9:14:38 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: ClassLoader to replace. Type: sun.misc.Launcher$AppClassLoader, instance: sun.misc.Launcher$AppClassLoader@6bc7c054
+Aug 06, 2018 9:14:39 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri getAlternativeClassLoader
+FINE: Using classloader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader to load persistence '.xml' file
+Aug 06, 2018 9:14:39 PM com.bc.jpa.functions.GetClassLoaderForPersistenceUri apply
+INFO: 	URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+	ClassLoader: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@13969fbe
+Aug 06, 2018 9:14:39 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:14:39 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 9:14:39 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 06, 2018 9:14:39 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@5f2050f6}
+Aug 06, 2018 9:14:39 PM com.bc.jpa.EntityManagerFactoryCreatorImpl newInstance
+INFO: --------------------------------------------------
+Creating EntityManagerFactory for persistence unit: idiscpu
+Properties: []
+Aug 06, 2018 9:14:39 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: com.bc.jpa.classloaders.AlternativePersistenceURLClassLoader@13969fbe
+Aug 06, 2018 9:14:40 PM com.bc.jpa.classloaders.AlternativeResourceContext getResources
+FINE: For resource: META-INF/persistence.xml, returning: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:14:41 PM com.bc.jpa.classloaders.ContextClassLoaderAccessor set
+FINE: Setting Current Thread ContextClassLoader to: sun.misc.Launcher$AppClassLoader@6bc7c054
+[EL Info]: 2018-08-06 21:14:42.879--ServerSession(844264574)--EclipseLink, version: Eclipse Persistence Services - 2.7.1.v20171221-bd47e8f
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Archivedfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [gender] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [howDidYouFindUs] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [localaddressid] for the entity class [class com.idisc.pu.entities.Feeduser] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [country] for the entity class [class com.idisc.pu.entities.Localaddress] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [siteid] for the entity class [class com.idisc.pu.entities.Feed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Feedhit] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Favoritefeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [repliedto] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Comment] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feeduserid] for the entity class [class com.idisc.pu.entities.Installation] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [sitetypeid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [timezoneid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [countryid] for the entity class [class com.idisc.pu.entities.Site] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Applaunchlog] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [feedid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Bookmarkfeed] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [emailstatus] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Extractedemail] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [commentid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Warning]: metadata: 2018-08-06 21:15:45.973--ServerSession(844264574)--Reverting the lazy setting on the OneToOne or ManyToOne attribute [installationid] for the entity class [class com.idisc.pu.entities.Commentreplynotice] since weaving was not enabled or did not occur.
+[EL Info]: connection: 2018-08-06 21:15:46.129--ServerSession(844264574)--/file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/_idiscpu login successful
+Aug 06, 2018 9:15:47 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 06, 2018 9:15:55 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 06, 2018 9:16:01 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 06, 2018 9:16:29 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 06, 2018 9:16:36 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 06, 2018 9:16:39 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 06, 2018 9:16:43 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 06, 2018 9:16:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 06, 2018 9:16:51 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 06, 2018 9:16:54 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 06, 2018 9:16:57 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 06, 2018 9:17:01 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 06, 2018 9:17:05 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 06, 2018 9:17:08 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 06, 2018 9:17:13 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 06, 2018 9:17:17 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 06, 2018 9:17:20 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 06, 2018 9:17:38 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 06, 2018 9:17:42 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 06, 2018 9:17:45 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 06, 2018 9:17:51 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 06, 2018 9:17:54 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 06, 2018 9:17:58 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 06, 2018 9:18:01 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:18:01 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 9:18:01 PM com.bc.xml.PersistenceXmlDomImpl getClassNames
+FINE: Persistence unit: idiscpu, classes: [com.idisc.pu.entities.Applaunchlog, com.idisc.pu.entities.Site, com.idisc.pu.entities.Comment, com.idisc.pu.entities.Archivedfeed, com.idisc.pu.entities.Bookmarkfeed, com.idisc.pu.entities.Howdidyoufindus, com.idisc.pu.entities.Gender, com.idisc.pu.entities.Extractedemail, com.idisc.pu.entities.Localaddress, com.idisc.pu.entities.Feed, com.idisc.pu.entities.Feedhit, com.idisc.pu.entities.Installation, com.idisc.pu.entities.Commentreplynotice, com.idisc.pu.entities.Country, com.idisc.pu.entities.Sitetype, com.idisc.pu.entities.Favoritefeed, com.idisc.pu.entities.Feeduser, com.idisc.pu.entities.Emailstatus, com.idisc.pu.entities.Timezone, com.idisc.pu.entities.Searchquery]
+Aug 06, 2018 9:18:01 PM com.bc.jpa.metadata.PersistenceMetaDataImpl <init>
+FINE: {idiscpu=com.bc.jpa.metadata.PersistenceUnitMetaDataImpl@5809fa26}
+Aug 06, 2018 9:18:01 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Persisence unit: idiscpu, catalogs: [null]
+Aug 06, 2018 9:18:07 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Catalog: null, schemas: [null]
+Aug 06, 2018 9:18:12 PM com.bc.jpa.metadata.PersistenceUnitNodeBuilderImpl build
+FINE: Schema: null, tables: [applaunchlog, archivedfeed, bookmarkfeed, comment, commentreplynotice, country, emailstatus, extractedemail, favoritefeed, feed, feedhit, feeduser, gender, howdidyoufindus, installation, localaddress, searchquery, site, sitetype, timezone]
+Aug 06, 2018 9:18:33 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Applaunchlog, Table: applaunchlog
+Aug 06, 2018 9:18:36 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Site, Table: site
+Aug 06, 2018 9:18:39 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Comment, Table: comment
+Aug 06, 2018 9:18:42 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Archivedfeed, Table: archivedfeed
+Aug 06, 2018 9:18:45 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Bookmarkfeed, Table: bookmarkfeed
+Aug 06, 2018 9:18:48 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Howdidyoufindus, Table: howdidyoufindus
+Aug 06, 2018 9:18:51 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Gender, Table: gender
+Aug 06, 2018 9:18:53 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Extractedemail, Table: extractedemail
+Aug 06, 2018 9:18:56 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Localaddress, Table: localaddress
+Aug 06, 2018 9:18:59 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feed, Table: feed
+Aug 06, 2018 9:19:02 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feedhit, Table: feedhit
+Aug 06, 2018 9:19:05 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Installation, Table: installation
+Aug 06, 2018 9:19:08 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Commentreplynotice, Table: commentreplynotice
+Aug 06, 2018 9:19:11 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Country, Table: country
+Aug 06, 2018 9:19:13 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Sitetype, Table: sitetype
+Aug 06, 2018 9:19:16 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Favoritefeed, Table: favoritefeed
+Aug 06, 2018 9:19:20 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Feeduser, Table: feeduser
+Aug 06, 2018 9:19:24 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Emailstatus, Table: emailstatus
+Aug 06, 2018 9:19:28 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Timezone, Table: timezone
+Aug 06, 2018 9:19:33 PM com.bc.jpa.metadata.PersistenceUnitMetaDataImpl build
+FINE: Type: com.idisc.pu.entities.Searchquery, Table: searchquery
+Aug 06, 2018 9:19:37 PM com.bc.xml.XmlUtil load
+FINE: Doc URL: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml, Base URI: file:/C:/Users/Josh/Documents/NetBeansProjects/idiscpu/src/test/resources/META-INF/persistence.xml
+Aug 06, 2018 9:19:37 PM com.bc.xml.PersistenceXmlDomImpl getPersistenceUnitNames
+FINE: Persistence units: [idiscpu]
+Aug 06, 2018 9:19:37 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$sitetype, enum constants: [rss, web, timeline, trend]
+Aug 06, 2018 9:19:38 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$gender, enum constants: [Male, Female, Other]
+Aug 06, 2018 9:19:39 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$country, enum constants: []
+Aug 06, 2018 9:19:39 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$howdidyoufindus, enum constants: [Throughafriendorcolleague, Fromtheweb, Magazinesorotherprintmedia, Tvorotherelectronicmedia, Throughouragent]
+Aug 06, 2018 9:19:40 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: Class: com.idisc.pu.References$emailstatus, enum constants: [unverified, verified, bounced, disabled_or_discontinued, unable_to_relay, does_not_exist, could_not_be_delivered_to, black_listed, verification_attempted_but_status_unknown, user_opted_out_of_mailinglist, registered_user, automated_system_email, restricted, invalid_format]
+Aug 06, 2018 9:19:43 PM com.bc.jpa.fk.EnumReferencesImpl validate
+FINE: #validate(), enum types: [class com.idisc.pu.References$sitetype, class com.idisc.pu.References$gender, class com.idisc.pu.References$country, class com.idisc.pu.References$howdidyoufindus, class com.idisc.pu.References$emailstatus]
+Aug 06, 2018 9:19:44 PM com.bc.config.SimpleConfigService <init>
+INFO:   Defaults: null
+Properties: [C:\Users\Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties]
+Aug 06, 2018 9:19:44 PM com.bc.config.SimpleConfigService load
+CONFIG: Loading: C:\Users\Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties over null
+Aug 06, 2018 9:19:44 PM com.bc.config.PropertiesConfigService load
+INFO:   From: C:\Users\Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties
+Loaded: [defaultConfigName, ftpDir, ftpRetrialInterval, ftpPass, ftpHost, ftpPort, ftpMaxretrials, configsDir, ftpUser]
+Aug 06, 2018 9:19:44 PM com.idisc.core.IdiscApp getConfigsDir
+FINE: configsDir = file:///C:/Users/Josh/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/configs/
+Aug 06, 2018 9:19:45 PM com.idisc.core.IdiscApp init
+INFO: Done initializing app
+com.idisc.pu.IdiscJpaContext
+  All names: [thisday, ngrguardiannews, dailytrust, naij, punchng]
+Aug 06, 2018 9:19:46 PM com.idisc.core.functions.GetSubList apply
+FINE: All sites: [thisday, ngrguardiannews, dailytrust, naij, punchng]
+From offset: 0, sites: [thisday]
+Aug 06, 2018 9:19:46 PM com.idisc.core.SubmitTasks doCall
+INFO: Timeout: 360 seconds, Max concurrent: 1, Tasks: [thisday]
+Aug 06, 2018 9:19:46 PM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_thisday.javaobject (The system cannot find the file specified)
+Aug 06, 2018 9:19:48 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Seeding Crawler with 1 URLs
+Aug 06, 2018 9:19:48 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: 
+ Base URL: http://www.thisdaylive.com
+Start URL: http://www.thisdaylive.com/
+Aug 06, 2018 9:19:48 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Size: 861, of queue for com.bc.webcrawler.CrawlerImpl-LinkCollectionThreadPool ExecutorService
+Aug 06, 2018 9:19:48 PM com.bc.webcrawler.CrawlerImpl <init>
+FINE: Done creating: com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 0/360000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 06, 2018 9:19:48 PM com.idisc.core.extraction.web.WebFeedTaskProvider apply
+FINE: Created task com.bc.webcrawler.CrawlerImpl for thisday
+Aug 06, 2018 9:19:50 PM com.bc.jpa.ConvertToEntityFieldNumberType apply
+FINE: java.lang.NumberFormatException: For input string: "web"
+Aug 06, 2018 9:19:51 PM com.idisc.core.extraction.FeedCreationConfigImpl <init>
+FINE: Site: thisday, In TimeZone: Africa/Lagos, Out TimeZone: Etc/UTC
+Aug 06, 2018 9:19:52 PM com.idisc.core.extraction.web.WebFeedCreator <init>
+FINE: Recommended content length: 64,879
+Aug 06, 2018 9:19:53 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.Thing.json={"description":[{"itemprop":"description"}]}
+Aug 06, 2018 9:19:53 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF/bcmetaselector/configs/schema.CreativeWork.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}]}
+Aug 06, 2018 9:19:53 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\schema.Article.json={description=[{"itemprop":"description"}], datePublished=[{"itemprop":"datePublished"}], dateCreated=[{"itemprop":"dateCreated"}], keywords=[{"itemprop":"keywords"}], author=[{"itemprop":"author"},{"itemprop":"creator"}], publisher=[{"itemprop":"publisher"},{"itemprop":"sourceOrganization"},{"itemprop":"producer"}], dateModified=[{"itemprop":"dateModified"}], imageLinkSet=[{"itemprop":"image"},{"itemprop":"thumbnailUrl"}], title=[{"itemprop":"headline"},{"itemprop":"name"}], categorySet=[{"itemprop":"articleSection"}], content=[{"itemprop":"articleBody"}]}
+Aug 06, 2018 9:19:53 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\opengraph.custom.json={"datePublished":[{"property":"regex(:release_date)"},{"property":"regex(:published_time)"}],"tagSet":[{"property":"regex(:tag)"}],"author":[{"property":"article:author"},{"property":"book:author"}],"publisher":[{"property":"og:site_name"}],"description":[{"property":"og:description"}],"dateModified":[{"property":"article:modified_time"},{"property":"og:updated_time"}],"imageLinkSet":[{"property":"og:image:secure_url"},{"property":"og:image"},{"property":"og:image_url"}],"title":[{"property":"og:title"}],"type":[{"property":"og:type"}],"categorySet":[{"property":"regex(:section)"}],"locale":[{"property":"og:locale"}]}
+Aug 06, 2018 9:19:53 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\twittercard.custom.json={"author":[{"name":"twitter:creator"},{"name":"twitter:creator:id"}],"publisher":[{"name":"twitter:site"},{"name":"twitter:site:id"}],"description":[{"name":"twitter:description"}],"imageLinkSet":[{"name":"twitter:image"}],"title":[{"name":"title"}],"type":[{"name":"twitter:card"}]}
+Aug 06, 2018 9:19:53 PM com.bc.meta.selector.util.PropertiesParser parse
+FINE: META-INF\bcmetaselector\configs\basic.basic.json={"keywords":[{"name":"keywords"},{"name":"news_keywords"}],"author":[{"name":"author"}],"description":[{"name":"description"}]}
+Aug 06, 2018 9:19:53 PM com.idisc.core.extraction.ScrapSiteTaskImpl <init>
+FINE: Done creating: com.idisc.core.extraction.ScrapSiteTaskImpl@69796bd0{Started=false, stopInitiated=false, stopped=false}
+{Description: ScrapSiteTaskImpl[thisday]
+com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 0/360000. URLs:: attempted: 0, failed: 0, remaining: 1
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 0, rejected: 0, Succeeded: 0/50, Failed: 0/9}
+Aug 06, 2018 9:19:53 PM com.idisc.core.SubmitTasks doCall
+FINE: Submitting task: com.idisc.core.extraction.ScrapSiteTaskImpl
+Aug 06, 2018 9:19:53 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: http://www.thisdaylive.com/
+Aug 06, 2018 9:20:00 PM com.bc.webcrawler.predicates.LinkStartsWithTargetLinkTest test
+FINE: java.net.MalformedURLException: Not a URL: 
+Aug 06, 2018 9:20:27 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/06/agueros-brace-wins-community-shield-for-city/
+Aug 06, 2018 9:20:31 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/14012348/Sergio-Kun-Aguero.jpg?fit=800%2C600&ssl=1, https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/14012348/Sergio-Kun-Aguero.jpg?fit=800%2C600&#038;ssl=1], locale=en_US, type=article, title=Aguero’s Brace Wins Community Shield for City - THISDAYLIVE, description=Sergio Aguero scored both Manchester City goals as the Premier League champions beat Chelsea to win the Community Shield on a sweltering Sunday afternoon at Wembley. Aguero&#8217;s first &#8211; his 200th goal for the club &#8211; came after 13 minutes, when he collected the ball on the edge of the area after Phil Foden surged forward, and &hellip;, publisher=THISDAYLIVE, categorySet=[Sport], datePublished=2018-08-06T00:37:41+00:00, dateModified=2018-08-05T22:40:02+00:00, author=@thisdaylive}, from link: https://www.thisdaylive.com/index.php/2018/08/06/agueros-brace-wins-community-shield-for-city/
+Aug 06, 2018 9:20:32 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-06T00:37:41+00:00"
+Error parsing: 2018-08-06T00:37:41+00:00, even after formatting to: 2018-08-06T00:37:41+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:20:32 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-06T00:37:41+00:00, output: null
+Aug 06, 2018 9:20:32 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:20. From: 8/1/18 12:00 AM to 8/1/18 9:20 PM
+Aug 06, 2018 9:20:33 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: Aguero’s Brace Wins Community Shield for City - THISDAYLIVE
+Aug 06, 2018 9:20:53 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/06/nnpc-denies-funding-alleged-plot-to-impeach-saraki/
+Aug 06, 2018 9:20:57 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i2.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2016/08/08213008/NNPC-Nigeria.jpg?fit=520%2C410&ssl=1, https://i2.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2016/08/08213008/NNPC-Nigeria.jpg?fit=520%2C410&#038;ssl=1], locale=en_US, type=article, title=NNPC Denies Funding Alleged Plot to Impeach Saraki - THISDAYLIVE, description=By Chineme Okafor in Abuja The Nigerian National Petroleum Corporation (NNPC) yesterday denied having any hand in the alleged plot to unseat the Senate President, Dr. Bukola Saraki. The corporation distanced itself from the plot and also denied an allegation that it was funding the plan. The Group Managing Director, Dr. Maikanti Baru, was alleged &hellip;, publisher=THISDAYLIVE, tagSet=[alert, NNPC Denies Funding Alleged Plot to Impeach Saraki], categorySet=[Business], datePublished=2018-08-06T03:07:55+00:00, author=@thisdaylive, dateModified=2018-08-06T03:07:55+00:00}, from link: https://www.thisdaylive.com/index.php/2018/08/06/nnpc-denies-funding-alleged-plot-to-impeach-saraki/
+Aug 06, 2018 9:20:57 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-06T03:07:55+00:00"
+Error parsing: 2018-08-06T03:07:55+00:00, even after formatting to: 2018-08-06T03:07:55+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:20:57 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-06T03:07:55+00:00, output: null
+Aug 06, 2018 9:20:57 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:20. From: 8/1/18 12:00 AM to 8/1/18 9:20 PM
+Aug 06, 2018 9:20:58 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: NNPC Denies Funding Alleged Plot to Impeach Saraki - THISDAYLIVE
+Aug 06, 2018 9:21:20 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/06/extend-developments-to-daura-emir-appeals-to-buhari/
+Aug 06, 2018 9:21:23 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2018/08/06173036/Emir-of-Daura.jpg?fit=800%2C600&ssl=1, https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2018/08/06173036/Emir-of-Daura.jpg?fit=800%2C600&#038;ssl=1], locale=en_US, type=article, title=Extend Developments to Daura, Emir Appeals to Buhari - THISDAYLIVE, description=Francis Sardauna in Katsina In what might be described as a fatherly advice, the Emir of Daura, the hometown of President Muhammadu Buhari, Dr. Umar Faruq Umar, has called on the president to extend his developmental drive to the people of the area, stressing that his subjects have been neglected. This is even as the &hellip;, publisher=THISDAYLIVE, categorySet=[Nigeria], datePublished=2018-08-06T17:30:55+00:00, author=@thisdaylive, dateModified=2018-08-06T17:30:55+00:00}, from link: https://www.thisdaylive.com/index.php/2018/08/06/extend-developments-to-daura-emir-appeals-to-buhari/
+Aug 06, 2018 9:21:23 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-06T17:30:55+00:00"
+Error parsing: 2018-08-06T17:30:55+00:00, even after formatting to: 2018-08-06T17:30:55+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:21:23 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-06T17:30:55+00:00, output: null
+Aug 06, 2018 9:21:23 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:21. From: 8/1/18 12:00 AM to 8/1/18 9:21 PM
+Aug 06, 2018 9:21:26 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: Extend Developments to Daura, Emir Appeals to Buhari - THISDAYLIVE
+Aug 06, 2018 9:22:07 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/04/my-dear-president-let-your-people-go/
+Aug 06, 2018 9:22:18 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {locale=en_US, type=article, title=My Dear President, Let Your People Go - THISDAYLIVE, description=PENDULUM BY DELE MOMODU  Your Excellency, it is with every sense of love and patriotism that I have decided to write you again despite the frustration of knowing that you may not hearken to my sincere advice to you, as I have written to plead with you on several occasions, but my entreaties have been &hellip;, publisher=THISDAYLIVE, categorySet=[Backpage], datePublished=2018-08-04T06:33:58+00:00, author=@thisdaylive, dateModified=2018-08-04T06:33:58+00:00}, from link: https://www.thisdaylive.com/index.php/2018/08/04/my-dear-president-let-your-people-go/
+Aug 06, 2018 9:22:18 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-04T06:33:58+00:00"
+Error parsing: 2018-08-04T06:33:58+00:00, even after formatting to: 2018-08-04T06:33:58+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:22:18 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-04T06:33:58+00:00, output: null
+Aug 06, 2018 9:22:18 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:22. From: 8/1/18 12:00 AM to 8/1/18 9:22 PM
+Aug 06, 2018 9:22:20 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: My Dear President, Let Your People Go - THISDAYLIVE
+Aug 06, 2018 9:22:52 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/02/patients-bill-of-rights-launched-to-improve-healthcare-delivery/
+Aug 06, 2018 9:22:56 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/16013850/Babatunde-Irukera.jpg?fit=800%2C600&ssl=1, https://i1.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2017/11/16013850/Babatunde-Irukera.jpg?fit=800%2C600&#038;ssl=1], locale=en_US, type=article, title=Patients’ Bill of Rights Launched to Improve Healthcare Delivery - THISDAYLIVE, description=Peter Uzoho As part of measures to protect the rights of patients seeking medical attention from unwholesome treatments, abuse and exploitation, a bill referred to as ‘Patients’ Bill of Rights (PBoR)’, was on Tuesday launched in Abuja. Speaking at the launch, Director General, Consumer Protection Council, Mr. Babatunde Irukera, said that protecting rights of patients &hellip;, publisher=THISDAYLIVE, categorySet=[Health &amp; Wellbeing], datePublished=2018-08-02T04:43:25+00:00, author=@thisdaylive, dateModified=2018-08-02T04:43:25+00:00}, from link: https://www.thisdaylive.com/index.php/2018/08/02/patients-bill-of-rights-launched-to-improve-healthcare-delivery/
+Aug 06, 2018 9:22:56 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-02T04:43:25+00:00"
+Error parsing: 2018-08-02T04:43:25+00:00, even after formatting to: 2018-08-02T04:43:25+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:22:56 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-02T04:43:25+00:00, output: null
+Aug 06, 2018 9:22:56 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:22. From: 8/1/18 12:00 AM to 8/1/18 9:22 PM
+Aug 06, 2018 9:22:58 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: Patients’ Bill of Rights Launched to Improve Healthcare Delivery - THISDAYLIVE
+Aug 06, 2018 9:23:29 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/business/
+Aug 06, 2018 9:23:34 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {locale=en_US, type=article, title=Business - THISDAYLIVE, publisher=THISDAYLIVE, author=@thisdaylive}, from link: https://www.thisdaylive.com/index.php/business/
+Aug 06, 2018 9:23:34 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site thisday, author: @thisdaylive, title: Business - THISDAYLIVE
+URL: https://www.thisdaylive.com/index.php/business/
+Image url: https://leadersandco.s3-eu-west-1.amazonaws.com/wp-content/uploads/2016/02/24085542/thisday-removed-300x72.png
+Aug 06, 2018 9:23:35 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Is expired. Date: Thu Jan 01 01:00:00 WAT 1970, earliest date: Mon Jul 30 21:19:53 WAT 2018
+Feed: Site thisday, author: thisday, title: News Minute - Get Informed!
+URL: https://www.thisdaylive.com/index.php/business/
+Image url: https://leadersandco.s3-eu-west-1.amazonaws.com/wp-content/uploads/2016/02/24085542/thisday-removed-300x72.png
+Aug 06, 2018 9:24:00 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/category/nigeria/
+Aug 06, 2018 9:24:10 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {locale=en_US, type=object, title=Nigeria Archives - THISDAYLIVE, publisher=THISDAYLIVE}, from link: https://www.thisdaylive.com/index.php/category/nigeria/
+Aug 06, 2018 9:24:10 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl hasEnoughData
+FINE: Feed has enough data: false, feed: Site thisday, author: THISDAYLIVE, title: Nigeria Archives - THISDAYLIVE
+URL: https://www.thisdaylive.com/index.php/category/nigeria/
+Image url: https://leadersandco.s3-eu-west-1.amazonaws.com/wp-content/uploads/2016/02/24085542/thisday-removed-300x72.png
+Aug 06, 2018 9:24:10 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: Is expired. Date: Thu Jan 01 01:00:00 WAT 1970, earliest date: Mon Jul 30 21:19:53 WAT 2018
+Feed: Site thisday, author: thisday, title: News Minute - Get Informed!
+URL: https://www.thisdaylive.com/index.php/category/nigeria/
+Image url: https://leadersandco.s3-eu-west-1.amazonaws.com/wp-content/uploads/2016/02/24085542/thisday-removed-300x72.png
+Aug 06, 2018 9:24:39 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/02/fg-inaugurates-national-steering-committee-for-diabetes-awareness-project/
+Aug 06, 2018 9:24:41 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i0.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2016/03/24150431/240316N.Isaac-Adewole.jpg?fit=800%2C600&ssl=1, https://i0.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2016/03/24150431/240316N.Isaac-Adewole.jpg?fit=800%2C600&#038;ssl=1], locale=en_US, type=article, title=FG Inaugurates National Steering Committee for Diabetes Awareness Project - THISDAYLIVE, description=Martins Ifijeh The Minister of Health, Prof. Isaac Adewole, has inaugurated the National Steering Committee for the Diabetes Awareness and Care Project (DAC) in Abuja recently. At the inauguration, he said the federal government was committed to safeguarding the health of Nigerians and improving diabetes care in the country. He said: “The Non Communicable Disease &hellip;, publisher=THISDAYLIVE, categorySet=[Health &amp; Wellbeing], datePublished=2018-08-02T04:43:08+00:00, author=@thisdaylive, dateModified=2018-08-02T04:43:08+00:00}, from link: https://www.thisdaylive.com/index.php/2018/08/02/fg-inaugurates-national-steering-committee-for-diabetes-awareness-project/
+Aug 06, 2018 9:24:41 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-02T04:43:08+00:00"
+Error parsing: 2018-08-02T04:43:08+00:00, even after formatting to: 2018-08-02T04:43:08+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:24:41 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-02T04:43:08+00:00, output: null
+Aug 06, 2018 9:24:41 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:24. From: 8/1/18 12:00 AM to 8/1/18 9:24 PM
+Aug 06, 2018 9:24:43 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: FG Inaugurates National Steering Committee for Diabetes Awareness Project - THISDAYLIVE
+Aug 06, 2018 9:25:13 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/04/atcon-clocks-25-honours-ict-icons/
+Aug 06, 2018 9:25:18 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {locale=en_US, type=article, title=ATCON Clocks 25, Honours  ICT Icons  - THISDAYLIVE, description=Recognising the accomplishments in the Information Communication Technology sector and the brains behind them, the Association of Telecom Companies of Nigeria, (ATCON), the umbrella body of all telecommunication companies in Nigeria, has launched a book titled:’100 leading Personalities in Nigerian Telecom/ICT Sector’. Featuring the who is who in the industry, the publication detailed the profile, &hellip;, publisher=THISDAYLIVE, categorySet=[Business], datePublished=2018-08-04T00:02:22+00:00, dateModified=2018-08-04T06:18:19+00:00, author=@thisdaylive}, from link: https://www.thisdaylive.com/index.php/2018/08/04/atcon-clocks-25-honours-ict-icons/
+Aug 06, 2018 9:25:18 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-04T00:02:22+00:00"
+Error parsing: 2018-08-04T00:02:22+00:00, even after formatting to: 2018-08-04T00:02:22+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:25:18 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-04T00:02:22+00:00, output: null
+Aug 06, 2018 9:25:18 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:25. From: 8/1/18 12:00 AM to 8/1/18 9:25 PM
+Aug 06, 2018 9:25:19 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: ATCON Clocks 25, Honours  ICT Icons  - THISDAYLIVE
+Aug 06, 2018 9:25:34 PM com.bc.webcrawler.CrawlerImpl parse
+FINE: Pages left: 0, parsing: https://www.thisdaylive.com/index.php/2018/08/06/faan-condemns-invasion-of-sokoto-airport-by-wamakkos-loyalists/
+Aug 06, 2018 9:25:36 PM com.idisc.core.extraction.web.WebFeedCreator parseMetatags
+INFO: Extracted meta tags: {imageLinkSet=[https://i2.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2016/03/24225502/FAAN.jpg?fit=700%2C444&ssl=1, https://i2.wp.com/s3-eu-west-1.amazonaws.com/leadersandco/wp-content/uploads/2016/03/24225502/FAAN.jpg?fit=700%2C444&#038;ssl=1], locale=en_US, type=article, title=FAAN Condemns Invasion of Sokoto Airport by Wamakko’s Loyalists - THISDAYLIVE, description=By Chinedu Eze The Federal Airports Authority of Nigeria (FAAN) has condemned in absolute terms the invasion of the runway of Sultan Abubakar III International Airport, Sokoto, by loyalists of the former Governor of Sokoto State, Aliyu Wamakko. FAAN said in a statement that political loyalists of the former governor broke the fence and invaded &hellip;, publisher=THISDAYLIVE, categorySet=[Business], datePublished=2018-08-06T02:56:36+00:00, author=@thisdaylive, dateModified=2018-08-06T02:56:36+00:00}, from link: https://www.thisdaylive.com/index.php/2018/08/06/faan-condemns-invasion-of-sokoto-airport-by-wamakkos-loyalists/
+Aug 06, 2018 9:25:36 PM com.bc.webdatex.extractors.date.DateExtractor extract
+WARNING: java.text.ParseException: Unparseable date: "2018-08-06T02:56:36+00:00"
+Error parsing: 2018-08-06T02:56:36+00:00, even after formatting to: 2018-08-06T02:56:36+00:00. DateFormats: [MMM dd, yyyy, dd MMM yyyy, dd-MM-yyyy, MMMM dd',' yyyy, EEEE',' MMMM dd',' yyyy, EEEE',' d MMMM yyyy, MM/dd/yyyy KK:mm:ss a]
+Aug 06, 2018 9:25:36 PM com.idisc.core.extraction.FeedCreationContextBuilderImpl getDate
+FINE: Input: 2018-08-06T02:56:36+00:00, output: null
+Aug 06, 2018 9:25:36 PM com.bc.webdatex.extractors.date.SimpleDateFormatAddTimeIfNone parse
+FINE: Added time: 21:25. From: 8/1/18 12:00 AM to 8/1/18 9:25 PM
+Aug 06, 2018 9:25:38 PM com.idisc.pu.FeedDao create
+FINE: Saved thisday feed titled: FAAN Condemns Invasion of Sokoto Airport by Wamakko’s Loyalists - THISDAYLIVE
+Aug 06, 2018 9:25:53 PM com.bc.webcrawler.CrawlerImpl hasNext
+FINE: HasNext: false
+Aug 06, 2018 9:25:53 PM com.idisc.core.timespent.TimeSpentListenerImpl finish
+INFO: Completed.
+com.idisc.core.extraction.ScrapSiteTaskImpl@69796bd0{Started=true, startTime=1533586793815, stopInitiated=false, stopped=false}
+{Description: ScrapSiteTaskImpl[thisday]
+com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 360106/360000. URLs:: attempted: 11, failed: 0, remaining: 0
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 11, rejected: 3, Succeeded: 8/50, Failed: 0/9}
+com.bc.timespent.TimeSpentImpl@1af79d54{Start-time: 1533586793815, total-time: 360019 milliseconds, TimeSpentArray(millis)=[31878, 24013, 25155, 52445, 35266, 31594, 35234, 16954]}
+Aug 06, 2018 9:25:53 PM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_thisday.javaobject (The system cannot find the file specified)
+Aug 06, 2018 9:25:53 PM com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl updateTimeSpent
+FINE: Saving: com.bc.timespent.TimeSpentImpl@1af79d54{Start-time: 1533586793815, total-time: 360019 milliseconds, TimeSpentArray(millis)=[31878, 24013, 25155, 52445, 35266, 31594, 35234, 16954]}
+Aug 06, 2018 9:25:53 PM com.bc.io.ObjectIO loadObject
+WARNING: com.bc.io.IOWrapper. java.io.FileNotFoundException: C:\Users\Josh\AppData\Local\Temp\com.bc.timespent.TimeSpent_web_thisday.javaobject (The system cannot find the file specified)
+Aug 06, 2018 9:25:53 PM com.bc.webcrawler.CrawlerImpl shutdown
+FINE: SHUTTING DOWN com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 360141/360000. URLs:: attempted: 11, failed: 0, remaining: 0
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Aug 06, 2018 9:25:53 PM com.idisc.core.extraction.ScrapSiteTaskImpl doCall
+FINE: DONE:: com.idisc.core.extraction.ScrapSiteTaskImpl@69796bd0{Started=true, startTime=1533586793815, stopInitiated=false, stopped=false}
+{Description: ScrapSiteTaskImpl[thisday]
+com.bc.webcrawler.CrawlerImpl@55846997{
+Time: 360141/360000. URLs:: attempted: 11, failed: 0, remaining: 0
+com.bc.webcrawler.CrawlerContextBuilderImpl@805e72e{crawlQueryUrls=true, parseLimit=500, crawlLimit=5000, batchSize=5, batchInterval=5000, timeoutMillis=360000, connectTimeoutForLinkValidation=5000, readTimeoutForLinkValidation=10000}
+}
+Timeout: 360 seconds, attempted: 11, rejected: 3, Succeeded: 8/50, Failed: 0/9}
+Completed tasks: 
+--------------------------------------
+Consumed time: 367843, memory: 95594832
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 681.188 sec - in com.idisc.core.extraction.web.WebFeedTaskTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time: 11:24.144s
+Finished at: Mon Aug 06 21:25:54 WAT 2018
+Final Memory: 8M/109M
+------------------------------------------------------------------------

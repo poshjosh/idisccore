@@ -17,19 +17,24 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import com.bc.jpa.context.JpaContext;
 import com.bc.sql.MySQLDateTimePatterns;
-import com.bc.webdatex.context.CapturerContextFactoryImpl;
-import com.idisc.core.extraction.ExtractionFactory;
-import com.idisc.core.extraction.ExtractionFactoryImpl;
+import com.bc.webdatex.context.ExtractionContextFactoryImpl;
+import com.idisc.core.extraction.ScrapContextFactoryImpl;
 import com.idisc.pu.IdiscJpaContext;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Properties;
-import com.bc.webdatex.context.CapturerContextFactory;
+import com.idisc.core.extraction.ScrapContextFactory;
+import com.bc.webdatex.context.ExtractionContextFactory;
+import com.idisc.core.extraction.rss.RssPropertiesProvider;
+import com.idisc.core.extraction.scrapconfig.ScrapConfigFactory;
+import com.idisc.core.extraction.scrapconfig.ScrapConfigFactoryImpl;
+import com.idisc.core.timespent.TimeSpentLocalDiscStore;
 
 public class IdiscApp {
-    private transient static final Logger LOG = Logger.getLogger(IdiscApp.class.getName());
+    
+  private transient static final Logger LOG = Logger.getLogger(IdiscApp.class.getName());
     
   private boolean initialized;
   private String propertiesFilename;
@@ -39,9 +44,11 @@ public class IdiscApp {
   private static IdiscApp instance;
   private JpaContext jpaContext;
   
-  private ExtractionFactory extractionFactory;
+  private ScrapContextFactory scrapContextFactory;
   
-  private CapturerContextFactory scrapperContextFactory;
+  private ExtractionContextFactory extractionContextFactory;
+  
+  private ScrapConfigFactory scrapConfigFactory;
 
   public IdiscApp(){
     this.propertiesFilename = "META-INF/properties/idisc.properties"; 
@@ -114,12 +121,19 @@ public class IdiscApp {
     
     final Config<Properties> scrapperConfig = new CompositeConfig(scrapperConfigSvc);
       
-    this.scrapperContextFactory = new CapturerContextFactoryImpl(
+    this.extractionContextFactory = new ExtractionContextFactoryImpl(
             Paths.get(getConfigsDir(scrapperConfig, false)).toFile(), 
             this.getDefaultConfigname(scrapperConfig)
     );
+    
+    this.scrapConfigFactory = new ScrapConfigFactoryImpl(this.config, new TimeSpentLocalDiscStore());
             
-    this.extractionFactory = new ExtractionFactoryImpl(this);
+    this.scrapContextFactory = new ScrapContextFactoryImpl(
+            new RssPropertiesProvider().apply(config),
+            this.getJpaContext(),
+            this.extractionContextFactory,
+            this.scrapConfigFactory            
+    );
     
     this.initialized = true;
     
@@ -242,8 +256,12 @@ LOG.log(Level.FINE, "{0} = {1}", new Object[]{ propName,  uri});
     return cfg;
   }
 
-  public ExtractionFactory getExtractionFactory() {
-    return extractionFactory;
+  public ScrapContextFactory getScrapContextFactory() {
+    return scrapContextFactory;
+  }
+
+  public ScrapConfigFactory getScrapConfigFactory() {
+    return scrapConfigFactory;
   }
   
   public String getAbsolutePath(String relativePath) {
@@ -262,8 +280,8 @@ LOG.log(Level.FINE, "{0} = {1}", new Object[]{ propName,  uri});
     return this.initialized;
   }
   
-  public CapturerContextFactory getScrapperContextFactory() {
-    return this.scrapperContextFactory;
+  public ExtractionContextFactory getExtractionContextFactory() {
+    return this.extractionContextFactory;
   }
 
   public String getPropertiesFilename() {

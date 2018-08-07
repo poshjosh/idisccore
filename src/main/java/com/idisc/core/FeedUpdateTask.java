@@ -1,15 +1,12 @@
 package com.idisc.core;
 
 import com.bc.jpa.context.JpaContext;
-import com.idisc.core.extraction.ExtractionContext;
-import com.idisc.core.extraction.ExtractionFactory;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.configuration.Configuration;
+import com.idisc.core.extraction.ScrapContext;
+import com.idisc.core.extraction.ScrapContextFactory;
 
 public class FeedUpdateTask implements Runnable {
 
@@ -70,39 +67,15 @@ public class FeedUpdateTask implements Runnable {
 
             logger.fine("Downloading feeds");
 
-            final int availableProcessors = Runtime.getRuntime().availableProcessors();
-            
-            final int maxConcurrent = 
-                    (int)this.getLongProperty(ConfigNames.MAXCONCURRENT, availableProcessors);
-            
-            final int sitesPerBatch = 
-                    (int)this.getLongProperty(ConfigNames.SITES_PER_BATCH, availableProcessors);
-
             final IdiscApp app = IdiscApp.getInstance();
             
-            final ExtractionFactory extFactory = app.getExtractionFactory();
+            final ScrapContextFactory scf = app.getScrapContextFactory();
             
-            final ExtractionContext webContext = extFactory.getExtractionContext("web");
-            final List<String> webNames = new ArrayList(webContext.getNextNames(sitesPerBatch));
-            Collections.sort(webNames, extFactory.getNamesComparator("web"));
-            new SubmitTasks(
-                    webNames, 
-                    webContext.getTaskProvider(),
-                    this.getLongProperty(ConfigNames.WEB_TIMEOUT_PER_TASK_SECONDS, 600),
-                    TimeUnit.SECONDS,
-                    maxConcurrent
-            ).call();
+            final ScrapContext webContext = scf.apply(ScrapContext.TYPE_WEB);
+            new SubmitTasks(webContext).call();
             
-            final ExtractionContext rssContext = extFactory.getExtractionContext("rss");
-            final List<String> rssNames = new ArrayList(rssContext.getNextNames(sitesPerBatch));
-            Collections.sort(rssNames, extFactory.getNamesComparator("rss"));
-            new SubmitTasks(
-                    rssNames, 
-                    rssContext.getTaskProvider(),
-                    this.getLongProperty(ConfigNames.RSS_TIMEOUT_PER_TASK_SECONDS, 300),
-                    TimeUnit.SECONDS,
-                    maxConcurrent
-            ).call();
+            final ScrapContext rssContext = scf.apply(ScrapContext.TYPE_RSS);
+            new SubmitTasks(rssContext).call();
 
             logger.fine(() -> "Done downloading feeds. Consumed time: " + 
                     TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis()-tb4)) + 

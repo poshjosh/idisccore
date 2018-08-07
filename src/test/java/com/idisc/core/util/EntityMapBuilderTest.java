@@ -99,7 +99,7 @@ System.out.println("Method 1. Consumed memory: "+(com.bc.util.Util.usedMemory(mb
     private List getEntities(Class entityClass, int limit) {
         JpaContext jpaContext = this.getIdiscApp().getJpaContext();
         Select<Feed> dao = jpaContext.getDaoForSelect(entityClass);
-        List found = dao.getResultsAndClose(0, limit);
+        List found = dao.from(entityClass).getResultsAndClose(0, limit);
         return found;
     }
 }

@@ -16,6 +16,7 @@
 
 package com.idisc.core.functions;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,9 +29,9 @@ import java.util.logging.Logger;
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 1, 2017 9:39:39 AM
  */
-public class GetSubList<E> implements BiFunction<Collection<E>, Integer, List<E>> {
+public class GetSubList<E> implements BiFunction<Collection<E>, Integer, List<E>>, Serializable {
 
-    private static final Logger logger = Logger.getLogger(GetSubList.class.getName());
+    private transient static final Logger LOG = Logger.getLogger(GetSubList.class.getName());
     
     private int offset;
 
@@ -45,6 +46,10 @@ public class GetSubList<E> implements BiFunction<Collection<E>, Integer, List<E>
     @Override
     public List<E> apply(Collection<E> collection, Integer limit) {
         
+        if(limit > collection.size()) {
+            limit = collection.size();
+        }
+        
         Objects.requireNonNull(collection);
         Objects.requireNonNull(limit);
         
@@ -53,23 +58,35 @@ public class GetSubList<E> implements BiFunction<Collection<E>, Integer, List<E>
         final int from = offset;
         final int to = from + limit;
         
+        LOG.finer(() -> "Size: " + collection.size() + ", from: " + from + ", to: " + to);
+        
         final int nextOffset;
         
         final List<E> output;
         
         if(to > buff.size()) {
+            
             nextOffset = to - buff.size();
+            
+            LOG.finer(() -> "Before rotate: " + buff);
+            
             Collections.rotate(buff, buff.size() - from);
+            
+            LOG.finer(() -> " After rotate: " + buff);
+
             output = buff.subList(0, limit);
+            
 //            output = new ArrayList(limit);
 //            output.addAll(buff.subList(from, buff.size()));
 //            output.addAll(buff.subList(0, nextOffset));
         }else{
+            
             nextOffset = to == buff.size() ? 0 : to;
+            
             output = buff.subList(from, to);
         }
         
-        logger.fine(() -> MessageFormat.format(
+        LOG.fine(() -> MessageFormat.format(
                 "All sites: {0}\nFrom offset: {1}, sites: {2}", 
                 buff, offset, output));
         

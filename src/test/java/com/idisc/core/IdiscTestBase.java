@@ -2,7 +2,7 @@ package com.idisc.core;
 
 import com.bc.jpa.context.JpaContext;
 import com.bc.sql.MySQLDateTimePatterns;
-import com.bc.webdatex.context.CapturerContextFactoryImpl;
+import com.bc.webdatex.context.ExtractionContextFactoryImpl;
 import com.idisc.pu.IdiscJpaContext;
 import com.idisc.pu.entities.Feed;
 import com.idisc.pu.entities.Site;
@@ -19,7 +19,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.LogManager;
 import org.apache.commons.configuration.ConfigurationException;
-import com.bc.webdatex.context.CapturerContextFactory;
+import com.bc.webdatex.context.ExtractionContextFactory;
+import java.net.MalformedURLException;
+import org.apache.commons.configuration.Configuration;
 
 /**
  * @author poshjosh
@@ -48,13 +50,13 @@ public class IdiscTestBase implements SiteNames {
     }
 
     public String [] getSitenames() {
-        return this.getContextFactory().getConfigService().getConfigNames().toArray(new String[0]);
+        return this.getExtractionContextFactory().getConfigService().getConfigNames().toArray(new String[0]);
     }
     
-    private CapturerContextFactory cf;
-    public CapturerContextFactory getContextFactory() {
+    private ExtractionContextFactory cf;
+    public ExtractionContextFactory getExtractionContextFactory() {
         if(cf == null) {
-            cf = new CapturerContextFactoryImpl(
+            cf = new ExtractionContextFactoryImpl(
                     Paths.get(this.getContextFactoryUri()).toFile());
         }
         return cf;
@@ -148,11 +150,22 @@ System.out.println(this.getClass().getName()+"= = = = = = = = = = = = =  JpaCont
                 userHome+"/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisccore_scrapper_devmode.properties",
                 this.getJpaUri(), 
                 false);
+            if(!app.isInitialized()) {
+                app.init();
+            }
             return app;
         }catch(ConfigurationException | IOException | IllegalAccessException | 
                 InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public Configuration loadConfiguration() throws MalformedURLException,  ConfigurationException {
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        final URL defaultPropertiesFile = loader.getResource("META-INF/properties/idiscdefaults.properties");
+        final String userHome = System.getProperty("user.home");
+        final URL propertiesFile = new File(userHome+"/Documents/NetBeansProjects/idisccore/src/main/resources/META-INF/properties/idisc.properties").toURI().toURL();
+        return new IdiscApp().loadConfig(defaultPropertiesFile, propertiesFile, ',');
     }
     
     public JpaContext createJpaContext() throws IOException {

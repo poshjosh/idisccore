@@ -46,7 +46,9 @@ import org.htmlparser.dom.HtmlDocument;
 import com.bc.webcrawler.ResumeHandler;
 import com.bc.webcrawler.UrlParser;
 import com.idisc.core.extraction.UrlParserImpl;
-import com.bc.webdatex.context.CapturerContextFactory;
+import com.bc.webdatex.context.ExtractionContext;
+import com.idisc.core.extraction.FeedCreationContext;
+import com.bc.webdatex.context.ExtractionContextFactory;
 
 public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> implements Serializable {
     private transient static final Logger LOG = Logger.getLogger(TwitterFeedTask.class.getName());
@@ -186,10 +188,19 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
     
     NodeFilter imagesFilter = new ImageNodeFilter((String)null);
     
-    WebFeedCreator webFeedCreator = new WebFeedCreator(site, imagesFilter, this.tolerance);
+    final ExtractionContext extractionContext = IdiscApp.getInstance().getExtractionContextFactory().getContext(site.getSite());
+    
+    final FeedCreationContext creationContext = FeedCreationContext.builder()
+            .with(jpaContext, this.timeline, extractionContext.getExtractionConfig())
+            .imagesFilter(imagesFilter)
+            .build();
+            
+    WebFeedCreator webFeedCreator = new WebFeedCreator(extractionContext, creationContext, this.tolerance);
+    
+    final TimeZone outputTimeZone = webFeedCreator.getContext().getConfig().getOutputTimeZone();
     
     DateTimeConverter dateTimeZoneConverter =
-            new DateTimeConverter(TimeZone.getDefault(), webFeedCreator.getOutputTimeZone());
+            new DateTimeConverter(TimeZone.getDefault(), outputTimeZone);
     
     final Date NOW = new Date();
     
@@ -275,7 +286,8 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
 
           if (feed.getAuthor() == null)  {
             String userName = user == null ? null : user.getName();
-            feed.setAuthor(webFeedCreator.format("author", userName, false));
+            final String author = webFeedCreator.getContext().format("author", userName, false);
+            feed.setAuthor(author);
           }
 
           if (!updatedWithDirectContents) {
@@ -294,7 +306,8 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
           feed.setRawid("" + status.getId());
 
           if (!updatedWithDirectContents) {
-            feed.setContent(webFeedCreator.format("content", status.getText(), false));
+            final String content = webFeedCreator.getContext().format("content", status.getText(), false);
+            feed.setContent(content);
             feed.setKeywords(null);
           }
 
@@ -317,7 +330,7 @@ public class TwitterFeedTask extends AbstractStoppableTask<Collection<Feed>> imp
       
     try {
         
-      final CapturerContextFactory contextFactory = IdiscApp.getInstance().getScrapperContextFactory();
+      final ExtractionContextFactory contextFactory = IdiscApp.getInstance().getExtractionContextFactory();
       
       final List<String> sites = contextFactory.getConfigService().getConfigNames();
       

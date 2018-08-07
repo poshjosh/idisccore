@@ -80,6 +80,7 @@ public class EntityJsonBuilderTest  extends IdiscTestBase {
         final String idColumn = jpaContext.getMetaData().getIdColumnName(entityType);
         
         final List<E> found = jpaContext.getDaoForSelect(entityType)
+                .from(entityType)
                 .descOrder(idColumn).getResultsAndClose(0, limit);
 System.out.println(key + ":\n"+found);         
         

@@ -83,6 +83,11 @@ public class TagLocatorTest extends ExtractionTestBase {
     @Test
     public void test() throws Exception {
         
+        if(true) {
+            this.test(SiteNames.THISDAY, "https://www.thisdaylive.com/index.php/2018/08/06/agueros-brace-wins-community-shield-for-city/");
+            return;
+        }
+        
 //        final String site = this.LINDAIKEJI; // All
 //        final String site = this.BELLANAIJA; // targetNode5
 //        final String site = this.PUNCH_NG; // None
@@ -102,6 +107,10 @@ public class TagLocatorTest extends ExtractionTestBase {
 // All         final String url = "https://www.lindaikejisblog.com/2017/9/uk-government-demands-clarification-on-ipob-leader-nnamdi-kanus-where-about-from-fg.html";        
 // node5      final String url = "https://www.bellanaija.com/2016/06/get-inspired-with-forbes-list-of-amercias-richest-self-made-women-oprah-winfrey-beyonce-taylor-swift-sheryl-sandberg-more/";
 
+    }
+    
+    public void test(String site, String url) throws Exception {
+        
         if(url == null) {
             this.log(cls, "No url for site: " + site);
             return;
@@ -109,7 +118,7 @@ public class TagLocatorTest extends ExtractionTestBase {
         
         HtmlDocument nodes = this.getNodes(url);
         
-        final JsonConfig json = this.getContextFactory().getConfigService().getConfig(site, null);
+        final JsonConfig json = this.getExtractionContextFactory().getConfigService().getConfig(site, null);
         
         final int limit = json.getList(ConfigName.selectorConfigList).size();
         

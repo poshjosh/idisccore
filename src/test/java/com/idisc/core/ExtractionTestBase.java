@@ -17,14 +17,14 @@
 package com.idisc.core;
 
 import com.bc.webcrawler.UrlParser;
-import com.bc.webdatex.context.CapturerContext;
-import com.bc.webdatex.context.NodeExtractorConfig;
 import java.time.LocalDateTime;
 import com.bc.webdatex.extractors.PageExtractor;
 import com.idisc.core.extraction.UrlParserImpl;
 import java.io.IOException;
 import org.htmlparser.dom.HtmlDocument;
-import com.bc.webdatex.context.CapturerContextFactory;
+import com.bc.webdatex.context.ExtractionContext;
+import com.bc.webdatex.context.ExtractionConfig;
+import com.bc.webdatex.context.ExtractionContextFactory;
 
 /**
  * @author Chinomso Bassey Ikwuagwu on Oct 19, 2016 2:15:30 PM
@@ -33,13 +33,13 @@ public class ExtractionTestBase extends IdiscTestBase {
     
     public ExtractionTestBase() { }
     
-    public NodeExtractorConfig getNodeExtractorConfig(String site) {
+    public ExtractionConfig getNodeExtractorConfig(String site) {
         
-        CapturerContextFactory factory = this.getContextFactory();
+        ExtractionContextFactory factory = this.getExtractionContextFactory();
         
-        CapturerContext ctx = factory.getContext(site);
+        ExtractionContext ctx = factory.getContext(site);
         
-        return ctx.getNodeExtractorConfig();
+        return ctx.getExtractionConfig();
     }
     
     public com.bc.webdatex.extractors.node.NodeExtractor getNodeExtractor(String site, Object key) {
@@ -50,8 +50,8 @@ public class ExtractionTestBase extends IdiscTestBase {
     }
     
     public PageExtractor getPageExtractor(String site) {
-        CapturerContext ctx;
-        ctx = this.getContextFactory().getContext(site);
+        ExtractionContext ctx;
+        ctx = this.getExtractionContextFactory().getContext(site);
         PageExtractor pageExtractor = ctx.getExtractor();
         return pageExtractor;
     }

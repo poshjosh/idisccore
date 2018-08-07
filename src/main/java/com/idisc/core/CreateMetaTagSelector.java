@@ -29,7 +29,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
@@ -43,6 +46,29 @@ public class CreateMetaTagSelector implements Serializable,
         Function<Collection<String>, Selector<Node>>,
         Supplier<Selector<Node>> {
 
+    public interface DevmodeConfigPaths {
+
+        String DIR = Paths.get(System.getProperty("user.home"), "Documents", 
+                "NetBeansProjects", "bcmetaselector", "src", "main", "resources", 
+                "META-INF", "bcmetaselector", "configs").toString();
+
+        String APP_ARTICLE = Paths.get(DIR, "app.article.json").toString();
+
+        String BASIC = Paths.get(DIR, "basic.basic.json").toString();
+
+        String OPENGRAPH_CUSTOM = Paths.get(DIR, "opengraph.custom.json").toString();
+
+        String SCHEMA_ARTICLE = Paths.get(DIR, "schema.Article.json").toString();
+
+        String SCHEMA_CREATIVEWORK = Paths.get(DIR, "schema.CreativeWork.json").toString();
+
+        String SCHEMA_THING = Paths.get(DIR, "schema.Thing.json").toString();
+
+        String TWITTERCARD_CUSTOM = Paths.get(DIR, "twittercard.custom.json").toString();
+
+        List<String> APP_ARTICLE_LIST = Arrays.asList(SCHEMA_ARTICLE, OPENGRAPH_CUSTOM, TWITTERCARD_CUSTOM, BASIC);
+    }
+    
     private transient static final Logger LOG = Logger.getLogger(CreateMetaTagSelector.class.getName());
 
     private static class StreamProvider implements Function<String, InputStream> {
@@ -54,23 +80,23 @@ public class CreateMetaTagSelector implements Serializable,
                 final ClassLoader cl = Thread.currentThread().getContextClassLoader(); 
                 InputStream in = cl.getResourceAsStream(location);
                 
-                if(LOG.isLoggable(Level.FINE)) {
-                    LOG.log(Level.FINE, "ClassLoader: {0}, location: {1}, input stream: {2}",
+                if(LOG.isLoggable(Level.FINER)) {
+                    LOG.log(Level.FINER, "ClassLoader: {0}, location: {1}, input stream: {2}",
                             new Object[]{cl, location, in});
                 }
                 
                 if(in == null) {
                     try{
                         in = new FileInputStream(location);
-                        if(LOG.isLoggable(Level.FINE)) {
-                            LOG.log(Level.FINE, "Location: {0}, file input stream: {1}",
+                        if(LOG.isLoggable(Level.FINER)) {
+                            LOG.log(Level.FINER, "Location: {0}, file input stream: {1}",
                                     new Object[]{location, in});
                         }
                     }catch(IOException e) {
                         try{
                             in = new URL(location).openStream();
-                            if(LOG.isLoggable(Level.FINE)) {
-                                LOG.log(Level.FINE, "Location: {0}, url input stream: {1}",
+                            if(LOG.isLoggable(Level.FINER)) {
+                                LOG.log(Level.FINER, "Location: {0}, url input stream: {1}",
                                         new Object[]{location, in});
                             }
                         }catch(MalformedURLException mue) {

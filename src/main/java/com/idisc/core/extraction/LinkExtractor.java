@@ -68,10 +68,8 @@ public class LinkExtractor implements Function<HtmlDocument, Set<String>> {
             }
         }
         
-        final String url = nodeList.isEmpty() ? null : nodeList.get(0).getPage().getUrl();
-        
-        logger.finer(() -> "  URL: " + url + ", Links collected: " + links.size());
-        logger.finest(() -> "  URL: " + url + ", Links collected: \n" + toString().replace(", ", "\n"));
+        logger.finer(() -> "  URL: " + nodeList.getURL() + ", Links collected: " + links.size());
+        logger.finest(() -> "  URL: " + nodeList.getURL() + ", Links collected: \n" + links.toString().replace(", ", "\n"));
         
         return links;
     }

@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 public class InsertFeedToDatabase extends FeedDao implements FeedHandler {
 
-    private static final Logger logger = Logger.getLogger(InsertFeedToDatabase.class.getName());
+    private transient static final Logger LOG = Logger.getLogger(InsertFeedToDatabase.class.getName());
 
     private final Date defaultDatecreated;
     
@@ -64,7 +64,8 @@ public class InsertFeedToDatabase extends FeedDao implements FeedHandler {
 
             created = false;
 
-            logger.log(Level.WARNING, "Caught exception: {0}", e.toString());
+            LOG.log(Level.WARNING, "Caught exception: {0}", e.toString());
+            LOG.log(Level.FINE, "Stacktrace printed for debugging purposes", e);
         }
         
         return created;

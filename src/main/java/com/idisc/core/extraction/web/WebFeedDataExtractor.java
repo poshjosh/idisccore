@@ -1,19 +1,19 @@
 package com.idisc.core.extraction.web;
 
 import com.bc.nodelocator.ConfigName;
-import com.bc.webdatex.context.CapturerContext;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import org.htmlparser.util.ParserException;
 import java.util.List;
-import com.bc.webdatex.context.NodeExtractorConfig;
 import org.htmlparser.dom.HtmlDocument;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import com.bc.webdatex.extractors.PageExtractor;
 import java.util.Collections;
+import com.bc.webdatex.context.ExtractionContext;
+import com.bc.webdatex.context.ExtractionConfig;
 
 public class WebFeedDataExtractor {
 
@@ -23,9 +23,9 @@ public class WebFeedDataExtractor {
 
   private final int bufferSize;
   
-  private final CapturerContext capturerContext;
+  private final ExtractionContext capturerContext;
   
-  public WebFeedDataExtractor(float tolerance, CapturerContext context, int bufferSize){
+  public WebFeedDataExtractor(float tolerance, ExtractionContext context, int bufferSize){
     this.tolerance = tolerance;
     this.capturerContext = Objects.requireNonNull(context);
     this.bufferSize = bufferSize;
@@ -41,7 +41,7 @@ public class WebFeedDataExtractor {
         
       final Integer id = i;
       
-      final NodeExtractorConfig settings = capturerContext.getNodeExtractorConfig();
+      final ExtractionConfig settings = capturerContext.getExtractionConfig();
 
       final boolean exists = output != null && output.containsKey(id);
       
@@ -137,7 +137,7 @@ public class WebFeedDataExtractor {
     return extract == null ? outputIfNone : extract;
   }
 
-  public final CapturerContext getContext() {
+  public final ExtractionContext getContext() {
     return this.capturerContext;
   }
   

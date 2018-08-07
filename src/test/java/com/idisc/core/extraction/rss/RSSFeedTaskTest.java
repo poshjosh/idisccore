@@ -2,20 +2,21 @@ package com.idisc.core.extraction.rss;
 
 import com.bc.jpa.context.JpaContext;
 import com.idisc.core.IdiscTestBase;
-import com.idisc.core.SubmitTasks;
-import com.idisc.core.extraction.ExtractionContext;
-import com.idisc.core.extraction.web.ExtractionContextForWebPages;
-import com.idisc.core.functions.GetSubList;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
-import com.bc.json.config.JsonConfigService;
+import com.bc.webdatex.context.ExtractionContextFactory;
+import com.idisc.core.IdiscApp;
+import com.idisc.core.SubmitTasks;
+import com.idisc.core.extraction.ScrapContextImpl;
+import com.idisc.core.extraction.ScrapContext;
+import com.idisc.core.extraction.scrapconfig.ScrapConfig;
+import com.idisc.core.extraction.scrapconfig.ScrapConfigBean;
+import com.idisc.core.extraction.scrapconfig.ScrapConfigFactory;
+import java.net.MalformedURLException;
+import java.util.Set;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * @(#)TwitterFeedTaskTest.java   16-Jun-2015 16:06:42
@@ -32,9 +33,7 @@ import com.bc.json.config.JsonConfigService;
  */
 public class RSSFeedTaskTest extends IdiscTestBase {
     
-    public RSSFeedTaskTest() 
-            throws ConfigurationException, IOException, IllegalAccessException, 
-            InterruptedException, InvocationTargetException{
+    public RSSFeedTaskTest() {
     }
 
 
@@ -45,36 +44,53 @@ public class RSSFeedTaskTest extends IdiscTestBase {
     public void testRun() {
 log("run");
     
-        final JpaContext jpaContext = this.getIdiscApp().getJpaContext();
+        final IdiscApp app = this.getIdiscApp();
         
-        final JsonConfigService configService = this.getContextFactory().getConfigService();
+        final JpaContext jpaContext = app.getJpaContext();
         
-        final List<String> sitenames = new ArrayList(configService.getConfigNamesLessDefaultConfig());
+        final ExtractionContextFactory contextFactory = app.getExtractionContextFactory();
         
-        Collections.sort(sitenames, this.getIdiscApp().getExtractionFactory().getNamesComparator("web"));
+        final ScrapConfigFactory scf = app.getScrapConfigFactory();
         
-        final Properties props = new RssMgr().getFeedNamesProperties();
-        String name;
-        name = "Aljazeera"; 
-        name = "Premier League@talksport.com"; 
-//        props.clear(); // Un comment this out to test all feeds
-        props.setProperty(name, props.getProperty(name));
+        final ScrapConfigBean scrapConfig = new ScrapConfigBean(scf.get(ScrapConfig.TYPE_RSS));
+        scrapConfig.setTimeout(120);
+        scrapConfig.setTimeUnit(TimeUnit.SECONDS);
+        scrapConfig.setMaxConcurrentUnits(Runtime.getRuntime().availableProcessors());
         
-        final ExtractionContext webContext = new ExtractionContextForWebPages(
-                sitenames, 
-                new GetSubList(),
-                new RssFeedTaskProvider(jpaContext, 
-                        props, 120, TimeUnit.SECONDS, false
-                )
+        final Configuration config;
+        try{
+            config = this.loadConfiguration();
+        }catch(MalformedURLException | ConfigurationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        
+        final Properties rssProps = new RssPropertiesProvider().apply(config);
+//        String name;
+//        name = "Aljazeera"; 
+//        name = "Premier League@talksport.com"; 
+//        final String value = props.getProperty(name);
+//        rssProps.clear(); 
+//        rssProps.setProperty(name, value);
+
+        final Set<String> names = rssProps.stringPropertyNames();
+        
+        System.out.println("All names: " + names);
+        
+        final ScrapContext scrapRssContext = new ScrapContextImpl(
+                names, 
+                jpaContext,
+                scrapConfig,
+                new RssFeedTaskProvider(jpaContext, contextFactory, scf, rssProps)
         );
 
-        new SubmitTasks(
-                webContext.getNextNames(5), 
-                webContext.getTaskProvider(),
-                240,
-                TimeUnit.SECONDS,
-                Runtime.getRuntime().availableProcessors()
-        ).call();
+        try{
+            
+            new SubmitTasks(scrapRssContext).call();
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private Properties getLocalFeedProperties() {
